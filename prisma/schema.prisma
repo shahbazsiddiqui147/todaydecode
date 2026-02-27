@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RiskLevel { 
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL 
+}
+
+enum Region { 
+  GLOBAL
+  MENA
+  APAC
+  EUROPE
+  AMERICAS
+  AFRICA 
+}
+
+model Article {
+  id              String    @id @default(cuid())
+  title           String
+  slug            String    @unique
+  summary         String    @db.Text
+  content         String    @db.Text
+  
+  // Data-Driven Attributes
+  region          Region    @default(GLOBAL)
+  riskLevel       RiskLevel @default(MEDIUM)
+  riskScore       Int       // 1-100 gauge
+  impactScore     Int       // 1-100 strategic weight
+  
+  // Scenario Forecast (Best/Most Likely/Worst)
+  scenarios       Json?     
+  
+  // SEO & AEO
+  faqData         Json?     // For Google SGE/AI citation
+  metaTitle       String?
+  metaDescription String?
+  
+  publishedAt     DateTime  @default(now())
+  authorId        String
+  author          Author    @relation(fields: [authorId], references: [id])
+  categoryId      String
+  category        Category  @relation(fields: [categoryId], references: [id])
+}
+
+model Category {
+  id    String @id @default(cuid())
+  name  String @unique // Geopolitics, Economy, etc.
+  slug  String @unique
+  articles Article[]
+}
+
+model Author {
+  id    String @id @default(cuid())
+  name  String
+  role  String
+  bio   String
+  articles Article[]
+}
