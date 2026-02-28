@@ -30,11 +30,10 @@ import {
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import {
-    getAuthors,
-    createAuthor,
-    updateAuthor,
+    getAdminAuthors,
+    upsertAuthor,
     deleteAuthor
-} from "@/lib/actions/author-actions";
+} from "@/lib/actions/admin-actions";
 
 interface Author {
     id: string;
@@ -42,7 +41,7 @@ interface Author {
     slug: string;
     role: string;
     bio: string;
-    image?: string;
+    image: string | null;
     expertise: string[];
 }
 
@@ -70,12 +69,8 @@ export default function AuthorsPage() {
     const loadAuthors = async () => {
         try {
             setLoading(true);
-            const res = await getAuthors();
-            if (res.success && res.data) {
-                setAuthors(res.data as Author[]);
-            } else {
-                toast.error(res.error || "Failed to sync personnel manifests.");
-            }
+            const data = await getAdminAuthors();
+            setAuthors(data as any);
         } catch (err) {
             toast.error("Failed to connect to personnel node.");
         } finally {
@@ -101,12 +96,10 @@ export default function AuthorsPage() {
         };
 
         try {
-            let res;
-            if (editingAuthor) {
-                res = await updateAuthor(editingAuthor.id, payload);
-            } else {
-                res = await createAuthor(payload);
-            }
+            const res = await upsertAuthor({
+                id: editingAuthor?.id,
+                ...payload
+            });
 
             if (res.success) {
                 toast.success(editingAuthor ? "Personnel record updated." : "New analyst initialized.");

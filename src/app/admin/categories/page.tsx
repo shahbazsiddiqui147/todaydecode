@@ -29,11 +29,10 @@ import {
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import {
-    getCategories,
-    createCategory,
-    updateCategory,
+    getAdminCategories,
+    upsertCategory,
     deleteCategory
-} from "@/lib/actions/category-actions";
+} from "@/lib/actions/admin-actions";
 
 interface Category {
     id: string;
@@ -68,12 +67,8 @@ export default function CategoriesPage() {
     const loadCategories = async () => {
         try {
             setLoading(true);
-            const res = await getCategories();
-            if (res.success && res.data) {
-                setCategories(res.data as Category[]);
-            } else {
-                toast.error(res.error || "Failed to fetch taxonomical data.");
-            }
+            const data = await getAdminCategories();
+            setCategories(data as any);
         } catch (err) {
             toast.error("Failed to connect to management node.");
         } finally {
@@ -94,12 +89,10 @@ export default function CategoriesPage() {
         };
 
         try {
-            let res;
-            if (editingCategory) {
-                res = await updateCategory(editingCategory.id, payload);
-            } else {
-                res = await createCategory(payload);
-            }
+            const res = await upsertCategory({
+                id: editingCategory?.id,
+                ...payload
+            });
 
             if (res.success) {
                 toast.success(editingCategory ? "Category node updated." : "New taxonomical node initialized.");
