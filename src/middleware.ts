@@ -6,13 +6,12 @@ export function middleware(request: NextRequest) {
 
     // 1. Define maintenance mode configuration
     // Check both standard and NEXT_PUBLIC prefixed variables for maximum reliability
-    const maintenanceEnv = process.env.MAINTENANCE_MODE || process.env.NEXT_PUBLIC_MAINTENANCE_MODE;
-    const isMaintenanceMode = maintenanceEnv === 'true' || maintenanceEnv === '1' || maintenanceEnv === 'TRUE';
+    const maintenanceEnv = String(process.env.MAINTENANCE_MODE || process.env.NEXT_PUBLIC_MAINTENANCE_MODE || '').toLowerCase().trim();
+    const isMaintenanceMode = maintenanceEnv === 'true' || maintenanceEnv === '1' || maintenanceEnv === 'on';
 
     const bypassSecret = 'true';
 
     // 2. Allow internal Next.js requests and static assets
-    // We handle this inside to avoid matcher issues with the root path
     if (
         pathname.startsWith('/_next') ||
         pathname.startsWith('/api') ||
@@ -33,7 +32,7 @@ export function middleware(request: NextRequest) {
 
     // 4. Maintenance Logic
     if (isMaintenanceMode) {
-        // Check for bypass via query param or cookie
+        // Check for bypass via query param or cookie (e.g., ?preview=true)
         const hasBypassParam = searchParams.get('preview') === bypassSecret;
         const hasBypassCookie = request.cookies.get('preview_access')?.value === bypassSecret;
 
@@ -51,7 +50,6 @@ export function middleware(request: NextRequest) {
         }
 
         // Redirect all other requests to coming-soon
-        // We use an absolute URL to ensure redirection works across different environments
         const comingSoonUrl = new URL('/coming-soon', request.url);
         return NextResponse.redirect(comingSoonUrl);
     }
@@ -59,7 +57,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
 }
 
-// Global matcher to ensure the root path and all subpaths are intercepted
+// Global matcher - this covers every path except the explicit exclusions
 export const config = {
     matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
