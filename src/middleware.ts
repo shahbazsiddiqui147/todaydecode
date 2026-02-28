@@ -5,13 +5,14 @@ export function middleware(request: NextRequest) {
     const { pathname, searchParams } = request.nextUrl;
 
     // 1. Define maintenance mode configuration
-    // Use a more robust check for truthy values
-    const maintenanceEnv = process.env.MAINTENANCE_MODE;
+    // Check both standard and NEXT_PUBLIC prefixed variables for maximum reliability
+    const maintenanceEnv = process.env.MAINTENANCE_MODE || process.env.NEXT_PUBLIC_MAINTENANCE_MODE;
     const isMaintenanceMode = maintenanceEnv === 'true' || maintenanceEnv === '1' || maintenanceEnv === 'TRUE';
 
     const bypassSecret = 'true';
 
     // 2. Allow internal Next.js requests and static assets
+    // We handle this inside to avoid matcher issues with the root path
     if (
         pathname.startsWith('/_next') ||
         pathname.startsWith('/api') ||
@@ -50,14 +51,15 @@ export function middleware(request: NextRequest) {
         }
 
         // Redirect all other requests to coming-soon
-        const url = request.nextUrl.clone();
-        url.pathname = '/coming-soon';
-        return NextResponse.redirect(url);
+        // We use an absolute URL to ensure redirection works across different environments
+        const comingSoonUrl = new URL('/coming-soon', request.url);
+        return NextResponse.redirect(comingSoonUrl);
     }
 
     return NextResponse.next();
 }
 
+// Global matcher to ensure the root path and all subpaths are intercepted
 export const config = {
     matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
