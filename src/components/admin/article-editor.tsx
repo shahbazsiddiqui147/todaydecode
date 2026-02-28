@@ -27,7 +27,12 @@ import {
     Layout,
     Settings,
     FileText,
-    Zap
+    Zap,
+    TrendingUp,
+    MessageSquare,
+    Link2,
+    Plus,
+    Trash2
 } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
@@ -45,7 +50,7 @@ export default function ArticleEditor({ article }: ArticleEditorProps) {
     const [categories, setCategories] = useState<any[]>([]);
     const [authors, setAuthors] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
-    const [activeTab, setActiveTab] = useState<"content" | "metadata" | "forecast">("content");
+    const [activeTab, setActiveTab] = useState<"content" | "metadata" | "forecast" | "aeo">("content");
 
     const [formData, setFormData] = useState({
         title: article?.title || "",
@@ -64,6 +69,15 @@ export default function ArticleEditor({ article }: ArticleEditorProps) {
         authorId: article?.authorId || "",
         metaTitle: article?.metaTitle || "",
         metaDescription: article?.metaDescription || "",
+        scenarios: article?.scenarios || {
+            best: { title: "Strategic Convergence", description: "" },
+            likely: { title: "Linear Tension", description: "" },
+            worst: { title: "Systemic Fragmentation", description: "" },
+        },
+        faqData: Array.isArray(article?.faqData) ? article.faqData : [
+            { question: "What is the primary driver of this conflict?", answer: "" },
+            { question: "How does this impact global markets?", answer: "" }
+        ],
     });
 
     useEffect(() => {
@@ -89,6 +103,41 @@ export default function ArticleEditor({ article }: ArticleEditorProps) {
 
     const handleSwitchChange = (name: string, checked: boolean) => {
         setFormData(prev => ({ ...prev, [name]: checked }));
+    };
+
+    const handleScenarioChange = (type: "best" | "likely" | "worst", field: "title" | "description", value: string) => {
+        setFormData((prev: any) => ({
+            ...prev,
+            scenarios: {
+                ...prev.scenarios,
+                [type]: { ...prev.scenarios[type], [field]: value }
+            }
+        }));
+    };
+
+    const handleFaqChange = (index: number, field: "question" | "answer", value: string) => {
+        const newFaq = [...formData.faqData];
+        newFaq[index] = { ...newFaq[index], [field]: value };
+        setFormData((prev: any) => ({ ...prev, faqData: newFaq }));
+    };
+
+    const addFaq = () => {
+        setFormData((prev: any) => ({
+            ...prev,
+            faqData: [...prev.faqData, { question: "", answer: "" }]
+        }));
+    };
+
+    const removeFaq = (index: number) => {
+        setFormData((prev: any) => ({
+            ...prev,
+            faqData: prev.faqData.filter((_: any, i: number) => i !== index)
+        }));
+    };
+
+    const generateSlug = () => {
+        const s = formData.title.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+        setFormData(prev => ({ ...prev, slug: s + '/' }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -166,40 +215,44 @@ export default function ArticleEditor({ article }: ArticleEditorProps) {
                 {/* Main Content Area */}
                 <div className="lg:col-span-8 space-y-8">
                     {/* Tabs / Navigation */}
-                    <div className="flex items-center border-b border-slate-200 dark:border-slate-800">
-                        <button
-                            type="button"
-                            onClick={() => setActiveTab("content")}
-                            className={cn(
-                                "px-6 py-3 text-[10px] font-black uppercase tracking-widest border-b-2 transition-all",
-                                activeTab === "content" ? "border-slate-900 dark:border-white text-slate-900 dark:text-white" : "border-transparent text-slate-400 hover:text-slate-600"
-                            )}
-                        >
-                            Report Body
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => setActiveTab("metadata")}
-                            className={cn(
-                                "px-6 py-3 text-[10px] font-black uppercase tracking-widest border-b-2 transition-all",
-                                activeTab === "metadata" ? "border-slate-900 dark:border-white text-slate-900 dark:text-white" : "border-transparent text-slate-400 hover:text-slate-600"
-                            )}
-                        >
-                            Search & SEO
-                        </button>
+                    <div className="flex items-center border-b border-slate-200 dark:border-slate-800 overflow-x-auto scroller-hidden">
+                        {[
+                            { id: "content", label: "Report Body", icon: FileText },
+                            { id: "forecast", label: "Scenario modeling", icon: TrendingUp },
+                            { id: "aeo", label: "AI & Citations", icon: Zap },
+                            { id: "metadata", label: "Search & SEO", icon: Settings },
+                        ].map(tab => (
+                            <button
+                                key={tab.id}
+                                type="button"
+                                onClick={() => setActiveTab(tab.id as any)}
+                                className={cn(
+                                    "flex items-center gap-2 px-6 py-3 text-[10px] font-black uppercase tracking-widest border-b-2 transition-all whitespace-nowrap",
+                                    activeTab === tab.id ? "border-slate-900 dark:border-white text-slate-900 dark:text-white" : "border-transparent text-slate-400 hover:text-slate-600"
+                                )}
+                            >
+                                <tab.icon className="h-3 w-3" />
+                                {tab.label}
+                            </button>
+                        ))}
                     </div>
 
                     {activeTab === "content" && (
                         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
                             <div className="space-y-2">
                                 <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Primary Headline</Label>
-                                <Input
-                                    name="title"
-                                    value={formData.title}
-                                    onChange={handleChange}
-                                    placeholder="ENTER HEADLINE..."
-                                    className="text-2xl font-bold h-14 bg-transparent border-slate-200 dark:border-slate-800 rounded-none focus-visible:ring-slate-900 placeholder:text-slate-200"
-                                />
+                                <div className="flex gap-2">
+                                    <Input
+                                        name="title"
+                                        value={formData.title}
+                                        onChange={handleChange}
+                                        placeholder="ENTER HEADLINE..."
+                                        className="text-2xl font-bold h-14 bg-transparent border-slate-200 dark:border-slate-800 rounded-none focus-visible:ring-slate-900 placeholder:text-slate-200 flex-1"
+                                    />
+                                    <Button type="button" variant="outline" className="h-14 rounded-none px-4" onClick={generateSlug} title="Sync Slug">
+                                        <Link2 className="h-4 w-4" />
+                                    </Button>
+                                </div>
                             </div>
 
                             <div className="space-y-2">
@@ -233,6 +286,127 @@ export default function ArticleEditor({ article }: ArticleEditorProps) {
                                     placeholder="The full breakdown of geopolitical analysis..."
                                     className="min-h-[500px] text-base leading-relaxed font-serif bg-transparent border-slate-200 dark:border-slate-800 rounded-none px-6 py-6 focus-visible:ring-1 focus-visible:ring-slate-400"
                                 />
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === "forecast" && (
+                        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                            <div className="bg-emerald-500/5 border border-emerald-500/10 p-6 space-y-6">
+                                <div className="flex items-center gap-2">
+                                    <TrendingUp className="h-4 w-4 text-emerald-500" />
+                                    <h2 className="text-sm font-black uppercase italic tracking-tighter">Strategic convergence (Best Case)</h2>
+                                </div>
+                                <div className="space-y-4">
+                                    <Input
+                                        value={formData.scenarios.best.title}
+                                        onChange={(e) => handleScenarioChange("best", "title", e.target.value)}
+                                        placeholder="SCENARIO TITLE..."
+                                        className="bg-white dark:bg-slate-950 rounded-none border-slate-200 dark:border-slate-800 font-bold"
+                                    />
+                                    <Textarea
+                                        value={formData.scenarios.best.description}
+                                        onChange={(e) => handleScenarioChange("best", "description", e.target.value)}
+                                        placeholder="BEST CASE DESCRIPTION..."
+                                        className="bg-white dark:bg-slate-950 rounded-none border-slate-200 dark:border-slate-800 h-32"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="bg-blue-500/5 border border-blue-500/10 p-6 space-y-6">
+                                <div className="flex items-center gap-2">
+                                    <Zap className="h-4 w-4 text-blue-500" />
+                                    <h2 className="text-sm font-black uppercase italic tracking-tighter">Linear Tension (Most Likely)</h2>
+                                </div>
+                                <div className="space-y-4">
+                                    <Input
+                                        value={formData.scenarios.likely.title}
+                                        onChange={(e) => handleScenarioChange("likely", "title", e.target.value)}
+                                        placeholder="SCENARIO TITLE..."
+                                        className="bg-white dark:bg-slate-950 rounded-none border-slate-200 dark:border-slate-800 font-bold"
+                                    />
+                                    <Textarea
+                                        value={formData.scenarios.likely.description}
+                                        onChange={(e) => handleScenarioChange("likely", "description", e.target.value)}
+                                        placeholder="MOST LIKELY DESCRIPTION..."
+                                        className="bg-white dark:bg-slate-950 rounded-none border-slate-200 dark:border-slate-800 h-32"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="bg-red-500/5 border border-red-500/10 p-6 space-y-6">
+                                <div className="flex items-center gap-2">
+                                    <Shield className="h-4 w-4 text-red-500" />
+                                    <h2 className="text-sm font-black uppercase italic tracking-tighter">Systemic Fragmentation (Worst Case)</h2>
+                                </div>
+                                <div className="space-y-4">
+                                    <Input
+                                        value={formData.scenarios.worst.title}
+                                        onChange={(e) => handleScenarioChange("worst", "title", e.target.value)}
+                                        placeholder="SCENARIO TITLE..."
+                                        className="bg-white dark:bg-slate-950 rounded-none border-slate-200 dark:border-slate-800 font-bold"
+                                    />
+                                    <Textarea
+                                        value={formData.scenarios.worst.description}
+                                        onChange={(e) => handleScenarioChange("worst", "description", e.target.value)}
+                                        placeholder="WORST CASE DESCRIPTION..."
+                                        className="bg-white dark:bg-slate-950 rounded-none border-slate-200 dark:border-slate-800 h-32"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === "aeo" && (
+                        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                            <div className="bg-slate-900 text-white p-8 space-y-6 shadow-2xl">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <Zap className="h-5 w-5 text-emerald-400 animate-pulse" />
+                                        <h2 className="text-md font-black uppercase italic">AEO/GEO Optimization Hub</h2>
+                                    </div>
+                                    <Badge className="bg-emerald-500 text-white border-none">AI CITATION READY</Badge>
+                                </div>
+                                <p className="text-slate-400 text-xs font-medium max-w-2xl">
+                                    These fields directly feed the semantic layer of Today Decode, enabling citation by Google SGE, Perplexity, and OpenAI O1. Use concise, data-rich snippets.
+                                </p>
+
+                                <div className="space-y-6 pt-4">
+                                    <div className="flex items-center justify-between">
+                                        <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Quick Answer Intelligence (FAQ)</h3>
+                                        <Button type="button" variant="outline" size="sm" onClick={addFaq} className="h-7 text-[9px] border-white/10 hover:bg-white/5 text-white bg-transparent rounded-none">
+                                            <Plus className="h-3 w-3 mr-1" /> Add Node
+                                        </Button>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        {formData.faqData.map((faq: any, idx: number) => (
+                                            <div key={idx} className="group relative bg-white/5 border border-white/10 p-4 space-y-4">
+                                                <Button
+                                                    type="button"
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    onClick={() => removeFaq(idx)}
+                                                    className="absolute top-2 right-2 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity text-slate-500 hover:text-red-400"
+                                                >
+                                                    <Trash2 className="h-3 w-3" />
+                                                </Button>
+                                                <Input
+                                                    value={faq.question}
+                                                    onChange={(e) => handleFaqChange(idx, "question", e.target.value)}
+                                                    placeholder="The Strategic Question..."
+                                                    className="bg-transparent border-white/10 text-white font-bold h-9 focus-visible:ring-emerald-500 rounded-none"
+                                                />
+                                                <Textarea
+                                                    value={faq.answer}
+                                                    onChange={(e) => handleFaqChange(idx, "answer", e.target.value)}
+                                                    placeholder="The Concise Analysis..."
+                                                    className="bg-transparent border-white/10 text-slate-300 h-20 resize-none text-xs focus-visible:ring-emerald-500 rounded-none"
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     )}
@@ -323,13 +497,13 @@ export default function ArticleEditor({ article }: ArticleEditorProps) {
                                     <Label className="text-[9px] font-black uppercase tracking-widest text-slate-900 dark:text-white">Featured Analysis</Label>
                                     <p className="text-[8px] text-slate-500 font-bold uppercase tracking-tighter">Front-Page Spotlight</p>
                                 </div>
-                                <Switch checked={formData.isFeatured} onCheckedChange={(c) => handleSwitchChange("isFeatured", c)} className="data-[state=checked]:bg-slate-900 dark:data-[state=checked]:bg-white" />
+                                <Switch checked={formData.isFeatured} onCheckedChange={(c: boolean) => handleSwitchChange("isFeatured", c)} className="data-[state=checked]:bg-slate-900 dark:data-[state=checked]:bg-white" />
                             </div>
                         </div>
                     </div>
 
                     {/* Operational Analysis */}
-                    <div className="bg-slate-900 text-white p-5 space-y-6 shadow-2xl">
+                    <div className="bg-slate-900 text-white p-5 space-y-6 shadow-2xl transition-all duration-300 hover:shadow-emerald-500/10 hover:border-emerald-500/20">
                         <div className="flex items-center gap-2 border-b border-white/10 pb-3 mb-2">
                             <Shield className="h-4 w-4 text-emerald-400" />
                             <h2 className="text-xs font-black uppercase tracking-wider italic">Operational Metrics</h2>
@@ -360,7 +534,7 @@ export default function ArticleEditor({ article }: ArticleEditorProps) {
                                         <span className={cn(
                                             formData.riskLevel === "CRITICAL" ? "text-red-500" :
                                                 formData.riskLevel === "HIGH" ? "text-orange-500" :
-                                                    "text-emerald-500"
+                                                    "text-emerald-500 underline"
                                         )}>{formData.riskLevel}</span>
                                     </div>
                                     <Select value={formData.riskLevel} onValueChange={(v: string) => handleSelectChange("riskLevel", v)}>
@@ -416,7 +590,7 @@ export default function ArticleEditor({ article }: ArticleEditorProps) {
                         </div>
                         <div className="space-y-1 font-mono text-[8px] text-slate-400 font-bold break-all">
                             <p>ID: {article?.id || "N/A_WAITING_FOR_FILE"}</p>
-                            <p>SLUG: {formData.slug || "AUTO_GENERATED"}</p>
+                            <p>SLUG_MAP: {formData.slug || "AUTO_GENERATED"}</p>
                             <p>STAMP: {article?.publishedAt ? new Date(article.publishedAt).toISOString() : "SYSTEM_CLOCK_READY"}</p>
                         </div>
                     </div>

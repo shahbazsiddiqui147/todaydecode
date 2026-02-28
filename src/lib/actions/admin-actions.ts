@@ -40,8 +40,15 @@ const ArticleSchema = z.object({
     riskLevel: z.enum(["LOW", "MEDIUM", "HIGH", "CRITICAL"]).default("MEDIUM"),
     riskScore: z.number().int().min(0).max(100),
     impactScore: z.number().int().min(0).max(100),
-    scenarios: z.any().optional().nullable(),
-    faqData: z.any().optional().nullable(),
+    scenarios: z.object({
+        best: z.object({ title: z.string(), description: z.string() }),
+        likely: z.object({ title: z.string(), description: z.string() }),
+        worst: z.object({ title: z.string(), description: z.string() }),
+    }).optional().nullable(),
+    faqData: z.array(z.object({
+        question: z.string(),
+        answer: z.string()
+    })).optional().nullable(),
     metaTitle: z.string().optional().nullable(),
     metaDescription: z.string().optional().nullable(),
     authorId: z.string().min(1, "Author selection required."),
