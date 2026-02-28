@@ -38,7 +38,7 @@ export default function SignInPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#0A0F1E] flex items-center justify-center p-6 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-slate-900/10 via-transparent to-transparent">
+        <div className="min-h-screen bg-white dark:bg-[#0F172A] flex items-center justify-center p-6 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-slate-900/10 via-transparent to-transparent">
             <div className="w-full max-w-md space-y-8 animate-in fade-in zoom-in duration-700">
                 <div className="text-center space-y-4">
                     <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-accent-red shadow-2xl shadow-accent-red/20 mb-4 scale-110">

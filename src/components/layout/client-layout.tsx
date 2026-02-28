@@ -33,8 +33,9 @@ export function ClientLayout({ children, isMaintenanceMode }: ClientLayoutProps)
     // We hide the standard layout (Sidebar/Header) for:
     // 1. Coming Soon page
     // 2. Auth pages (Signin/Signup)
-    // 3. Public pages during maintenance
-    const shouldHideStandardLayout = isComingSoon || isAuthPath || (isMaintenanceMode && !isPreviewParam && !isAdminPath);
+    // 3. Admin pages (Management Workspace)
+    // 4. Public pages during maintenance
+    const shouldHideStandardLayout = isComingSoon || isAuthPath || isAdminPath || (isMaintenanceMode && !isPreviewParam);
 
     if (shouldHideStandardLayout) {
         return (
