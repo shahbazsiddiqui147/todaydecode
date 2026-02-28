@@ -4,81 +4,30 @@ import Link from "next/link";
 import Image from "next/image";
 import { RiskGauge, KeyTakeaways } from "@/components/ui/article-widgets";
 import { ReadingProgressBar } from "@/components/ui/reading-progress-bar";
-import { JsonLd, QuickAnswer } from "@/components/seo/json-ld";
+import { JsonLd } from "@/components/seo/json-ld";
 import { ScenarioForecast } from "@/components/analysis/scenario-forecast";
-import { ForecastTrend } from "@/components/charts/forecast-trend";
-import { TermDefinition } from "@/components/aeo/term-definition";
 import { QuickAnswers } from "@/components/aeo/quick-answers";
 import { MethodologyBadge } from "@/components/intel/methodology-badge";
 import { CitationTool } from "@/components/intel/citation-tool";
 import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
-import { AnalysisCard } from "@/components/ui/analysis-card";
 import { FollowDesk } from "@/components/user/follow-desk";
 import { PaywallGate } from "@/components/monetization/paywall-gate";
-import { AdContainer } from "@/components/monetization/ad-container";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { getPublicArticleBySlug } from "@/lib/actions/public-actions";
+import { cookies } from "next/headers";
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string; slug: string }> }) {
     const { category, slug } = await params;
-    // In production, fetch from DB
-    const articleData = {
-        title: "The Barents Gap: NATO's Silent Conflict in the High North",
-        riskLevel: "HIGH",
-        riskScore: 82,
-        impactScore: 78
-    };
+    const article = await getPublicArticleBySlug(slug);
+
+    if (!article) return constructMetadata({ title: "Intelligence Not Found" });
 
     return constructMetadata({
-        title: `[Intelligence Report] ${articleData.title} | Today Decode`,
-        description: `Strategic Risk Assessment [${articleData.riskScore}/100]. Risk Level: ${articleData.riskLevel}. Impact Score: ${articleData.impactScore}. Analyst-verified intelligence for institutional subscribers.`,
+        title: `[Intelligence Report] ${article.title} | Today Decode`,
+        description: article.metaDescription || `Strategic Risk Assessment [${article.riskScore}/100]. Risk Level: ${article.riskLevel}. Impact Score: ${article.impactScore}. Analyst-verified intelligence.`,
         path: `/${category}/${slug}/`,
     });
 }
-
-// Placeholder for actual data fetching function
-async function getArticleData(category: string, slug: string) {
-    // In a real application, this would fetch data from a database or API
-    return {
-        title: "The Barents Gap: NATO's Silent Conflict in the High North",
-        category: category,
-        region: "High North",
-        publishedAt: "February 28, 2026",
-        readingTime: "12 min read",
-        slug: slug,
-        author: {
-            name: "Dr. Elena Vance",
-            role: "Strategic Analyst",
-        },
-        riskScore: 82,
-        riskLevel: "HIGH" as const,
-        isPremium: true,
-        summary: [
-            "NATO is increasing presence in the Barents Sea as Arctic melting opens new strategic corridors.",
-            "The Barents Gap remains the most critical choke point for Russian Northern Fleet deployments.",
-            "Intelligence suggests a shift towards hybrid underwater infrastructure interference in the corridor."
-        ],
-        faqData: [
-            {
-                question: "Why is the Barents Gap strategically significant?",
-                answer: "It serves as the primary maritime corridor for the Russian Northern Fleet to reach the North Atlantic."
-            }
-        ],
-        scenarios: {
-            best: { title: "Arctic Cooperation", desc: "Diplomatic breakthrough leads to joint monitoring.", impact: 15 },
-            likely: { title: "Steady Militarization", desc: "NATO and Russia continue incremental build-ups.", impact: 45 },
-            worst: { title: "Direct Friction", desc: "Accidental naval collision triggers localized conflict.", impact: 85 }
-        },
-        forecastData: [
-            { month: 'Mar', likely: 45, best: 40, worst: 50 },
-            { month: 'Jun', likely: 52, best: 35, worst: 65 },
-            { month: 'Sep', likely: 68, best: 30, worst: 80 },
-            { month: 'Dec', likely: 75, best: 25, worst: 90 },
-        ],
-        content: "Draft content..."
-    };
-}
-
-import { cookies } from "next/headers";
 
 export default async function ArticlePage({
     params,
@@ -104,7 +53,39 @@ export default async function ArticlePage({
         }
     }
 
-    const article = await getArticleData(category, slug);
+    const article = await getPublicArticleBySlug(slug);
+
+    if (!article) {
+        notFound();
+    }
+
+    // Process scenarios for the Forecast UI
+    const rawScenarios = (article.scenarios as any) || {};
+    const processedScenarios = {
+        best: {
+            title: rawScenarios.best?.title || "Strategic Convergence",
+            desc: rawScenarios.best?.description || "No data provided.",
+            impact: 10
+        },
+        likely: {
+            title: rawScenarios.likely?.title || "Linear Tension",
+            desc: rawScenarios.likely?.description || "No data provided.",
+            impact: article.impactScore
+        },
+        worst: {
+            title: rawScenarios.worst?.title || "Systemic Fragmentation",
+            desc: rawScenarios.worst?.description || "No data provided.",
+            impact: 90
+        }
+    };
+
+    const formattedDate = new Intl.DateTimeFormat('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric'
+    }).format(new Date(article.publishedAt));
+
+    const readingTime = `${Math.ceil(article.content.length / 1000) + 2} min read`;
 
     return (
         <div className="relative min-h-screen bg-primary pb-20">
@@ -113,19 +94,19 @@ export default async function ArticlePage({
                 type="Article"
                 data={{
                     title: article.title,
-                    summary: article.summary[0],
-                    publishedAt: article.publishedAt,
+                    summary: article.summary,
+                    publishedAt: article.publishedAt.toISOString(),
                     authorName: article.author.name,
-                    image: "/images/high-north-intel.jpg",
-                    faqData: article.faqData
+                    image: "/images/intel-1.jpg",
+                    faqData: (article.faqData as any) || []
                 }}
             />
 
             {/* Hero Section */}
             <div className="relative h-[60vh] w-full overflow-hidden border-b border-border-slate">
                 <Image
-                    src="/images/high-north-intel.jpg"
-                    alt="Arctic Maritime Surveillance"
+                    src="/images/intel-1.jpg"
+                    alt={article.title}
                     fill
                     className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-700"
                     priority
@@ -136,7 +117,7 @@ export default async function ArticlePage({
                     <div className="flex flex-col space-y-6">
                         <Breadcrumbs items={[
                             { label: 'Home', href: '/' },
-                            { label: article.category, href: `/${article.category.toLowerCase()}/` },
+                            { label: article.category.name, href: `/${article.category.slug}` },
                             { label: 'Strategic Analysis', href: '#' }
                         ]} />
 
@@ -154,15 +135,21 @@ export default async function ArticlePage({
 
                         <div className="flex items-center justify-between pt-6 border-t border-white/10">
                             <div className="flex items-center space-x-4">
-                                <div className="h-10 w-10 rounded-full bg-slate-800 border border-border-slate" />
+                                <div className="h-10 w-10 rounded-full bg-slate-800 border border-border-slate overflow-hidden relative">
+                                    {article.author.image && (
+                                        <Image src={article.author.image} alt={article.author.name} fill className="object-cover" />
+                                    )}
+                                </div>
                                 <div>
-                                    <div className="text-xs font-black uppercase tracking-widest text-white">{article.author.name}</div>
+                                    <Link href={`/author/${article.author.slug}/`}>
+                                        <div className="text-xs font-black uppercase tracking-widest text-white hover:text-accent-red transition-colors">{article.author.name}</div>
+                                    </Link>
                                     <div className="text-[10px] text-slate-400 uppercase font-medium">{article.author.role}</div>
                                 </div>
                             </div>
                             <div className="flex items-center space-x-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                <span>{article.publishedAt}</span>
-                                <span>{article.readingTime}</span>
+                                <span>{formattedDate}</span>
+                                <span>{readingTime}</span>
                             </div>
                         </div>
                     </div>
@@ -170,10 +157,9 @@ export default async function ArticlePage({
             </div>
 
             <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 mt-12">
-                {/* Fixed Action Sidebar */}
                 <aside className="lg:col-span-1 hidden lg:block">
                     <div className="sticky top-32 space-y-8 flex flex-col items-center">
-                        <FollowDesk type="category" id={article.category} label={article.category} />
+                        <FollowDesk type="category" id={article.categoryId} label={article.category.name} />
                         <button className="p-3 bg-slate-900 border border-border-slate rounded-xl hover:border-white transition-all group">
                             <Share2 className="h-5 w-5 text-slate-400 group-hover:text-white" />
                         </button>
@@ -183,69 +169,60 @@ export default async function ArticlePage({
                         <CitationTool
                             title={article.title}
                             author={article.author.name}
-                            publishedDate={article.publishedAt}
-                            category={article.category}
+                            publishedDate={formattedDate}
+                            category={article.category.name}
                             slug={article.slug}
                         />
                     </div>
                 </aside>
 
-                {/* Main Content */}
-                <main className="lg:col-span-7 space-y-12">
-                    <KeyTakeaways points={article.summary} />
+                <main className="lg:col-span-7 space-y-12 text-slate-200">
+                    <div className="space-y-6">
+                        {article.onPageLead && (
+                            <p className="text-xl font-bold italic border-l-4 border-accent-red pl-6 py-2 text-white">
+                                {article.onPageLead}
+                            </p>
+                        )}
+                        <KeyTakeaways points={article.summary.split('\n').filter((p: string) => p.trim())} />
+                    </div>
 
                     <div className="space-y-12">
-                        <QuickAnswers faqData={article.faqData} />
+                        <QuickAnswers faqData={(article.faqData as any) || []} />
 
                         <PaywallGate isPremium={article.isPremium}>
-                            <div className="prose prose-invert prose-slate max-w-none text-slate-300 leading-relaxed text-lg">
-                                <p>
-                                    The Barents Sea is no longer a frozen periphery. As the ice recedes, the geopolitical temperature rises.
-                                    For decades, the <TermDefinition term="Barents Gap" definition="The maritime corridor between the North Cape and Bear Island, critical for naval transit.">Barents Gap</TermDefinition> has served as the silent highway
-                                    for the Russian Northern Fleet's foray into the Atlantic.
-                                </p>
-
-                                <AdContainer slot="intel-mid-content" className="my-12" />
-
-                                <p>
-                                    Intelligence suggests a shift towards <TermDefinition term="Gray-Zone Warfare" definition="Competitive interactions among and within state and non-state actors that fall between the traditional war-and-peace duality.">Gray-Zone Warfare</TermDefinition>
-                                    in this corridor, particularly targeting underwater infrastructure.
-                                </p>
+                            <div className="prose prose-invert prose-slate max-w-none text-slate-300 leading-relaxed text-lg font-serif">
+                                {article.content.split('\n').map((para: string, i: number) => (
+                                    para.trim() ? <p key={i}>{para}</p> : <br key={i} />
+                                ))}
                             </div>
                         </PaywallGate>
 
-                        {/* Visual Intelligence Section */}
                         <div className="space-y-12 pt-12 border-t border-border-slate">
                             <div className="space-y-2">
                                 <h3 className="text-xl font-black uppercase tracking-tight text-white">Visual Intelligence & Predictive Modeling</h3>
-                                <p className="text-sm text-slate-400">Multi-variant scenario analysis based on current troop movements and ice-melt velocity.</p>
+                                <p className="text-sm text-slate-400">Analysis-driven scenario mapping for the next fiscal cycle.</p>
                             </div>
-
-                            <ForecastTrend data={article.forecastData} />
-                            <ScenarioForecast scenarios={article.scenarios} category={article.category} slug={article.slug} />
+                            <ScenarioForecast scenarios={processedScenarios} category={article.category.slug} slug={article.slug} />
                         </div>
                     </div>
                 </main>
 
-                {/* Intelligence Sidepanel */}
                 <aside className="lg:col-span-4 space-y-8">
                     <div className="sticky top-32 space-y-8">
-                        <RiskGauge score={article.riskScore} label={article.riskLevel} />
+                        <RiskGauge score={article.riskScore} label={`${article.riskLevel} STRATEGIC RISK`} />
 
                         <div className="p-6 bg-slate-900/50 border border-border-slate rounded-2xl space-y-6">
-                            <h4 className="text-xs font-black uppercase tracking-widest text-white">Related Intelligence</h4>
-                            <div className="space-y-4">
-                                {/* Mock Related */}
-                                {[1, 2].map(i => (
-                                    <Link key={i} href="#" className="block group">
-                                        <div className="space-y-2">
-                                            <div className="text-[10px] font-bold text-accent-red uppercase">{article.category}</div>
-                                            <div className="text-sm font-bold text-slate-200 group-hover:text-white transition-colors">
-                                                Strategic Shifts in the Arctic Council {i}
-                                            </div>
-                                        </div>
-                                    </Link>
-                                ))}
+                            <div className="flex items-center justify-between border-b border-white/5 pb-4">
+                                <h4 className="text-xs font-black uppercase tracking-widest text-white">Related Intelligence</h4>
+                                <span className="text-[9px] font-black text-slate-500 uppercase tracking-tighter">Sector: {article.category.name}</span>
+                            </div>
+                            <div className="space-y-6">
+                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest italic animate-pulse">
+                                    Fetching real-time data correlations...
+                                </p>
+                                <div className="text-xs text-slate-500 font-medium leading-relaxed">
+                                    Detailed regional correlations and asset-class impacts are being mapped to our 2026 tactical grid.
+                                </div>
                             </div>
                         </div>
                     </div>

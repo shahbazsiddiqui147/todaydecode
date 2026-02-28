@@ -1,44 +1,18 @@
 import { AnalysisCard } from "@/components/ui/analysis-card";
-import { Globe, TrendingUp, ShieldAlert, Zap } from "lucide-react";
+import { TrendingUp, ShieldAlert, Zap } from "lucide-react";
 import { GlobalRiskMap } from "@/components/maps/global-risk-map";
-
-const FEATURED_ARTICLES = [
-  {
-    title: "The Barents Gap: NATO's Silent Conflict in the High North",
-    category: "Security",
-    slug: "barents-gap-nato-silent-conflict",
-    image: "/images/intel-1.jpg",
-    riskLevel: "HIGH" as const,
-    riskScore: 82,
-  },
-  {
-    title: "Post-Petrodollar: The UAE's Pivot to AI and Quantum Supremacy",
-    category: "Technology",
-    slug: "post-petrodollar-uae-pivot-ai",
-    image: "/images/intel-2.jpg",
-    riskLevel: "MEDIUM" as const,
-    riskScore: 45,
-  },
-  {
-    title: "Strait of Hormuz: Energy Security and the 2026 Transit Forecast",
-    category: "Energy",
-    slug: "strait-of-hormuz-energy-security",
-    image: "/images/intel-3.jpg",
-    riskLevel: "CRITICAL" as const,
-    riskScore: 94,
-  },
-  {
-    title: "Global Supply Chains: The decoupling of APAC and Western Markets",
-    category: "Economy",
-    slug: "global-supply-chains-apac-decoupling",
-    image: "/images/intel-4.jpg",
-    riskLevel: "LOW" as const,
-    riskScore: 28,
-  },
-];
-
+import { getFeaturedArticles, getMapRegionData } from "@/lib/actions/public-actions";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { constructMetadata } from "@/lib/seo";
+
+export async function generateMetadata() {
+  return constructMetadata({
+    title: "Today Decode — Global Intelligence & Geopolitical Risk",
+    description: "Strategic analysis of Geopolitics, Economy, Security, and Global Shifts. Analyst-verified intelligence for institutional-grade decision making.",
+    path: "/"
+  });
+}
 
 export default async function Home({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   // 1. FAST-PATH MAINTENANCE CHECK
@@ -56,34 +30,56 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
     redirect('/coming-soon/');
   }
 
+  // 2. FETCH PRODUCTION DATA
+  const [featuredArticles, regionData] = await Promise.all([
+    getFeaturedArticles(4),
+    getMapRegionData()
+  ]);
+
   return (
     <div className="space-y-10">
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl uppercase font-black">
               Global Intelligence Briefing
             </h1>
-            <p className="text-slate-500 text-sm max-w-2xl">
+            <p className="text-slate-500 text-sm max-w-2xl font-medium uppercase tracking-tight">
               Real-time strategic analysis of geopolitical risks and global shifts.
-              Refreshed every 12 hours for strategic decision-making.
+              Refreshed dynamically from the Command Center.
             </p>
           </div>
           <div className="hidden lg:flex items-center space-x-2 text-[10px] font-bold tracking-widest text-accent-red uppercase">
-            <span className="h-2 w-2 rounded-full bg-accent-red animate-pulse" />
+            <span className="h-2 w-2 rounded-full bg-accent-red animate-pulse shadow-[0_0_8px_rgba(255,75,75,0.4)]" />
             <span>LIVE DATA: SECURE CONNECTION ESTABLISHED</span>
           </div>
         </div>
       </section>
 
       <div className="w-full">
-        <GlobalRiskMap />
+        <GlobalRiskMap regionData={regionData} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {FEATURED_ARTICLES.map((article) => (
-          <AnalysisCard key={article.slug} {...article} />
+        {featuredArticles.map((article: any) => (
+          <AnalysisCard
+            key={article.slug}
+            title={article.title}
+            category={article.category.name}
+            slug={article.slug}
+            image="/images/intel-1.jpg" // In production, use article.image if available
+            riskLevel={article.riskLevel}
+            riskScore={article.riskScore}
+          />
         ))}
+
+        {featuredArticles.length === 0 && (
+          <div className="col-span-full py-20 text-center border border-dashed border-border-slate rounded-xl">
+            <p className="text-slate-500 uppercase font-black tracking-widest text-xs">
+              No active intelligence reports found in the grid.
+            </p>
+          </div>
+        )}
       </div>
 
       <section className="bg-primary/5 dark:bg-primary/40 border border-border-slate rounded-xl p-8">
@@ -92,22 +88,22 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
             <div className="flex justify-center">
               <ShieldAlert className="h-8 w-8 text-accent-red" />
             </div>
-            <div className="text-2xl font-bold">12 Active Hotspots</div>
-            <div className="text-xs text-slate-500 uppercase tracking-widest">Global Security Index</div>
+            <div className="text-2xl font-bold uppercase font-black tracking-tighter">12 Active Hotspots</div>
+            <div className="text-xs text-slate-500 uppercase tracking-widest font-bold">Global Security Index</div>
           </div>
           <div className="space-y-2 border-x border-border-slate">
             <div className="flex justify-center">
               <TrendingUp className="h-8 w-8 text-accent-green" />
             </div>
-            <div className="text-2xl font-bold">+4.2% Growth</div>
-            <div className="text-xs text-slate-500 uppercase tracking-widest">MENA Economic Forecast</div>
+            <div className="text-2xl font-bold uppercase font-black tracking-tighter">+4.2% Growth</div>
+            <div className="text-xs text-slate-500 uppercase tracking-widest font-bold">MENA Economic Forecast</div>
           </div>
           <div className="space-y-2">
             <div className="flex justify-center">
               <Zap className="h-8 w-8 text-yellow-500" />
             </div>
-            <div className="text-2xl font-bold">Resilient</div>
-            <div className="text-xs text-slate-500 uppercase tracking-widest">Energy Grid Integrity</div>
+            <div className="text-2xl font-bold uppercase font-black tracking-tighter">Resilient</div>
+            <div className="text-xs text-slate-500 uppercase tracking-widest font-bold">Energy Grid Integrity</div>
           </div>
         </div>
       </section>
