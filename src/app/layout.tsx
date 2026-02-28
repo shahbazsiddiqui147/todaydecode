@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
+import { AuthProvider } from "@/components/auth-provider";
+import { BreakingAlert } from "@/components/ui/breaking-alert";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,8 +29,7 @@ export const metadata: Metadata = {
   },
 };
 
-import { Header } from "@/components/layout/header";
-import { BreakingAlert } from "@/components/ui/breaking-alert";
+
 
 export default function RootLayout({
   children,
