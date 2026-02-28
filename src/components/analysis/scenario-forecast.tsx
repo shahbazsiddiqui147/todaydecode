@@ -20,10 +20,11 @@ interface Scenarios {
 
 interface ScenarioForecastProps {
     scenarios: Scenarios;
+    category: string;
     slug: string;
 }
 
-export function ScenarioForecast({ scenarios, slug }: ScenarioForecastProps) {
+export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecastProps) {
     const [activeTab, setActiveTab] = useState<keyof Scenarios>('likely');
 
     const tabs = [
@@ -122,7 +123,7 @@ export function ScenarioForecast({ scenarios, slug }: ScenarioForecastProps) {
 
                         <div className="pt-6 border-t border-border-slate/50">
                             <Link
-                                href={`/articles/${slug}/impact-analysis/`}
+                                href={`/${category.toLowerCase()}/${slug}/impact-analysis/`}
                                 className="inline-flex items-center text-[10px] font-black text-white uppercase tracking-[0.2em] group bg-white/5 border border-white/10 px-6 py-4 rounded-lg hover:bg-white hover:text-black transition-all"
                             >
                                 Open Full Impact Assessment

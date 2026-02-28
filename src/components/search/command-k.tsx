@@ -89,14 +89,14 @@ export function CommandK() {
 
                         <Command.Group heading="Recent Intelligence" className="mt-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest px-2 py-1.5">
                             <Command.Item
-                                onSelect={() => runCommand(() => router.push("/articles/barents-gap-nato-silent-conflict/"))}
+                                onSelect={() => runCommand(() => router.push("/security/barents-gap-nato-silent-conflict/"))}
                                 className="flex items-center px-2 py-2 text-sm rounded-md aria-selected:bg-slate-800 aria-selected:text-white transition-colors cursor-pointer"
                             >
                                 <FileText className="mr-3 h-4 w-4" />
                                 The Barents Gap Strategy
                             </Command.Item>
                             <Command.Item
-                                onSelect={() => runCommand(() => router.push("/articles/strait-of-hormuz-energy-security/"))}
+                                onSelect={() => runCommand(() => router.push("/energy/strait-of-hormuz-energy-security/"))}
                                 className="flex items-center px-2 py-2 text-sm rounded-md aria-selected:bg-slate-800 aria-selected:text-white transition-colors cursor-pointer"
                             >
                                 <ShieldAlert className="mr-3 h-4 w-4" />

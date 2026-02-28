@@ -17,7 +17,7 @@ export function CitationTool({ title, author, publishedDate, category, slug }: C
     const [activeTab, setActiveTab] = useState<'APA' | 'Chicago' | 'MLA' | 'AI'>('AI');
     const [copied, setCopied] = useState(false);
 
-    const fullUrl = `${SITE_URL}/articles/${slug}/`;
+    const fullUrl = `${SITE_URL}/${category.toLowerCase()}/${slug}/`;
     const year = new Date(publishedDate).getFullYear();
 
     const citations = {

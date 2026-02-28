@@ -30,7 +30,7 @@ export function AnalysisCard({
 
     return (
         <Link
-            href={`/articles/${slug}/`}
+            href={`/${category.toLowerCase()}/${slug}/`}
             className="group flex flex-col space-y-3 rounded-lg border border-border-slate bg-card overflow-hidden transition-all hover:border-slate-400"
         >
             <div className="relative aspect-video w-full overflow-hidden">
