@@ -15,8 +15,9 @@ export function ClientLayout({ children, isMaintenanceMode }: ClientLayoutProps)
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    // Check if we are on the coming-soon page
-    const isComingSoon = pathname === '/coming-soon';
+    // Check if we are on the coming-soon page (more robust matching)
+    // pathname can be "/coming-soon" or "/coming-soon/"
+    const isComingSoon = pathname === '/coming-soon' || pathname === '/coming-soon/';
 
     // Developer bypass check (matching middleware logic)
     const isPreviewParam = searchParams.get('preview') === 'true';
@@ -27,7 +28,13 @@ export function ClientLayout({ children, isMaintenanceMode }: ClientLayoutProps)
     const shouldHideMenus = (isComingSoon || isMaintenanceMode) && !isPreviewParam;
 
     if (shouldHideMenus) {
-        return <main className="min-h-screen bg-black">{children}</main>;
+        return (
+            <div className="min-h-screen bg-black w-full overflow-hidden">
+                <main className="min-h-screen">
+                    {children}
+                </main>
+            </div>
+        );
     }
 
     return (

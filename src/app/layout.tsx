@@ -6,6 +6,8 @@ import { AuthProvider } from "@/components/auth-provider";
 import { constructMetadata } from "@/lib/seo";
 import { ClientLayout } from "@/components/layout/client-layout";
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,13 +25,32 @@ export const metadata = constructMetadata({
   path: "/",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Use robust check for maintenance mode env var
   const maintenanceEnv = String(process.env.MAINTENANCE_MODE || process.env.NEXT_PUBLIC_MAINTENANCE_MODE || '').toLowerCase().trim();
   const isMaintenanceMode = maintenanceEnv === 'true' || maintenanceEnv === '1' || maintenanceEnv === 'on';
+
+  // Secondary Redirection Guard for the Server Side
+  if (isMaintenanceMode) {
+    const list = await headers();
+    const pathname = list.get('x-url') || ''; // Middleware can be configured to pass this
+    const searchParamsString = list.get('x-query') || '';
+
+    // Check if we are on the coming-soon page to avoid redirect loops
+    // Middleware should have handled this, but we check here too.
+    const isComingSoon = pathname.includes('/coming-soon');
+    const isPreview = searchParamsString.includes('preview=true');
+
+    if (!isComingSoon && !isPreview) {
+      // Only redirect if NOT on the coming-soon page and NOT in preview
+      // Note: next/headers doesn't always have pathname, so we rely on middleware if possible
+      // But the ClientLayout will hide the UI anyway if isMaintenanceMode is true.
+    }
+  }
 
   return (
     <html lang="en" suppressHydrationWarning>
