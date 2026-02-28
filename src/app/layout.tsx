@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Sidebar } from "@/components/layout/sidebar";
-import { Header } from "@/components/layout/header";
 import { AuthProvider } from "@/components/auth-provider";
-import { BreakingAlert } from "@/components/ui/breaking-alert";
+import { constructMetadata } from "@/lib/seo";
+import { ClientLayout } from "@/components/layout/client-layout";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,21 +17,20 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-import { constructMetadata } from "@/lib/seo";
-
 export const metadata = constructMetadata({
   title: "Today Decode — Global Intelligence & Geopolitical Risk",
   description: "Strategic analysis of Geopolitics, Economy, Security, and Global Shifts.",
   path: "/",
 });
 
-
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const maintenanceEnv = process.env.MAINTENANCE_MODE;
+  const isMaintenanceMode = maintenanceEnv === 'true' || maintenanceEnv === '1' || maintenanceEnv === 'TRUE';
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
@@ -42,16 +41,11 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="flex min-h-screen">
-              <Sidebar />
-              <div className="flex-1 flex flex-col">
-                <BreakingAlert />
-                <Header />
-                <main className="flex-1 p-6 md:p-8">
-                  {children}
-                </main>
-              </div>
-            </div>
+            <Suspense fallback={<div className="min-h-screen bg-black" />}>
+              <ClientLayout isMaintenanceMode={isMaintenanceMode}>
+                {children}
+              </ClientLayout>
+            </Suspense>
           </ThemeProvider>
         </AuthProvider>
       </body>

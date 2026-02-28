@@ -5,8 +5,11 @@ export function middleware(request: NextRequest) {
     const { pathname, searchParams } = request.nextUrl;
 
     // 1. Define maintenance mode configuration
-    const isMaintenanceMode = process.env.MAINTENANCE_MODE === 'true';
-    const bypassSecret = 'true'; // Simple toggle, can be more complex
+    // Use a more robust check for truthy values
+    const maintenanceEnv = process.env.MAINTENANCE_MODE;
+    const isMaintenanceMode = maintenanceEnv === 'true' || maintenanceEnv === '1' || maintenanceEnv === 'TRUE';
+
+    const bypassSecret = 'true';
 
     // 2. Allow internal Next.js requests and static assets
     if (
@@ -16,12 +19,13 @@ export function middleware(request: NextRequest) {
         pathname.includes('favicon.ico') ||
         pathname.includes('.svg') ||
         pathname.includes('.png') ||
-        pathname.includes('.jpg')
+        pathname.includes('.jpg') ||
+        pathname.includes('.webp')
     ) {
         return NextResponse.next();
     }
 
-    // 3. Allow access to the Maintenance Page itself
+    // 3. Allow access to the Coming Soon Page itself
     if (pathname === '/coming-soon') {
         return NextResponse.next();
     }
@@ -39,19 +43,21 @@ export function middleware(request: NextRequest) {
                 response.cookies.set('preview_access', bypassSecret, {
                     path: '/',
                     maxAge: 60 * 60 * 24 * 7, // 1 week
+                    sameSite: 'lax',
                 });
             }
             return response;
         }
 
-        // Redirect to maintenance page
-        return NextResponse.redirect(new URL('/coming-soon', request.url));
+        // Redirect all other requests to coming-soon
+        const url = request.nextUrl.clone();
+        url.pathname = '/coming-soon';
+        return NextResponse.redirect(url);
     }
 
     return NextResponse.next();
 }
 
-// Ensure middleware runs for all routes except the maintenance page and static files
 export const config = {
     matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
