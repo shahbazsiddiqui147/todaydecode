@@ -17,27 +17,33 @@ export function ClientLayout({ children, isMaintenanceMode }: ClientLayoutProps)
     const searchParams = useSearchParams();
     const router = useRouter();
 
-    // Check if we are on the coming-soon page
     const isComingSoon = pathname === '/coming-soon' || pathname === '/coming-soon/';
-
-    // Developer bypass check
+    const isAuthPath = pathname.startsWith('/auth');
+    const isAdminPath = pathname.startsWith('/admin');
     const isPreviewParam = searchParams.get('preview') === 'true';
 
-    // Hiding rules
-    const shouldHideMenus = (isComingSoon || isMaintenanceMode) && !isPreviewParam;
-
-    // CLIENT-SIDE REDIRECT FAIL-SAFE
-    // If we are in maintenance mode, not in preview, and NOT on the coming-soon page, force a client-side move.
+    // FAIL-SAFE REDIRECT: Push public traffic to coming-soon
     useEffect(() => {
-        if (isMaintenanceMode && !isComingSoon && !isPreviewParam) {
+        if (isMaintenanceMode && !isComingSoon && !isPreviewParam && !isAdminPath && !isAuthPath) {
             router.push('/coming-soon/');
         }
-    }, [isMaintenanceMode, isComingSoon, isPreviewParam, router]);
+    }, [isMaintenanceMode, isComingSoon, isPreviewParam, isAdminPath, isAuthPath, router]);
 
-    if (shouldHideMenus) {
+    // UI RENDERING LOGIC
+    // We hide the standard layout (Sidebar/Header) for:
+    // 1. Coming Soon page
+    // 2. Auth pages (Signin/Signup)
+    // 3. Public pages during maintenance
+    const shouldHideStandardLayout = isComingSoon || isAuthPath || (isMaintenanceMode && !isPreviewParam && !isAdminPath);
+
+    if (shouldHideStandardLayout) {
         return (
             <div className="min-h-screen bg-black w-full overflow-hidden flex flex-col items-center justify-center">
-                {!isComingSoon ? (
+                {/* 
+                  Show Pulse Shield ONLY if this is a public page caught in maintenance.
+                  If it's Auth or Coming Soon, render the children immediately.
+                */}
+                {(isMaintenanceMode && !isPreviewParam && !isComingSoon && !isAdminPath && !isAuthPath) ? (
                     <div className="flex flex-col items-center space-y-4 animate-pulse">
                         <ShieldAlert className="h-12 w-12 text-accent-red" />
                         <span className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">Establishing Protocol...</span>
@@ -51,6 +57,7 @@ export function ClientLayout({ children, isMaintenanceMode }: ClientLayoutProps)
         );
     }
 
+    // Standard Layout (Dashboard / Public Pages with Nav)
     return (
         <div className="flex min-h-screen bg-primary">
             <Sidebar />

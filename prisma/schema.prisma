@@ -58,19 +58,29 @@ model Article {
 }
 
 model Category {
-  id    String @id @default(cuid())
-  name  String @unique // Geopolitics, Economy, etc.
-  slug  String @unique
-  articles Article[]
-  watchlists Watchlist[]
+  id          String   @id @default(cuid())
+  name        String   @unique // Geopolitics, Economy, etc.
+  slug        String   @unique // e.g., "geopolitics/"
+  description String?  @db.Text
+  order       Int      @default(0)
+  isVisible   Boolean  @default(true)
+  icon        String?  // Lucide icon name or SVG path
+
+  articles    Article[]
+  watchlists  Watchlist[]
 }
 
 model Author {
-  id    String @id @default(cuid())
-  name  String
-  role  String
-  bio   String
-  articles Article[]
+  id           String   @id @default(cuid())
+  name         String
+  slug         String   @unique
+  image        String?
+  role         String
+  bio          String   @db.Text
+  expertise    String[] // Analyst Expertise (e.g., ["Cyber", "MENA"])
+  socialLinks  Json?    // { twitter, linkedin, website }
+  
+  articles     Article[]
 }
 
 // --- Identity & Access (NextAuth) ---

@@ -1,10 +1,26 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { getToken } from "next-auth/jwt";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
     const { pathname, searchParams } = request.nextUrl;
 
-    // 1. Get maintenance state (Extremely broad check for reliability)
+    // 1. ADMIN PROTECTION
+    if (pathname.startsWith('/admin/')) {
+        const token = await getToken({
+            req: request,
+            secret: process.env.NEXTAUTH_SECRET
+        });
+
+        if (!token || token.role !== 'ADMIN') {
+            const url = new URL('/auth/signin/', request.url);
+            url.searchParams.set('callbackUrl', encodeURI(request.url));
+            return NextResponse.redirect(url);
+        }
+        return NextResponse.next();
+    }
+
+    // 2. Get maintenance state (Extremely broad check for reliability)
     const m1 = process.env.MAINTENANCE_MODE;
     const m2 = process.env.NEXT_PUBLIC_MAINTENANCE_MODE;
     const maintenanceRaw = String(m1 || m2 || '').toLowerCase().trim();
@@ -16,18 +32,19 @@ export function middleware(request: NextRequest) {
         maintenanceRaw === 'on' ||
         maintenanceRaw === 'yes';
 
-    // 2. EXEMPTIONS (Static assets, Auth, and the Coming Soon page)
+    // 3. EXEMPTIONS (Static assets, Auth, and the Coming Soon page)
     if (
         pathname.startsWith('/_next') ||
         pathname.startsWith('/api') ||
         pathname.startsWith('/coming-soon') ||
+        pathname.startsWith('/auth') || // Allow login page access
         pathname.includes('favicon.ico') ||
-        pathname.includes('.') // Broad check for file extensions (images, scripts, etc)
+        pathname.includes('.') // Broad check for file extensions
     ) {
         return NextResponse.next();
     }
 
-    // 3. BYPASS (Developer Preview)
+    // 4. BYPASS (Developer Preview)
     if (searchParams.get('preview') === 'true' || request.cookies.get('preview_access')?.value === 'true') {
         const response = NextResponse.next();
         if (searchParams.get('preview') === 'true') {
@@ -36,9 +53,8 @@ export function middleware(request: NextRequest) {
         return response;
     }
 
-    // 4. REDIRECTION
+    // 5. REDIRECTION
     if (isMaintenanceActive) {
-        // Force absolute redirect to ensure it works on www and non-www
         const target = new URL('/coming-soon/', request.url);
         return NextResponse.redirect(target);
     }
@@ -46,16 +62,9 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
 }
 
-// 5. MATCHER (Must be global to catch the root '/')
+// 6. MATCHER (Must be global to catch the root '/')
 export const config = {
     matcher: [
-        /*
-         * Match all paths except:
-         * 1. /api routes
-         * 2. /_next (Next.js internals)
-         * 3. /static (if using public/static)
-         * 4. favicon.ico, sitemap.xml, etc.
-         */
         '/((?!api|_next|favicon.ico|sitemap.xml|robots.txt).*)',
     ],
 };

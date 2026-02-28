@@ -1,131 +1,87 @@
-"use client";
-
-import { useState } from "react";
-import { MetadataSlider } from "@/components/admin/metadata-toggles";
 import {
-    Save,
-    Eye,
-    Image as ImageIcon,
-    Type,
-    List,
-    Quote
+    Users,
+    Map,
+    FileText,
+    TrendingUp,
+    Activity,
+    ArrowUpRight
 } from "lucide-react";
 
-export default function AdminPage() {
-    const [riskScore, setRiskScore] = useState(72);
-    const [impactScore, setImpactScore] = useState(85);
-
+export default function AdminDashboard() {
     return (
-        <div className="space-y-8 pb-20">
-            <header className="flex items-center justify-between border-b border-border-slate pb-6">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-foreground">
-                        Intelligence CMS
-                    </h1>
-                    <p className="text-slate-500 text-sm">
-                        Create and deploy global intelligence reports.
-                    </p>
-                </div>
-                <div className="flex items-center space-x-3">
-                    <button className="inline-flex items-center px-4 py-2 rounded-md border border-border-slate bg-transparent text-sm font-bold text-slate-400 hover:text-white transition-colors">
-                        <Eye className="mr-2 h-4 w-4" />
-                        Preview
-                    </button>
-                    <button className="inline-flex items-center px-4 py-2 rounded-md bg-accent-red text-sm font-bold text-white hover:bg-red-600 transition-colors">
-                        <Save className="mr-2 h-4 w-4" />
-                        Deploy Intel
-                    </button>
-                </div>
+        <div className="space-y-10">
+            <header className="space-y-1">
+                <h1 className="text-4xl font-black tracking-tighter uppercase">Intelligence <span className="text-accent-red">Command</span></h1>
+                <p className="text-slate-500 font-medium tracking-wide">Strategic oversight of global intelligence nodes.</p>
             </header>
 
+            {/* Quick Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                    { label: "Total Articles", value: "0", icon: FileText, color: "text-blue-500" },
+                    { label: "Active Authors", value: "0", icon: Users, color: "text-purple-500" },
+                    { label: "Hotspot Categories", value: "0", icon: Map, color: "text-orange-500" },
+                    { label: "Global Presence", value: "100%", icon: Activity, color: "text-accent-green" },
+                ].map((stat, i) => (
+                    <div key={i} className="bg-white dark:bg-[#0D1425] border border-slate-200 dark:border-slate-800 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all group">
+                        <div className="flex items-center justify-between mb-4">
+                            <div className={`p-2 rounded-xl bg-slate-50 dark:bg-white/5 ${stat.color}`}>
+                                <stat.icon className="h-5 w-5" />
+                            </div>
+                            <ArrowUpRight className="h-4 w-4 text-slate-300 group-hover:text-white transition-colors" />
+                        </div>
+                        <div className="text-3xl font-black text-slate-900 dark:text-white mb-1">{stat.value}</div>
+                        <div className="text-xs font-bold text-slate-500 uppercase tracking-widest">{stat.label}</div>
+                    </div>
+                ))}
+            </div>
+
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div className="lg:col-span-8 space-y-6">
-                    <div className="space-y-4">
-                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                            Report Title
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="e.g. Middle East Escalation | Today Decode"
-                            className="w-full bg-transparent border-b border-border-slate py-2 text-3xl font-bold focus:outline-none focus:border-accent-red transition-colors"
-                        />
+                {/* Main Feed Activity */}
+                <section className="lg:col-span-8 bg-white dark:bg-[#0D1425] border border-slate-200 dark:border-slate-800 rounded-3xl p-8 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-8">
+                        <TrendingUp className="h-24 w-24 text-slate-100 dark:text-white/5" />
                     </div>
-
-                    <div className="space-y-4">
-                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                            Intel Content
-                        </label>
-                        <div className="min-h-[400px] border border-border-slate rounded-xl bg-primary/20 overflow-hidden flex flex-col">
-                            <div className="flex items-center space-x-2 border-b border-border-slate p-2 bg-slate-900/50">
-                                <button className="p-2 hover:bg-slate-800 rounded text-slate-400"><Type className="h-4 w-4" /></button>
-                                <button className="p-2 hover:bg-slate-800 rounded text-slate-400"><List className="h-4 w-4" /></button>
-                                <button className="p-2 hover:bg-slate-800 rounded text-slate-400"><Quote className="h-4 w-4" /></button>
-                                <div className="h-4 w-[1px] bg-border-slate mx-1" />
-                                <button className="p-2 hover:bg-slate-800 rounded text-slate-400"><ImageIcon className="h-4 w-4" /></button>
-                                <button className="ml-auto px-3 py-1 rounded border border-border-slate text-[10px] font-bold text-accent-red uppercase tracking-widest">
-                                    Auto-Convert to WebP
-                                </button>
+                    <div className="relative">
+                        <h2 className="text-xl font-black uppercase tracking-tight mb-6 flex items-center space-x-2">
+                            <span className="h-2 w-2 rounded-full bg-accent-red animate-pulse" />
+                            <span>System Operations</span>
+                        </h2>
+                        <div className="space-y-6">
+                            <div className="p-8 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl text-center">
+                                <p className="text-slate-500 text-sm font-medium italic">Database initialization complete. Platform is ready for administration.</p>
                             </div>
-                            <textarea
-                                className="flex-1 bg-transparent p-6 text-slate-300 outline-none resize-none font-serif text-lg leading-relaxed"
-                                placeholder="Begin strategic briefing..."
-                            />
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <div className="lg:col-span-4 space-y-6">
-                    <section className="space-y-4">
-                        <h3 className="text-sm font-bold border-l-2 border-accent-red pl-3 uppercase tracking-wider">
-                            Intelligence Metadata
-                        </h3>
-
-                        <div className="space-y-4">
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                                    Strategic Region
-                                </label>
-                                <select className="w-full bg-slate-900 border border-border-slate rounded-md px-3 py-2 text-sm text-slate-300 outline-none focus:border-accent-red">
-                                    <option>Global</option>
-                                    <option>MENA</option>
-                                    <option>APAC</option>
-                                    <option>Europe</option>
-                                    <option>Americas</option>
-                                    <option>Africa</option>
-                                </select>
+                {/* Global Status Panel */}
+                <section className="lg:col-span-4 space-y-8">
+                    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 text-white relative h-full">
+                        <div className="space-y-6">
+                            <div className="flex items-center justify-between">
+                                <h3 className="text-sm font-black uppercase tracking-widest text-slate-400">Security Protocol</h3>
+                                <span className="bg-accent-green/20 text-accent-green text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded border border-accent-green/30">Active</span>
                             </div>
-
-                            <MetadataSlider
-                                label="Conflict Intensity Index"
-                                value={riskScore}
-                                onChange={setRiskScore}
-                            />
-
-                            <MetadataSlider
-                                label="Strategic Impact Score"
-                                value={impactScore}
-                                onChange={setImpactScore}
-                            />
-                        </div>
-                    </section>
-
-                    <section className="space-y-4">
-                        <h3 className="text-sm font-bold border-l-2 border-accent-red pl-3 uppercase tracking-wider">
-                            AEO / SEO Configuration
-                        </h3>
-                        <div className="space-y-4 bg-primary/40 p-4 border border-border-slate rounded-lg">
                             <div className="space-y-2">
-                                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                                    Quick Answer (AIO Optimized)
-                                </label>
-                                <textarea
-                                    className="w-full bg-slate-900 border border-border-slate rounded-md p-3 text-xs text-slate-400 outline-none focus:border-accent-red h-24"
-                                    placeholder="Summarize in 3 bullet points for AI crawlers..."
-                                />
+                                <div className="text-2xl font-black tracking-tighter uppercase leading-none">Administrative Sovereignty</div>
+                                <div className="text-xs text-slate-400 leading-relaxed font-medium">Phase 1 encryption active. Author and Category management controls initialized.</div>
+                            </div>
+                            <div className="pt-6 border-t border-white/10 space-y-4">
+                                {[
+                                    { label: "SSL Status", status: "Secure" },
+                                    { label: "Prisma Cloud", status: "Synced" },
+                                    { label: "Vercel Edge", status: "Live" }
+                                ].map((row, i) => (
+                                    <div key={i} className="flex items-center justify-between text-[10px] uppercase font-bold tracking-widest">
+                                        <span className="text-slate-500">{row.label}</span>
+                                        <span className="text-slate-200">{row.status}</span>
+                                    </div>
+                                ))}
                             </div>
                         </div>
-                    </section>
-                </div>
+                    </div>
+                </section>
             </div>
         </div>
     );

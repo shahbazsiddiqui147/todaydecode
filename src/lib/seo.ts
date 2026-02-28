@@ -5,13 +5,23 @@ export function constructMetadata({
     description = "Strategic analysis of Geopolitics, Economy, Security, and Global Shifts.",
     image = "/og-image.png",
     path = "",
-    noIndex = false // Public pages default to false (meaning they ARE indexed)
-}) {
-    const url = `${SITE_URL}${path.endsWith('/') ? path : path + '/'}`;
+    type = "website",
+    noIndex = false
+}: {
+    title?: string;
+    description?: string;
+    image?: string;
+    path?: string;
+    type?: "website" | "article" | "profile";
+    noIndex?: boolean;
+} = {}) {
+    // Ensure path is cleaned and has a trailing slash for canonical consistency
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    const url = `${SITE_URL}${cleanPath.endsWith('/') ? cleanPath : cleanPath + '/'}`;
 
     return {
         metadataBase: new URL(SITE_URL),
-        title,
+        title: title.includes('|') ? title : `${title} | Today Decode`,
         description,
         alternates: {
             canonical: url,
