@@ -1,10 +1,10 @@
 "use client";
 
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
 import { BreakingAlert } from "@/components/ui/breaking-alert";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { ShieldAlert } from "lucide-react";
 
 interface ClientLayoutProps {
@@ -15,22 +15,28 @@ interface ClientLayoutProps {
 export function ClientLayout({ children, isMaintenanceMode }: ClientLayoutProps) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const router = useRouter();
 
-    // Check if we are on the coming-soon page (more robust matching)
+    // Check if we are on the coming-soon page
     const isComingSoon = pathname === '/coming-soon' || pathname === '/coming-soon/';
 
-    // Developer bypass check (matching middleware logic)
+    // Developer bypass check
     const isPreviewParam = searchParams.get('preview') === 'true';
 
-    // Hiding rules:
-    // If it's the coming-soon page, hide menus (unless it's a preview)
-    // If maintenance mode is active globally AND not in preview, hide menus
+    // Hiding rules
     const shouldHideMenus = (isComingSoon || isMaintenanceMode) && !isPreviewParam;
+
+    // CLIENT-SIDE REDIRECT FAIL-SAFE
+    // If we are in maintenance mode, not in preview, and NOT on the coming-soon page, force a client-side move.
+    useEffect(() => {
+        if (isMaintenanceMode && !isComingSoon && !isPreviewParam) {
+            router.push('/coming-soon/');
+        }
+    }, [isMaintenanceMode, isComingSoon, isPreviewParam, router]);
 
     if (shouldHideMenus) {
         return (
             <div className="min-h-screen bg-black w-full overflow-hidden flex flex-col items-center justify-center">
-                {/* Fallback internal view if redirect takes a second */}
                 {!isComingSoon ? (
                     <div className="flex flex-col items-center space-y-4 animate-pulse">
                         <ShieldAlert className="h-12 w-12 text-accent-red" />
