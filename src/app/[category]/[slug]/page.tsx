@@ -18,9 +18,8 @@ import { PaywallGate } from "@/components/monetization/paywall-gate";
 import { AdContainer } from "@/components/monetization/ad-container";
 import { redirect } from "next/navigation";
 
-export async function generateMetadata({ params }: { params: { category: string; slug: string } }) {
-    const { category, slug } = params;
-
+export async function generateMetadata({ params }: { params: Promise<{ category: string; slug: string }> }) {
+    const { category, slug } = await params;
     // In production, fetch from DB
     const articleData = {
         title: "The Barents Gap: NATO's Silent Conflict in the High North",
@@ -181,7 +180,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ catego
                     <KeyTakeaways points={article.summary} />
 
                     <div className="space-y-12">
-                        <QuickAnswers />
+                        <QuickAnswers faqData={article.faqData} />
 
                         <PaywallGate isPremium={article.isPremium}>
                             <div className="prose prose-invert prose-slate max-w-none text-slate-300 leading-relaxed text-lg">
