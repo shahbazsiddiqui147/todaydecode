@@ -1,5 +1,5 @@
 import { constructMetadata } from "@/lib/seo";
-import { ChevronLeft, Share2, Bookmark } from "lucide-react";
+import { Share2, Bookmark } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { RiskGauge, KeyTakeaways } from "@/components/ui/article-widgets";
@@ -7,12 +7,28 @@ import { ReadingProgressBar } from "@/components/ui/reading-progress-bar";
 import { JsonLd, QuickAnswer } from "@/components/seo/json-ld";
 import { ScenarioForecast } from "@/components/analysis/scenario-forecast";
 import { ForecastTrend } from "@/components/charts/forecast-trend";
+import { TermDefinition } from "@/components/aeo/term-definition";
+import { QuickAnswers } from "@/components/aeo/quick-answers";
+import { MethodologyBadge } from "@/components/intel/methodology-badge";
+import { CitationTool } from "@/components/intel/citation-tool";
+import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
+import { AnalysisCard } from "@/components/ui/analysis-card";
+import { FollowDesk } from "@/components/user/follow-desk";
+import { PaywallGate } from "@/components/monetization/paywall-gate";
+import { AdContainer } from "@/components/monetization/ad-container";
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
     const { slug } = params;
+    const articleData = {
+        title: "The Barents Gap: NATO's Silent Conflict in the High North",
+        riskLevel: "HIGH",
+        riskScore: 82,
+        impactScore: 78
+    };
+
     return constructMetadata({
-        title: `[Intelligence Report] The Barents Gap | Today Decode`,
-        description: "Strategic analysis of NATO's silent conflict in the High North.",
+        title: `[Intelligence Report] ${articleData.title} | Today Decode`,
+        description: `Strategic Risk Assessment [${articleData.riskScore}/100]. Risk Level: ${articleData.riskLevel}. Impact Score: ${articleData.impactScore}. Analyst-verified intelligence for institutional subscribers.`,
         path: `/articles/${slug}/`,
     });
 }
@@ -22,14 +38,17 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
     const article = {
         title: "The Barents Gap: NATO's Silent Conflict in the High North",
         category: "Security",
+        region: "High North",
         publishedAt: "February 28, 2026",
         readingTime: "12 min read",
+        slug: params.slug,
         author: {
             name: "Dr. Elena Vance",
             role: "Strategic Analyst",
         },
         riskScore: 82,
         riskLevel: "HIGH",
+        isPremium: true,
         summary: [
             "NATO is increasing presence in the Barents Sea as Arctic melting opens new strategic corridors.",
             "The Barents Gap remains the most critical choke point for Russian Northern Fleet deployments.",
@@ -68,6 +87,25 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
         ]
     };
 
+    const relatedIntelligence = [
+        {
+            title: "Svalbard Guard: Norway's New Arctic Reconnaissance Wing",
+            category: "Security",
+            slug: "svalbard-guard-norway-arctic",
+            image: "/images/intel-2.jpg",
+            riskLevel: "MEDIUM" as const,
+            riskScore: 48,
+        },
+        {
+            title: "Northern Sea Route: China's Icebreaker Expansion Strategy",
+            category: "Security",
+            slug: "northern-sea-route-china-expansion",
+            image: "/images/intel-3.jpg",
+            riskLevel: "HIGH" as const,
+            riskScore: 74,
+        }
+    ];
+
     return (
         <article className="relative min-h-screen pb-20">
             <JsonLd
@@ -82,17 +120,27 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
 
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 {/* Breadcrumbs & Actions */}
-                <div className="flex items-center justify-between py-6">
-                    <Link
-                        href="/"
-                        className="inline-flex items-center text-xs font-semibold uppercase tracking-widest text-slate-500 hover:text-white transition-colors"
-                    >
-                        <ChevronLeft className="mr-1 h-3 w-3" />
-                        Back to Command Center
-                    </Link>
+                <div className="flex flex-col md:flex-row md:items-center justify-between py-6 gap-4 border-b border-border-slate/30 mb-8">
+                    <Breadcrumbs
+                        items={[
+                            { label: article.category, href: `/${article.category.toLowerCase()}/` },
+                            { label: article.title, href: `/articles/${article.slug}/` }
+                        ]}
+                    />
                     <div className="flex items-center space-x-4">
-                        <button className="text-slate-500 hover:text-white hover:bg-slate-800 p-2 rounded-lg transition-colors"><Share2 className="h-4 w-4" /></button>
-                        <button className="text-slate-500 hover:text-white hover:bg-slate-800 p-2 rounded-lg transition-colors"><Bookmark className="h-4 w-4" /></button>
+                        <FollowDesk
+                            type="category"
+                            id="security-desk-id"
+                            label={article.category}
+                        />
+                        <div className="flex items-center space-x-2 border-l border-border-slate pl-4">
+                            <button className="text-slate-500 hover:text-white hover:bg-slate-800 p-2 rounded-lg transition-colors">
+                                <Share2 className="h-4 w-4" />
+                            </button>
+                            <button className="text-slate-500 hover:text-white hover:bg-slate-800 p-2 rounded-lg transition-colors">
+                                <Bookmark className="h-4 w-4" />
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -121,36 +169,78 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
                                     <span className="text-[10px] text-slate-500 uppercase font-bold tracking-[0.2em] mb-1">Read Duration</span>
                                     <span className="text-sm font-bold text-white">{article.readingTime}</span>
                                 </div>
+                                <div className="flex-1 flex justify-end">
+                                    <MethodologyBadge />
+                                </div>
                             </div>
                         </div>
 
-                        <QuickAnswer points={article.summary} />
-
-                        <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-border-slate shadow-2xl bg-slate-900/50">
-                            <Image
-                                src="/images/intel-1.jpg"
-                                alt={article.title}
-                                fill
-                                className="object-cover opacity-80"
-                                priority
-                            />
+                        {/* Hidden Summary for AI Crawlers */}
+                        <div className="aeo-summary hidden" aria-hidden="true" data-aeo="llm-summary">
+                            Today Decode Intelligence Report: {article.title}.
+                            Strategic Impact Rating: {article.riskScore}/100.
+                            Core Thesis: The melting Arctic ice is transforming the Barents Gap from a peripheral frozen zone into a high-stakes maritime corridor.
+                            Risk Level: {article.riskLevel}.
+                            Analyst: {article.author.name}.
                         </div>
 
-                        <div
-                            className="prose prose-invert prose-slate max-w-none text-slate-300 leading-relaxed text-lg"
-                            dangerouslySetInnerHTML={{ __html: article.content }}
-                        />
-                        <div className="prose prose-invert max-w-none text-slate-300 text-lg leading-relaxed space-y-6">
-                            <p>{article.content}</p>
-                            {/* More content would go here */}
+                        <QuickAnswers faqData={article.faqData} />
+
+                        <PaywallGate isPremium={article.isPremium}>
+                            <div className="prose prose-invert prose-slate max-w-none text-slate-300 leading-relaxed text-lg">
+                                <p>
+                                    The Barents Sea is no longer a frozen periphery. As the ice recedes, the geopolitical temperature rises.
+                                    For decades, the <TermDefinition term="Barents Gap" definition="The maritime corridor between the North Cape and Bear Island, critical for naval transit.">Barents Gap</TermDefinition> has served as the silent highway
+                                    for the Russian Northern Fleet's foray into the Atlantic.
+                                </p>
+
+                                <AdContainer slot="intel-mid-content" className="my-12" />
+
+                                <p>
+                                    Intelligence suggests a shift towards <TermDefinition term="Gray-Zone Warfare" definition="Competitive interactions among and within state and non-state actors that fall between the traditional war-and-peace duality.">Gray-Zone Warfare</TermDefinition>
+                                    in this corridor, particularly targeting underwater infrastructure.
+                                </p>
+                            </div>
+                        </PaywallGate>
+
+                        {/* Visual Intelligence Section */}
+                        <div className="space-y-12 pt-12 border-t border-border-slate">
+                            <div className="space-y-4">
+                                <h3 className="text-2xl font-black text-white tracking-tight uppercase">
+                                    Predictive Outcome Analysis
+                                </h3>
+                                <ForecastTrend data={article.forecastData} />
+                            </div>
+
+                            <ScenarioForecast scenarios={article.scenarios} slug={article.slug} />
+                        </div>
+
+                        {/* topical authority cluster: related news in same category/region */}
+                        <div className="pt-20 border-t border-border-slate">
+                            <h3 className="text-sm font-black text-white uppercase tracking-[0.2em] mb-8">
+                                Related {article.category} Intelligence (High North Cluster)
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {relatedIntelligence.map((item) => (
+                                    <AnalysisCard key={item.slug} {...item} />
+                                ))}
+                            </div>
                         </div>
                     </div>
 
                     {/* Right Sidebar */}
                     <div className="lg:col-span-4 space-y-6">
                         <div className="sticky top-24 space-y-6">
-                            <KeyTakeaways points={article.summary} />
                             <RiskGauge score={article.riskScore} label={article.riskLevel} />
+                            <KeyTakeaways points={article.summary} />
+
+                            <CitationTool
+                                title={article.title}
+                                author={article.author.name}
+                                publishedDate={article.publishedAt}
+                                category={article.category}
+                                slug={article.slug}
+                            />
 
                             <div className="rounded-xl border border-border-slate bg-primary/40 p-6 space-y-4">
                                 <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">

@@ -52,6 +52,8 @@ model Article {
   author          Author    @relation(fields: [authorId], references: [id])
   categoryId      String
   category        Category  @relation(fields: [categoryId], references: [id])
+  savedBy         SavedAnalysis[]
+  isPremium       Boolean   @default(false)
 }
 
 model Category {
@@ -59,6 +61,7 @@ model Category {
   name  String @unique // Geopolitics, Economy, etc.
   slug  String @unique
   articles Article[]
+  watchlists Watchlist[]
 }
 
 model Author {
@@ -68,3 +71,90 @@ model Author {
   bio   String
   articles Article[]
 }
+
+// --- Identity & Access (NextAuth) ---
+
+enum UserRole {
+  ADMIN
+  ANALYST
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          UserRole  @default(ANALYST)
+  accounts      Account[]
+  sessions      Session[]
+  
+  // Intelligence Personalization
+  watchlists    Watchlist[]
+  savedAnalyses SavedAnalysis[]
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// --- Intelligence Personalization ---
+
+model Watchlist {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  region      Region?  // Can follow a region directly
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, categoryId, region])
+}
+
+model SavedAnalysis {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  articleId String
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, articleId])
+}
+
+// Add relation back to Article
+// (Note: In a real app, you'd add this to the Article model above)
+// Already have: articles SavedAnalysis[] indirectly? No, let's update Article.
