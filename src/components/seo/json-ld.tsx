@@ -11,8 +11,9 @@ export function JsonLd({ type, data }: JsonLdProps) {
     if (type === "Article") {
         schema = {
             "@context": "https://schema.org",
-            "@type": "NewsArticle",
+            "@type": "Report",
             "headline": data.title,
+            "description": data.summary,
             "image": [data.image],
             "datePublished": data.publishedAt,
             "author": {
@@ -27,7 +28,27 @@ export function JsonLd({ type, data }: JsonLdProps) {
                     "url": `${SITE_URL}/logo.png`,
                 },
             },
+            "speakable": {
+                "@type": "SpeakableSpecification",
+                "xpath": [
+                    "/html/head/title",
+                    "//*[@name='description']",
+                    "//*[@class='aeo-summary']"
+                ]
+            }
         };
+
+        // Add FAQ component to Report if faqData exists
+        if (data.faqData) {
+            schema.mainEntity = data.faqData.map((item: any) => ({
+                "@type": "Question",
+                "name": item.question,
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": item.answer,
+                },
+            }));
+        }
     } else if (type === "FAQ") {
         schema = {
             "@context": "https://schema.org",

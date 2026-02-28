@@ -4,6 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { RiskGauge, KeyTakeaways } from "@/components/ui/article-widgets";
 import { ReadingProgressBar } from "@/components/ui/reading-progress-bar";
+import { JsonLd, QuickAnswer } from "@/components/seo/json-ld";
+import { ScenarioForecast } from "@/components/analysis/scenario-forecast";
+import { ForecastTrend } from "@/components/charts/forecast-trend";
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
     const { slug } = params;
@@ -32,14 +35,52 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
             "The Barents Gap remains the most critical choke point for Russian Northern Fleet deployments.",
             "Intelligence suggests a shift towards hybrid underwater infrastructure interference in the corridor."
         ],
-        content: "The Barents Sea is no longer a frozen periphery. As the ice recedes, the geopolitical temperature rises. For decades, the Barents Gap has served as the silent highway for the Russian Northern Fleet's foray into the Atlantic... [Content truncation for demo]"
+        faqData: [
+            {
+                question: "Why is the Barents Gap strategically significant?",
+                answer: "It serves as the primary maritime corridor for the Russian Northern Fleet to reach the North Atlantic."
+            }
+        ],
+        content: "The Barents Sea is no longer a frozen periphery. As the ice recedes, the geopolitical temperature rises. For decades, the Barents Gap has served as the silent highway for the Russian Northern Fleet's foray into the Atlantic... [Content truncation for demo]",
+        scenarios: {
+            best: {
+                title: "Arctic Cooperation Treaty",
+                desc: "Diplomatic breakthrough leads to a demilitarized zone in the High North, reducing NATOs immediate risk index.",
+                impact: 15
+            },
+            likely: {
+                title: "Hybrid Gray-Zone Standoff",
+                desc: "Persistent low-level interference with underwater cabling and increased intelligence gathering flights become the new norm.",
+                impact: 55
+            },
+            worst: {
+                title: "Direct Kinetic Engagement",
+                desc: "A miscalculation during a 'Freedom of Navigation' exercise leads to a direct naval confrontation between major powers.",
+                impact: 92
+            }
+        },
+        forecastData: [
+            { month: 'Jan', likely: 45, best: 30, worst: 50 },
+            { month: 'Mar', likely: 52, best: 28, worst: 65 },
+            { month: 'Jun', likely: 48, best: 20, worst: 80 },
+            { month: 'Sep', likely: 55, best: 15, worst: 85 },
+            { month: 'Dec', likely: 60, best: 10, worst: 92 },
+        ]
     };
 
     return (
-        <article className="relative min-h-screen">
+        <article className="relative min-h-screen pb-20">
+            <JsonLd
+                type="Article"
+                data={{
+                    ...article,
+                    authorName: article.author.name,
+                    image: "/images/intel-1.jpg",
+                }}
+            />
             <ReadingProgressBar />
 
-            <div className="mx-auto max-w-7xl">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 {/* Breadcrumbs & Actions */}
                 <div className="flex items-center justify-between py-6">
                     <Link
@@ -50,52 +91,55 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
                         Back to Command Center
                     </Link>
                     <div className="flex items-center space-x-4">
-                        <button className="text-slate-500 hover:text-white"><Share2 className="h-4 w-4" /></button>
-                        <button className="text-slate-500 hover:text-white"><Bookmark className="h-4 w-4" /></button>
+                        <button className="text-slate-500 hover:text-white hover:bg-slate-800 p-2 rounded-lg transition-colors"><Share2 className="h-4 w-4" /></button>
+                        <button className="text-slate-500 hover:text-white hover:bg-slate-800 p-2 rounded-lg transition-colors"><Bookmark className="h-4 w-4" /></button>
                     </div>
                 </div>
 
-                {/* Hero Section */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                    <div className="lg:col-span-8 space-y-8">
-                        <div className="space-y-4">
-                            <span className="text-xs font-bold text-accent-red uppercase tracking-widest">
+                    {/* Main Content Area */}
+                    <div className="lg:col-span-8 space-y-12">
+                        <div className="space-y-6">
+                            <span className="text-xs font-bold text-accent-red uppercase tracking-widest flex items-center">
+                                <span className="h-1.5 w-1.5 rounded-full bg-accent-red animate-pulse mr-2" />
                                 {article.category} Intelligence Briefing
                             </span>
-                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground leading-[1.1] tracking-tight">
+                            <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-white leading-[1] tracking-tight">
                                 {article.title}
                             </h1>
-                            <div className="flex items-center space-x-6 pt-4 border-t border-border-slate">
+
+                            <div className="flex flex-wrap gap-y-4 items-center space-x-6 pt-6 border-t border-border-slate">
                                 <div className="flex flex-col">
-                                    <span className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Analyst</span>
+                                    <span className="text-[10px] text-slate-500 uppercase font-bold tracking-[0.2em] mb-1">Lead Analyst</span>
                                     <span className="text-sm font-bold text-white">{article.author.name}</span>
                                 </div>
                                 <div className="flex flex-col border-l border-border-slate pl-6">
-                                    <span className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Published</span>
+                                    <span className="text-[10px] text-slate-500 uppercase font-bold tracking-[0.2em] mb-1">Issue Date</span>
                                     <span className="text-sm font-bold text-white">{article.publishedAt}</span>
                                 </div>
                                 <div className="flex flex-col border-l border-border-slate pl-6">
-                                    <span className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Time</span>
+                                    <span className="text-[10px] text-slate-500 uppercase font-bold tracking-[0.2em] mb-1">Read Duration</span>
                                     <span className="text-sm font-bold text-white">{article.readingTime}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-border-slate shadow-2xl">
+                        <QuickAnswer points={article.summary} />
+
+                        <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-border-slate shadow-2xl bg-slate-900/50">
                             <Image
                                 src="/images/intel-1.jpg"
                                 alt={article.title}
                                 fill
-                                className="object-cover"
+                                className="object-cover opacity-80"
+                                priority
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                            <div className="absolute bottom-6 left-6 right-6">
-                                <p className="text-xl font-medium text-slate-200 leading-snug max-w-2xl italic">
-                                    "The strategic value of the Barents Sea has surpassed the GIUK gap for the first time in thirty years."
-                                </p>
-                            </div>
                         </div>
 
+                        <div
+                            className="prose prose-invert prose-slate max-w-none text-slate-300 leading-relaxed text-lg"
+                            dangerouslySetInnerHTML={{ __html: article.content }}
+                        />
                         <div className="prose prose-invert max-w-none text-slate-300 text-lg leading-relaxed space-y-6">
                             <p>{article.content}</p>
                             {/* More content would go here */}

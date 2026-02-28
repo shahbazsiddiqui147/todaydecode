@@ -1,5 +1,6 @@
 import { AnalysisCard } from "@/components/ui/analysis-card";
 import { Globe, TrendingUp, ShieldAlert, Zap } from "lucide-react";
+import { GlobalRiskMap } from "@/components/maps/global-risk-map";
 
 const FEATURED_ARTICLES = [
   {
@@ -56,6 +57,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <div className="w-full">
+        <GlobalRiskMap />
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {FEATURED_ARTICLES.map((article) => (
