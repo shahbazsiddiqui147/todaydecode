@@ -30,25 +30,33 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Use robust check for maintenance mode env var
-  const maintenanceEnv = String(process.env.MAINTENANCE_MODE || process.env.NEXT_PUBLIC_MAINTENANCE_MODE || '').toLowerCase().trim();
-  const isMaintenanceMode = maintenanceEnv === 'true' || maintenanceEnv === '1' || maintenanceEnv === 'on';
+  // 1. Get maintenance state
+  const m1 = process.env.MAINTENANCE_MODE;
+  const m2 = process.env.NEXT_PUBLIC_MAINTENANCE_MODE;
+  const maintenanceRaw = String(m1 || m2 || '').toLowerCase().trim();
+  const isMaintenanceMode = maintenanceRaw.includes('true') || maintenanceRaw === '1' || maintenanceRaw === 'on';
 
-  // Secondary Redirection Guard for the Server Side
+  // 2. SERVER-SIDE REDIRECTION GUARD
+  // This runs on every page request handled by this layout
   if (isMaintenanceMode) {
-    const list = await headers();
-    const pathname = list.get('x-url') || ''; // Middleware can be configured to pass this
-    const searchParamsString = list.get('x-query') || '';
+    const headerList = await headers();
+    const pathname = headerList.get('x-invoke-path') || ''; // Standard Next.js header for path
 
-    // Check if we are on the coming-soon page to avoid redirect loops
-    // Middleware should have handled this, but we check here too.
-    const isComingSoon = pathname.includes('/coming-soon');
-    const isPreview = searchParamsString.includes('preview=true');
+    // We only redirect if we aren't already going to coming-soon
+    const isComingSoonPage = pathname.includes('/coming-soon');
+    const isStaticAsset = pathname.includes('.') || pathname.startsWith('/_next');
 
-    if (!isComingSoon && !isPreview) {
-      // Only redirect if NOT on the coming-soon page and NOT in preview
-      // Note: next/headers doesn't always have pathname, so we rely on middleware if possible
-      // But the ClientLayout will hide the UI anyway if isMaintenanceMode is true.
+    // Check for preview bypass via cookie or header
+    const hasPreviewCookie = headerList.get('cookie')?.includes('preview_access=true');
+    const hasPreviewQuery = headerList.get('referer')?.includes('preview=true');
+
+    if (!isComingSoonPage && !isStaticAsset && !hasPreviewCookie && !hasPreviewQuery) {
+      // Since we can't reliably get the full path in all scenarios here, 
+      // we rely on ClientLayout to hide everything, but we can attempt a hard redirect
+      // if we are sure we aren't on coming-soon.
+      if (pathname === '/' || pathname === '') {
+        redirect('/coming-soon/');
+      }
     }
   }
 

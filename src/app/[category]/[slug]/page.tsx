@@ -16,6 +16,7 @@ import { AnalysisCard } from "@/components/ui/analysis-card";
 import { FollowDesk } from "@/components/user/follow-desk";
 import { PaywallGate } from "@/components/monetization/paywall-gate";
 import { AdContainer } from "@/components/monetization/ad-container";
+import { redirect } from "next/navigation";
 
 export async function generateMetadata({ params }: { params: { category: string; slug: string } }) {
     const { category, slug } = params;
@@ -35,15 +36,16 @@ export async function generateMetadata({ params }: { params: { category: string;
     });
 }
 
-export default function ArticlePage({ params }: { params: { category: string; slug: string } }) {
-    // Mock data for the template demonstration
-    const article = {
+// Placeholder for actual data fetching function
+async function getArticleData(category: string, slug: string) {
+    // In a real application, this would fetch data from a database or API
+    return {
         title: "The Barents Gap: NATO's Silent Conflict in the High North",
-        category: params.category,
+        category: category,
         region: "High North",
         publishedAt: "February 28, 2026",
         readingTime: "12 min read",
-        slug: params.slug,
+        slug: slug,
         author: {
             name: "Dr. Elena Vance",
             role: "Strategic Analyst",
@@ -75,6 +77,20 @@ export default function ArticlePage({ params }: { params: { category: string; sl
         ],
         content: "Draft content..."
     };
+}
+
+export default async function ArticlePage({ params }: { params: Promise<{ category: string; slug: string }> }) {
+    const { category, slug } = await params;
+
+    // Maintenance Guard
+    const m1 = process.env.MAINTENANCE_MODE;
+    const m2 = process.env.NEXT_PUBLIC_MAINTENANCE_MODE;
+    const raw = String(m1 || m2 || '').toLowerCase();
+    if (raw.includes('true') || raw === '1' || raw === 'on') {
+        redirect('/coming-soon/');
+    }
+
+    const article = await getArticleData(category, slug);
 
     return (
         <div className="relative min-h-screen bg-primary pb-20">
@@ -165,7 +181,7 @@ export default function ArticlePage({ params }: { params: { category: string; sl
                     <KeyTakeaways points={article.summary} />
 
                     <div className="space-y-12">
-                        <QuickAnswer points={article.summary} />
+                        <QuickAnswers />
 
                         <PaywallGate isPremium={article.isPremium}>
                             <div className="prose prose-invert prose-slate max-w-none text-slate-300 leading-relaxed text-lg">

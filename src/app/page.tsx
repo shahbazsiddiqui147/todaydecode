@@ -37,7 +37,16 @@ const FEATURED_ARTICLES = [
   },
 ];
 
+import { redirect } from "next/navigation";
+
 export default function Home() {
+  const m1 = process.env.MAINTENANCE_MODE;
+  const m2 = process.env.NEXT_PUBLIC_MAINTENANCE_MODE;
+  const raw = String(m1 || m2 || '').toLowerCase();
+  if (raw.includes('true') || raw === '1' || raw === 'on') {
+    redirect('/coming-soon/');
+  }
+
   return (
     <div className="space-y-10">
       <section className="space-y-4">
