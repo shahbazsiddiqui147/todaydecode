@@ -78,15 +78,30 @@ async function getArticleData(category: string, slug: string) {
     };
 }
 
-export default async function ArticlePage({ params }: { params: Promise<{ category: string; slug: string }> }) {
-    const { category, slug } = await params;
+import { cookies } from "next/headers";
 
-    // Maintenance Guard
-    const m1 = process.env.MAINTENANCE_MODE;
-    const m2 = process.env.NEXT_PUBLIC_MAINTENANCE_MODE;
-    const raw = String(m1 || m2 || '').toLowerCase();
-    if (raw.includes('true') || raw === '1' || raw === 'on') {
-        redirect('/coming-soon/');
+export default async function ArticlePage({
+    params,
+    searchParams
+}: {
+    params: Promise<{ category: string; slug: string }>,
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+    const { category, slug } = await params;
+    const sParams = await searchParams;
+
+    // Maintenance Guard with Bypass
+    const isPreview = sParams.preview === 'true';
+    const cookieStore = await cookies();
+    const hasCookie = cookieStore.get('preview_access')?.value === 'true';
+
+    if (!isPreview && !hasCookie) {
+        const m1 = process.env.MAINTENANCE_MODE;
+        const m2 = process.env.NEXT_PUBLIC_MAINTENANCE_MODE;
+        const raw = String(m1 || m2 || '').toLowerCase();
+        if (raw.includes('true') || raw === '1' || raw === 'on') {
+            redirect('/coming-soon/');
+        }
     }
 
     const article = await getArticleData(category, slug);

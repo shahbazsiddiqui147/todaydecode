@@ -36,29 +36,8 @@ export default async function RootLayout({
   const maintenanceRaw = String(m1 || m2 || '').toLowerCase().trim();
   const isMaintenanceMode = maintenanceRaw.includes('true') || maintenanceRaw === '1' || maintenanceRaw === 'on';
 
-  // 2. SERVER-SIDE REDIRECTION GUARD
-  // This runs on every page request handled by this layout
-  if (isMaintenanceMode) {
-    const headerList = await headers();
-    const pathname = headerList.get('x-invoke-path') || ''; // Standard Next.js header for path
-
-    // We only redirect if we aren't already going to coming-soon
-    const isComingSoonPage = pathname.includes('/coming-soon');
-    const isStaticAsset = pathname.includes('.') || pathname.startsWith('/_next');
-
-    // Check for preview bypass via cookie or header
-    const hasPreviewCookie = headerList.get('cookie')?.includes('preview_access=true');
-    const hasPreviewQuery = headerList.get('referer')?.includes('preview=true');
-
-    if (!isComingSoonPage && !isStaticAsset && !hasPreviewCookie && !hasPreviewQuery) {
-      // Since we can't reliably get the full path in all scenarios here, 
-      // we rely on ClientLayout to hide everything, but we can attempt a hard redirect
-      // if we are sure we aren't on coming-soon.
-      if (pathname === '/' || pathname === '') {
-        redirect('/coming-soon/');
-      }
-    }
-  }
+  // Maintenance Mode is passed to ClientLayout to hide UI elements
+  // Redirection is handled by middleware.ts and individual page components for better context (searchParams)
 
   return (
     <html lang="en" suppressHydrationWarning>

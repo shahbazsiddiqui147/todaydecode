@@ -38,13 +38,21 @@ const FEATURED_ARTICLES = [
 ];
 
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
-export default function Home() {
-  const m1 = process.env.MAINTENANCE_MODE;
-  const m2 = process.env.NEXT_PUBLIC_MAINTENANCE_MODE;
-  const raw = String(m1 || m2 || '').toLowerCase();
-  if (raw.includes('true') || raw === '1' || raw === 'on') {
-    redirect('/coming-soon/');
+export default async function Home({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
+  const params = await searchParams;
+  const isPreview = params.preview === 'true';
+  const cookieStore = await cookies();
+  const hasCookie = cookieStore.get('preview_access')?.value === 'true';
+
+  if (!isPreview && !hasCookie) {
+    const m1 = process.env.MAINTENANCE_MODE;
+    const m2 = process.env.NEXT_PUBLIC_MAINTENANCE_MODE;
+    const raw = String(m1 || m2 || '').toLowerCase();
+    if (raw.includes('true') || raw === '1' || raw === 'on') {
+      redirect('/coming-soon/');
+    }
   }
 
   return (
