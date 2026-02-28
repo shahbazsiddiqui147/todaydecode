@@ -29,6 +29,12 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import {
+    getAuthors,
+    createAuthor,
+    updateAuthor,
+    deleteAuthor
+} from "@/lib/actions/author-actions";
 
 interface Author {
     id: string;
@@ -58,17 +64,20 @@ export default function AuthorsPage() {
     });
 
     useEffect(() => {
-        fetchAuthors();
+        loadAuthors();
     }, []);
 
-    const fetchAuthors = async () => {
+    const loadAuthors = async () => {
         try {
             setLoading(true);
-            const res = await fetch("/api/admin/authors/");
-            const data = await res.json();
-            setAuthors(data);
+            const res = await getAuthors();
+            if (res.success && res.data) {
+                setAuthors(res.data as Author[]);
+            } else {
+                toast.error(res.error || "Failed to sync personnel manifests.");
+            }
         } catch (err) {
-            toast.error("Failed to sync personnel manifests.");
+            toast.error("Failed to connect to personnel node.");
         } finally {
             setLoading(false);
         }
@@ -81,45 +90,50 @@ export default function AuthorsPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const url = editingAuthor ? `/api/admin/authors/${editingAuthor.id}/` : "/api/admin/authors/";
-        const method = editingAuthor ? "PATCH" : "POST";
 
         const payload = {
-            ...formData,
-            slug: (formData.slug.endsWith('/') ? formData.slug : formData.slug + '/').replace(/^\/+/, ''),
+            name: formData.name,
+            slug: formData.slug,
+            role: formData.role,
+            bio: formData.bio,
+            image: formData.image,
             expertise: formData.expertise.split(",").map(s => s.trim()).filter(Boolean)
         };
 
         try {
-            const res = await fetch(url, {
-                method,
-                body: JSON.stringify(payload),
-                headers: { "Content-Type": "application/json" }
-            });
-            if (res.ok) {
+            let res;
+            if (editingAuthor) {
+                res = await updateAuthor(editingAuthor.id, payload);
+            } else {
+                res = await createAuthor(payload);
+            }
+
+            if (res.success) {
                 toast.success(editingAuthor ? "Personnel record updated." : "New analyst initialized.");
                 setIsModalOpen(false);
                 setEditingAuthor(null);
                 setFormData({ name: "", slug: "", role: "", bio: "", image: "", expertise: "" });
-                fetchAuthors();
+                loadAuthors();
             } else {
-                toast.error("Server synchronization failed.");
+                toast.error(res.error || "Server synchronization failed.");
             }
         } catch (err) {
             toast.error("Network interface error.");
         }
     };
 
-    const handleDelete = async (id: string) => {
+    const handleDeleteClick = async (id: string) => {
         if (!confirm("Confirm Record Termination? This action is irreversible.")) return;
         try {
-            const res = await fetch(`/api/admin/authors/${id}/`, { method: "DELETE" });
-            if (res.ok) {
+            const res = await deleteAuthor(id);
+            if (res.success) {
                 toast.success("Personnel record purged.");
-                fetchAuthors();
+                loadAuthors();
+            } else {
+                toast.error(res.error || "Purge aborted.");
             }
         } catch (err) {
-            toast.error("Purge aborted. Internal error.");
+            toast.error("Internal connection error.");
         }
     };
 
@@ -222,7 +236,7 @@ export default function AuthorsPage() {
                                         >
                                             <Edit2 className="h-3 w-3 mr-2" /> <span className="text-[10px] uppercase font-black">Configure</span>
                                         </Button>
-                                        <Button variant="danger" className="h-8 w-8 p-0 rounded-lg" onClick={() => handleDelete(author.id)}>
+                                        <Button variant="danger" className="h-8 w-8 p-0 rounded-lg" onClick={() => handleDeleteClick(author.id)}>
                                             <Trash2 className="h-3 w-3" />
                                         </Button>
                                     </div>

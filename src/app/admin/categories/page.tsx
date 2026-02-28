@@ -28,15 +28,21 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import {
+    getCategories,
+    createCategory,
+    updateCategory,
+    deleteCategory
+} from "@/lib/actions/category-actions";
 
 interface Category {
     id: string;
     name: string;
     slug: string;
-    description: string;
+    description: string | null;
     order: number;
     isVisible: boolean;
-    icon: string;
+    icon: string | null;
 }
 
 export default function CategoriesPage() {
@@ -56,17 +62,20 @@ export default function CategoriesPage() {
     });
 
     useEffect(() => {
-        fetchCategories();
+        loadCategories();
     }, []);
 
-    const fetchCategories = async () => {
+    const loadCategories = async () => {
         try {
             setLoading(true);
-            const res = await fetch("/api/admin/categories/");
-            const data = await res.json();
-            setCategories(data);
+            const res = await getCategories();
+            if (res.success && res.data) {
+                setCategories(res.data as Category[]);
+            } else {
+                toast.error(res.error || "Failed to fetch taxonomical data.");
+            }
         } catch (err) {
-            toast.error("Failed to fetch taxonomical data.");
+            toast.error("Failed to connect to management node.");
         } finally {
             setLoading(false);
         }
@@ -74,45 +83,50 @@ export default function CategoriesPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const url = editingCategory ? `/api/admin/categories/${editingCategory.id}/` : "/api/admin/categories/";
-        const method = editingCategory ? "PATCH" : "POST";
 
         const payload = {
-            ...formData,
-            slug: (formData.slug.endsWith('/') ? formData.slug : formData.slug + '/').replace(/^\/+/, ''),
-            order: parseInt(formData.order) || 0
+            name: formData.name,
+            slug: formData.slug,
+            description: formData.description,
+            order: parseInt(formData.order) || 0,
+            isVisible: formData.isVisible,
+            icon: formData.icon
         };
 
         try {
-            const res = await fetch(url, {
-                method,
-                body: JSON.stringify(payload),
-                headers: { "Content-Type": "application/json" }
-            });
-            if (res.ok) {
+            let res;
+            if (editingCategory) {
+                res = await updateCategory(editingCategory.id, payload);
+            } else {
+                res = await createCategory(payload);
+            }
+
+            if (res.success) {
                 toast.success(editingCategory ? "Category node updated." : "New taxonomical node initialized.");
                 setIsModalOpen(false);
                 setEditingCategory(null);
                 setFormData({ name: "", slug: "", description: "", order: "0", isVisible: true, icon: "" });
-                fetchCategories();
+                loadCategories();
             } else {
-                toast.error("Database synchronization failed.");
+                toast.error(res.error || "Database synchronization failed.");
             }
         } catch (err) {
             toast.error("Network interface error.");
         }
     };
 
-    const handleDelete = async (id: string) => {
+    const handleDeleteClick = async (id: string) => {
         if (!confirm("Confirm Node Deletion? All child content will be disconnected.")) return;
         try {
-            const res = await fetch(`/api/admin/categories/${id}/`, { method: "DELETE" });
-            if (res.ok) {
+            const res = await deleteCategory(id);
+            if (res.success) {
                 toast.success("Taxonomical node purged.");
-                fetchCategories();
+                loadCategories();
+            } else {
+                toast.error(res.error || "Purge aborted.");
             }
         } catch (err) {
-            toast.error("Purge aborted. Internal error.");
+            toast.error("Internal connection error.");
         }
     };
 
@@ -198,7 +212,7 @@ export default function CategoriesPage() {
                                         >
                                             <Settings2 className="h-3 w-3 mr-2" /> <span className="text-[10px] uppercase font-black">Edit</span>
                                         </Button>
-                                        <Button variant="danger" className="h-8 w-8 p-0 rounded-lg" onClick={() => handleDelete(cat.id)}>
+                                        <Button variant="danger" className="h-8 w-8 p-0 rounded-lg" onClick={() => handleDeleteClick(cat.id)}>
                                             <Trash2 className="h-3 w-3" />
                                         </Button>
                                     </div>
