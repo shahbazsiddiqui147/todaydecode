@@ -205,7 +205,7 @@ export default function CategoriesPage() {
                                         >
                                             <Settings2 className="h-3 w-3 mr-2" /> <span className="text-[10px] uppercase font-black">Edit</span>
                                         </Button>
-                                        <Button variant="danger" className="h-8 w-8 p-0 rounded-lg" onClick={() => handleDeleteClick(cat.id)}>
+                                        <Button variant="destructive" className="h-8 w-8 p-0 rounded-lg" onClick={() => handleDeleteClick(cat.id)}>
                                             <Trash2 className="h-3 w-3" />
                                         </Button>
                                     </div>

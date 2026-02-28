@@ -229,7 +229,7 @@ export default function AuthorsPage() {
                                         >
                                             <Edit2 className="h-3 w-3 mr-2" /> <span className="text-[10px] uppercase font-black">Configure</span>
                                         </Button>
-                                        <Button variant="danger" className="h-8 w-8 p-0 rounded-lg" onClick={() => handleDeleteClick(author.id)}>
+                                        <Button variant="destructive" className="h-8 w-8 p-0 rounded-lg" onClick={() => handleDeleteClick(author.id)}>
                                             <Trash2 className="h-3 w-3" />
                                         </Button>
                                     </div>

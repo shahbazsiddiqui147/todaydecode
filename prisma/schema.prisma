@@ -27,12 +27,21 @@ enum Region {
   AFRICA 
 }
 
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
 model Article {
   id              String    @id @default(cuid())
   title           String
   slug            String    @unique
+  onPageLead      String?   @db.Text // Distinct from SEO metaDescription
   summary         String    @db.Text
   content         String    @db.Text
+  status          ArticleStatus @default(DRAFT)
+  isFeatured      Boolean   @default(false)
   
   // Data-Driven Attributes
   region          Region    @default(GLOBAL)
