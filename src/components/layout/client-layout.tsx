@@ -5,6 +5,7 @@ import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
 import { BreakingAlert } from "@/components/ui/breaking-alert";
 import { ReactNode } from "react";
+import { ShieldAlert } from "lucide-react";
 
 interface ClientLayoutProps {
     children: ReactNode;
@@ -16,7 +17,6 @@ export function ClientLayout({ children, isMaintenanceMode }: ClientLayoutProps)
     const searchParams = useSearchParams();
 
     // Check if we are on the coming-soon page (more robust matching)
-    // pathname can be "/coming-soon" or "/coming-soon/"
     const isComingSoon = pathname === '/coming-soon' || pathname === '/coming-soon/';
 
     // Developer bypass check (matching middleware logic)
@@ -29,10 +29,18 @@ export function ClientLayout({ children, isMaintenanceMode }: ClientLayoutProps)
 
     if (shouldHideMenus) {
         return (
-            <div className="min-h-screen bg-black w-full overflow-hidden">
-                <main className="min-h-screen">
-                    {children}
-                </main>
+            <div className="min-h-screen bg-black w-full overflow-hidden flex flex-col items-center justify-center">
+                {/* Fallback internal view if redirect takes a second */}
+                {!isComingSoon ? (
+                    <div className="flex flex-col items-center space-y-4 animate-pulse">
+                        <ShieldAlert className="h-12 w-12 text-accent-red" />
+                        <span className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">Establishing Protocol...</span>
+                    </div>
+                ) : (
+                    <main className="min-h-screen w-full">
+                        {children}
+                    </main>
+                )}
             </div>
         );
     }
