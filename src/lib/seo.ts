@@ -10,6 +10,7 @@ export function constructMetadata({
     const url = `${SITE_URL}${path.endsWith('/') ? path : path + '/'}`;
 
     return {
+        metadataBase: new URL(SITE_URL),
         title,
         description,
         alternates: {

@@ -17,17 +17,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
+import { constructMetadata } from "@/lib/seo";
+
+export const metadata = constructMetadata({
   title: "Today Decode — Global Intelligence & Geopolitical Risk",
   description: "Strategic analysis of Geopolitics, Economy, Security, and Global Shifts.",
-  alternates: {
-    canonical: "https://todaydecode.com/",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+  path: "/",
+});
 
 
 
