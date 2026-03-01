@@ -25,6 +25,8 @@ export const metadata = constructMetadata({
   path: "/",
 });
 
+import { PreviewBanner } from "@/components/ui/PreviewBanner";
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -35,9 +37,6 @@ export default async function RootLayout({
   const m2 = process.env.NEXT_PUBLIC_MAINTENANCE_MODE;
   const maintenanceRaw = String(m1 || m2 || '').toLowerCase().trim();
   const isMaintenanceMode = maintenanceRaw.includes('true') || maintenanceRaw === '1' || maintenanceRaw === 'on';
-
-  // Maintenance Mode is passed to ClientLayout to hide UI elements
-  // Redirection is handled by middleware.ts and individual page components for better context (searchParams)
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -53,6 +52,7 @@ export default async function RootLayout({
               <ClientLayout isMaintenanceMode={isMaintenanceMode}>
                 {children}
               </ClientLayout>
+              <PreviewBanner />
             </Suspense>
           </ThemeProvider>
         </AuthProvider>

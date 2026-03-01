@@ -44,16 +44,40 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next();
     }
 
-    // 4. BYPASS (Developer Preview)
-    if (searchParams.get('preview') === 'true' || request.cookies.get('preview_access')?.value === 'true') {
+    // 4. STRATEGIC PREVIEW BYPASS
+    const isPreviewParam = searchParams.get('preview') === 'true';
+    const hasPreviewCookie = request.cookies.get('TD_PREVIEW_ACCESS')?.value === 'authorized';
+
+    if (isPreviewParam || hasPreviewCookie) {
+        // Enforce trailing slash even in preview mode
+        if (!pathname.endsWith('/') && !pathname.includes('.')) {
+            const redirectUrl = new URL(pathname + '/', request.url);
+            searchParams.forEach((value, key) => redirectUrl.searchParams.set(key, value));
+            const response = NextResponse.redirect(redirectUrl);
+            if (isPreviewParam) {
+                response.cookies.set('TD_PREVIEW_ACCESS', 'authorized', {
+                    path: '/',
+                    maxAge: 60 * 60 * 24, // 24 hours persistence
+                    httpOnly: true,
+                    sameSite: 'lax'
+                });
+            }
+            return response;
+        }
+
         const response = NextResponse.next();
-        if (searchParams.get('preview') === 'true') {
-            response.cookies.set('preview_access', 'true', { path: '/', maxAge: 60 * 60 * 24 * 7 });
+        if (isPreviewParam && !hasPreviewCookie) {
+            response.cookies.set('TD_PREVIEW_ACCESS', 'authorized', {
+                path: '/',
+                maxAge: 60 * 60 * 24,
+                httpOnly: true,
+                sameSite: 'lax'
+            });
         }
         return response;
     }
 
-    // 5. REDIRECTION
+    // 5. REDIRECTION (Maintenance Mode)
     if (isMaintenanceActive) {
         const target = new URL('/coming-soon/', request.url);
         return NextResponse.redirect(target);

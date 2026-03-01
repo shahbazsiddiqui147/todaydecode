@@ -20,40 +20,20 @@ export function ClientLayout({ children, isMaintenanceMode }: ClientLayoutProps)
     const isComingSoon = pathname === '/coming-soon' || pathname === '/coming-soon/';
     const isAuthPath = pathname.startsWith('/auth');
     const isAdminPath = pathname.startsWith('/admin');
-    const isPreviewParam = searchParams.get('preview') === 'true';
-
-    // FAIL-SAFE REDIRECT: Push public traffic to coming-soon
-    useEffect(() => {
-        if (isMaintenanceMode && !isComingSoon && !isPreviewParam && !isAdminPath && !isAuthPath) {
-            router.push('/coming-soon/');
-        }
-    }, [isMaintenanceMode, isComingSoon, isPreviewParam, isAdminPath, isAuthPath, router]);
 
     // UI RENDERING LOGIC
     // We hide the standard layout (Sidebar/Header) for:
     // 1. Coming Soon page
     // 2. Auth pages (Signin/Signup)
     // 3. Admin pages (Management Workspace)
-    // 4. Public pages during maintenance
-    const shouldHideStandardLayout = isComingSoon || isAuthPath || isAdminPath || (isMaintenanceMode && !isPreviewParam);
+    const shouldHideStandardLayout = isComingSoon || isAuthPath || isAdminPath;
 
     if (shouldHideStandardLayout) {
         return (
             <div className="min-h-screen bg-black w-full overflow-hidden flex flex-col items-center justify-center">
-                {/* 
-                  Show Pulse Shield ONLY if this is a public page caught in maintenance.
-                  If it's Auth or Coming Soon, render the children immediately.
-                */}
-                {(isMaintenanceMode && !isPreviewParam && !isComingSoon && !isAdminPath && !isAuthPath) ? (
-                    <div className="flex flex-col items-center space-y-4 animate-pulse">
-                        <ShieldAlert className="h-12 w-12 text-accent-red" />
-                        <span className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">Establishing Protocol...</span>
-                    </div>
-                ) : (
-                    <main className="min-h-screen w-full">
-                        {children}
-                    </main>
-                )}
+                <main className="min-h-screen w-full">
+                    {children}
+                </main>
             </div>
         );
     }
