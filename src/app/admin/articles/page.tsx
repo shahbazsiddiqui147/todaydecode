@@ -26,7 +26,8 @@ import {
     AlertTriangle,
     CheckCircle2,
     Clock,
-    MoreVertical
+    MoreVertical,
+    Eye
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -122,7 +123,7 @@ export default function ArticlesPage() {
                     <h1 className="text-3xl font-black tracking-tight text-foreground uppercase italic pb-1">Intelligence <span className="text-muted-foreground/60 not-italic">Hub</span></h1>
                     <p className="text-muted-foreground text-xs font-black uppercase tracking-widest">Manage geopolitical reports and scenarios.</p>
                 </div>
-                <Link href="/admin/articles/new">
+                <Link href="/admin/articles/new/">
                     <Button className="h-11 rounded-xl font-black uppercase tracking-widest text-[11px] px-6 shadow-xl">
                         <Plus className="h-4 w-4 mr-2" /> File New Report
                     </Button>
@@ -177,7 +178,7 @@ export default function ArticlesPage() {
                                                 </div>
                                                 <div className="space-y-1">
                                                     <h3 className="text-sm font-black text-foreground leading-none tracking-tight hover:text-primary transition-colors cursor-pointer uppercase">
-                                                        {article.title}
+                                                        <Link href={`/admin/articles/${article.id}/`}>{article.title}</Link>
                                                     </h3>
                                                     <div className="flex items-center gap-2 text-[10px] text-muted-foreground/60 font-black uppercase tracking-widest">
                                                         <span className="flex items-center gap-1">
@@ -206,8 +207,15 @@ export default function ArticlesPage() {
                                                     {getRiskBadge(article.riskLevel)}
                                                 </div>
                                                 <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    <Link href={`/admin/articles/edit/${article.id}`}>
-                                                        <Button variant="outline" className="h-8 w-8 p-0 rounded-lg border-border hover:bg-secondary">
+                                                    {article.status === "PUBLISHED" && (
+                                                        <Link href={`/${article.category.slug}${article.slug}`} target="_blank">
+                                                            <Button variant="outline" className="h-8 w-8 p-0 rounded-lg border-border hover:bg-secondary" title="View Live Node">
+                                                                <Eye className="h-3 w-3" />
+                                                            </Button>
+                                                        </Link>
+                                                    )}
+                                                    <Link href={`/admin/articles/${article.id}/`}>
+                                                        <Button variant="outline" className="h-8 w-8 p-0 rounded-lg border-border hover:bg-secondary" title="Edit Analysis">
                                                             <Edit2 className="h-3 w-3" />
                                                         </Button>
                                                     </Link>
@@ -215,6 +223,7 @@ export default function ArticlesPage() {
                                                         variant="destructive"
                                                         className="h-8 w-8 p-0 rounded-lg shadow-lg shadow-destructive/20"
                                                         onClick={() => handleDelete(article.id)}
+                                                        title="Purge Node"
                                                     >
                                                         <Trash2 className="h-3 w-3" />
                                                     </Button>

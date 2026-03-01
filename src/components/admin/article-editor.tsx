@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
     upsertArticle,
-    getAdminCategories,
-    getAdminAuthors
 } from "@/lib/actions/admin-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,16 +21,16 @@ import {
     Shield,
     Globe,
     Database,
-    Eye,
-    Layout,
-    Settings,
     FileText,
     Zap,
     TrendingUp,
     MessageSquare,
     Link2,
     Plus,
-    Trash2
+    Trash2,
+    RefreshCw,
+    Activity,
+    AlertCircle
 } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
@@ -41,18 +39,17 @@ import { Switch } from "@/components/ui/switch";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
-import { RefreshCw } from "lucide-react";
 
 interface ArticleEditorProps {
     article?: any;
+    initialCategories: any[];
+    initialAuthors: any[];
 }
 
-export default function ArticleEditor({ article }: ArticleEditorProps) {
+export default function ArticleEditor({ article, initialCategories, initialAuthors }: ArticleEditorProps) {
     const router = useRouter();
-    const [categories, setCategories] = useState<any[]>([]);
-    const [authors, setAuthors] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
-    const [activeTab, setActiveTab] = useState<"content" | "metadata" | "forecast" | "aeo">("content");
+    const [activeTab, setActiveTab] = useState<"content" | "forecast" | "aeo" | "meta">("content");
 
     const [formData, setFormData] = useState({
         title: article?.title || "",
@@ -78,22 +75,8 @@ export default function ArticleEditor({ article }: ArticleEditorProps) {
         },
         faqData: Array.isArray(article?.faqData) ? article.faqData : [
             { question: "What is the primary driver of this conflict?", answer: "" },
-            { question: "How does this impact global markets?", answer: "" }
         ],
     });
-
-    const loadData = async () => {
-        const [cats, auths] = await Promise.all([
-            getAdminCategories(),
-            getAdminAuthors()
-        ]);
-        setCategories(cats);
-        setAuthors(auths);
-    };
-
-    useEffect(() => {
-        loadData();
-    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -138,66 +121,65 @@ export default function ArticleEditor({ article }: ArticleEditorProps) {
         }));
     };
 
-    const generateSlug = () => {
-        const s = formData.title.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
-        setFormData(prev => ({ ...prev, slug: s + '/' }));
-    };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        try {
-            const res = await upsertArticle({
-                id: article?.id,
-                ...formData,
-                riskScore: Number(formData.riskScore),
-                impactScore: Number(formData.impactScore),
-            });
+        const promise = upsertArticle({
+            id: article?.id,
+            ...formData,
+            riskScore: Number(formData.riskScore),
+            impactScore: Number(formData.impactScore),
+        });
 
-            if (res.success) {
-                toast.success(article ? "Intelligence report updated." : "New report filed successfully.");
-                router.push("/admin/articles/");
-                router.refresh();
-            } else {
-                toast.error(res.error || "Failed to file report.");
-            }
-        } catch (err) {
-            toast.error("Network interface error.");
+        toast.promise(promise, {
+            loading: "Syncing intelligence manifest...",
+            success: (res) => {
+                if (res.success) {
+                    router.push("/admin/articles/");
+                    router.refresh();
+                    return article ? "Intelligence report hardened." : "New report filed successfully.";
+                }
+                throw new Error(res.error || "Sync failed.");
+            },
+            error: (err) => err.message || "Network interface error.",
+        });
+
+        try {
+            await promise;
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-8 pb-20">
-            {/* Header Sticky */}
-            <div className="sticky top-0 z-30 flex items-center justify-between p-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200 dark:border-slate-800 shadow-sm -mx-4 sm:-mx-6 -mt-6 mb-8 transition-all duration-300">
+        <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Command Header */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-border">
                 <div className="flex items-center gap-4">
-                    <Link href="/admin/articles">
-                        <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
-                            <ChevronLeft className="h-5 w-5 text-slate-500" />
+                    <Link href="/admin/articles/">
+                        <Button variant="outline" size="icon" className="h-10 w-10 rounded-xl border-border hover:bg-muted/50">
+                            <ChevronLeft className="h-5 w-5" />
                         </Button>
                     </Link>
                     <div>
-                        <div className="flex items-center gap-2">
-                            <Badge variant="outline" className="text-[10px] font-black tracking-widest uppercase py-0 px-2 h-5 border-slate-200 dark:border-slate-700 text-slate-500">
-                                {article ? "RE-ROUTING REPORT" : "NEW INTEL SCAN"}
+                        <div className="flex items-center gap-2 mb-1">
+                            <Badge className="bg-primary/10 text-primary border-primary/20 text-[10px] font-black uppercase tracking-widest px-2 py-0">
+                                {article ? "Operational Update" : "Nodal Initialization"}
                             </Badge>
-                            <span className="text-[10px] text-slate-300 font-bold">/</span>
-                            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter italic">Sector: Geopolitical Intelligence</span>
+                            <span className="text-[10px] text-muted-foreground font-black uppercase tracking-widest opacity-40 italic">#WarRoomProtocol</span>
                         </div>
-                        <h1 className="text-xl font-black uppercase italic tracking-tighter text-slate-900 dark:text-white leading-none">
-                            {formData.title || "UNTITLED_INTEL_REPORT"}
+                        <h1 className="text-2xl font-black uppercase italic tracking-tighter text-foreground leading-none">
+                            {formData.title || "UNTITLED_INTEL_MODULE"}
                         </h1>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                     <Select value={formData.status} onValueChange={(v: string) => handleSelectChange("status", v)}>
-                        <SelectTrigger className="w-[140px] h-10 rounded-none bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-[10px] font-black uppercase tracking-widest focus:ring-0">
+                        <SelectTrigger className="w-[140px] h-10 rounded-xl bg-card border-border text-[10px] font-black uppercase tracking-widest focus:ring-primary">
                             <SelectValue placeholder="STATUS" />
                         </SelectTrigger>
-                        <SelectContent className="rounded-none border-slate-200 dark:border-slate-800 text-[10px] font-black uppercase">
+                        <SelectContent className="rounded-xl border-border text-[10px] font-black uppercase">
                             <SelectItem value="DRAFT">DRAFT</SelectItem>
                             <SelectItem value="PUBLISHED">PUBLISH</SelectItem>
                             <SelectItem value="ARCHIVED">ARCHIVE</SelectItem>
@@ -206,331 +188,319 @@ export default function ArticleEditor({ article }: ArticleEditorProps) {
                     <Button
                         type="submit"
                         disabled={loading}
-                        className="bg-slate-900 dark:bg-white dark:text-slate-950 hover:bg-slate-800 dark:hover:bg-slate-200 rounded-none h-10 px-8 font-black uppercase italic tracking-tighter transition-all active:scale-95 shadow-xl disabled:opacity-50"
+                        className="h-10 px-8 rounded-xl font-black uppercase italic tracking-tighter shadow-lg shadow-primary/20 active:scale-95 transition-all text-[11px]"
                     >
-                        {loading ? < Zap className="h-4 w-4 animate-pulse" /> : <Save className="h-4 w-4 mr-2" />}
-                        {article ? "Commit Updates" : "File Report"}
+                        {loading ? <RefreshCw className="h-4 w-4 animate-spin mr-2" /> : <Save className="h-4 w-4 mr-2" />}
+                        {article ? "Commit Intelligence" : "Initialize Node"}
                     </Button>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                {/* Main Content Area */}
-                <div className="lg:col-span-8 space-y-8">
-                    {/* Tabs / Navigation */}
-                    <div className="flex items-center border-b border-slate-200 dark:border-slate-800 overflow-x-auto scroller-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                {/* Left Column: Analysis Cockpit */}
+                <div className="lg:col-span-8 space-y-6">
+                    {/* Navigation Tabs (Strategic Selection) */}
+                    <div className="flex items-center gap-1 p-1 bg-muted/30 rounded-2xl border border-border/50">
                         {[
-                            { id: "content", label: "Report Body", icon: FileText },
-                            { id: "forecast", label: "Scenario modeling", icon: TrendingUp },
-                            { id: "aeo", label: "AI & Citations", icon: Zap },
-                            { id: "metadata", label: "Search & SEO", icon: Settings },
-                        ].map(tab => (
+                            { id: "content", label: "Analysis", icon: FileText },
+                            { id: "forecast", label: "Scenarios", icon: TrendingUp },
+                            { id: "aeo", label: "AEO/GEO", icon: Zap },
+                            { id: "meta", label: "Intelligence Map (SEO)", icon: Globe },
+                        ].map((tab) => (
                             <button
                                 key={tab.id}
                                 type="button"
                                 onClick={() => setActiveTab(tab.id as any)}
                                 className={cn(
-                                    "flex items-center gap-2 px-6 py-3 text-[10px] font-black uppercase tracking-widest border-b-2 transition-all whitespace-nowrap",
-                                    activeTab === tab.id ? "border-slate-900 dark:border-white text-slate-900 dark:text-white" : "border-transparent text-slate-400 hover:text-slate-600"
+                                    "flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                                    activeTab === tab.id
+                                        ? "bg-background text-foreground shadow-sm border border-border/50"
+                                        : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                                 )}
                             >
-                                <tab.icon className="h-3 w-3" />
+                                <tab.icon className="h-3.5 w-3.5" />
                                 {tab.label}
                             </button>
                         ))}
                     </div>
 
-                    {activeTab === "content" && (
-                        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                            <div className="space-y-2">
-                                <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Primary Headline</Label>
-                                <div className="flex gap-2">
+                    {/* Tab Panes */}
+                    <div className="min-h-[600px] animate-in fade-in slide-in-from-bottom-2 duration-500">
+                        {activeTab === "content" && (
+                            <div className="space-y-6">
+                                <div className="space-y-2">
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Primary Intelligence Headline</Label>
                                     <Input
                                         name="title"
                                         value={formData.title}
                                         onChange={handleChange}
                                         placeholder="ENTER HEADLINE..."
-                                        className="text-2xl font-bold h-14 bg-transparent border-slate-200 dark:border-slate-800 rounded-none focus-visible:ring-slate-900 placeholder:text-slate-200 flex-1"
+                                        className="text-2xl font-black h-16 bg-card border-border rounded-2xl focus-visible:ring-primary px-6 uppercase tracking-tight italic"
                                     />
-                                    <Button type="button" variant="outline" className="h-14 rounded-none px-4" onClick={generateSlug} title="Sync Slug">
-                                        <Link2 className="h-4 w-4" />
-                                    </Button>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1 flex justify-between">
+                                        <span>On-Page Lead (Sovereign Intro)</span>
+                                        <span className="opacity-40 lowercase italic font-normal">Displayed as hero description</span>
+                                    </Label>
+                                    <Textarea
+                                        name="onPageLead"
+                                        value={formData.onPageLead}
+                                        onChange={handleChange}
+                                        placeholder="A high-end tactical hook for the live analysis..."
+                                        className="min-h-[100px] text-sm font-medium bg-muted/20 border-border rounded-2xl resize-none px-6 py-4 transition-focus"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Executive Summary (Global Feed)</Label>
+                                    <Textarea
+                                        name="summary"
+                                        value={formData.summary}
+                                        onChange={handleChange}
+                                        placeholder="Institutional brief for the intelligence silos..."
+                                        className="min-h-[120px] text-sm font-medium bg-card border-border rounded-2xl resize-none px-6 py-4"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1 mb-2 block">Deep Intelligence Analysis (Full Core)</Label>
+                                    <div className="rounded-2xl border border-border overflow-hidden bg-background">
+                                        <RichTextEditor
+                                            value={formData.content}
+                                            onChange={(val) => setFormData(prev => ({ ...prev, content: val }))}
+                                            placeholder="The full breakdown of strategic intelligence..."
+                                        />
+                                    </div>
                                 </div>
                             </div>
+                        )}
 
-                            <div className="space-y-2">
-                                <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500 italic">On-Page Lead (Institutional Access Intro)</Label>
-                                <Textarea
-                                    name="onPageLead"
-                                    value={formData.onPageLead}
-                                    onChange={handleChange}
-                                    placeholder="A high-visibility hook for the live page..."
-                                    className="min-h-[80px] text-sm italic font-medium bg-slate-50/50 dark:bg-slate-950/50 border-slate-200 dark:border-slate-800 rounded-none resize-none px-4 py-3"
-                                />
-                            </div>
-
-                            <div className="space-y-2">
-                                <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Executive Summary (Global Feed)</Label>
-                                <Textarea
-                                    name="summary"
-                                    value={formData.summary}
-                                    onChange={handleChange}
-                                    placeholder="Brief brief for the intelligence silos..."
-                                    className="min-h-[100px] text-sm font-medium bg-transparent border-slate-200 dark:border-slate-800 rounded-none resize-none px-4 py-3"
-                                />
-                            </div>
-
-                            <div className="space-y-2">
-                                <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Intelligence Briefing (Full Analysis)</Label>
-                                <RichTextEditor
-                                    value={formData.content}
-                                    onChange={(val) => setFormData(prev => ({ ...prev, content: val }))}
-                                    placeholder="The full breakdown of geopolitical analysis..."
-                                />
-                            </div>
-                        </div>
-                    )}
-
-                    {activeTab === "forecast" && (
-                        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                            <div className="bg-emerald-500/5 border border-emerald-500/10 p-6 space-y-6">
-                                <div className="flex items-center gap-2">
-                                    <TrendingUp className="h-4 w-4 text-emerald-500" />
-                                    <h2 className="text-sm font-black uppercase italic tracking-tighter">Strategic convergence (Best Case)</h2>
-                                </div>
-                                <div className="space-y-4">
+                        {activeTab === "forecast" && (
+                            <div className="space-y-6">
+                                <div className="p-6 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 space-y-4">
+                                    <div className="flex items-center gap-2">
+                                        <TrendingUp className="h-4 w-4 text-emerald-500" />
+                                        <h3 className="text-xs font-black uppercase italic tracking-tighter text-emerald-600 dark:text-emerald-400">Strategic Convergence (Best Case)</h3>
+                                    </div>
                                     <Input
                                         value={formData.scenarios.best.title}
                                         onChange={(e) => handleScenarioChange("best", "title", e.target.value)}
                                         placeholder="SCENARIO TITLE..."
-                                        className="bg-white dark:bg-slate-950 rounded-none border-slate-200 dark:border-slate-800 font-bold"
+                                        className="bg-background border-border/50 rounded-xl font-black uppercase text-[11px]"
                                     />
                                     <Textarea
                                         value={formData.scenarios.best.description}
                                         onChange={(e) => handleScenarioChange("best", "description", e.target.value)}
-                                        placeholder="BEST CASE DESCRIPTION..."
-                                        className="bg-white dark:bg-slate-950 rounded-none border-slate-200 dark:border-slate-800 h-32"
+                                        placeholder="ESTABLISH THE PARAMETERS..."
+                                        className="bg-background border-border/50 rounded-xl min-h-[100px] text-sm"
                                     />
                                 </div>
-                            </div>
 
-                            <div className="bg-blue-500/5 border border-blue-500/10 p-6 space-y-6">
-                                <div className="flex items-center gap-2">
-                                    <Zap className="h-4 w-4 text-blue-500" />
-                                    <h2 className="text-sm font-black uppercase italic tracking-tighter">Linear Tension (Most Likely)</h2>
-                                </div>
-                                <div className="space-y-4">
+                                <div className="p-6 rounded-2xl border border-blue-500/20 bg-blue-500/5 space-y-4">
+                                    <div className="flex items-center gap-2">
+                                        <Activity className="h-4 w-4 text-blue-500" />
+                                        <h3 className="text-xs font-black uppercase italic tracking-tighter text-blue-600 dark:text-blue-400">Linear Tension (Most Likely)</h3>
+                                    </div>
                                     <Input
                                         value={formData.scenarios.likely.title}
                                         onChange={(e) => handleScenarioChange("likely", "title", e.target.value)}
                                         placeholder="SCENARIO TITLE..."
-                                        className="bg-white dark:bg-slate-950 rounded-none border-slate-200 dark:border-slate-800 font-bold"
+                                        className="bg-background border-border/50 rounded-xl font-black uppercase text-[11px]"
                                     />
                                     <Textarea
                                         value={formData.scenarios.likely.description}
                                         onChange={(e) => handleScenarioChange("likely", "description", e.target.value)}
-                                        placeholder="MOST LIKELY DESCRIPTION..."
-                                        className="bg-white dark:bg-slate-950 rounded-none border-slate-200 dark:border-slate-800 h-32"
+                                        placeholder="ESTABLISH THE PARAMETERS..."
+                                        className="bg-background border-border/50 rounded-xl min-h-[100px] text-sm"
                                     />
                                 </div>
-                            </div>
 
-                            <div className="bg-red-500/5 border border-red-500/10 p-6 space-y-6">
-                                <div className="flex items-center gap-2">
-                                    <Shield className="h-4 w-4 text-red-500" />
-                                    <h2 className="text-sm font-black uppercase italic tracking-tighter">Systemic Fragmentation (Worst Case)</h2>
-                                </div>
-                                <div className="space-y-4">
+                                <div className="p-6 rounded-2xl border border-red-500/20 bg-red-500/5 space-y-4">
+                                    <div className="flex items-center gap-2">
+                                        <AlertCircle className="h-4 w-4 text-red-500" />
+                                        <h3 className="text-xs font-black uppercase italic tracking-tighter text-red-600 dark:text-red-400">Systemic Fragmentation (Worst Case)</h3>
+                                    </div>
                                     <Input
                                         value={formData.scenarios.worst.title}
                                         onChange={(e) => handleScenarioChange("worst", "title", e.target.value)}
                                         placeholder="SCENARIO TITLE..."
-                                        className="bg-white dark:bg-slate-950 rounded-none border-slate-200 dark:border-slate-800 font-bold"
+                                        className="bg-background border-border/50 rounded-xl font-black uppercase text-[11px]"
                                     />
                                     <Textarea
                                         value={formData.scenarios.worst.description}
                                         onChange={(e) => handleScenarioChange("worst", "description", e.target.value)}
-                                        placeholder="WORST CASE DESCRIPTION..."
-                                        className="bg-white dark:bg-slate-950 rounded-none border-slate-200 dark:border-slate-800 h-32"
+                                        placeholder="ESTABLISH THE PARAMETERS..."
+                                        className="bg-background border-border/50 rounded-xl min-h-[100px] text-sm"
                                     />
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
 
-                    {activeTab === "aeo" && (
-                        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                            <div className="bg-slate-900 text-white p-8 space-y-6 shadow-2xl">
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-2">
-                                        <Zap className="h-5 w-5 text-emerald-400 animate-pulse" />
-                                        <h2 className="text-md font-black uppercase italic">AEO/GEO Optimization Hub</h2>
-                                    </div>
-                                    <Badge className="bg-emerald-500 text-white border-none">AI CITATION READY</Badge>
-                                </div>
-                                <p className="text-slate-400 text-xs font-medium max-w-2xl">
-                                    These fields directly feed the semantic layer of Today Decode, enabling citation by Google SGE, Perplexity, and OpenAI O1. Use concise, data-rich snippets.
-                                </p>
-
-                                <div className="space-y-6 pt-4">
-                                    <div className="flex items-center justify-between">
-                                        <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Quick Answer Intelligence (FAQ)</h3>
-                                        <Button type="button" variant="outline" size="sm" onClick={addFaq} className="h-7 text-[9px] border-white/10 hover:bg-white/5 text-white bg-transparent rounded-none">
-                                            <Plus className="h-3 w-3 mr-1" /> Add Node
-                                        </Button>
+                        {activeTab === "aeo" && (
+                            <div className="space-y-6">
+                                <div className="p-8 rounded-3xl bg-slate-950 text-white space-y-8 shadow-2xl border border-white/5 relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 blur-[100px]" />
+                                    <div className="relative z-10 flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <Zap className="h-5 w-5 text-emerald-400 animate-pulse" />
+                                            <h2 className="text-md font-black uppercase italic">AEO Optimization Center</h2>
+                                        </div>
+                                        <Badge className="bg-emerald-500 text-white border-none py-0.5">PROTOCOL_READY</Badge>
                                     </div>
 
-                                    <div className="space-y-4">
-                                        {formData.faqData.map((faq: any, idx: number) => (
-                                            <div key={idx} className="group relative bg-white/5 border border-white/10 p-4 space-y-4">
-                                                <Button
-                                                    type="button"
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    onClick={() => removeFaq(idx)}
-                                                    className="absolute top-2 right-2 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity text-slate-500 hover:text-red-400"
-                                                >
-                                                    <Trash2 className="h-3 w-3" />
-                                                </Button>
-                                                <Input
-                                                    value={faq.question}
-                                                    onChange={(e) => handleFaqChange(idx, "question", e.target.value)}
-                                                    placeholder="The Strategic Question..."
-                                                    className="bg-transparent border-white/10 text-white font-bold h-9 focus-visible:ring-emerald-500 rounded-none"
-                                                />
-                                                <Textarea
-                                                    value={faq.answer}
-                                                    onChange={(e) => handleFaqChange(idx, "answer", e.target.value)}
-                                                    placeholder="The Concise Analysis..."
-                                                    className="bg-transparent border-white/10 text-slate-300 h-20 resize-none text-xs focus-visible:ring-emerald-500 rounded-none"
-                                                />
-                                            </div>
-                                        ))}
+                                    <div className="space-y-6 relative z-10">
+                                        <div className="flex items-center justify-between">
+                                            <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Strategic Intelligence Nodes (FAQ)</h3>
+                                            <Button type="button" variant="outline" size="sm" onClick={addFaq} className="h-8 text-[9px] border-white/10 hover:bg-white/10 text-white rounded-xl">
+                                                <Plus className="h-3.5 w-3.5 mr-1" /> Initialize Node
+                                            </Button>
+                                        </div>
+
+                                        <div className="space-y-4">
+                                            {formData.faqData.map((faq: any, idx: number) => (
+                                                <div key={idx} className="group relative bg-white/5 border border-white/10 p-5 rounded-2xl space-y-4 transition-all hover:bg-white/[0.08]">
+                                                    <Button
+                                                        type="button"
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        onClick={() => removeFaq(idx)}
+                                                        className="absolute top-3 right-3 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity text-slate-500 hover:text-red-400"
+                                                    >
+                                                        <Trash2 className="h-3.5 w-3.5" />
+                                                    </Button>
+                                                    <Input
+                                                        value={faq.question}
+                                                        onChange={(e) => handleFaqChange(idx, "question", e.target.value)}
+                                                        placeholder="Strategic Question Factor..."
+                                                        className="bg-transparent border-white/20 text-white font-bold h-10 rounded-xl focus-visible:ring-emerald-500"
+                                                    />
+                                                    <Textarea
+                                                        value={faq.answer}
+                                                        onChange={(e) => handleFaqChange(idx, "answer", e.target.value)}
+                                                        placeholder="Institutional Solution Snippet..."
+                                                        className="bg-transparent border-white/10 text-slate-400 h-24 resize-none text-[13px] rounded-xl focus-visible:ring-emerald-500 leading-relaxed"
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
 
-                    {activeTab === "metadata" && (
-                        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300 bg-slate-50/50 dark:bg-slate-950/50 p-6 border border-slate-200 dark:border-slate-800 shadow-inner">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {activeTab === "meta" && (
+                            <div className="space-y-6 bg-muted/20 p-8 rounded-3xl border border-border">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="space-y-2">
+                                        <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Protocol Path (Slug Override)</Label>
+                                        <Input
+                                            name="slug"
+                                            value={formData.slug}
+                                            onChange={handleChange}
+                                            placeholder="manual-hard-path/"
+                                            className="h-12 bg-card border-border rounded-xl font-mono text-xs lowercase"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Sovereign Meta Title</Label>
+                                        <Input
+                                            name="metaTitle"
+                                            value={formData.metaTitle}
+                                            onChange={handleChange}
+                                            placeholder="SEO Headline..."
+                                            className="h-12 bg-card border-border rounded-xl font-bold text-xs"
+                                        />
+                                    </div>
+                                </div>
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Meta Title Override</Label>
-                                    <Input
-                                        name="metaTitle"
-                                        value={formData.metaTitle}
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Intelligence Meta Description</Label>
+                                    <Textarea
+                                        name="metaDescription"
+                                        value={formData.metaDescription}
                                         onChange={handleChange}
-                                        placeholder="SEO Title Control..."
-                                        className="h-11 bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 rounded-none font-bold text-xs"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Slug Manual Override</Label>
-                                    <Input
-                                        name="slug"
-                                        value={formData.slug}
-                                        onChange={handleChange}
-                                        placeholder="custom-path/"
-                                        className="h-11 bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 rounded-none font-bold text-xs text-slate-400"
+                                        placeholder="Silo summary for outside indexers..."
+                                        className="min-h-[120px] bg-card border-border rounded-xl resize-none font-medium text-xs px-6 py-4"
                                     />
                                 </div>
                             </div>
-                            <div className="space-y-2">
-                                <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Meta Description</Label>
-                                <Textarea
-                                    name="metaDescription"
-                                    value={formData.metaDescription}
-                                    onChange={handleChange}
-                                    placeholder="Search Engine visibility control..."
-                                    className="min-h-[100px] bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 rounded-none resize-none font-bold text-xs"
-                                />
-                            </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
 
-                {/* Tactical Sidebar */}
-                <div className="lg:col-span-4 space-y-6">
-                    {/* Identity Cockpit */}
-                    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm p-5 space-y-6">
-                        <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3 mb-2">
-                            <Layout className="h-4 w-4 text-slate-900 dark:text-white" />
-                            <h2 className="text-xs font-black uppercase tracking-wider italic">Identity Cockpit</h2>
+                {/* Right Column: Tactical Sidebar */}
+                <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
+                    {/* Identity Nexus */}
+                    <div className="bg-card border border-border rounded-3xl p-6 shadow-sm space-y-6">
+                        <div className="flex items-center gap-2 border-b border-border pb-4">
+                            <Shield className="h-4 w-4" />
+                            <h2 className="text-[11px] font-black uppercase tracking-widest italic">Identity Nexus</h2>
                         </div>
 
                         <div className="space-y-4">
                             <div className="space-y-2">
-                                <Label className="text-[9px] font-black uppercase tracking-widest text-slate-500">Analyst of Record</Label>
-                                <Select value={formData.authorId} onValueChange={(v: string) => handleSelectChange("authorId", v)}>
-                                    <SelectTrigger className="rounded-none bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-[10px] font-bold uppercase">
-                                        <SelectValue placeholder="SELECT AUTHOR" />
+                                <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground pl-1">Strategic Analyst</Label>
+                                <Select value={formData.authorId} onValueChange={(v) => handleSelectChange("authorId", v)}>
+                                    <SelectTrigger className="rounded-xl bg-muted/30 border-border h-11 text-[11px] font-black uppercase">
+                                        <SelectValue placeholder="FETCH ANALYST" />
                                     </SelectTrigger>
-                                    <SelectContent className="rounded-none text-[10px] font-bold uppercase">
-                                        {authors.map(a => <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>)}
+                                    <SelectContent className="rounded-xl text-[11px] font-black uppercase">
+                                        {initialAuthors.map(a => <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>)}
                                     </SelectContent>
                                 </Select>
                             </div>
 
-                            <div className="flex items-center justify-between mb-2">
-                                <Label className="text-[9px] font-black uppercase tracking-widest text-slate-500">Content Silo (Category)</Label>
-                                <Button
-                                    type="button"
-                                    variant="ghost"
-                                    size="icon"
-                                    className="h-4 w-4 text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                                    onClick={loadData}
-                                    title="Refresh Silos"
-                                >
-                                    <RefreshCw className="h-3 w-3" />
-                                </Button>
+                            <div className="space-y-2">
+                                <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground pl-1">Intelligence Sector</Label>
+                                <Select value={formData.categoryId} onValueChange={(v) => handleSelectChange("categoryId", v)}>
+                                    <SelectTrigger className="rounded-xl bg-muted/30 border-border h-11 text-[11px] font-black uppercase">
+                                        <SelectValue placeholder="SELECT SECTOR" />
+                                    </SelectTrigger>
+                                    <SelectContent className="rounded-xl text-[11px] font-black uppercase">
+                                        {initialCategories.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
+                                    </SelectContent>
+                                </Select>
                             </div>
-                            <Select value={formData.categoryId} onValueChange={(v: string) => handleSelectChange("categoryId", v)}>
-                                <SelectTrigger className="rounded-none bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-[10px] font-bold uppercase">
-                                    <SelectValue placeholder="SELECT CATEGORY" />
-                                </SelectTrigger>
-                                <SelectContent className="rounded-none text-[10px] font-bold uppercase">
-                                    {categories.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
-                                </SelectContent>
-                            </Select>
                         </div>
 
-                        <div className="pt-4 space-y-4 border-t border-slate-100 dark:border-slate-800">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <Label className="text-[9px] font-black uppercase tracking-widest text-slate-900 dark:text-white">Premium Access</Label>
-                                    <p className="text-[8px] text-slate-500 font-bold uppercase tracking-tighter">Institutional Only</p>
+                        <div className="flex flex-col gap-3 pt-2">
+                            <div className="flex items-center justify-between p-3 bg-muted/20 rounded-2xl border border-border/50">
+                                <div className="space-y-0.5">
+                                    <Label className="text-[10px] font-black uppercase tracking-widest">Premium Status</Label>
+                                    <p className="text-[8px] text-muted-foreground font-bold uppercase tracking-tighter italic">Institutional Restricted</p>
                                 </div>
-                                <Switch checked={formData.isPremium} onCheckedChange={(c: boolean) => handleSwitchChange("isPremium", c)} className="data-[state=checked]:bg-slate-900 dark:data-[state=checked]:bg-white" />
+                                <Switch checked={formData.isPremium} onCheckedChange={(c) => handleSwitchChange("isPremium", c)} />
                             </div>
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <Label className="text-[9px] font-black uppercase tracking-widest text-slate-900 dark:text-white">Featured Analysis</Label>
-                                    <p className="text-[8px] text-slate-500 font-bold uppercase tracking-tighter">Front-Page Spotlight</p>
+                            <div className="flex items-center justify-between p-3 bg-muted/20 rounded-2xl border border-border/50">
+                                <div className="space-y-0.5">
+                                    <Label className="text-[10px] font-black uppercase tracking-widest">Featured Node</Label>
+                                    <p className="text-[8px] text-muted-foreground font-bold uppercase tracking-tighter italic">War Room Spotlight</p>
                                 </div>
-                                <Switch checked={formData.isFeatured} onCheckedChange={(c: boolean) => handleSwitchChange("isFeatured", c)} className="data-[state=checked]:bg-slate-900 dark:data-[state=checked]:bg-white" />
+                                <Switch checked={formData.isFeatured} onCheckedChange={(c) => handleSwitchChange("isFeatured", c)} />
                             </div>
                         </div>
                     </div>
 
-                    {/* Operational Analysis */}
-                    <div className="bg-slate-900 text-white p-5 space-y-6 shadow-2xl transition-all duration-300 hover:shadow-emerald-500/10 hover:border-emerald-500/20">
-                        <div className="flex items-center gap-2 border-b border-white/10 pb-3 mb-2">
-                            <Shield className="h-4 w-4 text-emerald-400" />
-                            <h2 className="text-xs font-black uppercase tracking-wider italic">Operational Metrics</h2>
+                    {/* Tactical Volatility (Sliders) */}
+                    <div className="bg-slate-900 dark:bg-slate-950 text-white rounded-3xl p-6 shadow-2xl border border-white/5 space-y-8 relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 via-orange-500 to-red-500 opacity-50" />
+                        <div className="flex items-center gap-2 border-b border-white/10 pb-4">
+                            <Activity className="h-4 w-4 text-emerald-400" />
+                            <h2 className="text-[11px] font-black uppercase tracking-widest italic">Operational Metrics</h2>
                         </div>
 
-                        <div className="space-y-6">
-                            <div className="space-y-2">
+                        <div className="space-y-8 relative z-10">
+                            <div className="space-y-3">
                                 <div className="flex items-center justify-between">
-                                    <Label className="text-[9px] font-black uppercase tracking-widest text-slate-400 font-mono">Region Sector</Label>
-                                    <Globe className="h-3 w-3 text-emerald-400" />
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Operation Region</Label>
+                                    <Globe className="h-3.5 w-3.5 opacity-40" />
                                 </div>
-                                <Select value={formData.region} onValueChange={(v: string) => handleSelectChange("region", v)}>
-                                    <SelectTrigger className="rounded-none bg-white/5 border-white/10 text-[10px] font-black uppercase h-9">
+                                <Select value={formData.region} onValueChange={(v) => handleSelectChange("region", v)}>
+                                    <SelectTrigger className="bg-white/5 border-white/10 rounded-xl h-10 text-[10px] font-black uppercase tracking-widest">
                                         <SelectValue placeholder="GLOBAL" />
                                     </SelectTrigger>
-                                    <SelectContent className="rounded-none text-[10px] font-black uppercase bg-slate-900 text-white border-white/10">
+                                    <SelectContent className="bg-slate-900 border-white/10 text-[10px] font-black uppercase text-white rounded-xl">
                                         {["GLOBAL", "MENA", "APAC", "EUROPE", "AMERICAS", "AFRICA"].map(r => (
                                             <SelectItem key={r} value={r}>{r}</SelectItem>
                                         ))}
@@ -538,71 +508,72 @@ export default function ArticleEditor({ article }: ArticleEditorProps) {
                                 </Select>
                             </div>
 
-                            <div className="space-y-4">
-                                <div className="space-y-2">
-                                    <div className="flex items-center justify-between text-[9px] font-black uppercase tracking-widest font-mono">
-                                        <span className="text-slate-400">Tactical Risk Level</span>
-                                        <span className={cn(
-                                            formData.riskLevel === "CRITICAL" ? "text-red-500" :
-                                                formData.riskLevel === "HIGH" ? "text-orange-500" :
-                                                    "text-emerald-500 underline"
-                                        )}>{formData.riskLevel}</span>
-                                    </div>
-                                    <Select value={formData.riskLevel} onValueChange={(v: string) => handleSelectChange("riskLevel", v)}>
-                                        <SelectTrigger className="rounded-none bg-white/5 border-white/10 text-[10px] font-black uppercase h-9">
-                                            <SelectValue placeholder="RISK LEVEL" />
-                                        </SelectTrigger>
-                                        <SelectContent className="rounded-none text-[10px] font-black uppercase bg-slate-900 text-white border-white/10">
-                                            {["LOW", "MEDIUM", "HIGH", "CRITICAL"].map(l => (
-                                                <SelectItem key={l} value={l}>{l}</SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
+                            <div className="space-y-3">
+                                <div className="flex items-center justify-between">
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Calculated Risk Index</Label>
+                                    <span className={cn(
+                                        "text-[10px] font-black px-2 py-0.5 rounded-full border",
+                                        formData.riskLevel === "CRITICAL" ? "bg-red-500/20 text-red-400 border-red-500/30" :
+                                            formData.riskLevel === "HIGH" ? "bg-orange-500/20 text-orange-400 border-orange-500/30" :
+                                                "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                                    )}>
+                                        {formData.riskLevel}
+                                    </span>
                                 </div>
+                                <Select value={formData.riskLevel} onValueChange={(v) => handleSelectChange("riskLevel", v)}>
+                                    <SelectTrigger className="bg-white/5 border-white/10 rounded-xl h-10 text-[10px] font-black uppercase tracking-widest">
+                                        <SelectValue placeholder="RISK LEVEL" />
+                                    </SelectTrigger>
+                                    <SelectContent className="bg-slate-900 border-white/10 text-[10px] font-black uppercase text-white rounded-xl">
+                                        {["LOW", "MEDIUM", "HIGH", "CRITICAL"].map(l => (
+                                            <SelectItem key={l} value={l}>{l}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
 
-                                <div className="space-y-2">
-                                    <div className="flex items-center justify-between text-[9px] font-black uppercase tracking-widest font-mono">
-                                        <span className="text-slate-400 text-[8px]">Proprietary Risk Score</span>
-                                        <span className="text-emerald-400 underline">{formData.riskScore}%</span>
+                            <div className="space-y-4">
+                                <div className="space-y-3">
+                                    <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
+                                        <span className="text-slate-500">Risk Intensity</span>
+                                        <span className="text-emerald-500">{formData.riskScore}%</span>
                                     </div>
                                     <input
                                         type="range"
-                                        min="0"
-                                        max="100"
+                                        min="0" max="100"
                                         value={formData.riskScore}
                                         onChange={(e) => handleSelectChange("riskScore", e.target.value)}
-                                        className="w-full accent-emerald-500 h-1 bg-white/10"
+                                        className="w-full accent-emerald-500 h-1 bg-white/10 rounded-full cursor-pointer"
                                     />
                                 </div>
 
-                                <div className="space-y-2">
-                                    <div className="flex items-center justify-between text-[9px] font-black uppercase tracking-widest font-mono">
-                                        <span className="text-slate-400 text-[8px]">Strategic Impact factor</span>
-                                        <span className="text-blue-400 underline">{formData.impactScore}%</span>
+                                <div className="space-y-3">
+                                    <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
+                                        <span className="text-slate-500">Strategic Impact</span>
+                                        <span className="text-blue-500">{formData.impactScore}%</span>
                                     </div>
                                     <input
                                         type="range"
-                                        min="0"
-                                        max="100"
+                                        min="0" max="100"
                                         value={formData.impactScore}
                                         onChange={(e) => handleSelectChange("impactScore", e.target.value)}
-                                        className="w-full accent-blue-500 h-1 bg-white/10"
+                                        className="w-full accent-blue-500 h-1 bg-white/10 rounded-full cursor-pointer"
                                     />
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Database Identity */}
-                    <div className="p-4 border border-dashed border-slate-200 dark:border-slate-800 rounded-none bg-slate-50/50 dark:bg-slate-950/50">
-                        <div className="flex items-center gap-2 mb-3">
-                            <Database className="h-3 w-3 text-slate-400" />
-                            <span className="text-[9px] font-black uppercase tracking-widest text-slate-500">System Handshake</span>
+                    {/* System Integrity */}
+                    <div className="p-6 border-2 border-dashed border-border rounded-3xl bg-muted/5">
+                        <div className="flex items-center gap-2 mb-4">
+                            <Database className="h-3.5 w-3.5 opacity-40" />
+                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground italic">System Integrity Map</span>
                         </div>
-                        <div className="space-y-1 font-mono text-[8px] text-slate-400 font-bold break-all">
-                            <p>ID: {article?.id || "N/A_WAITING_FOR_FILE"}</p>
-                            <p>SLUG_MAP: {formData.slug || "AUTO_GENERATED"}</p>
-                            <p>STAMP: {article?.publishedAt ? new Date(article.publishedAt).toISOString() : "SYSTEM_CLOCK_READY"}</p>
+                        <div className="space-y-2 font-mono text-[9px] text-muted-foreground/60 leading-tight">
+                            <p>Node_ID: <span className="text-foreground">{article?.id || "INITIALIZING..."}</span></p>
+                            <p>Vector: <span className="text-foreground">{formData.slug || "AUTO_GEN"}</span></p>
+                            <p>Clock: <span className="text-foreground">{article?.publishedAt ? new Date(article.publishedAt).toLocaleString() : "NEW_CYCLE"}</span></p>
                         </div>
                     </div>
                 </div>

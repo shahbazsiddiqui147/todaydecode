@@ -30,20 +30,20 @@ const AuthorSchema = z.object({
 const ArticleSchema = z.object({
     id: z.string().optional(),
     title: z.string().min(2, "Title is too short."),
-    slug: z.string().min(2, "Slug is required."),
+    slug: z.string().optional().nullable(), // Allow optional for auto-gen
     onPageLead: z.string().optional().nullable(),
-    summary: z.string().min(10, "Summary is too short."),
-    content: z.string().min(10, "Content is required."),
+    summary: z.string().min(10, "Quick Summary (AEO) is too short."),
+    content: z.string().min(10, "Intelligence analysis content is required."),
     status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).default("DRAFT"),
     isFeatured: z.boolean().default(false),
     region: z.enum(["GLOBAL", "MENA", "APAC", "EUROPE", "AMERICAS", "AFRICA"]).default("GLOBAL"),
     riskLevel: z.enum(["LOW", "MEDIUM", "HIGH", "CRITICAL"]).default("MEDIUM"),
-    riskScore: z.number().int().min(0).max(100),
-    impactScore: z.number().int().min(0).max(100),
+    riskScore: z.number().int().min(0).max(100).default(50),
+    impactScore: z.number().int().min(0).max(100).default(50),
     scenarios: z.object({
-        best: z.object({ title: z.string(), description: z.string() }),
-        likely: z.object({ title: z.string(), description: z.string() }),
-        worst: z.object({ title: z.string(), description: z.string() }),
+        best: z.object({ title: z.string().default("Best Case"), description: z.string().default("") }),
+        likely: z.object({ title: z.string().default("Most Likely"), description: z.string().default("") }),
+        worst: z.object({ title: z.string().default("Worst Case"), description: z.string().default("") }),
     }).optional().nullable(),
     faqData: z.array(z.object({
         question: z.string(),
@@ -51,10 +51,10 @@ const ArticleSchema = z.object({
     })).optional().nullable(),
     metaTitle: z.string().optional().nullable(),
     metaDescription: z.string().optional().nullable(),
-    authorId: z.string().min(1, "Author selection required."),
-    categoryId: z.string().min(1, "Category selection required."),
+    authorId: z.string().min(1, "Strategic Analyst selection required."),
+    categoryId: z.string().min(1, "Sector Category selection required."),
     isPremium: z.boolean().default(false),
-    publishedAt: z.date().optional(),
+    publishedAt: z.date().optional().nullable(),
 });
 
 // --- Utilities ---
@@ -178,7 +178,17 @@ export async function deleteAuthor(id: string) {
 export async function upsertArticle(data: z.infer<typeof ArticleSchema>) {
     try {
         const validated = ArticleSchema.parse(data);
-        const slug = normalizeSlug(validated.slug);
+
+        // Auto-generate slug from title if not provided, else normalize
+        let baseSlug = validated.slug;
+        if (!baseSlug || baseSlug.trim() === "") {
+            baseSlug = validated.title
+                .toLowerCase()
+                .replace(/[^a-z0-9]/g, '-')
+                .replace(/-+/g, '-')
+                .replace(/^-|-$/g, '');
+        }
+        const slug = normalizeSlug(baseSlug);
 
         const article = await prisma.article.upsert({
             where: { id: validated.id || "new-article" },
@@ -194,14 +204,14 @@ export async function upsertArticle(data: z.infer<typeof ArticleSchema>) {
                 riskLevel: validated.riskLevel as any,
                 riskScore: validated.riskScore,
                 impactScore: validated.impactScore,
-                scenarios: validated.scenarios || {},
-                faqData: validated.faqData || {},
+                scenarios: (validated.scenarios || {}) as any,
+                faqData: (validated.faqData || []) as any,
                 metaTitle: validated.metaTitle,
                 metaDescription: validated.metaDescription,
                 authorId: validated.authorId,
                 categoryId: validated.categoryId,
                 isPremium: validated.isPremium,
-                publishedAt: validated.publishedAt,
+                publishedAt: (validated.status === "PUBLISHED" && !validated.publishedAt) ? new Date() : (validated.publishedAt || undefined),
             },
             create: {
                 title: validated.title,
@@ -215,25 +225,26 @@ export async function upsertArticle(data: z.infer<typeof ArticleSchema>) {
                 riskLevel: validated.riskLevel as any,
                 riskScore: validated.riskScore,
                 impactScore: validated.impactScore,
-                scenarios: validated.scenarios || {},
-                faqData: validated.faqData || {},
+                scenarios: (validated.scenarios || {}) as any,
+                faqData: (validated.faqData || []) as any,
                 metaTitle: validated.metaTitle,
                 metaDescription: validated.metaDescription,
                 authorId: validated.authorId,
                 categoryId: validated.categoryId,
                 isPremium: validated.isPremium,
-                publishedAt: validated.publishedAt || new Date(),
+                publishedAt: validated.status === "PUBLISHED" ? new Date() : (validated.publishedAt || undefined),
             },
         });
 
+        // Revalidation Protocol
         revalidatePath("/admin/articles/");
         revalidatePath("/");
-        // Also revalidate the specific article path if published
-        if (validated.status === "PUBLISHED") {
-            const category = await prisma.category.findUnique({ where: { id: validated.categoryId } });
-            if (category) {
-                revalidatePath(`/${category.slug}${slug}`);
-            }
+
+        // Revalidate specific intelligence paths
+        const category = await prisma.category.findUnique({ where: { id: validated.categoryId } });
+        if (category) {
+            revalidatePath(`/${category.slug}`);
+            revalidatePath(`/${category.slug}${slug}`);
         }
 
         return { success: true, data: article };
