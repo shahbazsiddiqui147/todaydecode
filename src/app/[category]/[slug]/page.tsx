@@ -190,11 +190,10 @@ export default async function ArticlePage({
                         <QuickAnswers faqData={(article.faqData as any) || []} />
 
                         <PaywallGate isPremium={article.isPremium}>
-                            <div className="prose prose-invert prose-slate max-w-none text-slate-300 leading-relaxed text-lg font-serif">
-                                {article.content.split('\n').map((para: string, i: number) => (
-                                    para.trim() ? <p key={i}>{para}</p> : <br key={i} />
-                                ))}
-                            </div>
+                            <div
+                                className="prose prose-invert prose-slate max-w-none text-slate-300 leading-relaxed text-lg font-serif"
+                                dangerouslySetInnerHTML={{ __html: article.content }}
+                            />
                         </PaywallGate>
 
                         <div className="space-y-12 pt-12 border-t border-border-slate">

@@ -40,6 +40,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
+import { RefreshCw } from "lucide-react";
 
 interface ArticleEditorProps {
     article?: any;
@@ -80,15 +82,16 @@ export default function ArticleEditor({ article }: ArticleEditorProps) {
         ],
     });
 
+    const loadData = async () => {
+        const [cats, auths] = await Promise.all([
+            getAdminCategories(),
+            getAdminAuthors()
+        ]);
+        setCategories(cats);
+        setAuthors(auths);
+    };
+
     useEffect(() => {
-        const loadData = async () => {
-            const [cats, auths] = await Promise.all([
-                getAdminCategories(),
-                getAdminAuthors()
-            ]);
-            setCategories(cats);
-            setAuthors(auths);
-        };
         loadData();
     }, []);
 
@@ -279,12 +282,10 @@ export default function ArticleEditor({ article }: ArticleEditorProps) {
 
                             <div className="space-y-2">
                                 <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Intelligence Briefing (Full Analysis)</Label>
-                                <Textarea
-                                    name="content"
+                                <RichTextEditor
                                     value={formData.content}
-                                    onChange={handleChange}
+                                    onChange={(val) => setFormData(prev => ({ ...prev, content: val }))}
                                     placeholder="The full breakdown of geopolitical analysis..."
-                                    className="min-h-[500px] text-base leading-relaxed font-serif bg-transparent border-slate-200 dark:border-slate-800 rounded-none px-6 py-6 focus-visible:ring-1 focus-visible:ring-slate-400"
                                 />
                             </div>
                         </div>
@@ -471,17 +472,27 @@ export default function ArticleEditor({ article }: ArticleEditorProps) {
                                 </Select>
                             </div>
 
-                            <div className="space-y-2">
+                            <div className="flex items-center justify-between mb-2">
                                 <Label className="text-[9px] font-black uppercase tracking-widest text-slate-500">Content Silo (Category)</Label>
-                                <Select value={formData.categoryId} onValueChange={(v: string) => handleSelectChange("categoryId", v)}>
-                                    <SelectTrigger className="rounded-none bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-[10px] font-bold uppercase">
-                                        <SelectValue placeholder="SELECT CATEGORY" />
-                                    </SelectTrigger>
-                                    <SelectContent className="rounded-none text-[10px] font-bold uppercase">
-                                        {categories.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
-                                    </SelectContent>
-                                </Select>
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-4 w-4 text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                                    onClick={loadData}
+                                    title="Refresh Silos"
+                                >
+                                    <RefreshCw className="h-3 w-3" />
+                                </Button>
                             </div>
+                            <Select value={formData.categoryId} onValueChange={(v: string) => handleSelectChange("categoryId", v)}>
+                                <SelectTrigger className="rounded-none bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-[10px] font-bold uppercase">
+                                    <SelectValue placeholder="SELECT CATEGORY" />
+                                </SelectTrigger>
+                                <SelectContent className="rounded-none text-[10px] font-bold uppercase">
+                                    {categories.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
+                                </SelectContent>
+                            </Select>
                         </div>
 
                         <div className="pt-4 space-y-4 border-t border-slate-100 dark:border-slate-800">

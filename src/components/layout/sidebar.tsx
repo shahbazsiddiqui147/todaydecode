@@ -11,27 +11,39 @@ import {
     LayoutDashboard,
     Settings,
     ChevronUp,
-    ChevronDown
+    ChevronDown,
+    Layers,
+    Activity,
+    Database,
+    Binary
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { RiskGauge } from "../metrics/risk-gauge";
 import { useEffect, useState } from "react";
 import { getDashboardMetrics, LiveMetric } from "@/lib/data-service";
+import { getPublicCategories } from "@/lib/actions/public-actions";
 
-const navigation = [
-    { name: "Geopolitics", href: "/geopolitics/", icon: Globe },
-    { name: "Global Economy", href: "/economy/", icon: TrendingUp },
-    { name: "Security", href: "/security/", icon: ShieldAlert },
-    { name: "Technology", href: "/technology/", icon: Cpu },
-    { name: "Energy", href: "/energy/", icon: Zap },
-];
+// Default icon mapping for dynamic categories
+const ICON_MAP: Record<string, any> = {
+    "geopolitics": Globe,
+    "economy": TrendingUp,
+    "security": ShieldAlert,
+    "technology": Cpu,
+    "energy": Zap,
+    "global": Layers,
+    "risk": Activity,
+    "cyber": Binary,
+    "data": Database
+};
 
 export function Sidebar() {
     const pathname = usePathname();
     const [metrics, setMetrics] = useState<{ oil?: LiveMetric; risk?: LiveMetric; conflict?: LiveMetric } | null>(null);
+    const [categories, setCategories] = useState<any[]>([]);
 
     useEffect(() => {
         getDashboardMetrics().then(data => setMetrics(data));
+        getPublicCategories().then(data => setCategories(data));
     }, []);
 
     return (
@@ -48,12 +60,16 @@ export function Sidebar() {
                     <div className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] px-2 mb-3">
                         Intelligence Vault
                     </div>
-                    {navigation.map((item) => {
-                        const isActive = pathname.startsWith(item.href);
+                    {categories.map((item) => {
+                        const href = `/${item.slug}`;
+                        const isActive = pathname === href || pathname.startsWith(href);
+                        // Lookup icon or fallback to Globe
+                        const Icon = ICON_MAP[item.slug.replace('/', '')] || ICON_MAP[item.name.toLowerCase()] || Globe;
+
                         return (
                             <Link
-                                key={item.name}
-                                href={item.href}
+                                key={item.id}
+                                href={href}
                                 className={cn(
                                     "group flex items-center px-2 py-2.5 text-sm font-medium rounded-md transition-all",
                                     isActive
@@ -61,7 +77,7 @@ export function Sidebar() {
                                         : "text-slate-400 hover:bg-slate-800/50 hover:text-white"
                                 )}
                             >
-                                <item.icon className={cn(
+                                <Icon className={cn(
                                     "mr-3 h-5 w-5 shrink-0 transition-colors",
                                     isActive ? "text-accent-red" : "group-hover:text-accent-red"
                                 )} />
@@ -69,6 +85,11 @@ export function Sidebar() {
                             </Link>
                         );
                     })}
+                    {categories.length === 0 && (
+                        <div className="px-2 py-4 text-[10px] font-bold text-slate-600 uppercase italic tracking-widest">
+                            Establishing Intelligence Nodes...
+                        </div>
+                    )}
                 </nav>
 
                 {/* Power Dashboard Widgets */}

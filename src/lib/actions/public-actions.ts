@@ -100,3 +100,18 @@ export const getLatestReportsByRegion = cache(async (region: string, limit = 3) 
         return [];
     }
 });
+
+/**
+ * Fetches all visible categories for dynamic navigation.
+ */
+export const getPublicCategories = cache(async () => {
+    try {
+        return await prisma.category.findMany({
+            where: { isVisible: true },
+            orderBy: { order: 'asc' as any }
+        });
+    } catch (error) {
+        console.error("Critical fetching error [Categories]:", error);
+        return [];
+    }
+});
