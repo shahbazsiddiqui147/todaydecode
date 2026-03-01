@@ -188,7 +188,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                     <Button
                         type="submit"
                         disabled={loading}
-                        className="h-10 px-8 rounded-xl font-black uppercase italic tracking-tighter shadow-lg shadow-primary/20 active:scale-95 transition-all text-[11px]"
+                        className="h-10 px-8 rounded-xl font-black uppercase italic tracking-tighter shadow-lg shadow-primary/20 active:scale-95 transition-all text-[11px] bg-white text-black hover:bg-white/90 dark:bg-white dark:text-black dark:hover:bg-white/90"
                     >
                         {loading ? <RefreshCw className="h-4 w-4 animate-spin mr-2" /> : <Save className="h-4 w-4 mr-2" />}
                         {article ? "Commit Intelligence" : "Initialize Node"}
@@ -212,10 +212,10 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 type="button"
                                 onClick={() => setActiveTab(tab.id as any)}
                                 className={cn(
-                                    "flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                                    "flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border-b-2",
                                     activeTab === tab.id
-                                        ? "bg-background text-foreground shadow-sm border border-border/50"
-                                        : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                        ? "bg-background text-cyan-400 border-cyan-400 shadow-sm"
+                                        : "text-muted-foreground border-transparent hover:text-foreground hover:bg-muted/50"
                                 )}
                             >
                                 <tab.icon className="h-3.5 w-3.5" />
@@ -235,7 +235,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.title}
                                         onChange={handleChange}
                                         placeholder="ENTER HEADLINE..."
-                                        className="text-2xl font-black h-16 bg-card border-border rounded-2xl focus-visible:ring-primary px-6 uppercase tracking-tight italic"
+                                        className="text-2xl font-black h-16 bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl focus-visible:ring-primary px-6 uppercase tracking-tight italic"
                                     />
                                 </div>
 
@@ -249,7 +249,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.onPageLead}
                                         onChange={handleChange}
                                         placeholder="A high-end tactical hook for the live analysis..."
-                                        className="min-h-[100px] text-sm font-medium bg-muted/20 border-border rounded-2xl resize-none px-6 py-4 transition-focus"
+                                        className="min-h-[100px] text-sm font-medium bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4 transition-focus"
                                     />
                                 </div>
 
@@ -260,7 +260,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.summary}
                                         onChange={handleChange}
                                         placeholder="Institutional brief for the intelligence silos..."
-                                        className="min-h-[120px] text-sm font-medium bg-card border-border rounded-2xl resize-none px-6 py-4"
+                                        className="min-h-[120px] text-sm font-medium bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4"
                                     />
                                 </div>
 
@@ -288,13 +288,13 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.scenarios.best.title}
                                         onChange={(e) => handleScenarioChange("best", "title", e.target.value)}
                                         placeholder="SCENARIO TITLE..."
-                                        className="bg-background border-border/50 rounded-xl font-black uppercase text-[11px]"
+                                        className="bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl font-black uppercase text-[11px]"
                                     />
                                     <Textarea
                                         value={formData.scenarios.best.description}
                                         onChange={(e) => handleScenarioChange("best", "description", e.target.value)}
                                         placeholder="ESTABLISH THE PARAMETERS..."
-                                        className="bg-background border-border/50 rounded-xl min-h-[100px] text-sm"
+                                        className="bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl min-h-[100px] text-sm"
                                     />
                                 </div>
 
@@ -307,13 +307,13 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.scenarios.likely.title}
                                         onChange={(e) => handleScenarioChange("likely", "title", e.target.value)}
                                         placeholder="SCENARIO TITLE..."
-                                        className="bg-background border-border/50 rounded-xl font-black uppercase text-[11px]"
+                                        className="bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl font-black uppercase text-[11px]"
                                     />
                                     <Textarea
                                         value={formData.scenarios.likely.description}
                                         onChange={(e) => handleScenarioChange("likely", "description", e.target.value)}
                                         placeholder="ESTABLISH THE PARAMETERS..."
-                                        className="bg-background border-border/50 rounded-xl min-h-[100px] text-sm"
+                                        className="bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl min-h-[100px] text-sm"
                                     />
                                 </div>
 
@@ -326,13 +326,13 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.scenarios.worst.title}
                                         onChange={(e) => handleScenarioChange("worst", "title", e.target.value)}
                                         placeholder="SCENARIO TITLE..."
-                                        className="bg-background border-border/50 rounded-xl font-black uppercase text-[11px]"
+                                        className="bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl font-black uppercase text-[11px]"
                                     />
                                     <Textarea
                                         value={formData.scenarios.worst.description}
                                         onChange={(e) => handleScenarioChange("worst", "description", e.target.value)}
                                         placeholder="ESTABLISH THE PARAMETERS..."
-                                        className="bg-background border-border/50 rounded-xl min-h-[100px] text-sm"
+                                        className="bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl min-h-[100px] text-sm"
                                     />
                                 </div>
                             </div>
@@ -432,32 +432,32 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                 {/* Right Column: Tactical Sidebar */}
                 <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
                     {/* Identity Nexus */}
-                    <div className="bg-card border border-border rounded-3xl p-6 shadow-sm space-y-6">
-                        <div className="flex items-center gap-2 border-b border-border pb-4">
-                            <Shield className="h-4 w-4" />
+                    <div className="bg-[#111827] dark:bg-[#111827] border border-[#1E293B] dark:border-[#1E293B] rounded-3xl p-6 shadow-sm space-y-6">
+                        <div className="flex items-center gap-2 border-b border-[#1E293B] pb-4 text-[#CBD5E1]">
+                            <Shield className="h-4 w-4 text-cyan-400" />
                             <h2 className="text-[11px] font-black uppercase tracking-widest italic">Identity Nexus</h2>
                         </div>
 
                         <div className="space-y-4">
                             <div className="space-y-2">
-                                <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground pl-1">Strategic Analyst</Label>
+                                <Label className="text-[9px] font-black uppercase tracking-widest text-[#94A3B8] pl-1">Strategic Analyst</Label>
                                 <Select value={formData.authorId} onValueChange={(v) => handleSelectChange("authorId", v)}>
-                                    <SelectTrigger className="rounded-xl bg-muted/30 border-border h-11 text-[11px] font-black uppercase">
+                                    <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9]">
                                         <SelectValue placeholder="FETCH ANALYST" />
                                     </SelectTrigger>
-                                    <SelectContent className="rounded-xl text-[11px] font-black uppercase">
+                                    <SelectContent className="w-full rounded-xl bg-[#020617] border-[#1E293B] text-[11px] font-black uppercase text-[#F1F5F9]">
                                         {initialAuthors.map(a => <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>)}
                                     </SelectContent>
                                 </Select>
                             </div>
 
                             <div className="space-y-2">
-                                <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground pl-1">Intelligence Sector</Label>
+                                <Label className="text-[9px] font-black uppercase tracking-widest text-[#94A3B8] pl-1">Intelligence Sector</Label>
                                 <Select value={formData.categoryId} onValueChange={(v) => handleSelectChange("categoryId", v)}>
-                                    <SelectTrigger className="rounded-xl bg-muted/30 border-border h-11 text-[11px] font-black uppercase">
+                                    <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9]">
                                         <SelectValue placeholder="SELECT SECTOR" />
                                     </SelectTrigger>
-                                    <SelectContent className="rounded-xl text-[11px] font-black uppercase">
+                                    <SelectContent className="w-full rounded-xl bg-[#020617] border-[#1E293B] text-[11px] font-black uppercase text-[#F1F5F9]">
                                         {initialCategories.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
                                     </SelectContent>
                                 </Select>
