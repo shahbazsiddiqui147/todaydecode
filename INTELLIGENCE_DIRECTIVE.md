@@ -29,6 +29,15 @@ To prevent theme regressions, the following tokens are non-negotiable:
 - Must be persistent and switch between 'dark' and 'light' classes globally.
 - Admin Panel must have high-contrast buttons (e.g., Deep Slate in light mode) to ensure visibility.
 
+### 2.1. THE SOVEREIGN UI CONTRAST STANDARD (HARDENED)
+- **No Ghost UI:** All interactive elements (Inputs, Selects, Modals) must have a clearly defined 1px border. 
+- **Light Mode Labels:** Primary labels must use #1E293B (Slate-800) or #0F172A (Ink) for absolute readability.
+- **Input Surfaces:**
+  - **Light Mode:** White background (#FFFFFF), #CBD5E1 borders, and #0F172A text.
+  - **Dark Mode:** Deepest Navy (#020617) background, #1E293B borders, and #F1F5F9 text.
+- **Action Footers:** Every modal/form must have a high-contrast 'Commit' button (e.g., solid Black/Navy in light mode) and a distinct 'Abort' action.
+- **Accessibility:** Ensure a minimum 4.5:1 contrast ratio for all descriptive text. No "pale grey" on white.
+
 ### 3. SEO & ROUTING SOVEREIGNTY (CRITICAL)
 - **Trailing Slashes:** Every internal URL and canonical tag MUST end with a `/`.
 - **Indexing:** Every public page must contain `<meta name="robots" content="index, follow">`.

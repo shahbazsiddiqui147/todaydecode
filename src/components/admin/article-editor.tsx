@@ -176,7 +176,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
 
                 <div className="flex items-center gap-3">
                     <Select value={formData.status} onValueChange={(v: string) => handleSelectChange("status", v)}>
-                        <SelectTrigger className="w-[140px] h-10 rounded-xl bg-card border-border text-[10px] font-black uppercase tracking-widest focus:ring-primary">
+                        <SelectTrigger className="w-[140px] h-10 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[10px] font-black uppercase tracking-widest focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] text-[#0F172A] dark:text-[#F1F5F9]">
                             <SelectValue placeholder="STATUS" />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-border text-[10px] font-black uppercase">
@@ -229,38 +229,38 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                         {activeTab === "content" && (
                             <div className="space-y-6">
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Primary Intelligence Headline</Label>
+                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1">Primary Intelligence Headline</Label>
                                     <Input
                                         name="title"
                                         value={formData.title}
                                         onChange={handleChange}
                                         placeholder="ENTER HEADLINE..."
-                                        className="text-2xl font-black h-16 bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl focus-visible:ring-primary px-6 uppercase tracking-tight italic"
+                                        className="text-2xl font-black h-16 bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] px-6 uppercase tracking-tight italic shadow-sm"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1 flex justify-between">
+                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1 flex justify-between">
                                         <span>On-Page Lead (Sovereign Intro)</span>
-                                        <span className="opacity-40 lowercase italic font-normal">Displayed as hero description</span>
+                                        <span className="opacity-40 lowercase italic font-normal">Hero description</span>
                                     </Label>
                                     <Textarea
                                         name="onPageLead"
                                         value={formData.onPageLead}
                                         onChange={handleChange}
                                         placeholder="A high-end tactical hook for the live analysis..."
-                                        className="min-h-[100px] text-sm font-medium bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4 transition-focus"
+                                        className="min-h-[100px] text-sm font-medium bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Executive Summary (Global Feed)</Label>
+                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1">Executive Summary (Global Feed)</Label>
                                     <Textarea
                                         name="summary"
                                         value={formData.summary}
                                         onChange={handleChange}
                                         placeholder="Institutional brief for the intelligence silos..."
-                                        className="min-h-[120px] text-sm font-medium bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4"
+                                        className="min-h-[120px] text-sm font-medium bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
                                     />
                                 </div>
 
@@ -288,13 +288,13 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.scenarios.best.title}
                                         onChange={(e) => handleScenarioChange("best", "title", e.target.value)}
                                         placeholder="SCENARIO TITLE..."
-                                        className="bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl font-black uppercase text-[11px]"
+                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl font-black uppercase text-[11px] focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE]"
                                     />
                                     <Textarea
                                         value={formData.scenarios.best.description}
                                         onChange={(e) => handleScenarioChange("best", "description", e.target.value)}
                                         placeholder="ESTABLISH THE PARAMETERS..."
-                                        className="bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl min-h-[100px] text-sm"
+                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl min-h-[100px] text-sm focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE]"
                                     />
                                 </div>
 

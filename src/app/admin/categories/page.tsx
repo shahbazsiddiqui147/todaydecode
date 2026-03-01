@@ -236,12 +236,12 @@ export default function CategoriesPage() {
                         <form onSubmit={handleSubmit} className="p-10 space-y-8 max-h-[75vh] overflow-y-auto bg-white dark:bg-[#0D1425]">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center">
-                                        <Box className="h-3 w-3 mr-2" /> Node Name
+                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                        <Box className="h-3 w-3 mr-2 text-cyan-500" /> Node Name
                                     </label>
                                     <Input
                                         required
-                                        className="h-12 rounded-xl bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-800 text-sm font-bold"
+                                        className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold placeholder:text-[#64748B] placeholder:font-normal focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] outline-none transition-all"
                                         placeholder="e.g. Geopolitics"
                                         value={formData.name}
                                         onChange={(e) => {
@@ -254,12 +254,12 @@ export default function CategoriesPage() {
                                     />
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center">
-                                        <Globe className="h-3 w-3 mr-2" /> Protocol Slug
+                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                        <Globe className="h-3 w-3 mr-2 text-cyan-500" /> Protocol Slug
                                     </label>
                                     <Input
                                         required
-                                        className="h-12 rounded-xl bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-800 text-sm font-bold font-mono"
+                                        className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold font-mono placeholder:text-[#64748B] focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] outline-none transition-all"
                                         placeholder="geopolitics/"
                                         value={formData.slug}
                                         onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
@@ -269,23 +269,23 @@ export default function CategoriesPage() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center">
-                                        <Layers className="h-3 w-3 mr-2 rotate-180" /> Priority Weighting
+                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                        <Layers className="h-3 w-3 mr-2 rotate-180 text-cyan-500" /> Priority Weighting
                                     </label>
                                     <Input
                                         type="number"
                                         required
-                                        className="h-12 rounded-xl bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-800 text-sm font-bold"
+                                        className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold placeholder:text-[#64748B] focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] outline-none transition-all"
                                         value={formData.order}
                                         onChange={(e) => setFormData({ ...formData, order: e.target.value })}
                                     />
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center">
-                                        <Settings2 className="h-3 w-3 mr-2" /> Lucide Icon ID
+                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                        <Settings2 className="h-3 w-3 mr-2 text-cyan-500" /> Lucide Icon ID
                                     </label>
                                     <Input
-                                        className="h-12 rounded-xl bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-800 text-sm font-bold"
+                                        className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold placeholder:text-[#64748B] focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] outline-none transition-all"
                                         placeholder="e.g. Map"
                                         value={formData.icon}
                                         onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
@@ -304,11 +304,11 @@ export default function CategoriesPage() {
                             </div>
 
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center">
-                                    <Plus className="h-3 w-3 mr-2" /> Directive Overview
+                                <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                    <Plus className="h-3 w-3 mr-2 text-cyan-500" /> Directive Overview
                                 </label>
                                 <textarea
-                                    className="w-full h-32 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-white/5 p-6 text-sm font-medium focus-visible:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition-all outline-none resize-none leading-relaxed"
+                                    className="w-full h-32 rounded-2xl border border-[#CBD5E1] dark:border-[#1E293B] bg-white dark:bg-[#020617] p-6 text-sm font-medium text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] focus-visible:outline-none focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] transition-all outline-none resize-none leading-relaxed shadow-sm"
                                     placeholder="Provide professional briefing for this intelligence sector..."
                                     value={formData.description}
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -316,8 +316,8 @@ export default function CategoriesPage() {
                             </div>
 
                             <div className="pt-10 flex justify-end space-x-4">
-                                <Button type="button" variant="ghost" className="h-12 px-8 rounded-xl font-black uppercase tracking-widest text-[10px]" onClick={() => setIsModalOpen(false)}>Abort Change</Button>
-                                <Button type="submit" className="h-12 px-10 rounded-xl bg-slate-900 dark:bg-white dark:text-slate-900 font-black uppercase tracking-widest text-[10px] shadow-xl">Commit Node</Button>
+                                <Button type="button" variant="ghost" className="h-12 px-8 rounded-xl font-black uppercase tracking-widest text-[10px] text-muted-foreground hover:text-foreground" onClick={() => setIsModalOpen(false)}>Abort Change</Button>
+                                <Button type="submit" className="h-12 px-10 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-black uppercase tracking-widest text-[10px] shadow-xl hover:bg-black dark:hover:bg-white/90">Commit Node</Button>
                             </div>
                         </form>
                     </div>

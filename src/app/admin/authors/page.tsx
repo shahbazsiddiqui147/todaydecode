@@ -142,13 +142,13 @@ export default function AuthorsPage() {
                 </Button>
             </header>
 
-            <div className="flex items-center space-x-4 bg-card p-3 rounded-2xl border border-border shadow-sm relative overflow-hidden group">
-                <div className="absolute top-0 left-0 w-1 h-full bg-border group-focus-within:bg-primary transition-all" />
+            <div className="flex items-center space-x-4 bg-white dark:bg-[#020617] p-3 rounded-2xl border border-[#CBD5E1] dark:border-[#1E293B] shadow-sm relative overflow-hidden group focus-within:ring-2 focus-within:ring-[#0F172A] dark:focus-within:ring-[#22D3EE] transition-all">
+                <div className="absolute top-0 left-0 w-1 h-full bg-[#CBD5E1] dark:bg-[#1E293B] group-focus-within:bg-[#0F172A] dark:group-focus-within:bg-[#22D3EE] transition-all" />
                 <div className="relative flex-1 flex items-center pl-6">
-                    <Search className="h-4 w-4 text-muted-foreground/40 mr-4" />
+                    <Search className="h-4 w-4 text-[#64748B] mr-4" />
                     <input
                         placeholder="Search manifests by name or designation..."
-                        className="w-full bg-transparent border-none outline-none text-sm font-bold placeholder:text-muted-foreground/40 text-foreground"
+                        className="w-full bg-transparent border-none outline-none text-sm font-bold placeholder:text-[#64748B] text-[#0F172A] dark:text-[#F1F5F9]"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
@@ -260,12 +260,12 @@ export default function AuthorsPage() {
                         <form onSubmit={handleSubmit} className="p-10 space-y-8 max-h-[75vh] overflow-y-auto bg-white dark:bg-[#0D1425]">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center">
-                                        <AtSign className="h-3 w-3 mr-2" /> Full Identity
+                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                        <AtSign className="h-3 w-3 mr-2 text-cyan-500" /> Full Identity
                                     </label>
                                     <Input
                                         required
-                                        className="h-12 rounded-xl bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-800 text-sm font-bold placeholder:font-normal"
+                                        className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold placeholder:text-[#64748B] placeholder:font-normal focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] outline-none transition-all"
                                         placeholder="e.g. Elena Vance"
                                         value={formData.name}
                                         onChange={(e) => {
@@ -278,12 +278,12 @@ export default function AuthorsPage() {
                                     />
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center">
-                                        <Globe className="h-3 w-3 mr-2" /> Digital Handshake (Slug)
+                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                        <Globe className="h-3 w-3 mr-2 text-cyan-500" /> Digital Handshake (Slug)
                                     </label>
                                     <Input
                                         required
-                                        className="h-12 rounded-xl bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-800 text-sm font-bold font-mono"
+                                        className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold font-mono placeholder:text-[#64748B] focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] outline-none transition-all"
                                         placeholder="elena-vance/"
                                         value={formData.slug}
                                         onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
@@ -293,23 +293,23 @@ export default function AuthorsPage() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center">
-                                        <Plus className="h-3 w-3 mr-2 rotate-45" /> Rank / Designation
+                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                        <Plus className="h-3 w-3 mr-2 rotate-45 text-cyan-500" /> Rank / Designation
                                     </label>
                                     <Input
                                         required
-                                        className="h-12 rounded-xl bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-800 text-sm font-bold"
+                                        className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold placeholder:text-[#64748B] focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] outline-none transition-all"
                                         placeholder="e.g. Lead Analyst"
                                         value={formData.role}
                                         onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                                     />
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center">
-                                        <ImageIcon className="h-3 w-3 mr-2" /> Personnel Photo (URL)
+                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                        <ImageIcon className="h-3 w-3 mr-2 text-cyan-500" /> Personnel Photo (URL)
                                     </label>
                                     <Input
-                                        className="h-12 rounded-xl bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-800 text-sm font-bold"
+                                        className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold placeholder:text-[#64748B] focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] outline-none transition-all"
                                         placeholder="https://..."
                                         value={formData.image}
                                         onChange={(e) => setFormData({ ...formData, image: e.target.value })}
@@ -318,11 +318,11 @@ export default function AuthorsPage() {
                             </div>
 
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center">
-                                    <Tag className="h-3 w-3 mr-2" /> Sector Expertise (Comma Separated)
+                                <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                    <Tag className="h-3 w-3 mr-2 text-cyan-500" /> Sector Expertise (Comma Separated)
                                 </label>
                                 <Input
-                                    className="h-12 rounded-xl bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-slate-800 text-sm font-bold"
+                                    className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold placeholder:text-[#64748B] focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] outline-none transition-all"
                                     placeholder="e.g. Cyber, MENA, Defense"
                                     value={formData.expertise}
                                     onChange={(e) => setFormData({ ...formData, expertise: e.target.value })}
@@ -330,12 +330,12 @@ export default function AuthorsPage() {
                             </div>
 
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center">
-                                    <FileText className="h-3 w-3 mr-2" /> Operational Bio
+                                <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                    <FileText className="h-3 w-3 mr-2 text-cyan-500" /> Operational Bio
                                 </label>
                                 <textarea
                                     required
-                                    className="w-full h-40 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-white/5 p-6 text-sm font-medium focus-visible:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-white transition-all outline-none resize-none placeholder:font-normal leading-relaxed"
+                                    className="w-full h-40 rounded-2xl border border-[#CBD5E1] dark:border-[#1E293B] bg-white dark:bg-[#020617] p-6 text-sm font-medium text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] focus-visible:outline-none focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] transition-all outline-none resize-none placeholder:font-normal leading-relaxed shadow-sm"
                                     placeholder="Document the professional capabilities and strategic background..."
                                     value={formData.bio}
                                     onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
@@ -343,8 +343,8 @@ export default function AuthorsPage() {
                             </div>
 
                             <div className="pt-10 flex justify-end space-x-4">
-                                <Button type="button" variant="ghost" className="h-12 px-8 rounded-xl font-black uppercase tracking-widest text-[10px]" onClick={() => setIsModalOpen(false)}>Abort Change</Button>
-                                <Button type="submit" className="h-12 px-10 rounded-xl bg-slate-900 dark:bg-white dark:text-slate-900 font-black uppercase tracking-widest text-[10px] shadow-xl">Commit Manifest</Button>
+                                <Button type="button" variant="ghost" className="h-12 px-8 rounded-xl font-black uppercase tracking-widest text-[10px] text-muted-foreground hover:text-foreground" onClick={() => setIsModalOpen(false)}>Abort Change</Button>
+                                <Button type="submit" className="h-12 px-10 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-black uppercase tracking-widest text-[10px] shadow-xl hover:bg-black dark:hover:bg-white/90">Commit Manifest</Button>
                             </div>
                         </form>
                     </div>
