@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     if (page) {
         return constructMetadata({
             title: page.metaTitle || `${page.title} | Institutional`,
-            description: page.metaDescription,
+            description: page.metaDescription || undefined,
             path: slug,
         });
     }
