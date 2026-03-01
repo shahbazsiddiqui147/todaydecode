@@ -125,25 +125,25 @@ export default function CategoriesPage() {
 
     return (
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-slate-200 dark:border-slate-800">
+            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-border">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black uppercase tracking-tighter text-slate-900 dark:text-white">Taxonomy <span className="text-slate-400 font-medium">Manager</span></h1>
-                    <p className="text-xs font-black uppercase tracking-widest text-slate-500">Managing intelligence categories and navigational protocols.</p>
+                    <h1 className="text-3xl font-black uppercase tracking-tighter text-foreground">Taxonomy <span className="text-muted-foreground/60 font-medium">Manager</span></h1>
+                    <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Managing intelligence categories and navigational protocols.</p>
                 </div>
-                <Button onClick={() => { setEditingCategory(null); setFormData({ name: "", slug: "", description: "", order: "0", isVisible: true, icon: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl bg-slate-900 dark:bg-white dark:text-slate-900 font-black uppercase tracking-widest text-[11px] px-6">
+                <Button onClick={() => { setEditingCategory(null); setFormData({ name: "", slug: "", description: "", order: "0", isVisible: true, icon: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[11px] px-6 shadow-xl">
                     <Plus className="mr-2 h-4 w-4" /> Initialize Node
                 </Button>
             </header>
 
-            <div className="bg-white dark:bg-[#0D1425] border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm shadow-slate-100 dark:shadow-none">
+            <div className="bg-card border border-border rounded-3xl overflow-hidden shadow-sm shadow-black/5 dark:shadow-none transition-colors">
                 <Table className="border-collapse">
-                    <TableHeader className="bg-slate-50 dark:bg-white/5">
-                        <TableRow className="border-b border-slate-200 dark:border-slate-800 hover:bg-transparent">
-                            <TableHead className="w-16 text-center">Priority</TableHead>
-                            <TableHead className="py-5 pl-8">Intelligence Node</TableHead>
-                            <TableHead>Protocol Path (Slug)</TableHead>
-                            <TableHead>State</TableHead>
-                            <TableHead className="text-right pr-8">Operations</TableHead>
+                    <TableHeader className="bg-muted/50">
+                        <TableRow className="border-b border-border hover:bg-transparent">
+                            <TableHead className="w-16 text-center text-muted-foreground">Priority</TableHead>
+                            <TableHead className="py-5 pl-8 text-muted-foreground">Intelligence Node</TableHead>
+                            <TableHead className="text-muted-foreground">Protocol Path (Slug)</TableHead>
+                            <TableHead className="text-muted-foreground">State</TableHead>
+                            <TableHead className="text-right pr-8 text-muted-foreground">Operations</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -151,36 +151,36 @@ export default function CategoriesPage() {
                             <TableRow>
                                 <TableCell colSpan={5} className="h-64 text-center">
                                     <div className="flex flex-col items-center space-y-4">
-                                        <div className="h-8 w-8 rounded-full border-4 border-slate-100 dark:border-slate-800 border-t-slate-900 dark:border-t-white animate-spin"></div>
-                                        <span className="text-[11px] font-black uppercase tracking-widest text-slate-400">Loading Taxonomy...</span>
+                                        <div className="h-8 w-8 rounded-full border-4 border-muted border-t-primary animate-spin"></div>
+                                        <span className="text-[11px] font-black uppercase tracking-widest text-muted-foreground">Loading Taxonomy...</span>
                                     </div>
                                 </TableCell>
                             </TableRow>
                         ) : categories.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={5} className="h-64 text-center text-slate-400 font-bold uppercase tracking-widest text-[11px] italic">No categories found in system.</TableCell>
+                                <TableCell colSpan={5} className="h-64 text-center text-muted-foreground font-bold uppercase tracking-widest text-[11px] italic">No categories found in system.</TableCell>
                             </TableRow>
                         ) : categories.map((cat) => (
-                            <TableRow key={cat.id} className="group border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
-                                <TableCell className="text-center font-mono font-black text-xs text-slate-400 dark:text-slate-600">
+                            <TableRow key={cat.id} className="group border-b border-border/50 hover:bg-muted/30 transition-colors">
+                                <TableCell className="text-center font-mono font-black text-xs text-muted-foreground/60">
                                     {cat.order}
                                 </TableCell>
                                 <TableCell className="pl-8">
                                     <div className="flex items-center space-x-4">
-                                        <div className="h-10 w-10 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-slate-800 flex items-center justify-center shrink-0">
-                                            <Map className="h-5 w-5 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors" />
+                                        <div className="h-10 w-10 rounded-xl bg-muted/50 border border-border flex items-center justify-center shrink-0">
+                                            <Map className="h-5 w-5 text-muted-foreground/60 group-hover:text-foreground transition-colors" />
                                         </div>
-                                        <div className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight">{cat.name}</div>
+                                        <div className="text-sm font-black text-foreground uppercase tracking-tight">{cat.name}</div>
                                     </div>
                                 </TableCell>
-                                <TableCell className="font-mono text-[10px] text-slate-400">{cat.slug}</TableCell>
+                                <TableCell className="font-mono text-[10px] text-muted-foreground/60">{cat.slug}</TableCell>
                                 <TableCell>
                                     {cat.isVisible ? (
-                                        <span className="flex items-center text-[10px] font-black uppercase text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+                                        <span className="flex items-center text-[10px] font-black uppercase text-brand-stability bg-brand-stability/10 px-3 py-1 rounded-full border border-brand-stability/20">
                                             <Eye className="h-3 w-3 mr-1.5" /> Published
                                         </span>
                                     ) : (
-                                        <span className="flex items-center text-[10px] font-black uppercase text-slate-400 bg-slate-100/50 dark:bg-white/5 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800">
+                                        <span className="flex items-center text-[10px] font-black uppercase text-muted-foreground bg-muted/50 px-3 py-1 rounded-full border border-border">
                                             <EyeOff className="h-3 w-3 mr-1.5" /> Hidden
                                         </span>
                                     )}
@@ -189,7 +189,7 @@ export default function CategoriesPage() {
                                     <div className="flex items-center justify-end space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <Button
                                             variant="outline"
-                                            className="h-8 rounded-lg border-slate-200 dark:border-slate-800 hover:bg-white"
+                                            className="h-8 rounded-lg border-border hover:bg-secondary"
                                             onClick={() => {
                                                 setEditingCategory(cat);
                                                 setFormData({
@@ -205,7 +205,7 @@ export default function CategoriesPage() {
                                         >
                                             <Settings2 className="h-3 w-3 mr-2" /> <span className="text-[10px] uppercase font-black">Edit</span>
                                         </Button>
-                                        <Button variant="destructive" className="h-8 w-8 p-0 rounded-lg" onClick={() => handleDeleteClick(cat.id)}>
+                                        <Button variant="destructive" className="h-8 w-8 p-0 rounded-lg shadow-lg shadow-destructive/20" onClick={() => handleDeleteClick(cat.id)}>
                                             <Trash2 className="h-3 w-3" />
                                         </Button>
                                     </div>

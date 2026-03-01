@@ -61,8 +61,9 @@ export function Sidebar() {
                         Intelligence Vault
                     </div>
                     {categories.map((item) => {
-                        const href = `/${item.slug}`;
-                        const isActive = pathname === href || pathname.startsWith(href);
+                        const slug = item.slug.replace(/^\/|\/$/g, '');
+                        const href = `/${slug}/`;
+                        const isActive = pathname === href || pathname.startsWith(`/${slug}/`);
                         // Lookup icon or fallback to Globe
                         const Icon = ICON_MAP[item.slug.replace('/', '')] || ICON_MAP[item.name.toLowerCase()] || Globe;
 

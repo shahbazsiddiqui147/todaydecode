@@ -132,38 +132,38 @@ export default function AuthorsPage() {
 
     return (
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-slate-200 dark:border-slate-800">
+            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-border">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black uppercase tracking-tighter text-slate-900 dark:text-white">Personnel <span className="text-slate-400 font-medium">Database</span></h1>
-                    <p className="text-xs font-black uppercase tracking-widest text-slate-500">Managing analyst credentials and intelligence profiles.</p>
+                    <h1 className="text-3xl font-black uppercase tracking-tighter text-foreground">Personnel <span className="text-muted-foreground/60 font-medium">Database</span></h1>
+                    <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Managing analyst credentials and intelligence profiles.</p>
                 </div>
-                <Button onClick={() => { setEditingAuthor(null); setFormData({ name: "", slug: "", role: "", bio: "", image: "", expertise: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl bg-slate-900 dark:bg-white dark:text-slate-900 font-black uppercase tracking-widest text-[11px] px-6">
+                <Button onClick={() => { setEditingAuthor(null); setFormData({ name: "", slug: "", role: "", bio: "", image: "", expertise: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[11px] px-6 shadow-xl">
                     <UserPlus className="mr-2 h-4 w-4" /> Initialize Analyst
                 </Button>
             </header>
 
-            <div className="flex items-center space-x-4 bg-white dark:bg-[#0D1425] p-3 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden group">
-                <div className="absolute top-0 left-0 w-1 h-full bg-slate-200 dark:bg-slate-800 group-focus-within:bg-slate-900 dark:group-focus-within:bg-white transition-all" />
+            <div className="flex items-center space-x-4 bg-card p-3 rounded-2xl border border-border shadow-sm relative overflow-hidden group">
+                <div className="absolute top-0 left-0 w-1 h-full bg-border group-focus-within:bg-primary transition-all" />
                 <div className="relative flex-1 flex items-center pl-6">
-                    <Search className="h-4 w-4 text-slate-300 dark:text-slate-600 mr-4" />
+                    <Search className="h-4 w-4 text-muted-foreground/40 mr-4" />
                     <input
                         placeholder="Search manifests by name or designation..."
-                        className="w-full bg-transparent border-none outline-none text-sm font-bold placeholder:text-slate-300 dark:placeholder:text-slate-700 text-slate-900 dark:text-white"
+                        className="w-full bg-transparent border-none outline-none text-sm font-bold placeholder:text-muted-foreground/40 text-foreground"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
                 </div>
             </div>
 
-            <div className="bg-white dark:bg-[#0D1425] border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm shadow-slate-100 dark:shadow-none">
+            <div className="bg-card border border-border rounded-3xl overflow-hidden shadow-sm shadow-black/5 dark:shadow-none transition-colors">
                 <Table className="border-collapse">
-                    <TableHeader className="bg-slate-50 dark:bg-white/5">
-                        <TableRow className="border-b border-slate-200 dark:border-slate-800 hover:bg-transparent">
-                            <TableHead className="w-16 text-center">Protocol</TableHead>
-                            <TableHead className="py-5 pl-8">Full Identity</TableHead>
-                            <TableHead>Designation</TableHead>
-                            <TableHead>Expertise Nodes</TableHead>
-                            <TableHead className="text-right pr-8">Operations</TableHead>
+                    <TableHeader className="bg-muted/50">
+                        <TableRow className="border-b border-border hover:bg-transparent">
+                            <TableHead className="w-16 text-center text-muted-foreground">Protocol</TableHead>
+                            <TableHead className="py-5 pl-8 text-muted-foreground">Full Identity</TableHead>
+                            <TableHead className="text-muted-foreground">Designation</TableHead>
+                            <TableHead className="text-muted-foreground">Expertise Nodes</TableHead>
+                            <TableHead className="text-right pr-8 text-muted-foreground">Operations</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -171,19 +171,19 @@ export default function AuthorsPage() {
                             <TableRow>
                                 <TableCell colSpan={5} className="h-64 text-center">
                                     <div className="flex flex-col items-center space-y-4">
-                                        <div className="h-8 w-8 rounded-full border-4 border-slate-100 dark:border-slate-800 border-t-slate-900 dark:border-t-white animate-spin"></div>
-                                        <span className="text-[11px] font-black uppercase tracking-widest text-slate-400">Scanning Manifests...</span>
+                                        <div className="h-8 w-8 rounded-full border-4 border-muted border-t-primary animate-spin"></div>
+                                        <span className="text-[11px] font-black uppercase tracking-widest text-muted-foreground">Scanning Manifests...</span>
                                     </div>
                                 </TableCell>
                             </TableRow>
                         ) : filteredAuthors.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={5} className="h-64 text-center text-slate-400 font-bold uppercase tracking-widest text-[11px] italic">No personnel found in current sector.</TableCell>
+                                <TableCell colSpan={5} className="h-64 text-center text-muted-foreground font-bold uppercase tracking-widest text-[11px] italic">No personnel found in current sector.</TableCell>
                             </TableRow>
                         ) : filteredAuthors.map((author) => (
-                            <TableRow key={author.id} className="group border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                            <TableRow key={author.id} className="group border-b border-border/50 hover:bg-muted/30 transition-colors">
                                 <TableCell className="text-center">
-                                    <ShieldCheck className="h-4 w-4 mx-auto text-slate-200 dark:text-slate-800 group-hover:text-slate-900 dark:group-hover:text-white transition-colors" />
+                                    <ShieldCheck className="h-4 w-4 mx-auto text-muted-foreground/30 group-hover:text-primary transition-colors" />
                                 </TableCell>
                                 <TableCell className="pl-8">
                                     <div className="flex items-center space-x-4">
@@ -191,29 +191,29 @@ export default function AuthorsPage() {
                                             {author.image ? <img src={author.image} alt="" className="h-full w-full object-cover" /> : <span className="text-white font-black italic uppercase text-xs">{(author.name || "A").charAt(0)}</span>}
                                         </div>
                                         <div className="space-y-0.5">
-                                            <div className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight">{author.name}</div>
-                                            <div className="text-[10px] font-mono text-slate-400 lowercase">{author.slug}</div>
+                                            <div className="text-sm font-black text-foreground uppercase tracking-tight">{author.name}</div>
+                                            <div className="text-[10px] font-mono text-muted-foreground/60 lowercase">{author.slug}</div>
                                         </div>
                                     </div>
                                 </TableCell>
                                 <TableCell>
-                                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-widest px-3 py-1 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-slate-800">{author.role}</span>
+                                    <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest px-3 py-1 rounded-lg bg-muted border border-border">{author.role}</span>
                                 </TableCell>
                                 <TableCell>
                                     <div className="flex flex-wrap gap-1.5 max-w-xs">
                                         {author.expertise.slice(0, 3).map((e, i) => (
-                                            <span key={i} className="text-[9px] font-black uppercase text-slate-400 flex items-center">
+                                            <span key={i} className="text-[9px] font-black uppercase text-muted-foreground/60 flex items-center">
                                                 <Tag className="h-2 w-2 mr-1" /> {e}
                                             </span>
                                         ))}
-                                        {author.expertise.length > 3 && <span className="text-[9px] font-black text-slate-300">+{author.expertise.length - 3} More</span>}
+                                        {author.expertise.length > 3 && <span className="text-[9px] font-black text-muted-foreground/40">+{author.expertise.length - 3} More</span>}
                                     </div>
                                 </TableCell>
                                 <TableCell className="text-right pr-8">
                                     <div className="flex items-center justify-end space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <Button
                                             variant="outline"
-                                            className="h-8 rounded-lg border-slate-200 dark:border-slate-800 hover:bg-white"
+                                            className="h-8 rounded-lg border-border hover:bg-secondary"
                                             onClick={() => {
                                                 setEditingAuthor(author);
                                                 setFormData({
@@ -229,7 +229,7 @@ export default function AuthorsPage() {
                                         >
                                             <Edit2 className="h-3 w-3 mr-2" /> <span className="text-[10px] uppercase font-black">Configure</span>
                                         </Button>
-                                        <Button variant="destructive" className="h-8 w-8 p-0 rounded-lg" onClick={() => handleDeleteClick(author.id)}>
+                                        <Button variant="destructive" className="h-8 w-8 p-0 rounded-lg shadow-lg shadow-destructive/20" onClick={() => handleDeleteClick(author.id)}>
                                             <Trash2 className="h-3 w-3" />
                                         </Button>
                                     </div>

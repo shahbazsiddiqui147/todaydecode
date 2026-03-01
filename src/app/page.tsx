@@ -1,7 +1,7 @@
 import { AnalysisCard } from "@/components/ui/analysis-card";
 import { TrendingUp, ShieldAlert, Zap } from "lucide-react";
 import { GlobalRiskMap } from "@/components/maps/global-risk-map";
-import { getFeaturedArticles, getMapRegionData } from "@/lib/actions/public-actions";
+import { getFeaturedArticles, getMapRegionData, getHomepageStats } from "@/lib/actions/public-actions";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { constructMetadata } from "@/lib/seo";
@@ -31,9 +31,10 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
   }
 
   // 2. FETCH PRODUCTION DATA
-  const [featuredArticles, regionData] = await Promise.all([
+  const [featuredArticles, regionData, stats] = await Promise.all([
     getFeaturedArticles(4),
-    getMapRegionData()
+    getMapRegionData(),
+    getHomepageStats()
   ]);
 
   return (
@@ -83,27 +84,27 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
       </div>
 
       <section className="bg-secondary/80 border border-border-slate rounded-xl p-8 shadow-subtle-glow">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center font-black">
           <div className="space-y-2">
             <div className="flex justify-center">
               <ShieldAlert className="h-8 w-8 text-accent-red" />
             </div>
-            <div className="text-2xl font-bold uppercase font-black tracking-tighter text-foreground">12 Active Hotspots</div>
-            <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold">Global Security Index</div>
+            <div className="text-2xl font-black uppercase tracking-tighter text-foreground">{stats.hotspots} Active Hotspots</div>
+            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black">Global Security Index</div>
           </div>
           <div className="space-y-2 border-x border-border-slate">
             <div className="flex justify-center">
               <TrendingUp className="h-8 w-8 text-accent-green" />
             </div>
-            <div className="text-2xl font-bold uppercase font-black tracking-tighter text-foreground">+4.2% Growth</div>
-            <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold">MENA Economic Forecast</div>
+            <div className="text-2xl font-black uppercase tracking-tighter text-foreground">{stats.reportsCount} Reports</div>
+            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black">Strategic Intelligence Flow</div>
           </div>
           <div className="space-y-2">
             <div className="flex justify-center">
               <Zap className="h-8 w-8 text-yellow-500" />
             </div>
-            <div className="text-2xl font-bold uppercase font-black tracking-tighter text-foreground">Resilient</div>
-            <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold">Energy Grid Integrity</div>
+            <div className="text-2xl font-black uppercase tracking-tighter text-foreground">{stats.integrity}</div>
+            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black">System Grid Integrity</div>
           </div>
         </div>
       </section>

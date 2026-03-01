@@ -90,9 +90,9 @@ export default function ArticlesPage() {
     const getStatusBadge = (status: string) => {
         switch (status) {
             case "PUBLISHED":
-                return <Badge className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 gap-1"><CheckCircle2 className="h-3 w-3" /> Live</Badge>;
+                return <Badge variant="success" className="gap-1"><CheckCircle2 className="h-3 w-3" /> Live</Badge>;
             case "DRAFT":
-                return <Badge variant="outline" className="text-slate-400 gap-1"><Clock className="h-3 w-3" /> Draft</Badge>;
+                return <Badge variant="outline" className="text-muted-foreground/60 gap-1"><Clock className="h-3 w-3" /> Draft</Badge>;
             case "ARCHIVED":
                 return <Badge variant="secondary" className="gap-1">Archived</Badge>;
             default:
@@ -119,23 +119,23 @@ export default function ArticlesPage() {
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white uppercase italic">Intelligence Hub</h1>
-                    <p className="text-slate-500 text-sm font-medium">Manage geopolitical reports and scenarios.</p>
+                    <h1 className="text-3xl font-black tracking-tight text-foreground uppercase italic pb-1">Intelligence <span className="text-muted-foreground/60 not-italic">Hub</span></h1>
+                    <p className="text-muted-foreground text-xs font-black uppercase tracking-widest">Manage geopolitical reports and scenarios.</p>
                 </div>
                 <Link href="/admin/articles/new">
-                    <Button className="bg-slate-900 dark:bg-white dark:text-slate-950 hover:bg-slate-800 dark:hover:bg-slate-200 rounded-none h-11 px-6 font-black uppercase italic tracking-tighter transition-all active:scale-95 shadow-lg">
+                    <Button className="h-11 rounded-xl font-black uppercase tracking-widest text-[11px] px-6 shadow-xl">
                         <Plus className="h-4 w-4 mr-2" /> File New Report
                     </Button>
                 </Link>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-                <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-4 bg-slate-50/50 dark:bg-slate-900/50">
+            <div className="bg-card border border-border shadow-sm overflow-hidden rounded-3xl transition-colors">
+                <div className="p-4 border-b border-border flex items-center gap-4 bg-muted/30">
                     <div className="relative flex-1 max-w-sm">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/40" />
                         <Input
                             placeholder="SEARCH INTELLIGENCE..."
-                            className="pl-10 bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 rounded-none h-10 text-[10px] uppercase font-black tracking-widest focus-visible:ring-slate-900"
+                            className="pl-10 bg-background border-border rounded-xl h-10 text-[10px] uppercase font-black tracking-widest focus-visible:ring-primary"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
@@ -144,55 +144,58 @@ export default function ArticlesPage() {
 
                 <div className="overflow-x-auto">
                     <Table>
-                        <TableHeader>
-                            <TableRow className="bg-slate-50/50 dark:bg-slate-900/50 hover:bg-slate-50/50 dark:hover:bg-slate-900/50 border-b border-slate-100 dark:border-slate-800">
-                                <TableHead className="text-[10px] uppercase font-black text-slate-500 tracking-widest py-4">Status & Title</TableHead>
-                                <TableHead className="text-[10px] uppercase font-black text-slate-500 tracking-widest">Metadata</TableHead>
-                                <TableHead className="text-[10px] uppercase font-black text-slate-500 tracking-widest text-right">Operational Scale</TableHead>
+                        <TableHeader className="bg-muted/50">
+                            <TableRow className="border-b border-border hover:bg-transparent">
+                                <TableHead className="text-[10px] uppercase font-black text-muted-foreground tracking-widest py-4">Status & Title</TableHead>
+                                <TableHead className="text-[10px] uppercase font-black text-muted-foreground tracking-widest">Metadata</TableHead>
+                                <TableHead className="text-[10px] uppercase font-black text-muted-foreground tracking-widest text-right">Operational Scale</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {loading ? (
                                 <TableRow>
-                                    <TableCell colSpan={3} className="h-32 text-center text-slate-400 font-medium italic">
-                                        SCANNING DATABASE...
+                                    <TableCell colSpan={3} className="h-64 text-center">
+                                        <div className="flex flex-col items-center space-y-4">
+                                            <div className="h-8 w-8 rounded-full border-4 border-muted border-t-primary animate-spin"></div>
+                                            <span className="text-[11px] font-black uppercase tracking-widest text-muted-foreground">SCANNING DATABASE...</span>
+                                        </div>
                                     </TableCell>
                                 </TableRow>
                             ) : filteredArticles.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={3} className="h-32 text-center text-slate-400 font-medium italic">
+                                    <TableCell colSpan={3} className="h-64 text-center text-muted-foreground font-bold uppercase tracking-widest text-[11px] italic">
                                         NO REPORTS FOUND IN CURRENT SECTOR.
                                     </TableCell>
                                 </TableRow>
                             ) : (
                                 filteredArticles.map((article) => (
-                                    <TableRow key={article.id} className="hover:bg-slate-50/30 dark:hover:bg-slate-800/10 border-b border-slate-100 dark:border-slate-800 transition-colors">
-                                        <TableCell className="py-4">
+                                    <TableRow key={article.id} className="group hover:bg-muted/30 border-b border-border/50 transition-colors">
+                                        <TableCell className="py-4 pl-4">
                                             <div className="flex items-start gap-4">
                                                 <div className="mt-1">
                                                     {getStatusBadge(article.status)}
                                                 </div>
                                                 <div className="space-y-1">
-                                                    <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 leading-none tracking-tight underline-offset-4 hover:underline cursor-pointer">
+                                                    <h3 className="text-sm font-black text-foreground leading-none tracking-tight hover:text-primary transition-colors cursor-pointer uppercase">
                                                         {article.title}
                                                     </h3>
-                                                    <div className="flex items-center gap-2 text-[10px] text-slate-500 font-black uppercase tracking-tighter">
+                                                    <div className="flex items-center gap-2 text-[10px] text-muted-foreground/60 font-black uppercase tracking-widest">
                                                         <span className="flex items-center gap-1">
                                                             <FileText className="h-3 w-3" /> {article.category.name}
                                                         </span>
                                                         <span>/</span>
-                                                        <span>{article.slug}</span>
+                                                        <span className="font-mono lowercase">{article.slug}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </TableCell>
                                         <TableCell>
                                             <div className="space-y-1">
-                                                <div className="flex items-center gap-2 text-[11px] font-bold text-slate-700 dark:text-slate-300">
-                                                    <span className="w-1 h-3 bg-slate-900 dark:bg-white" />
+                                                <div className="flex items-center gap-2 text-[11px] font-black text-foreground uppercase tracking-tight">
+                                                    <span className="w-1 h-3 bg-primary" />
                                                     {article.author.name}
                                                 </div>
-                                                <div className="text-[10px] text-slate-500 font-medium uppercase italic">
+                                                <div className="text-[10px] text-muted-foreground/60 font-black uppercase tracking-widest">
                                                     {new Date(article.publishedAt).toLocaleDateString()}
                                                 </div>
                                             </div>
@@ -202,15 +205,15 @@ export default function ArticlesPage() {
                                                 <div className="hidden sm:block">
                                                     {getRiskBadge(article.riskLevel)}
                                                 </div>
-                                                <div className="flex items-center gap-1">
+                                                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                                     <Link href={`/admin/articles/edit/${article.id}`}>
-                                                        <Button variant="ghost" className="h-8 w-8 p-0 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+                                                        <Button variant="outline" className="h-8 w-8 p-0 rounded-lg border-border hover:bg-secondary">
                                                             <Edit2 className="h-3 w-3" />
                                                         </Button>
                                                     </Link>
                                                     <Button
-                                                        variant="ghost"
-                                                        className="h-8 w-8 p-0 rounded-lg text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10"
+                                                        variant="destructive"
+                                                        className="h-8 w-8 p-0 rounded-lg shadow-lg shadow-destructive/20"
                                                         onClick={() => handleDelete(article.id)}
                                                     >
                                                         <Trash2 className="h-3 w-3" />

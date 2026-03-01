@@ -172,7 +172,7 @@ export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
                             position: "fixed",
                             left: tooltip.x + 20,
                             top: tooltip.y + 20,
-                            pointerEvents: "none",
+                            pointerEvents: "auto",
                             zIndex: 100
                         }}
                         className="bg-card/95 border border-border-slate p-5 rounded-2xl shadow-2xl backdrop-blur-2xl min-w-[280px] max-w-[320px] shadow-subtle-glow transition-colors duration-300"
@@ -208,14 +208,18 @@ export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
                                 ) : tooltip.data.latestReports.length > 0 ? (
                                     <div className="space-y-3">
                                         {tooltip.data.latestReports.map((report: any) => (
-                                            <div key={report.id} className="group/item">
+                                            <Link
+                                                key={report.id}
+                                                href={`/${report.category.slug.replace(/^\/|\/$/g, '')}/${report.slug.replace(/^\/|\/$/g, '')}/`}
+                                                className="group/item block pointer-events-auto"
+                                            >
                                                 <div className="text-[11px] font-bold text-foreground dark:text-slate-200 line-clamp-1 group-hover/item:text-accent-red transition-colors">
                                                     {report.title}
                                                 </div>
                                                 <div className="text-[8px] text-slate-500 uppercase font-bold tracking-widest mt-0.5">
                                                     {new Date(report.publishedAt).toLocaleDateString()} // Confidential
                                                 </div>
-                                            </div>
+                                            </Link>
                                         ))}
                                     </div>
                                 ) : (

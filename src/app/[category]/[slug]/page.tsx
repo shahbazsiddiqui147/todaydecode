@@ -117,7 +117,7 @@ export default async function ArticlePage({
                     <div className="flex flex-col space-y-6">
                         <Breadcrumbs items={[
                             { label: 'Home', href: '/' },
-                            { label: article.category.name, href: `/${article.category.slug}` },
+                            { label: article.category.name, href: `/${article.category.slug.replace(/^\/|\/$/g, '')}/` },
                             { label: 'Strategic Analysis', href: '#' }
                         ]} />
 
@@ -141,7 +141,7 @@ export default async function ArticlePage({
                                     )}
                                 </div>
                                 <div>
-                                    <Link href={`/author/${article.author.slug}/`}>
+                                    <Link href={`/author/${article.author.slug.replace(/^\/|\/$/g, '')}/`}>
                                         <div className="text-xs font-black uppercase tracking-widest text-white hover:text-accent-red transition-colors">{article.author.name}</div>
                                     </Link>
                                     <div className="text-[10px] text-slate-400 uppercase font-medium">{article.author.role}</div>

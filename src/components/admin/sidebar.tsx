@@ -65,14 +65,14 @@ export function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <aside className="w-64 h-screen sticky top-0 bg-[#F8FAFC] dark:bg-[#0F172A] border-r border-slate-200 dark:border-slate-800 flex flex-col transition-colors duration-300 overflow-y-auto">
-            <div className="p-6 border-b border-slate-200 dark:border-slate-800 mb-4 bg-white dark:bg-[#0F172A]">
+        <aside className="w-64 h-screen sticky top-0 bg-sidebar border-r border-border flex flex-col transition-colors duration-300 overflow-y-auto">
+            <div className="p-6 border-b border-border mb-4 bg-sidebar">
                 <div className="flex items-center space-x-2.5">
-                    <div className="bg-slate-900 dark:bg-white p-1.5 rounded-lg">
-                        <ShieldCheck className="h-5 w-5 text-white dark:text-slate-900" />
+                    <div className="bg-primary p-1.5 rounded-lg">
+                        <ShieldCheck className="h-5 w-5 text-primary-foreground" />
                     </div>
-                    <span className="font-bold tracking-tight text-lg text-slate-900 dark:text-white">
-                        ADMIN <span className="text-slate-500 font-medium">WORKSPACE</span>
+                    <span className="font-bold tracking-tight text-lg text-foreground">
+                        ADMIN <span className="text-muted-foreground font-medium">WORKSPACE</span>
                     </span>
                 </div>
             </div>
@@ -80,7 +80,7 @@ export function Sidebar() {
             <nav className="flex-1 px-4 pb-6 space-y-8">
                 {GROUPS.map((group) => (
                     <div key={group.name} className="space-y-1">
-                        <h3 className="px-2 mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">
+                        <h3 className="px-2 mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">
                             {group.name}
                         </h3>
                         {group.items.map((item) => {
@@ -92,18 +92,18 @@ export function Sidebar() {
                                     className={cn(
                                         "flex items-center justify-between group px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200",
                                         isActive
-                                            ? "bg-white dark:bg-white/5 text-slate-900 dark:text-white shadow-sm border border-slate-200 dark:border-white/10"
-                                            : "text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5"
+                                            ? "bg-secondary text-foreground shadow-sm border border-border"
+                                            : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
                                     )}
                                 >
                                     <div className="flex items-center space-x-3">
                                         <item.icon className={cn(
                                             "h-4 w-4 transition-colors",
-                                            isActive ? "text-slate-900 dark:text-white" : "group-hover:text-slate-900 dark:group-hover:text-white"
+                                            isActive ? "text-foreground" : "group-hover:text-foreground"
                                         )} />
                                         <span>{item.name}</span>
                                     </div>
-                                    {isActive && <div className="h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-slate-500" />}
+                                    {isActive && <div className="h-1.5 w-1.5 rounded-full bg-primary/40" />}
                                 </Link>
                             );
                         })}
@@ -111,10 +111,10 @@ export function Sidebar() {
                 ))}
             </nav>
 
-            <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0F172A]">
+            <div className="p-4 border-t border-border bg-sidebar">
                 <button
                     onClick={() => signOut({ callbackUrl: '/' })}
-                    className="w-full flex items-center space-x-3 px-3 py-2 text-sm font-semibold text-slate-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-all"
+                    className="w-full flex items-center justify-center space-x-3 px-3 py-3 text-[11px] font-black uppercase tracking-widest bg-destructive text-destructive-foreground hover:opacity-90 rounded-xl transition-all shadow-lg"
                 >
                     <LogOut className="h-4 w-4" />
                     <span>Exit Workspace</span>
