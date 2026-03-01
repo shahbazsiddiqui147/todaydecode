@@ -88,7 +88,7 @@ export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
     };
 
     return (
-        <div className="relative w-full aspect-[16/9] bg-secondary/50 dark:bg-slate-950/50 rounded-2xl border border-border-slate overflow-hidden group">
+        <div className="relative w-full aspect-[16/9] bg-brand-charcoal rounded-2xl border border-border-slate overflow-hidden group shadow-subtle-glow">
             <div className="absolute top-6 left-6 z-10">
                 <h2 className="text-xl font-black text-foreground tracking-tight uppercase leading-none">
                     Global Risk Command
@@ -135,18 +135,18 @@ export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
                                         onMouseLeave={() => setTooltip(null)}
                                         style={{
                                             default: {
-                                                fill: colorScale(riskScore) as string,
-                                                stroke: "var(--border)",
+                                                fill: riskScore > 10 ? (colorScale(riskScore) as string) : "#1E293B",
+                                                stroke: "#334155",
                                                 strokeWidth: 0.5,
                                                 outline: "none",
                                                 transition: "all 250ms"
                                             },
                                             hover: {
-                                                fill: riskScore > 70 ? "#FF4B4B" : riskScore > 40 ? "#EAB308" : "#22C55E",
-                                                stroke: "var(--foreground)",
+                                                fill: riskScore > 70 ? "#FF4B4B" : riskScore > 40 ? "#EAB308" : "#22D3EE",
+                                                stroke: "#22D3EE",
                                                 strokeWidth: 1,
                                                 outline: "none",
-                                                filter: "drop-shadow(0 0 12px rgba(255, 255, 255, 0.2))",
+                                                filter: "drop-shadow(0 0 12px rgba(34, 211, 238, 0.4))",
                                                 cursor: "pointer"
                                             },
                                             pressed: {
@@ -175,7 +175,7 @@ export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
                             pointerEvents: "none",
                             zIndex: 100
                         }}
-                        className="bg-card dark:bg-slate-900/95 border border-border-slate p-5 rounded-2xl shadow-2xl backdrop-blur-2xl min-w-[280px] max-w-[320px]"
+                        className="bg-brand-charcoal/95 border border-border-slate p-5 rounded-2xl shadow-2xl backdrop-blur-2xl min-w-[280px] max-w-[320px] shadow-subtle-glow"
                     >
                         <div className="flex flex-col space-y-4">
                             <div className="flex items-center justify-between border-b border-white/5 pb-3">

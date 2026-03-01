@@ -40,11 +40,11 @@ export function CommandK() {
         <>
             <button
                 onClick={() => setOpen(true)}
-                className="flex w-full max-w-md items-center space-x-3 rounded-md border border-border-slate bg-transparent px-3 py-1.5 text-sm text-slate-400 group hover:border-slate-400 transition-colors"
+                className="flex w-full max-w-md items-center space-x-3 rounded-md border border-border-slate bg-transparent px-3 py-1.5 text-sm text-muted-foreground group hover:border-primary/50 transition-colors shadow-subtle-glow"
             >
                 <Search className="h-4 w-4" />
                 <span className="flex-1 text-left">Search intelligence metrics or articles...</span>
-                <kbd className="hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border border-border-slate bg-slate-800 px-1.5 font-mono text-[10px] font-medium text-slate-400 opacity-100">
+                <kbd className="hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border border-border-slate bg-brand-charcoal px-1.5 font-mono text-[10px] font-medium text-slate-400 opacity-100 uppercase">
                     <span className="text-xs">⌘</span>K
                 </kbd>
             </button>
@@ -70,17 +70,17 @@ export function CommandK() {
                             No results found for your query.
                         </Command.Empty>
 
-                        <Command.Group heading="Categories" className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-2 py-1.5">
+                        <Command.Group heading="Categories" className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-2 py-1.5">
                             <Command.Item
                                 onSelect={() => runCommand(() => router.push("/geopolitics/"))}
-                                className="flex items-center px-2 py-2 text-sm rounded-md aria-selected:bg-slate-800 aria-selected:text-white transition-colors cursor-pointer"
+                                className="flex items-center px-2 py-2 text-sm rounded-md aria-selected:bg-brand-charcoal aria-selected:text-primary transition-colors cursor-pointer"
                             >
                                 <Globe className="mr-3 h-4 w-4" />
                                 Geopolitics
                             </Command.Item>
                             <Command.Item
                                 onSelect={() => runCommand(() => router.push("/economy/"))}
-                                className="flex items-center px-2 py-2 text-sm rounded-md aria-selected:bg-slate-800 aria-selected:text-white transition-colors cursor-pointer"
+                                className="flex items-center px-2 py-2 text-sm rounded-md aria-selected:bg-brand-charcoal aria-selected:text-primary transition-colors cursor-pointer"
                             >
                                 <TrendingUp className="mr-3 h-4 w-4" />
                                 Global Economy
@@ -105,11 +105,11 @@ export function CommandK() {
                         </Command.Group>
                     </Command.List>
 
-                    <div className="flex items-center justify-between border-t border-border-slate px-4 py-3 bg-slate-900/50">
-                        <p className="text-[10px] text-slate-500 font-medium">SHIFTS: 12 NEW METRICS LOGGED SINCE 04:00 UTC</p>
+                    <div className="flex items-center justify-between border-t border-border-slate px-4 py-3 bg-brand-charcoal/50">
+                        <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-tight">SHIFTS: 12 NEW METRICS LOGGED SINCE 04:00 UTC</p>
                         <div className="flex items-center space-x-2">
-                            <div className="h-1.5 w-1.5 rounded-full bg-accent-green" />
-                            <span className="text-[10px] text-slate-500 uppercase">System Ready</span>
+                            <div className="h-1.5 w-1.5 rounded-full bg-accent-green shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
+                            <span className="text-[10px] text-muted-foreground uppercase font-black">System Ready</span>
                         </div>
                     </div>
                 </div>

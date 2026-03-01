@@ -18,48 +18,59 @@
   --color-card-foreground: var(--card-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+
+  /* Strategic Restoration Tokens */
+  --color-brand-navy: #0A0F1E;
+  --color-brand-charcoal: #161B22;
+  --color-tactical-red: #FF4B4B;
+  --color-tactical-green: #10B981;
+  --color-tactical-cyan: #22D3EE;
+
+  --shadow-subtle-glow: 0 0 20px rgba(34, 211, 238, 0.05);
 }
 
 :root {
   /* Unified Command Center Aesthetic (Strict Dark) */
   --background: #0A0F1E;
-  --foreground: #F8FAFC;
-  --primary: #FFFFFF;
+  --foreground: #F1F5F9;
+  /* Slate-100 for high contrast */
+  --primary: #22D3EE;
+  /* Cyan as primary accent */
   --primary-foreground: #0A0F1E;
-  --sidebar: #050812;
-  --sidebar-foreground: #F8FAFC;
-  --secondary: #1E293B;
-  --secondary-foreground: #F8FAFC;
+  --sidebar: #0A0F1E;
+  --sidebar-foreground: #F1F5F9;
+  --secondary: #161B22;
+  --secondary-foreground: #F1F5F9;
   --muted: #1E293B;
   --muted-foreground: #94A3B8;
   --accent-red: #FF4B4B;
-  --accent-green: #22C55E;
+  --accent-green: #10B981;
   --border: #1E293B;
   --card: #111827;
-  --card-foreground: #F8FAFC;
+  --card-foreground: #F1F5F9;
   --destructive: #FF4B4B;
-  --destructive-foreground: #F8FAFC;
+  --destructive-foreground: #F1F5F9;
 }
 
 .dark {
-  /* Keep variables identical for .dark to prevent any light-mode leakage */
+  /* Force dark variables consistently to prevent overrides */
   --background: #0A0F1E;
-  --foreground: #F8FAFC;
-  --primary: #FFFFFF;
+  --foreground: #F1F5F9;
+  --primary: #22D3EE;
   --primary-foreground: #0A0F1E;
-  --sidebar: #050812;
-  --sidebar-foreground: #F8FAFC;
-  --secondary: #1E293B;
-  --secondary-foreground: #F8FAFC;
+  --sidebar: #0A0F1E;
+  --sidebar-foreground: #F1F5F9;
+  --secondary: #161B22;
+  --secondary-foreground: #F1F5F9;
   --muted: #1E293B;
   --muted-foreground: #94A3B8;
   --accent-red: #FF4B4B;
-  --accent-green: #22C55E;
+  --accent-green: #10B981;
   --border: #1E293B;
   --card: #111827;
-  --card-foreground: #F8FAFC;
+  --card-foreground: #F1F5F9;
   --destructive: #FF4B4B;
-  --destructive-foreground: #F8FAFC;
+  --destructive-foreground: #F1F5F9;
 }
 
 body {

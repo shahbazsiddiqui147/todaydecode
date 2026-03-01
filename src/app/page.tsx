@@ -82,7 +82,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
         )}
       </div>
 
-      <section className="bg-primary/5 dark:bg-primary/40 border border-border-slate rounded-xl p-8">
+      <section className="bg-secondary/80 border border-border-slate rounded-xl p-8 shadow-subtle-glow">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           <div className="space-y-2">
             <div className="flex justify-center">
