@@ -1,32 +1,32 @@
-import { getCategoryBySlug, getPageBySlug, getPublicCategories } from "@/lib/actions/public-actions";
+import { getCategoryBySlug, getPageBySlug } from "@/lib/actions/public-actions";
 import { constructMetadata } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import { AnalysisCard } from "@/components/ui/analysis-card";
 import { RiskGauge } from "@/components/metrics/risk-gauge";
-import { Globe, ShieldAlert, Zap, TrendingUp, Layers, Clock } from "lucide-react";
+import { ShieldAlert, Layers } from "lucide-react";
 import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
-import { Badge } from "@/components/ui/badge";
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }) {
-    const { category: slug } = await params;
+    const { category } = await params;
+    const slug = `/${category}/`;
 
-    // Check if it's a category
-    const category = await getCategoryBySlug(slug);
-    if (category) {
+    // Attempt to locate silo for metadata identification
+    const silo = await getCategoryBySlug(slug);
+    if (silo) {
         return constructMetadata({
-            title: `${category.name} | Strategic Intelligence Silo`,
-            description: category.description || `Tactical oversight and strategic reports for ${category.name}. Sector Risk: ${category.avgRisk}/100.`,
-            path: `/${slug}/`,
+            title: `${silo.name} | Strategic Intelligence Silo`,
+            description: silo.description || `Tactical oversight and strategic reports for ${silo.name}. Sector Risk: ${silo.avgRisk}/100.`,
+            path: slug,
         });
     }
 
-    // Check if it's an institutional page
+    // Attempt to locate institutional document
     const page = await getPageBySlug(slug);
     if (page) {
         return constructMetadata({
             title: page.metaTitle || `${page.title} | Today Decode`,
             description: page.metaDescription || `Institutional document regarding ${page.title} at Today Decode.`,
-            path: `/${slug}/`,
+            path: slug,
         });
     }
 
@@ -34,29 +34,33 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
 }
 
 export default async function CatchAllSlugPage({ params }: { params: Promise<{ category: string }> }) {
-    const { category: slug } = await params;
+    const { category } = await params;
+    const categorySlug = `/${category}/`;
 
-    // 1. Attempt Category Desk Load
-    const category = await getCategoryBySlug(slug);
-    if (category) {
-        return <CategoryDesk category={category} slug={slug} />;
+    // Log the attempted handshake for Vercel diagnostic monitoring
+    console.log(`[Strategic Handshake] Attempting to resolve Silo/Page: ${categorySlug}`);
+
+    // 1. ATTEMPT SOVEREIGN SILO RESOLUTION
+    const silo = await getCategoryBySlug(categorySlug);
+    if (silo) {
+        return <CategoryDesk silo={silo} />;
     }
 
-    // 2. Attempt Institutional Page Load
-    const page = await getPageBySlug(slug);
+    // 2. ATTEMPT INSTITUTIONAL PAGE RESOLUTION
+    const page = await getPageBySlug(categorySlug);
     if (page) {
         return <InstitutionalPage page={page} />;
     }
 
-    // 3. Absolute Fallback
+    // 3. SECURE FALLBACK
     notFound();
 }
 
-function CategoryDesk({ category, slug }: { category: any, slug: string }) {
-    const reportCount = category.articles?.length || 0;
+function CategoryDesk({ silo }: { silo: any }) {
+    const reportCount = silo.articles?.length || 0;
 
     return (
-        <div className="space-y-12 pb-20">
+        <div className="space-y-12 pb-20 bg-primary min-h-screen text-slate-200">
             {/* Header Section */}
             <div className="relative p-8 rounded-3xl bg-secondary/50 border border-border-slate overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-accent-red/5 blur-[100px]" />
@@ -65,25 +69,25 @@ function CategoryDesk({ category, slug }: { category: any, slug: string }) {
                     <div className="space-y-6">
                         <Breadcrumbs items={[
                             { label: 'Home', href: '/' },
-                            { label: category.name, href: '#' }
+                            { label: silo.name, href: '#' }
                         ]} />
 
                         <div className="space-y-2">
                             <div className="flex items-center gap-3">
                                 <span className="h-2 w-2 rounded-full bg-accent-red animate-pulse shadow-[0_0_8px_rgba(255,75,75,0.4)]" />
-                                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-accent-red">Live Silo Monitoring // Lead: {category.leadAnalyst || "Strategic Oversight Group"}</span>
+                                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-accent-red">Live Silo Monitoring // Lead: {silo.leadAnalyst || "Strategic Oversight Group"}</span>
                             </div>
                             <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white italic">
-                                {category.name}
+                                {silo.name}
                             </h1>
                             <p className="text-slate-400 max-w-xl text-sm font-medium uppercase tracking-tight leading-relaxed">
-                                {category.description || "Active intelligence tracking and strategic risk assessment for this global sector."}
+                                {silo.description || "Active intelligence tracking and strategic risk assessment for this global sector."}
                             </p>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-8 bg-black/20 p-6 rounded-2xl border border-white/5 backdrop-blur-sm">
-                        <RiskGauge value={category.avgRisk} label="Sector Risk" size="sm" />
+                        <RiskGauge value={silo.avgRisk} label="Sector Risk" size="sm" />
                         <div className="space-y-4">
                             <div className="space-y-0.5">
                                 <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Reports Filed</div>
@@ -108,11 +112,11 @@ function CategoryDesk({ category, slug }: { category: any, slug: string }) {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {category.articles?.map((article: any) => (
+                    {silo.articles?.map((article: any) => (
                         <AnalysisCard
                             key={article.id}
                             title={article.title}
-                            category={category.name}
+                            category={silo.name}
                             slug={article.slug}
                             image="/images/intel-1.jpg"
                             riskLevel={article.riskLevel}
@@ -139,7 +143,7 @@ function CategoryDesk({ category, slug }: { category: any, slug: string }) {
 
 function InstitutionalPage({ page }: { page: any }) {
     return (
-        <article className="max-w-4xl mx-auto py-12 space-y-12">
+        <article className="max-w-4xl mx-auto py-12 space-y-12 text-slate-200">
             <div className="space-y-6">
                 <Breadcrumbs items={[
                     { label: 'Home', href: '/' },

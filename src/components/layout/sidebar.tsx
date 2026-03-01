@@ -61,8 +61,8 @@ export function Sidebar() {
                         Strategic Archive
                     </div>
                     {categories.map((item) => {
-                        const slug = item.slug.replace(/^\//, '');
-                        const href = `/${slug}`;
+                        const slug = item.slug.replace(/^\/|\/$/g, '');
+                        const href = `/${slug}/`;
                         const isActive = pathname === href || pathname.startsWith(`/${slug}/`);
                         // Lookup icon or fallback to Globe
                         const Icon = ICON_MAP[item.slug.replace('/', '')] || ICON_MAP[item.name.toLowerCase()] || Globe;
