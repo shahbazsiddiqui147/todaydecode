@@ -15,6 +15,7 @@ const CategorySchema = z.object({
     order: z.number().int().default(0),
     isVisible: z.boolean().default(true),
     icon: z.string().optional().nullable(),
+    leadAnalyst: z.string().optional().nullable(),
 });
 
 const AuthorSchema = z.object({
@@ -58,6 +59,15 @@ const ArticleSchema = z.object({
     publishedAt: z.date().optional().nullable(),
 });
 
+const PageSchema = z.object({
+    id: z.string().optional(),
+    title: z.string().min(2, "Title must be at least 2 characters."),
+    slug: z.string().min(2, "Slug must be at least 2 characters."),
+    content: z.string().min(10, "Content must be at least 10 characters."),
+    metaTitle: z.string().optional().nullable(),
+    metaDescription: z.string().optional().nullable(),
+});
+
 // --- Utilities ---
 
 // --- Utilities (Deprecated in favor of central slugify) ---
@@ -78,6 +88,7 @@ export async function upsertCategory(data: z.infer<typeof CategorySchema>) {
                 order: validated.order as any,
                 isVisible: validated.isVisible,
                 icon: validated.icon,
+                leadAnalyst: validated.leadAnalyst,
             },
             create: {
                 name: validated.name,
@@ -86,6 +97,7 @@ export async function upsertCategory(data: z.infer<typeof CategorySchema>) {
                 order: validated.order as any,
                 isVisible: validated.isVisible,
                 icon: validated.icon,
+                leadAnalyst: validated.leadAnalyst,
             },
         });
 
@@ -273,6 +285,58 @@ export async function deleteArticle(id: string) {
     }
 }
 
+// --- Page Actions (Institutional CMS) ---
+
+export async function upsertPage(data: z.infer<typeof PageSchema>) {
+    try {
+        const validated = PageSchema.parse(data);
+        const slug = slugify(validated.slug || validated.title);
+
+        const page = await prisma.page.upsert({
+            where: { id: validated.id || "new-page" },
+            update: {
+                title: validated.title,
+                slug: slug as any,
+                content: validated.content,
+                metaTitle: validated.metaTitle,
+                metaDescription: validated.metaDescription,
+            },
+            create: {
+                title: validated.title,
+                slug: slug as any,
+                content: validated.content,
+                metaTitle: validated.metaTitle,
+                metaDescription: validated.metaDescription,
+            },
+        });
+
+        revalidatePath("/admin/pages/");
+        revalidatePath(`/${slug}`);
+        return { success: true, data: page };
+    } catch (error: any) {
+        console.error("Page Action Error:", error);
+        if (error instanceof z.ZodError) {
+            return { success: false, error: error.issues[0]?.message || "Validation failed." };
+        }
+        if (error.code === 'P2002') {
+            return { success: false, error: "Page path (slug) already exists." };
+        }
+        return { success: false, error: "Institutional page synchronization failed." };
+    }
+}
+
+export async function deletePage(id: string) {
+    try {
+        const page = await prisma.page.findUnique({ where: { id } });
+        await prisma.page.delete({ where: { id } });
+        if (page) revalidatePath(`/${page.slug}`);
+        revalidatePath("/admin/pages/");
+        return { success: true };
+    } catch (error) {
+        return { success: false, error: "Institutional document decommissioning failed." };
+    }
+}
+
 // --- Data Fetchers (Shared) ---
 
 export async function getAdminCategories() {
@@ -301,4 +365,12 @@ export async function getAdminArticleById(id: string) {
             category: true
         }
     });
+}
+
+export async function getAdminPages() {
+    return await prisma.page.findMany({ orderBy: { createdAt: "desc" } });
+}
+
+export async function getAdminPageById(id: string) {
+    return await prisma.page.findUnique({ where: { id } });
 }

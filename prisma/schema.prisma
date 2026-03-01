@@ -71,6 +71,7 @@ model Category {
   name        String   @unique // Geopolitics, Economy, etc.
   slug        String   @unique // e.g., "geopolitics/"
   description String?  @db.Text
+  leadAnalyst String?  @default("Strategic Oversight Group")
   order       Int      @default(0)
   isVisible   Boolean  @default(true)
   icon        String?  // Lucide icon name or SVG path
@@ -178,3 +179,13 @@ model SavedAnalysis {
 // Add relation back to Article
 // (Note: In a real app, you'd add this to the Article model above)
 // Already have: articles SavedAnalysis[] indirectly? No, let's update Article.
+model Page {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  content         String   @db.Text
+  metaTitle       String?
+  metaDescription String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}

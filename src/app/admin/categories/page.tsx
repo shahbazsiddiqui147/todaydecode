@@ -42,6 +42,7 @@ interface Category {
     order: number;
     isVisible: boolean;
     icon: string | null;
+    leadAnalyst: string | null;
 }
 
 export default function CategoriesPage() {
@@ -57,7 +58,8 @@ export default function CategoriesPage() {
         description: "",
         order: "0",
         isVisible: true,
-        icon: ""
+        icon: "",
+        leadAnalyst: ""
     });
 
     useEffect(() => {
@@ -85,7 +87,8 @@ export default function CategoriesPage() {
             description: formData.description,
             order: parseInt(formData.order) || 0,
             isVisible: formData.isVisible,
-            icon: formData.icon
+            icon: formData.icon,
+            leadAnalyst: formData.leadAnalyst
         };
 
         try {
@@ -98,7 +101,7 @@ export default function CategoriesPage() {
                 toast.success(editingCategory ? "Category node updated." : "New taxonomical node initialized.");
                 setIsModalOpen(false);
                 setEditingCategory(null);
-                setFormData({ name: "", slug: "", description: "", order: "0", isVisible: true, icon: "" });
+                setFormData({ name: "", slug: "", description: "", order: "0", isVisible: true, icon: "", leadAnalyst: "" });
                 loadCategories();
             } else {
                 toast.error(res.error || "Database synchronization failed.");
@@ -130,7 +133,7 @@ export default function CategoriesPage() {
                     <h1 className="text-3xl font-black uppercase tracking-tighter text-[#0F172A] dark:text-[#F1F5F9]">Strategic <span className="text-muted-foreground/60 font-medium font-sans">Silos</span></h1>
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B]">Institutional parameters for global risk analysis and analysis desks.</p>
                 </div>
-                <Button onClick={() => { setEditingCategory(null); setFormData({ name: "", slug: "", description: "", order: "0", isVisible: true, icon: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-xl bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] border-none hover:bg-black dark:hover:bg-white/90">
+                <Button onClick={() => { setEditingCategory(null); setFormData({ name: "", slug: "", description: "", order: "0", isVisible: true, icon: "", leadAnalyst: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-xl bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] border-none hover:bg-black dark:hover:bg-white/90">
                     <Plus className="mr-2 h-4 w-4" /> Create Strategic Silo
                 </Button>
             </header>
@@ -198,7 +201,8 @@ export default function CategoriesPage() {
                                                     description: cat.description || "",
                                                     order: String(cat.order),
                                                     isVisible: cat.isVisible,
-                                                    icon: cat.icon || ""
+                                                    icon: cat.icon || "",
+                                                    leadAnalyst: cat.leadAnalyst || ""
                                                 });
                                                 setIsModalOpen(true);
                                             }}
@@ -303,16 +307,29 @@ export default function CategoriesPage() {
                                 <label className="text-[10px] font-black uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] cursor-pointer">Active in Global Feed</label>
                             </div>
 
-                            <div className="space-y-3">
-                                <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
-                                    <Plus className="h-3 w-3 mr-2 text-cyan-500" /> Directive Overview
-                                </label>
-                                <textarea
-                                    className="w-full h-32 rounded-2xl border border-[#CBD5E1] dark:border-[#1E293B] bg-white dark:bg-[#020617] p-6 text-sm font-medium text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] focus-visible:outline-none focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] transition-all outline-none resize-none leading-relaxed shadow-sm"
-                                    placeholder="Provide professional briefing for this intelligence sector..."
-                                    value={formData.description}
-                                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                />
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div className="space-y-3">
+                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                        <Plus className="h-3 w-3 mr-2 text-cyan-500" /> Sector Lead Analyst
+                                    </label>
+                                    <Input
+                                        className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold"
+                                        placeholder="e.g. Strategic Oversight Group"
+                                        value={formData.leadAnalyst}
+                                        onChange={(e) => setFormData({ ...formData, leadAnalyst: e.target.value })}
+                                    />
+                                </div>
+                                <div className="space-y-3">
+                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                        <Plus className="h-3 w-3 mr-2 text-cyan-500" /> Directive Overview
+                                    </label>
+                                    <textarea
+                                        className="w-full h-12 rounded-xl border border-[#CBD5E1] dark:border-[#1E293B] bg-white dark:bg-[#020617] px-4 py-3 text-sm font-medium text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] focus-visible:outline-none focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] transition-all outline-none resize-none leading-relaxed shadow-sm"
+                                        placeholder="Brief sector description..."
+                                        value={formData.description}
+                                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                    />
+                                </div>
                             </div>
 
                             <div className="pt-10 flex justify-end space-x-4">

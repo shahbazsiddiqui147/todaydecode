@@ -230,3 +230,17 @@ export const getArticlesByCategory = cache(async (categorySlug: string, limit = 
         return [];
     }
 });
+/**
+ * Fetches an institutional page by its slug.
+ */
+export const getPageBySlug = cache(async (slug: string) => {
+    try {
+        const normalizedSlug = slug.endsWith('/') ? slug : `${slug}/`;
+        return await prisma.page.findUnique({
+            where: { slug: normalizedSlug }
+        });
+    } catch (error) {
+        console.error("Critical fetching error [Institutional Page]:", error);
+        return null;
+    }
+});
