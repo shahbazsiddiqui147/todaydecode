@@ -30,8 +30,11 @@ import {
     Trash2,
     RefreshCw,
     Activity,
-    AlertCircle
+    AlertCircle,
+    Lock,
+    Unlock
 } from "lucide-react";
+import { slugify } from "@/lib/slugify";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
@@ -49,6 +52,7 @@ interface ArticleEditorProps {
 export default function ArticleEditor({ article, initialCategories, initialAuthors }: ArticleEditorProps) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+    const [isSlugLocked, setIsSlugLocked] = useState(true);
     const [activeTab, setActiveTab] = useState<"content" | "forecast" | "aeo" | "meta">("content");
 
     const [formData, setFormData] = useState({
@@ -77,6 +81,13 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
             { question: "What is the primary driver of this conflict?", answer: "" },
         ],
     });
+
+    // Real-time Slug Sync logic
+    useEffect(() => {
+        if (isSlugLocked && formData.title) {
+            setFormData(prev => ({ ...prev, slug: slugify(prev.title) }));
+        }
+    }, [formData.title, isSlugLocked]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -394,13 +405,30 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             <div className="space-y-6 bg-muted/20 p-8 rounded-3xl border border-border">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Protocol Path (Slug Override)</Label>
+                                        <div className="flex items-center justify-between pl-1">
+                                            <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Protocol Path (Slug Override)</Label>
+                                            <button
+                                                type="button"
+                                                onClick={() => setIsSlugLocked(!isSlugLocked)}
+                                                className="text-[9px] font-black uppercase tracking-widest flex items-center gap-1 hover:text-cyan-400 transition-colors"
+                                            >
+                                                {isSlugLocked ? (
+                                                    <><Lock className="h-3 w-3" /> Locked</>
+                                                ) : (
+                                                    <><Unlock className="h-3 w-3" /> Unlocked</>
+                                                )}
+                                            </button>
+                                        </div>
                                         <Input
                                             name="slug"
                                             value={formData.slug}
                                             onChange={handleChange}
+                                            disabled={isSlugLocked}
                                             placeholder="manual-hard-path/"
-                                            className="h-12 bg-card border-border rounded-xl font-mono text-xs lowercase"
+                                            className={cn(
+                                                "h-12 bg-card border-border rounded-xl font-mono text-xs lowercase",
+                                                isSlugLocked && "opacity-60 cursor-not-allowed"
+                                            )}
                                         />
                                     </div>
                                     <div className="space-y-2">

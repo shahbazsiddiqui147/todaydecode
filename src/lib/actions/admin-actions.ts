@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { slugify } from "@/lib/slugify";
 
 // --- Validation Schemas ---
 
@@ -59,20 +60,14 @@ const ArticleSchema = z.object({
 
 // --- Utilities ---
 
-function normalizeSlug(slug: string): string {
-    let s = slug.toLowerCase().trim().replace(/^\/+/, '');
-    if (s && !s.endsWith('/')) {
-        s += '/';
-    }
-    return s || "/";
-}
+// --- Utilities (Deprecated in favor of central slugify) ---
 
 // --- Category Actions ---
 
 export async function upsertCategory(data: z.infer<typeof CategorySchema>) {
     try {
         const validated = CategorySchema.parse(data);
-        const slug = normalizeSlug(validated.slug || validated.name.toLowerCase().replace(/[^a-z0-9]/g, '-'));
+        const slug = slugify(validated.slug || validated.name);
 
         const category = await prisma.category.upsert({
             where: { id: validated.id || "new-category" },
@@ -125,7 +120,7 @@ export async function deleteCategory(id: string) {
 export async function upsertAuthor(data: z.infer<typeof AuthorSchema>) {
     try {
         const validated = AuthorSchema.parse(data);
-        const slug = normalizeSlug(validated.slug || validated.name.toLowerCase().replace(/[^a-z0-9]/g, '-'));
+        const slug = slugify(validated.slug || validated.name);
 
         const author = await prisma.author.upsert({
             where: { id: validated.id || "new-author" },
@@ -179,16 +174,23 @@ export async function upsertArticle(data: z.infer<typeof ArticleSchema>) {
     try {
         const validated = ArticleSchema.parse(data);
 
-        // Auto-generate slug from title if not provided, else normalize
-        let baseSlug = validated.slug;
-        if (!baseSlug || baseSlug.trim() === "") {
-            baseSlug = validated.title
-                .toLowerCase()
-                .replace(/[^a-z0-9]/g, '-')
-                .replace(/-+/g, '-')
-                .replace(/^-|-$/g, '');
+        let slug = slugify(validated.slug || validated.title);
+
+        // Duplicate Protection (Collision Detection)
+        let uniqueSlug = slug;
+        let counter = 1;
+        while (true) {
+            const existing = await prisma.article.findFirst({
+                where: {
+                    slug: uniqueSlug,
+                    NOT: { id: validated.id || "new-article" }
+                }
+            });
+            if (!existing) break;
+            counter++;
+            uniqueSlug = slug.replace(/\/$/, `-${counter}/`);
         }
-        const slug = normalizeSlug(baseSlug);
+        slug = uniqueSlug;
 
         const article = await prisma.article.upsert({
             where: { id: validated.id || "new-article" },

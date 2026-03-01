@@ -49,6 +49,9 @@ To prevent theme regressions, the following tokens are non-negotiable:
 
 ### 3. SEO & ROUTING SOVEREIGNTY (CRITICAL)
 - **Trailing Slashes:** Every internal URL and canonical tag MUST end with a `/`.
+- **Slug Automation:** All slugs must be generated automatically from the Primary Headline. 
+- **Formatting:** Slugs must be lowercase, hyphenated, and stripped of special characters.
+- **Enforcement:** The system must automatically append the trailing slash `/` before saving to the database.
 - **Indexing:** Every public page must contain `<meta name="robots" content="index, follow">`.
 - **Canonicals:** Every page must have a dynamic `<link rel="canonical" href="...">`.
 - **URLs:** All URLs must be nested: `todaydecode.com/[category]/[slug]/`.
