@@ -44,7 +44,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
             <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl uppercase font-black">
               Global Intelligence Briefing
             </h1>
-            <p className="text-slate-500 text-sm max-w-2xl font-medium uppercase tracking-tight">
+            <p className="text-muted-foreground text-sm max-w-2xl font-medium uppercase tracking-tight">
               Real-time strategic analysis of geopolitical risks and global shifts.
               Refreshed dynamically from the Command Center.
             </p>
@@ -75,7 +75,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
 
         {featuredArticles.length === 0 && (
           <div className="col-span-full py-20 text-center border border-dashed border-border-slate rounded-xl">
-            <p className="text-slate-500 uppercase font-black tracking-widest text-xs">
+            <p className="text-muted-foreground uppercase font-black tracking-widest text-xs">
               No active intelligence reports found in the grid.
             </p>
           </div>
@@ -88,22 +88,22 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
             <div className="flex justify-center">
               <ShieldAlert className="h-8 w-8 text-accent-red" />
             </div>
-            <div className="text-2xl font-bold uppercase font-black tracking-tighter">12 Active Hotspots</div>
-            <div className="text-xs text-slate-500 uppercase tracking-widest font-bold">Global Security Index</div>
+            <div className="text-2xl font-bold uppercase font-black tracking-tighter text-foreground">12 Active Hotspots</div>
+            <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold">Global Security Index</div>
           </div>
           <div className="space-y-2 border-x border-border-slate">
             <div className="flex justify-center">
               <TrendingUp className="h-8 w-8 text-accent-green" />
             </div>
-            <div className="text-2xl font-bold uppercase font-black tracking-tighter">+4.2% Growth</div>
-            <div className="text-xs text-slate-500 uppercase tracking-widest font-bold">MENA Economic Forecast</div>
+            <div className="text-2xl font-bold uppercase font-black tracking-tighter text-foreground">+4.2% Growth</div>
+            <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold">MENA Economic Forecast</div>
           </div>
           <div className="space-y-2">
             <div className="flex justify-center">
               <Zap className="h-8 w-8 text-yellow-500" />
             </div>
-            <div className="text-2xl font-bold uppercase font-black tracking-tighter">Resilient</div>
-            <div className="text-xs text-slate-500 uppercase tracking-widest font-bold">Energy Grid Integrity</div>
+            <div className="text-2xl font-bold uppercase font-black tracking-tighter text-foreground">Resilient</div>
+            <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold">Energy Grid Integrity</div>
           </div>
         </div>
       </section>

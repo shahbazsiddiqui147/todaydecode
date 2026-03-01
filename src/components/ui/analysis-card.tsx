@@ -31,7 +31,7 @@ export function AnalysisCard({
     return (
         <Link
             href={`/${category.toLowerCase()}/${slug}/`}
-            className="group flex flex-col space-y-3 rounded-lg border border-border-slate bg-card overflow-hidden transition-all hover:border-slate-400"
+            className="group flex flex-col space-y-3 rounded-lg border border-border-slate bg-card overflow-hidden transition-all hover:border-foreground/30"
         >
             <div className="relative aspect-video w-full overflow-hidden">
                 <Image
@@ -58,10 +58,10 @@ export function AnalysisCard({
                     {title}
                 </h3>
                 <div className="mt-auto pt-4 flex items-center justify-between">
-                    <span className="text-xs text-slate-500 font-medium tracking-tight">
+                    <span className="text-xs text-muted-foreground font-medium tracking-tight">
                         INTELLIGENCE BRIEFING
                     </span>
-                    <span className="text-xs text-slate-400">
+                    <span className="text-xs text-muted-foreground/80">
                         12 MIN READ
                     </span>
                 </div>

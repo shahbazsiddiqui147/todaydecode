@@ -1,29 +1,16 @@
 @import "tailwindcss";
 
-:root {
-  /* Light Mode (Paper-white) */
-  --background: #F8FAFC;
-  --foreground: #0F172A;
-  --primary: #0A0F1E;
-  --primary-foreground: #FFFFFF;
-  --secondary: #F1F5F9;
-  --secondary-foreground: #0F172A;
-  --accent-red: #B91C1C;
-  --accent-green: #22C55E;
-  --border: #E2E8F0;
-  --card: #FFFFFF;
-  --card-foreground: #0F172A;
-  --destructive: #EF4444;
-  --destructive-foreground: #FFFFFF;
-}
-
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
   --color-accent-red: var(--accent-red);
   --color-accent-green: var(--accent-green);
   --color-border-slate: var(--border);
@@ -33,14 +20,39 @@
   --color-destructive-foreground: var(--destructive-foreground);
 }
 
+:root {
+  /* Light Mode (Institutional Paper) */
+  --background: #FFFFFF;
+  --foreground: #0A0F1E;
+  --primary: #0A0F1E;
+  --primary-foreground: #FFFFFF;
+  --sidebar: #0A0F1E;
+  --sidebar-foreground: #F8FAFC;
+  --secondary: #F1F5F9;
+  --secondary-foreground: #0A0F1E;
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --accent-red: #B91C1C;
+  --accent-green: #22C55E;
+  --border: #E2E8F0;
+  --card: #F8FAFC;
+  --card-foreground: #0A0F1E;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+}
+
 .dark {
-  /* Dark Mode (Command Center) */
+  /* Dark Mode (Strategic Command Center) */
   --background: #0A0F1E;
   --foreground: #F8FAFC;
   --primary: #FFFFFF;
   --primary-foreground: #0A0F1E;
+  --sidebar: #050812;
+  --sidebar-foreground: #F8FAFC;
   --secondary: #1E293B;
   --secondary-foreground: #F8FAFC;
+  --muted: #1E293B;
+  --muted-foreground: #94A3B8;
   --accent-red: #FF4B4B;
   --accent-green: #22C55E;
   --border: #1E293B;

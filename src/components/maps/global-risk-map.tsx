@@ -88,9 +88,9 @@ export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
     };
 
     return (
-        <div className="relative w-full aspect-[16/9] bg-slate-950/50 rounded-2xl border border-border-slate overflow-hidden group">
+        <div className="relative w-full aspect-[16/9] bg-secondary/50 dark:bg-slate-950/50 rounded-2xl border border-border-slate overflow-hidden group">
             <div className="absolute top-6 left-6 z-10">
-                <h2 className="text-xl font-black text-white tracking-tight uppercase leading-none">
+                <h2 className="text-xl font-black text-foreground tracking-tight uppercase leading-none">
                     Global Risk Command
                 </h2>
                 <div className="flex items-center space-x-2 mt-2">
@@ -104,15 +104,15 @@ export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
             <div className="absolute bottom-6 left-6 z-10 flex space-x-6">
                 <div className="flex items-center space-x-2">
                     <div className="h-2 w-2 rounded-full bg-accent-green shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Low Risk</span>
+                    <span className="text-[10px] font-bold text-muted-foreground dark:text-slate-400 uppercase tracking-widest">Low Risk</span>
                 </div>
                 <div className="flex items-center space-x-2">
                     <div className="h-2 w-2 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.3)]" />
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Medium</span>
+                    <span className="text-[10px] font-bold text-muted-foreground dark:text-slate-400 uppercase tracking-widest">Medium</span>
                 </div>
                 <div className="flex items-center space-x-2">
                     <div className="h-2 w-2 rounded-full bg-accent-red shadow-[0_0_8px_rgba(255,75,75,0.4)]" />
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">High / Critical</span>
+                    <span className="text-[10px] font-bold text-muted-foreground dark:text-slate-400 uppercase tracking-widest">High / Critical</span>
                 </div>
             </div>
 
@@ -136,21 +136,21 @@ export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
                                         style={{
                                             default: {
                                                 fill: colorScale(riskScore) as string,
-                                                stroke: "#1E293B",
+                                                stroke: "var(--border)",
                                                 strokeWidth: 0.5,
                                                 outline: "none",
                                                 transition: "all 250ms"
                                             },
                                             hover: {
                                                 fill: riskScore > 70 ? "#FF4B4B" : riskScore > 40 ? "#EAB308" : "#22C55E",
-                                                stroke: "#FFFFFF",
+                                                stroke: "var(--foreground)",
                                                 strokeWidth: 1,
                                                 outline: "none",
                                                 filter: "drop-shadow(0 0 12px rgba(255, 255, 255, 0.2))",
                                                 cursor: "pointer"
                                             },
                                             pressed: {
-                                                fill: "#FFFFFF",
+                                                fill: "var(--foreground)",
                                                 outline: "none",
                                             }
                                         }}
@@ -175,7 +175,7 @@ export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
                             pointerEvents: "none",
                             zIndex: 100
                         }}
-                        className="bg-slate-900/95 border border-white/10 p-5 rounded-2xl shadow-2xl backdrop-blur-2xl min-w-[280px] max-w-[320px]"
+                        className="bg-card dark:bg-slate-900/95 border border-border-slate p-5 rounded-2xl shadow-2xl backdrop-blur-2xl min-w-[280px] max-w-[320px]"
                     >
                         <div className="flex flex-col space-y-4">
                             <div className="flex items-center justify-between border-b border-white/5 pb-3">
@@ -183,7 +183,7 @@ export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
                                     <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
                                         Sector: {tooltip.data.regionEnum}
                                     </span>
-                                    <h3 className="text-white font-black text-xl tracking-tighter leading-none">
+                                    <h3 className="text-foreground font-black text-xl tracking-tighter leading-none">
                                         {tooltip.data.name}
                                     </h3>
                                 </div>
@@ -209,7 +209,7 @@ export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
                                     <div className="space-y-3">
                                         {tooltip.data.latestReports.map((report: any) => (
                                             <div key={report.id} className="group/item">
-                                                <div className="text-[11px] font-bold text-slate-200 line-clamp-1 group-hover/item:text-white transition-colors">
+                                                <div className="text-[11px] font-bold text-foreground dark:text-slate-200 line-clamp-1 group-hover/item:text-accent-red transition-colors">
                                                     {report.title}
                                                 </div>
                                                 <div className="text-[8px] text-slate-500 uppercase font-bold tracking-widest mt-0.5">

@@ -47,9 +47,9 @@ export function Sidebar() {
     }, []);
 
     return (
-        <div className="hidden md:flex w-72 flex-col bg-primary border-r border-border-slate overflow-y-auto overflow-x-hidden scrollbar-none">
+        <div className="hidden md:flex w-72 flex-col bg-sidebar border-r border-border-slate overflow-y-auto overflow-x-hidden scrollbar-none">
             <div className="flex h-16 shrink-0 items-center px-6 border-b border-border-slate">
-                <Link href="/" className="text-xl font-black tracking-tighter text-white">
+                <Link href="/" className="text-xl font-black tracking-tighter text-sidebar-foreground">
                     TODAY DECODE
                 </Link>
             </div>
@@ -74,7 +74,7 @@ export function Sidebar() {
                                     "group flex items-center px-2 py-2.5 text-sm font-medium rounded-md transition-all",
                                     isActive
                                         ? "bg-slate-800 text-white shadow-lg shadow-black/20"
-                                        : "text-slate-400 hover:bg-slate-800/50 hover:text-white"
+                                        : "text-slate-400 hover:bg-slate-800/50 hover:text-sidebar-foreground"
                                 )}
                             >
                                 <Icon className={cn(
@@ -139,14 +139,14 @@ export function Sidebar() {
                     </div>
                     <Link
                         href="/admin/"
-                        className="group flex items-center px-2 py-2 text-sm font-medium text-slate-400 rounded-md hover:bg-slate-800/50 hover:text-white transition-colors"
+                        className="group flex items-center px-2 py-2 text-sm font-medium text-slate-400 rounded-md hover:bg-slate-800/50 hover:text-sidebar-foreground transition-colors"
                     >
                         <LayoutDashboard className="mr-3 h-4 w-4 shrink-0" />
                         Admin Panel
                     </Link>
                     <Link
                         href="/settings/"
-                        className="group flex items-center px-2 py-2 text-sm font-medium text-slate-400 rounded-md hover:bg-slate-800/50 hover:text-white transition-colors"
+                        className="group flex items-center px-2 py-2 text-sm font-medium text-slate-400 rounded-md hover:bg-slate-800/50 hover:text-sidebar-foreground transition-colors"
                     >
                         <Settings className="mr-3 h-4 w-4 shrink-0" />
                         Settings
