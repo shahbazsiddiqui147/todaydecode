@@ -7,8 +7,8 @@ import { Globe, ShieldAlert, Zap, TrendingUp, Layers, Clock } from "lucide-react
 import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
 import { Badge } from "@/components/ui/badge";
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = await params;
+export async function generateMetadata({ params }: { params: Promise<{ category: string }> }) {
+    const { category: slug } = await params;
 
     // Check if it's a category
     const category = await getCategoryBySlug(slug);
@@ -33,8 +33,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     return constructMetadata({ title: "Document Not Found" });
 }
 
-export default async function CatchAllSlugPage({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = await params;
+export default async function CatchAllSlugPage({ params }: { params: Promise<{ category: string }> }) {
+    const { category: slug } = await params;
 
     // 1. Attempt Category Desk Load
     const category = await getCategoryBySlug(slug);
@@ -126,8 +126,8 @@ function CategoryDesk({ category, slug }: { category: any, slug: string }) {
                         <div className="flex flex-col items-center space-y-4">
                             <ShieldAlert className="h-12 w-12 text-slate-800" />
                             <div className="space-y-1">
-                                <p className="text-xs font-black uppercase tracking-widest text-slate-600">No Authorized Reports</p>
-                                <p className="text-[10px] text-slate-500 font-medium italic">Scanning encrypted archives for sector data...</p>
+                                <p className="text-xs font-black uppercase tracking-widest text-slate-600">Analysis Pending</p>
+                                <p className="text-[10px] text-slate-500 font-medium italic">Strategic silos are being mapped in real-time. Stand by for institutional uplink.</p>
                             </div>
                         </div>
                     </div>

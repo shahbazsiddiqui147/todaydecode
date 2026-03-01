@@ -18,8 +18,8 @@ import { notFound, redirect } from "next/navigation";
 import { getPublicArticleBySlug } from "@/lib/actions/public-actions";
 import { cookies } from "next/headers";
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string; articleSlug: string }> }) {
-    const { slug: siloSlug, articleSlug } = await params;
+export async function generateMetadata({ params }: { params: Promise<{ category: string; articleSlug: string }> }) {
+    const { category, articleSlug } = await params;
     const article = await getPublicArticleBySlug(articleSlug);
 
     if (!article) return constructMetadata({ title: "Analysis Not Found" });
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     return constructMetadata({
         title: `[Strategic Analysis] ${article.title} | Today Decode`,
         description: article.metaDescription || `Strategic Risk Assessment [${article.riskScore}/100]. Risk Level: ${article.riskLevel}. Impact Score: ${article.impactScore}. Senior analyst-verified report.`,
-        path: `/${siloSlug}/${articleSlug}/`,
+        path: `/${category}/${articleSlug}/`,
     });
 }
 
@@ -35,10 +35,10 @@ export default async function ArticlePage({
     params,
     searchParams
 }: {
-    params: Promise<{ slug: string; articleSlug: string }>,
+    params: Promise<{ category: string; articleSlug: string }>,
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-    const { slug: siloSlug, articleSlug } = await params;
+    const { category, articleSlug } = await params;
     const sParams = await searchParams;
 
     // Strategic Preview Authentication (Recognizes HTTP-only cookie)
