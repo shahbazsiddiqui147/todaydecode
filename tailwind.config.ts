@@ -11,10 +11,12 @@ const config: Config = {
         extend: {
             colors: {
                 "brand-navy": "#0A0F1E",
-                "brand-charcoal": "#161B22",
-                "tactical-red": "#FF4B4B",
-                "tactical-green": "#10B981",
-                "tactical-cyan": "#22D3EE",
+                "brand-charcoal": "#111827",
+                "brand-paper": "#F8FAFC",
+                "brand-ink": "#0F172A",
+                "brand-risk": "#FF4B4B",
+                "brand-stability": "#10B981",
+                "brand-tech": "#22D3EE",
                 border: "var(--border)",
                 background: "var(--background)",
                 foreground: "var(--foreground)",

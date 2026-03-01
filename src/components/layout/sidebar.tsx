@@ -73,8 +73,8 @@ export function Sidebar() {
                                 className={cn(
                                     "group flex items-center px-2 py-2.5 text-sm font-medium rounded-md transition-all",
                                     isActive
-                                        ? "bg-slate-800 text-white shadow-lg shadow-black/20"
-                                        : "text-slate-400 hover:bg-slate-800/50 hover:text-sidebar-foreground"
+                                        ? "bg-secondary text-foreground shadow-lg shadow-black/5 dark:shadow-black/40"
+                                        : "text-muted-foreground hover:bg-secondary/50 hover:text-foreground"
                                 )}
                             >
                                 <Icon className={cn(
@@ -105,20 +105,20 @@ export function Sidebar() {
                             size="sm"
                         />
                         <div className="flex flex-col justify-center space-y-3">
-                            <div className="p-2 rounded bg-slate-900/50 border border-border-slate">
-                                <div className="text-[8px] font-bold text-slate-500 uppercase tracking-widest text-center mb-1">
+                            <div className="p-2 rounded bg-secondary/50 border border-border-slate">
+                                <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest text-center mb-1">
                                     Brent Crude
                                 </div>
                                 <div className="flex items-center justify-center space-x-1">
-                                    <span className="text-xs font-bold text-white">${metrics?.oil?.value}</span>
+                                    <span className="text-xs font-bold text-foreground">${metrics?.oil?.value}</span>
                                     <div className="flex items-center text-[10px] text-accent-green font-bold">
                                         <ChevronUp className="h-2 w-2" />
                                         {metrics?.oil?.trend}%
                                     </div>
                                 </div>
                             </div>
-                            <div className="p-2 rounded bg-slate-900/50 border border-border-slate">
-                                <div className="text-[8px] font-bold text-slate-500 uppercase tracking-widest text-center mb-1">
+                            <div className="p-2 rounded bg-secondary/50 border border-border-slate">
+                                <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest text-center mb-1">
                                     Conflict Level
                                 </div>
                                 <div className="flex items-center justify-center space-x-2">
@@ -139,14 +139,14 @@ export function Sidebar() {
                     </div>
                     <Link
                         href="/admin/"
-                        className="group flex items-center px-2 py-2 text-sm font-medium text-slate-400 rounded-md hover:bg-slate-800/50 hover:text-sidebar-foreground transition-colors"
+                        className="group flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:bg-secondary/50 hover:text-foreground transition-colors"
                     >
                         <LayoutDashboard className="mr-3 h-4 w-4 shrink-0" />
                         Admin Panel
                     </Link>
                     <Link
                         href="/settings/"
-                        className="group flex items-center px-2 py-2 text-sm font-medium text-slate-400 rounded-md hover:bg-slate-800/50 hover:text-sidebar-foreground transition-colors"
+                        className="group flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:bg-secondary/50 hover:text-foreground transition-colors"
                     >
                         <Settings className="mr-3 h-4 w-4 shrink-0" />
                         Settings
@@ -155,14 +155,14 @@ export function Sidebar() {
             </div>
 
             {/* Footer Info */}
-            <div className="p-6 border-t border-border-slate bg-slate-950/30">
+            <div className="p-6 border-t border-border-slate bg-muted/30">
                 <div className="flex items-center space-x-3 mb-2">
                     <div className="h-1.5 w-1.5 rounded-full bg-accent-green animate-pulse" />
                     <span className="text-[10px] text-accent-green font-black uppercase tracking-[0.2em]">
                         LIVE INTEL STREAM
                     </span>
                 </div>
-                <p className="text-[9px] text-slate-500 font-medium leading-relaxed uppercase tracking-tighter">
+                <p className="text-[9px] text-muted-foreground font-medium leading-relaxed uppercase tracking-tighter">
                     SECURE CONNECTION: 04:52 UTC // BRENT {metrics?.oil?.trend && metrics.oil.trend > 0 ? '+' : ''}{metrics?.oil?.trend}% // NATO-X7 DETECTED
                 </p>
             </div>

@@ -45,8 +45,8 @@ export default async function RootLayout({
         <AuthProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="dark"
-            forcedTheme="dark"
+            defaultTheme="system"
+            enableSystem
             disableTransitionOnChange
           >
             <Suspense fallback={<div className="min-h-screen bg-black" />}>

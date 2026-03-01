@@ -47,7 +47,7 @@ export function RiskGauge({
                         stroke="currentColor"
                         strokeWidth={strokeWidth}
                         fill="transparent"
-                        className="text-slate-800"
+                        className="text-slate-200 dark:text-brand-navy"
                     />
                     {/* Progress circle */}
                     <motion.circle
