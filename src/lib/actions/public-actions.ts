@@ -145,6 +145,28 @@ export const getHomepageStats = cache(async () => {
 });
 
 /**
+ * Fetches a public author profile and their latest intelligence reports.
+ */
+export const getPublicAuthorBySlug = cache(async (slug: string) => {
+    try {
+        return await prisma.author.findUnique({
+            where: { slug },
+            include: {
+                articles: {
+                    where: { status: "PUBLISHED" as any },
+                    include: { category: true, author: true },
+                    orderBy: { publishedAt: 'desc' },
+                    take: 10
+                }
+            }
+        }) as any;
+    } catch (error) {
+        console.error("Critical fetching error [Author Profile]:", error);
+        return null;
+    }
+});
+
+/**
  * Fetches a full Category object by its slug for the silo landing pages.
  */
 export const getCategoryBySlug = cache(async (slug: string) => {
