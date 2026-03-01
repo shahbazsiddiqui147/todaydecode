@@ -21,28 +21,28 @@
 }
 
 :root {
-  /* Light Mode (Institutional Paper) */
-  --background: #FFFFFF;
-  --foreground: #0A0F1E;
-  --primary: #0A0F1E;
-  --primary-foreground: #FFFFFF;
-  --sidebar: #0A0F1E;
+  /* Unified Command Center Aesthetic (Strict Dark) */
+  --background: #0A0F1E;
+  --foreground: #F8FAFC;
+  --primary: #FFFFFF;
+  --primary-foreground: #0A0F1E;
+  --sidebar: #050812;
   --sidebar-foreground: #F8FAFC;
-  --secondary: #F1F5F9;
-  --secondary-foreground: #0A0F1E;
-  --muted: #F1F5F9;
-  --muted-foreground: #64748B;
-  --accent-red: #B91C1C;
+  --secondary: #1E293B;
+  --secondary-foreground: #F8FAFC;
+  --muted: #1E293B;
+  --muted-foreground: #94A3B8;
+  --accent-red: #FF4B4B;
   --accent-green: #22C55E;
-  --border: #E2E8F0;
-  --card: #F8FAFC;
-  --card-foreground: #0A0F1E;
-  --destructive: #EF4444;
-  --destructive-foreground: #FFFFFF;
+  --border: #1E293B;
+  --card: #111827;
+  --card-foreground: #F8FAFC;
+  --destructive: #FF4B4B;
+  --destructive-foreground: #F8FAFC;
 }
 
 .dark {
-  /* Dark Mode (Strategic Command Center) */
+  /* Keep variables identical for .dark to prevent any light-mode leakage */
   --background: #0A0F1E;
   --foreground: #F8FAFC;
   --primary: #FFFFFF;
@@ -107,7 +107,7 @@ body {
 }
 
 .prose blockquote {
-  @apply border-l-4 border-accent-red pl-4 italic my-6 text-slate-500;
+  @apply border-l-4 border-accent-red pl-4 italic my-6 text-muted-foreground;
 }
 
 .prose img {
