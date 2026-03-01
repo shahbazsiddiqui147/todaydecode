@@ -1,5 +1,7 @@
+import { Badge } from "@/components/ui/badge";
 import { constructMetadata } from "@/lib/seo";
-import { Share2, Bookmark } from "lucide-react";
+import { Share2, Bookmark, Clock, Layers } from "lucide-react";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 import { RiskGauge, KeyTakeaways } from "@/components/ui/article-widgets";
@@ -64,17 +66,17 @@ export default async function ArticlePage({
     const processedScenarios = {
         best: {
             title: rawScenarios.best?.title || "Strategic Convergence",
-            desc: rawScenarios.best?.description || "No data provided.",
+            desc: rawScenarios.best?.description || "No specific data provided for this scenario outcome.",
             impact: 10
         },
         likely: {
             title: rawScenarios.likely?.title || "Linear Tension",
-            desc: rawScenarios.likely?.description || "No data provided.",
+            desc: rawScenarios.likely?.description || "Baseline trajectory based on current tactical indicators.",
             impact: article.impactScore
         },
         worst: {
             title: rawScenarios.worst?.title || "Systemic Fragmentation",
-            desc: rawScenarios.worst?.description || "No data provided.",
+            desc: rawScenarios.worst?.description || "Critical system failure or breakdown of institutional protocols.",
             impact: 90
         }
     };
@@ -103,15 +105,15 @@ export default async function ArticlePage({
             />
 
             {/* Hero Section */}
-            <div className="relative h-[60vh] w-full overflow-hidden border-b border-border-slate">
+            <div className="relative h-[65vh] w-full overflow-hidden border-b border-border-slate">
                 <Image
                     src="/images/intel-1.jpg"
                     alt={article.title}
                     fill
-                    className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-700"
+                    className="object-cover opacity-60 grayscale hover:grayscale-0 transition-opacity duration-1000"
                     priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/60 to-transparent" />
 
                 <div className="absolute bottom-0 left-0 right-0 p-8 max-w-7xl mx-auto">
                     <div className="flex flex-col space-y-6">
@@ -123,105 +125,119 @@ export default async function ArticlePage({
 
                         <div className="space-y-4">
                             <div className="flex items-center space-x-3">
-                                <span className="bg-accent-red/20 text-accent-red text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded border border-accent-red/30">
+                                <span className={cn(
+                                    "text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded border",
+                                    article.riskLevel === 'CRITICAL' ? "bg-accent-red/20 text-accent-red border-accent-red/30" :
+                                        article.riskLevel === 'HIGH' ? "bg-orange-500/20 text-orange-400 border-orange-500/30" :
+                                            "bg-accent-green/20 text-accent-green border-accent-green/30"
+                                )}>
                                     {article.riskLevel} Risk
                                 </span>
                                 <MethodologyBadge />
                             </div>
-                            <h1 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-none max-w-4xl">
+                            <h1 className="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter leading-[0.9] max-w-5xl italic">
                                 {article.title}
                             </h1>
                         </div>
 
-                        <div className="flex items-center justify-between pt-6 border-t border-white/10">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between pt-8 border-t border-white/5 gap-6">
                             <div className="flex items-center space-x-4">
-                                <div className="h-10 w-10 rounded-full bg-slate-800 border border-border-slate overflow-hidden relative">
-                                    {article.author.image && (
+                                <div className="h-12 w-12 rounded-full bg-slate-900 border border-border-slate overflow-hidden relative grayscale hover:grayscale-0 transition-all">
+                                    {article.author.image ? (
                                         <Image src={article.author.image} alt={article.author.name} fill className="object-cover" />
+                                    ) : (
+                                        <div className="absolute inset-0 flex items-center justify-center text-[10px] font-black bg-slate-800 text-slate-500">ID</div>
                                     )}
                                 </div>
-                                <div>
+                                <div className="space-y-0.5">
                                     <Link href={`/author/${article.author.slug.replace(/^\/|\/$/g, '')}/`}>
-                                        <div className="text-xs font-black uppercase tracking-widest text-white hover:text-accent-red transition-colors">{article.author.name}</div>
+                                        <div className="text-xs font-black uppercase tracking-widest text-white hover:text-accent-red transition-colors cursor-pointer">{article.author.name}</div>
                                     </Link>
-                                    <div className="text-[10px] text-slate-400 uppercase font-medium">{article.author.role}</div>
+                                    <div className="text-[9px] text-slate-500 uppercase font-black tracking-widest">{article.author.role}</div>
                                 </div>
                             </div>
-                            <div className="flex items-center space-x-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                <span>{formattedDate}</span>
-                                <span>{readingTime}</span>
+                            <div className="flex items-center space-x-8 text-[9px] font-black text-slate-500 uppercase tracking-[0.2em]">
+                                <span className="flex items-center"><Clock className="h-3 w-3 mr-2 opacity-50" /> {formattedDate}</span>
+                                <span className="flex items-center"><Layers className="h-3 w-3 mr-2 opacity-50" /> {readingTime}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 mt-12">
+            <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-16 mt-16">
                 <aside className="lg:col-span-1 hidden lg:block">
                     <div className="sticky top-32 space-y-8 flex flex-col items-center">
                         <FollowDesk type="category" id={article.categoryId} label={article.category.name} />
-                        <button className="p-3 bg-slate-900 border border-border-slate rounded-xl hover:border-white transition-all group">
-                            <Share2 className="h-5 w-5 text-slate-400 group-hover:text-white" />
+                        <div className="h-px w-8 bg-white/5" />
+                        <button className="p-3 bg-slate-900/50 border border-white/5 rounded-2xl hover:border-accent-red transition-all group">
+                            <Share2 className="h-5 w-5 text-slate-500 group-hover:text-white" />
                         </button>
-                        <button className="p-3 bg-slate-900 border border-border-slate rounded-xl hover:border-white transition-all group">
-                            <Bookmark className="h-5 w-5 text-slate-400 group-hover:text-white" />
+                        <button className="p-3 bg-slate-900/50 border border-white/5 rounded-2xl hover:border-accent-red transition-all group">
+                            <Bookmark className="h-5 w-5 text-slate-500 group-hover:text-white" />
                         </button>
-                        <CitationTool
-                            title={article.title}
-                            author={article.author.name}
-                            publishedDate={formattedDate}
-                            category={article.category.name}
-                            slug={article.slug}
-                        />
                     </div>
                 </aside>
 
-                <main className="lg:col-span-7 space-y-12 text-slate-200">
-                    <div className="space-y-6">
+                <main className="lg:col-span-7 space-y-16">
+                    <div className="space-y-8">
                         {article.onPageLead && (
-                            <p className="text-xl font-bold italic border-l-4 border-accent-red pl-6 py-2 text-white">
-                                {article.onPageLead}
-                            </p>
+                            <div className="relative p-8 rounded-3xl bg-secondary/30 border border-white/5 overflow-hidden">
+                                <div className="absolute top-0 left-0 w-1 h-full bg-accent-red" />
+                                <p className="text-2xl font-black italic text-white leading-snug tracking-tight">
+                                    "{article.onPageLead}"
+                                </p>
+                            </div>
                         )}
                         <KeyTakeaways points={article.summary.split('\n').filter((p: string) => p.trim())} />
                     </div>
 
-                    <div className="space-y-12">
+                    <div className="space-y-16">
                         <QuickAnswers faqData={(article.faqData as any) || []} />
 
                         <PaywallGate isPremium={article.isPremium}>
-                            <div
-                                className="prose prose-invert prose-slate max-w-none text-slate-300 leading-relaxed text-lg font-serif"
+                            <article
+                                className="prose prose-invert prose-slate max-w-none text-slate-200 leading-relaxed text-xl font-medium tracking-tight"
                                 dangerouslySetInnerHTML={{ __html: article.content }}
                             />
                         </PaywallGate>
 
-                        <div className="space-y-12 pt-12 border-t border-border-slate">
-                            <div className="space-y-2">
-                                <h3 className="text-xl font-black uppercase tracking-tight text-white">Quantitative Analysis & Forecasting</h3>
-                                <p className="text-sm text-slate-400">Analysis-driven scenario mapping for the next fiscal cycle.</p>
+                        <div className="space-y-10 pt-16 border-t border-white/5">
+                            <div className="space-y-1">
+                                <h3 className="text-xl font-black uppercase tracking-tighter text-white italic">Quantitative Scenarios</h3>
+                                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Model Fidelity: High (institutional-grade mapping)</p>
                             </div>
                             <ScenarioForecast scenarios={processedScenarios} category={article.category.slug} slug={article.slug} />
                         </div>
                     </div>
                 </main>
 
-                <aside className="lg:col-span-4 space-y-8">
-                    <div className="sticky top-32 space-y-8">
+                <aside className="lg:col-span-4 space-y-12">
+                    <div className="sticky top-32 space-y-12">
                         <RiskGauge score={article.riskScore} label={`${article.riskLevel} STRATEGIC RISK`} />
 
-                        <div className="p-6 bg-slate-900/50 border border-border-slate rounded-2xl space-y-6">
+                        <div className="p-8 bg-secondary/30 border border-white/5 rounded-3xl space-y-8 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-accent-red/5 blur-[50px]" />
                             <div className="flex items-center justify-between border-b border-white/5 pb-4">
-                                <h4 className="text-xs font-black uppercase tracking-widest text-white">Related Analysis</h4>
-                                <span className="text-[9px] font-black text-slate-500 uppercase tracking-tighter">Silo: {article.category.name}</span>
+                                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Related Artifacts</h4>
+                                <span className="text-[9px] font-black text-accent-red uppercase tracking-tighter">Live Sync</span>
                             </div>
                             <div className="space-y-6">
-                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest italic animate-pulse">
-                                    Fetching real-time data correlations...
-                                </p>
-                                <div className="text-xs text-slate-500 font-medium leading-relaxed">
-                                    Detailed regional correlations and asset-class impacts are being mapped to our 2026 tactical grid.
+                                <div className="p-4 rounded-2xl bg-black/20 border border-white/5 space-y-3">
+                                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest italic animate-pulse">
+                                        Mapping Correlated Hotspots...
+                                    </p>
+                                    <div className="text-[11px] text-slate-500 font-medium leading-relaxed uppercase tracking-tight">
+                                        Analyzing cross-sector contagion and regional volatility indexes for the {article.category.name} silo.
+                                    </div>
                                 </div>
+                                <CitationTool
+                                    title={article.title}
+                                    author={article.author.name}
+                                    publishedDate={formattedDate}
+                                    category={article.category.name}
+                                    slug={article.slug}
+                                />
                             </div>
                         </div>
                     </div>

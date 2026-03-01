@@ -145,23 +145,36 @@ export const getHomepageStats = cache(async () => {
 });
 
 /**
- * Fetches a public author profile and their latest intelligence reports.
+ * Fetches a full Category object by its slug for the silo landing pages.
  */
-export const getPublicAuthorBySlug = cache(async (slug: string) => {
+export const getCategoryBySlug = cache(async (slug: string) => {
     try {
-        return await prisma.author.findUnique({
-            where: { slug },
+        const normalizedSlug = slug.endsWith('/') ? slug : `${slug}/`;
+        const category = await prisma.category.findUnique({
+            where: { slug: normalizedSlug },
             include: {
                 articles: {
                     where: { status: "PUBLISHED" as any },
-                    include: { category: true, author: true },
-                    orderBy: { publishedAt: 'desc' },
-                    take: 10
+                    include: { author: true, category: true },
+                    orderBy: { publishedAt: 'desc' }
                 }
             }
-        }) as any;
+        });
+
+        if (!category) return null;
+
+        // Calculate silo-specific risk average
+        const articles = category.articles;
+        const avgRisk = articles.length > 0
+            ? Math.round(articles.reduce((acc, curr) => acc + curr.riskScore, 0) / articles.length)
+            : 0;
+
+        return {
+            ...category,
+            avgRisk
+        };
     } catch (error) {
-        console.error("Critical fetching error [Author Profile]:", error);
+        console.error("Critical fetching error [Category Details]:", error);
         return null;
     }
 });
@@ -171,8 +184,9 @@ export const getPublicAuthorBySlug = cache(async (slug: string) => {
  */
 export const getArticlesByCategory = cache(async (categorySlug: string, limit = 10) => {
     try {
+        const normalizedSlug = categorySlug.endsWith('/') ? categorySlug : `${categorySlug}/`;
         const category = await prisma.category.findUnique({
-            where: { slug: categorySlug.endsWith('/') ? categorySlug : `${categorySlug}/` }
+            where: { slug: normalizedSlug }
         });
 
         if (!category) return [];

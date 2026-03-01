@@ -4,6 +4,7 @@ import { GlobalRiskMap } from "@/components/maps/global-risk-map";
 import { getFeaturedArticles, getMapRegionData, getHomepageStats } from "@/lib/actions/public-actions";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { Badge } from "@/components/ui/badge";
 import { constructMetadata } from "@/lib/seo";
 
 export async function generateMetadata() {
@@ -83,28 +84,37 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
         )}
       </div>
 
-      <section className="bg-secondary/80 border border-border-slate rounded-xl p-8 shadow-subtle-glow">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center font-black">
-          <div className="space-y-2">
+      <section className="bg-secondary/30 border border-white/5 rounded-3xl p-8 shadow-2xl relative overflow-hidden backdrop-blur-sm">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-accent-red/5 blur-[100px]" />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center font-black relative z-10">
+          <div className="space-y-4">
             <div className="flex justify-center">
-              <ShieldAlert className="h-8 w-8 text-accent-red" />
+              <ShieldAlert className="h-10 w-10 text-accent-red" />
             </div>
-            <div className="text-2xl font-black uppercase tracking-tighter text-foreground">{stats.hotspots} Active Hotspots</div>
-            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black">Global Security Index</div>
+            <div className="space-y-1">
+              <div className="text-3xl font-black uppercase tracking-tighter text-white italic">{stats.hotspots} Active Hotspots</div>
+              <div className="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-black">Global Security Index</div>
+            </div>
           </div>
-          <div className="space-y-2 border-x border-border-slate">
+          <div className="space-y-4 border-x border-white/5">
             <div className="flex justify-center">
-              <TrendingUp className="h-8 w-8 text-accent-green" />
+              <TrendingUp className="h-10 w-10 text-accent-green" />
             </div>
-            <div className="text-2xl font-black uppercase tracking-tighter text-foreground">{stats.reportsCount} Reports</div>
-            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black">Strategic Intelligence Flow</div>
+            <div className="space-y-1">
+              <div className="text-3xl font-black uppercase tracking-tighter text-white italic">{stats.reportsCount} Reports</div>
+              <div className="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-black">Strategic Intelligence Flow</div>
+            </div>
           </div>
-          <div className="space-y-2">
-            <div className="flex justify-center">
-              <Zap className="h-8 w-8 text-yellow-500" />
+          <div className="space-y-4">
+            <div className="flex justify-center flex-col items-center">
+              <Zap className="h-10 w-10 text-yellow-500 mb-2" />
+              <Badge className="bg-accent-green text-black border-none py-0 px-2 text-[9px]">ACTIVE</Badge>
             </div>
-            <div className="text-2xl font-black uppercase tracking-tighter text-foreground">{stats.integrity}</div>
-            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-black">System Grid Integrity</div>
+            <div className="space-y-1">
+              <div className="text-3xl font-black uppercase tracking-tighter text-white italic">{stats.integrity}</div>
+              <div className="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-black">System Grid Integrity</div>
+            </div>
           </div>
         </div>
       </section>
