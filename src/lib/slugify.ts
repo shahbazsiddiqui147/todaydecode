@@ -16,5 +16,5 @@ export function slugify(text: string): string {
         .replace(/^-|-$/g, '');       // Trim hyphens from ends
 
     if (!slug) return "/";
-    return `/${slug}/`;
+    return `${slug}/`;
 }

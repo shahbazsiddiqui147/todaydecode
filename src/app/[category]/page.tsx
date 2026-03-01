@@ -126,8 +126,8 @@ function CategoryDesk({ category, slug }: { category: any, slug: string }) {
                         <div className="flex flex-col items-center space-y-4">
                             <ShieldAlert className="h-12 w-12 text-slate-800" />
                             <div className="space-y-1">
-                                <p className="text-xs font-black uppercase tracking-widest text-slate-600">Analysis Pending</p>
-                                <p className="text-[10px] text-slate-500 font-medium italic">Strategic silos are being mapped in real-time. Stand by for institutional uplink.</p>
+                                <p className="text-xs font-black uppercase tracking-widest text-slate-600">Strategic Analysis Pending</p>
+                                <p className="text-[10px] text-slate-500 font-medium italic">Silo data is being authorized. Intelligence analysts are mapping the tactical indicators.</p>
                             </div>
                         </div>
                     </div>

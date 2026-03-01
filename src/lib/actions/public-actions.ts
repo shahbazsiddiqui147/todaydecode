@@ -171,7 +171,7 @@ export const getPublicAuthorBySlug = cache(async (slug: string) => {
  */
 export const getCategoryBySlug = cache(async (slug: string) => {
     try {
-        const normalizedSlug = slug.endsWith('/') ? slug : `${slug}/`;
+        const normalizedSlug = slug.replace(/^\//, '').endsWith('/') ? slug.replace(/^\//, '') : `${slug.replace(/^\//, '')}/`;
         const category = await prisma.category.findUnique({
             where: { slug: normalizedSlug },
             include: {
@@ -206,7 +206,7 @@ export const getCategoryBySlug = cache(async (slug: string) => {
  */
 export const getArticlesByCategory = cache(async (categorySlug: string, limit = 10) => {
     try {
-        const normalizedSlug = categorySlug.endsWith('/') ? categorySlug : `${categorySlug}/`;
+        const normalizedSlug = categorySlug.replace(/^\//, '').endsWith('/') ? categorySlug.replace(/^\//, '') : `${categorySlug.replace(/^\//, '')}/`;
         const category = await prisma.category.findUnique({
             where: { slug: normalizedSlug }
         });
@@ -235,7 +235,7 @@ export const getArticlesByCategory = cache(async (categorySlug: string, limit = 
  */
 export const getPageBySlug = cache(async (slug: string) => {
     try {
-        const normalizedSlug = slug.endsWith('/') ? slug : `${slug}/`;
+        const normalizedSlug = slug.replace(/^\//, '').endsWith('/') ? slug.replace(/^\//, '') : `${slug.replace(/^\//, '')}/`;
         return await prisma.page.findUnique({
             where: { slug: normalizedSlug }
         });
