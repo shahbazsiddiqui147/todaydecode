@@ -6,9 +6,18 @@ This document is the absolute source of truth for all development on the Today D
 ---
 
 ### 1. BRAND IDENTITY & TONALITIES
-- **Identity:** Today Decode is a Geopolitical Intelligence Firm and Risk Advisory platform. 
-- **Rule:** Never refer to it as a "blog" or "news site." Use "Intelligence Vault," "War Room," or "Analysis Desk."
-- **Aesthetic:** High-end, institutional, and tactical.
+- **Identity:** Today Decode is an Elite Strategic Risk Advisory Firm and Global Think Tank. 
+- **Rule:** Never refer to it as a "blog" or "spy agency." Use "Strategic Archive," "Analysis Desk," or "Executive Overview."
+- **Aesthetic:** High-end, institutional, academic, and professional. NO "tactical glows" in the Admin Workspace.
+- **Terminology Pivot:**
+  - 'Intelligence Vault' -> 'Strategic Archive'
+  - 'Intelligence Hub' -> 'Analysis Desk'
+  - 'Mission Control' -> 'Strategic Oversight'
+  - 'Commit Manifest' -> 'Publish Analysis'
+  - 'Initialize Node' -> 'Create Report'
+  - 'Intelligence Sector' -> 'Strategic Silo'
+  - 'Identity Nexus' -> 'Analyst Profile'
+  - 'Operational Metrics' -> 'Strategic Parameters'
 
 ### 2. DESIGN SYSTEM (THE "ANTI-GREY" SHIELD)
 To prevent theme regressions, the following tokens are non-negotiable:

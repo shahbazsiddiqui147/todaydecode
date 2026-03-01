@@ -24,9 +24,9 @@ import { signOut } from "next-auth/react";
 
 const GROUPS = [
     {
-        name: "Management",
+        name: "Oversight",
         items: [
-            { name: "Cockpit", icon: LayoutDashboard, href: "/admin/" },
+            { name: "Strategic Overview", icon: LayoutDashboard, href: "/admin/" },
         ]
     },
     {
@@ -71,8 +71,8 @@ export function Sidebar() {
                     <div className="bg-primary p-1.5 rounded-lg">
                         <ShieldCheck className="h-5 w-5 text-primary-foreground" />
                     </div>
-                    <span className="font-bold tracking-tight text-lg text-foreground">
-                        ADMIN <span className="text-muted-foreground font-medium">WORKSPACE</span>
+                    <span className="font-bold tracking-tight text-lg text-[#0F172A] dark:text-[#F1F5F9]">
+                        STRATEGIC <span className="text-muted-foreground font-medium uppercase">Overview</span>
                     </span>
                 </div>
             </div>
@@ -80,7 +80,7 @@ export function Sidebar() {
             <nav className="flex-1 px-4 pb-6 space-y-8">
                 {GROUPS.map((group) => (
                     <div key={group.name} className="space-y-1">
-                        <h3 className="px-2 mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">
+                        <h3 className="px-2 mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-[#1E293B] dark:text-[#94A3B8]">
                             {group.name}
                         </h3>
                         {group.items.map((item) => {
@@ -114,10 +114,10 @@ export function Sidebar() {
             <div className="p-4 border-t border-border bg-sidebar">
                 <button
                     onClick={() => signOut({ callbackUrl: '/' })}
-                    className="w-full flex items-center justify-center space-x-3 px-3 py-3 text-[11px] font-black uppercase tracking-widest bg-destructive text-destructive-foreground hover:opacity-90 rounded-xl transition-all shadow-lg"
+                    className="w-full h-12 flex items-center justify-center space-x-3 px-3 py-3 text-[10px] font-black uppercase tracking-widest bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] hover:bg-black dark:hover:bg-white/90 rounded-xl transition-all shadow-xl border border-transparent"
                 >
                     <LogOut className="h-4 w-4" />
-                    <span>Exit Workspace</span>
+                    <span>Return to Dashboard</span>
                 </button>
             </div>
         </aside>

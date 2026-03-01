@@ -7,7 +7,8 @@ import {
     Clock,
     ArrowRight,
     Plus,
-    Zap
+    Zap,
+    Activity
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -17,18 +18,18 @@ export default function AdminDashboard() {
         <div className="space-y-12">
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-border">
                 <div className="space-y-1">
-                    <div className="flex items-center space-x-2 text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] mb-2">
-                        <Zap className="h-3 w-3 fill-current text-brand-tech" />
-                        <span>Operational Status: Optimal</span>
+                    <div className="flex items-center space-x-2 text-[#1E293B] dark:text-[#94A3B8] text-[10px] font-black uppercase tracking-[0.3em] mb-2">
+                        <Activity className="h-3 w-3 text-cyan-500" />
+                        <span>Institutional Status: Operational</span>
                     </div>
-                    <h1 className="text-4xl font-black tracking-tight text-foreground uppercase">Management <span className="text-muted-foreground/60">Workspace</span></h1>
-                    <p className="text-muted-foreground font-medium border-l-2 border-border pl-4 py-1">Strategic oversight of global intelligence nodes and content manifests.</p>
+                    <h1 className="text-4xl font-black tracking-tight text-[#0F172A] dark:text-[#F1F5F9] uppercase">Strategic <span className="text-muted-foreground/60">Oversight</span></h1>
+                    <p className="text-[#1E293B] dark:text-[#94A3B8] font-medium border-l-2 border-[#CBD5E1] dark:border-[#1E293B] pl-4 py-1">Institutional management of global risk analysis and strategic repositories.</p>
                 </div>
                 <div className="flex items-center gap-3">
                     <Button variant="outline" className="rounded-xl border-border hover:bg-muted font-black uppercase tracking-widest text-[10px]">Refresh Data</Button>
                     <Link href="/admin/articles/">
-                        <Button className="rounded-xl font-black uppercase tracking-widest text-[10px] px-6 shadow-xl">
-                            <Plus className="mr-2 h-4 w-4" /> New Article
+                        <Button className="rounded-xl font-black uppercase tracking-widest text-[10px] px-6 shadow-xl bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] hover:bg-black dark:hover:bg-white/90">
+                            <Plus className="mr-2 h-4 w-4" /> Create Report
                         </Button>
                     </Link>
                 </div>
@@ -37,10 +38,10 @@ export default function AdminDashboard() {
             {/* System Stats */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
-                    { label: "Total Articles", value: "0", icon: FileText, color: "text-foreground" },
-                    { label: "Pending Reviews", value: "0", icon: Clock, color: "text-muted-foreground/40" },
-                    { label: "Personnel Count", value: "0", icon: Users, color: "text-foreground" },
-                    { label: "Database Health", value: "100%", icon: Database, color: "text-brand-stability" },
+                    { label: "Total Reports", value: "0", icon: FileText, color: "text-[#0F172A] dark:text-[#F1F5F9]" },
+                    { label: "Pending Reviews", value: "0", icon: Clock, color: "text-[#64748B]" },
+                    { label: "Analyst Count", value: "0", icon: Users, color: "text-[#0F172A] dark:text-[#F1F5F9]" },
+                    { label: "Database Health", value: "100%", icon: Database, color: "text-emerald-500" },
                 ].map((stat, i) => (
                     <div key={i} className="bg-card border border-border p-8 rounded-3xl shadow-sm hover:shadow-md transition-all group relative overflow-hidden">
                         <div className="relative z-10">
@@ -70,8 +71,8 @@ export default function AdminDashboard() {
                         <div className="p-8 border-b border-border/50 flex items-center space-x-4 bg-muted/20">
                             <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-xs font-black text-primary-foreground italic">SL</div>
                             <div>
-                                <div className="text-sm font-black text-foreground uppercase tracking-tight">Strategic Lead</div>
-                                <div className="text-[10px] text-muted-foreground/60 font-black uppercase tracking-widest">Administrator</div>
+                                <div className="text-sm font-black text-[#0F172A] dark:text-[#F1F5F9] uppercase tracking-tight">Senior Analyst</div>
+                                <div className="text-[10px] text-[#64748B] font-black uppercase tracking-widest">Administrator</div>
                             </div>
                             <div className="ml-auto flex items-center space-x-2 text-[10px] font-black bg-muted border border-border px-3 py-1 rounded-full text-muted-foreground/60">
                                 <ShieldCheck className="h-3 w-3 mr-1 text-brand-stability" />
@@ -99,8 +100,8 @@ export default function AdminDashboard() {
                     <div className="bg-slate-900 dark:bg-black border border-slate-800 rounded-[2rem] p-8 text-white h-full">
                         <div className="space-y-8">
                             <div className="space-y-3">
-                                <div className="text-2xl font-black tracking-tight uppercase leading-none italic">Sovereign <span className="text-slate-500">Enabled</span></div>
-                                <div className="text-[10px] text-slate-500 leading-relaxed font-bold uppercase tracking-widest">Phase 1 encryption active. Author and Category management controls initialized for institutional use.</div>
+                                <div className="text-2xl font-black tracking-tight uppercase leading-none italic text-white">Institutional <span className="text-slate-500">Protocols Active</span></div>
+                                <div className="text-[10px] text-slate-500 leading-relaxed font-bold uppercase tracking-widest">Strategic management controls initialized for institutional advisory use.</div>
                             </div>
 
                             <div className="space-y-4">

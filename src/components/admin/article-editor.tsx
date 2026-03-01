@@ -132,12 +132,12 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
         });
 
         toast.promise(promise, {
-            loading: "Syncing intelligence manifest...",
+            loading: "Syncing institutional report...",
             success: (res) => {
                 if (res.success) {
                     router.push("/admin/articles/");
                     router.refresh();
-                    return article ? "Intelligence report hardened." : "New report filed successfully.";
+                    return article ? "Strategic report finalized." : "New analysis published.";
                 }
                 throw new Error(res.error || "Sync failed.");
             },
@@ -168,8 +168,8 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             </Badge>
                             <span className="text-[10px] text-muted-foreground font-black uppercase tracking-widest opacity-40 italic">#WarRoomProtocol</span>
                         </div>
-                        <h1 className="text-2xl font-black uppercase italic tracking-tighter text-foreground leading-none">
-                            {formData.title || "UNTITLED_INTEL_MODULE"}
+                        <h1 className="text-2xl font-black uppercase italic tracking-tighter text-[#0F172A] dark:text-[#F1F5F9] leading-none">
+                            {formData.title || "PROPOSED_STRATEGIC_ANALYSIS"}
                         </h1>
                     </div>
                 </div>
@@ -188,10 +188,10 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                     <Button
                         type="submit"
                         disabled={loading}
-                        className="h-10 px-8 rounded-xl font-black uppercase italic tracking-tighter shadow-lg shadow-primary/20 active:scale-95 transition-all text-[11px] bg-white text-black hover:bg-white/90 dark:bg-white dark:text-black dark:hover:bg-white/90"
+                        className="h-10 px-8 rounded-xl font-black uppercase italic tracking-tighter shadow-lg shadow-primary/20 active:scale-95 transition-all text-[11px] bg-[#0F172A] text-white hover:bg-black dark:bg-white dark:text-[#0F172A] dark:hover:bg-white/90"
                     >
                         {loading ? <RefreshCw className="h-4 w-4 animate-spin mr-2" /> : <Save className="h-4 w-4 mr-2" />}
-                        {article ? "Commit Intelligence" : "Initialize Node"}
+                        {article ? "Finalize Report" : "Create Report"}
                     </Button>
                 </div>
             </div>
@@ -202,10 +202,10 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                     {/* Navigation Tabs (Strategic Selection) */}
                     <div className="flex items-center gap-1 p-1 bg-muted/30 rounded-2xl border border-border/50">
                         {[
-                            { id: "content", label: "Analysis", icon: FileText },
+                            { id: "content", label: "Analysis Content", icon: FileText },
                             { id: "forecast", label: "Scenarios", icon: TrendingUp },
                             { id: "aeo", label: "AEO/GEO", icon: Zap },
-                            { id: "meta", label: "Intelligence Map (SEO)", icon: Globe },
+                            { id: "meta", label: "Strategic Meta (SEO)", icon: Globe },
                         ].map((tab) => (
                             <button
                                 key={tab.id}
@@ -241,8 +241,8 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
 
                                 <div className="space-y-2">
                                     <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1 flex justify-between">
-                                        <span>On-Page Lead (Sovereign Intro)</span>
-                                        <span className="opacity-40 lowercase italic font-normal">Hero description</span>
+                                        <span>On-Page Executive Summary</span>
+                                        <span className="opacity-40 lowercase italic font-normal">Institutional Intro</span>
                                     </Label>
                                     <Textarea
                                         name="onPageLead"
@@ -254,7 +254,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1">Executive Summary (Global Feed)</Label>
+                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1">Institutional Brief (Global Feed)</Label>
                                     <Textarea
                                         name="summary"
                                         value={formData.summary}
@@ -265,7 +265,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1 mb-2 block">Deep Intelligence Analysis (Full Core)</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1 mb-2 block">Full Strategic Analysis</Label>
                                     <div className="rounded-2xl border border-border overflow-hidden bg-background">
                                         <RichTextEditor
                                             value={formData.content}
@@ -344,8 +344,8 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                     <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 blur-[100px]" />
                                     <div className="relative z-10 flex items-center justify-between">
                                         <div className="flex items-center gap-2">
-                                            <Zap className="h-5 w-5 text-emerald-400 animate-pulse" />
-                                            <h2 className="text-md font-black uppercase italic">AEO Optimization Center</h2>
+                                            <Zap className="h-5 w-5 text-emerald-400" />
+                                            <h2 className="text-md font-black uppercase italic">Strategic Visibility Center</h2>
                                         </div>
                                         <Badge className="bg-emerald-500 text-white border-none py-0.5">PROTOCOL_READY</Badge>
                                     </div>
@@ -435,7 +435,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                     <div className="bg-[#111827] dark:bg-[#111827] border border-[#1E293B] dark:border-[#1E293B] rounded-3xl p-6 shadow-sm space-y-6">
                         <div className="flex items-center gap-2 border-b border-[#1E293B] pb-4 text-[#CBD5E1]">
                             <Shield className="h-4 w-4 text-cyan-400" />
-                            <h2 className="text-[11px] font-black uppercase tracking-widest italic">Identity Nexus</h2>
+                            <h2 className="text-[11px] font-black uppercase tracking-widest italic">Institutional Attribution</h2>
                         </div>
 
                         <div className="space-y-4">

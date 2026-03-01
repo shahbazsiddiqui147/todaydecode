@@ -125,13 +125,13 @@ export default function CategoriesPage() {
 
     return (
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-border">
+            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#CBD5E1] dark:border-[#1E293B]">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black uppercase tracking-tighter text-foreground">Taxonomy <span className="text-muted-foreground/60 font-medium">Manager</span></h1>
-                    <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Managing intelligence categories and navigational protocols.</p>
+                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#0F172A] dark:text-[#F1F5F9]">Strategic <span className="text-muted-foreground/60 font-medium font-sans">Silos</span></h1>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B]">Institutional parameters for global risk analysis and analysis desks.</p>
                 </div>
-                <Button onClick={() => { setEditingCategory(null); setFormData({ name: "", slug: "", description: "", order: "0", isVisible: true, icon: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[11px] px-6 shadow-xl">
-                    <Plus className="mr-2 h-4 w-4" /> Initialize Node
+                <Button onClick={() => { setEditingCategory(null); setFormData({ name: "", slug: "", description: "", order: "0", isVisible: true, icon: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-xl bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] border-none hover:bg-black dark:hover:bg-white/90">
+                    <Plus className="mr-2 h-4 w-4" /> Create Strategic Silo
                 </Button>
             </header>
 
@@ -139,11 +139,11 @@ export default function CategoriesPage() {
                 <Table className="border-collapse">
                     <TableHeader className="bg-muted/50">
                         <TableRow className="border-b border-border hover:bg-transparent">
-                            <TableHead className="w-16 text-center text-muted-foreground">Priority</TableHead>
-                            <TableHead className="py-5 pl-8 text-muted-foreground">Intelligence Node</TableHead>
-                            <TableHead className="text-muted-foreground">Protocol Path (Slug)</TableHead>
-                            <TableHead className="text-muted-foreground">State</TableHead>
-                            <TableHead className="text-right pr-8 text-muted-foreground">Operations</TableHead>
+                            <TableHead className="w-16 text-center text-[#1E293B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Priority</TableHead>
+                            <TableHead className="py-5 pl-8 text-[#1E293B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Strategic Silo</TableHead>
+                            <TableHead className="text-[#1E293B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Protocol Path (Slug)</TableHead>
+                            <TableHead className="text-[#1E293B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">State</TableHead>
+                            <TableHead className="text-right pr-8 text-[#1E293B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Operations</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -152,13 +152,13 @@ export default function CategoriesPage() {
                                 <TableCell colSpan={5} className="h-64 text-center">
                                     <div className="flex flex-col items-center space-y-4">
                                         <div className="h-8 w-8 rounded-full border-4 border-muted border-t-primary animate-spin"></div>
-                                        <span className="text-[11px] font-black uppercase tracking-widest text-muted-foreground">Loading Taxonomy...</span>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Loading Strategic Silos...</span>
                                     </div>
                                 </TableCell>
                             </TableRow>
                         ) : categories.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={5} className="h-64 text-center text-muted-foreground font-bold uppercase tracking-widest text-[11px] italic">No categories found in system.</TableCell>
+                                <TableCell colSpan={5} className="h-64 text-center text-[#64748B] font-bold uppercase tracking-widest text-[10px] italic">No silos found in system interface.</TableCell>
                             </TableRow>
                         ) : categories.map((cat) => (
                             <TableRow key={cat.id} className="group border-b border-border/50 hover:bg-muted/30 transition-colors">
@@ -223,10 +223,10 @@ export default function CategoriesPage() {
                     <div className="relative bg-white dark:bg-[#0D1425] w-full max-w-3xl rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
                         <div className="p-10 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-white/5">
                             <div className="space-y-1">
-                                <h2 className="text-2xl font-black uppercase tracking-tighter text-slate-900 dark:text-white">
-                                    {editingCategory ? "Update" : "Initialize"} Taxon Node
+                                <h2 className="text-2xl font-black uppercase tracking-tighter text-[#0F172A] dark:text-white">
+                                    {editingCategory ? "Update Silo Parameters" : "Create Strategic Silo"}
                                 </h2>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Structural Configuration Required</p>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Institutional Authorization Required</p>
                             </div>
                             <button onClick={() => setIsModalOpen(false)} className="p-2 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-white transition-colors">
                                 <X className="h-4 w-4" />
@@ -237,7 +237,7 @@ export default function CategoriesPage() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-3">
                                     <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
-                                        <Box className="h-3 w-3 mr-2 text-cyan-500" /> Node Name
+                                        <Box className="h-3 w-3 mr-2 text-cyan-500" /> Silo Identification
                                     </label>
                                     <Input
                                         required
@@ -295,12 +295,12 @@ export default function CategoriesPage() {
 
                             <div className="flex items-center space-x-3 p-5 bg-slate-50 dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 group transition-all cursor-pointer" onClick={() => setFormData({ ...formData, isVisible: !formData.isVisible })}>
                                 <div className={cn(
-                                    "h-5 w-5 rounded border border-slate-300 dark:border-slate-700 flex items-center justify-center transition-all",
-                                    formData.isVisible ? "bg-slate-900 border-slate-900 dark:bg-white dark:border-white shadow-lg" : "bg-transparent"
+                                    "h-5 w-5 rounded border border-[#CBD5E1] dark:border-[#1E293B] flex items-center justify-center transition-all",
+                                    formData.isVisible ? "bg-[#0F172A] border-[#0F172A] dark:bg-white dark:border-white shadow-lg" : "bg-white dark:bg-[#020617]"
                                 )}>
-                                    {formData.isVisible && <div className="h-2 w-2 rounded-full bg-white dark:bg-slate-900 animate-in zoom-in-50 duration-200" />}
+                                    {formData.isVisible && <div className="h-2 w-2 rounded-full bg-white dark:bg-[#0F172A] animate-in zoom-in-50 duration-200" />}
                                 </div>
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 cursor-pointer">Published to Public Interface</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] cursor-pointer">Active in Global Feed</label>
                             </div>
 
                             <div className="space-y-3">
@@ -316,8 +316,8 @@ export default function CategoriesPage() {
                             </div>
 
                             <div className="pt-10 flex justify-end space-x-4">
-                                <Button type="button" variant="ghost" className="h-12 px-8 rounded-xl font-black uppercase tracking-widest text-[10px] text-muted-foreground hover:text-foreground" onClick={() => setIsModalOpen(false)}>Abort Change</Button>
-                                <Button type="submit" className="h-12 px-10 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-black uppercase tracking-widest text-[10px] shadow-xl hover:bg-black dark:hover:bg-white/90">Commit Node</Button>
+                                <Button type="button" variant="ghost" className="h-12 px-8 rounded-xl font-black uppercase tracking-widest text-[10px] text-muted-foreground hover:text-foreground" onClick={() => setIsModalOpen(false)}>Cancel Action</Button>
+                                <Button type="submit" className="h-12 px-10 rounded-xl bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] font-black uppercase tracking-widest text-[10px] shadow-xl hover:bg-black dark:hover:bg-white/90">Finalize Silo</Button>
                             </div>
                         </form>
                     </div>

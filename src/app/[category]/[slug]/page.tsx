@@ -20,11 +20,11 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     const { category, slug } = await params;
     const article = await getPublicArticleBySlug(slug);
 
-    if (!article) return constructMetadata({ title: "Intelligence Not Found" });
+    if (!article) return constructMetadata({ title: "Analysis Not Found" });
 
     return constructMetadata({
-        title: `[Intelligence Report] ${article.title} | Today Decode`,
-        description: article.metaDescription || `Strategic Risk Assessment [${article.riskScore}/100]. Risk Level: ${article.riskLevel}. Impact Score: ${article.impactScore}. Analyst-verified intelligence.`,
+        title: `[Strategic Analysis] ${article.title} | Today Decode`,
+        description: article.metaDescription || `Strategic Risk Assessment [${article.riskScore}/100]. Risk Level: ${article.riskLevel}. Impact Score: ${article.impactScore}. Senior analyst-verified report.`,
         path: `/${category}/${slug}/`,
     });
 }
@@ -198,7 +198,7 @@ export default async function ArticlePage({
 
                         <div className="space-y-12 pt-12 border-t border-border-slate">
                             <div className="space-y-2">
-                                <h3 className="text-xl font-black uppercase tracking-tight text-white">Visual Intelligence & Predictive Modeling</h3>
+                                <h3 className="text-xl font-black uppercase tracking-tight text-white">Quantitative Analysis & Forecasting</h3>
                                 <p className="text-sm text-slate-400">Analysis-driven scenario mapping for the next fiscal cycle.</p>
                             </div>
                             <ScenarioForecast scenarios={processedScenarios} category={article.category.slug} slug={article.slug} />
@@ -212,8 +212,8 @@ export default async function ArticlePage({
 
                         <div className="p-6 bg-slate-900/50 border border-border-slate rounded-2xl space-y-6">
                             <div className="flex items-center justify-between border-b border-white/5 pb-4">
-                                <h4 className="text-xs font-black uppercase tracking-widest text-white">Related Intelligence</h4>
-                                <span className="text-[9px] font-black text-slate-500 uppercase tracking-tighter">Sector: {article.category.name}</span>
+                                <h4 className="text-xs font-black uppercase tracking-widest text-white">Related Analysis</h4>
+                                <span className="text-[9px] font-black text-slate-500 uppercase tracking-tighter">Silo: {article.category.name}</span>
                             </div>
                             <div className="space-y-6">
                                 <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest italic animate-pulse">

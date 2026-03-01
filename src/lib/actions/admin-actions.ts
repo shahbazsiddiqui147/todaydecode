@@ -32,8 +32,8 @@ const ArticleSchema = z.object({
     title: z.string().min(2, "Title is too short."),
     slug: z.string().optional().nullable(), // Allow optional for auto-gen
     onPageLead: z.string().optional().nullable(),
-    summary: z.string().min(10, "Quick Summary (AEO) is too short."),
-    content: z.string().min(10, "Intelligence analysis content is required."),
+    summary: z.string().min(10, "Institutional Brief is too short."),
+    content: z.string().min(10, "Strategic report analysis is required."),
     status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).default("DRAFT"),
     isFeatured: z.boolean().default(false),
     region: z.enum(["GLOBAL", "MENA", "APAC", "EUROPE", "AMERICAS", "AFRICA"]).default("GLOBAL"),
@@ -51,8 +51,8 @@ const ArticleSchema = z.object({
     })).optional().nullable(),
     metaTitle: z.string().optional().nullable(),
     metaDescription: z.string().optional().nullable(),
-    authorId: z.string().min(1, "Strategic Analyst selection required."),
-    categoryId: z.string().min(1, "Sector Category selection required."),
+    authorId: z.string().min(1, "Lead Analyst selection required."),
+    categoryId: z.string().min(1, "Strategic Silo selection required."),
     isPremium: z.boolean().default(false),
     publishedAt: z.date().optional().nullable(),
 });
@@ -103,9 +103,9 @@ export async function upsertCategory(data: z.infer<typeof CategorySchema>) {
             return { success: false, error: error.issues[0]?.message || "Validation failed." };
         }
         if (error.code === 'P2002') {
-            return { success: false, error: "Protocol path (slug) already exists." };
+            return { success: false, error: "URL path (slug) already exists." };
         }
-        return { success: false, error: "Structural synchronization failed." };
+        return { success: false, error: "Institutional sync failed." };
     }
 }
 
@@ -116,7 +116,7 @@ export async function deleteCategory(id: string) {
         revalidatePath("/");
         return { success: true };
     } catch (error) {
-        return { success: false, error: "Node purge failed." };
+        return { success: false, error: "Silo decommission failed." };
     }
 }
 
@@ -157,9 +157,9 @@ export async function upsertAuthor(data: z.infer<typeof AuthorSchema>) {
             return { success: false, error: error.issues[0]?.message || "Validation failed." };
         }
         if (error.code === 'P2002') {
-            return { success: false, error: "Personnel handshake (slug) must be unique." };
+            return { success: false, error: "Analyst ID (slug) must be unique." };
         }
-        return { success: false, error: "Personnel initialization failed." };
+        return { success: false, error: "Analyst authorization failed." };
     }
 }
 
@@ -169,7 +169,7 @@ export async function deleteAuthor(id: string) {
         revalidatePath("/admin/authors/");
         return { success: true };
     } catch (error) {
-        return { success: false, error: "Personnel record purge failed." };
+        return { success: false, error: "Analyst de-authorization failed." };
     }
 }
 
@@ -236,11 +236,11 @@ export async function upsertArticle(data: z.infer<typeof ArticleSchema>) {
             },
         });
 
-        // Revalidation Protocol
+        // Revalidation Sequence
         revalidatePath("/admin/articles/");
         revalidatePath("/");
 
-        // Revalidate specific intelligence paths
+        // Revalidate specific analysis paths
         const category = await prisma.category.findUnique({ where: { id: validated.categoryId } });
         if (category) {
             revalidatePath(`/${category.slug}`);
@@ -254,9 +254,9 @@ export async function upsertArticle(data: z.infer<typeof ArticleSchema>) {
             return { success: false, error: error.issues[0]?.message || "Validation failed." };
         }
         if (error.code === 'P2002') {
-            return { success: false, error: "Intelligence path (slug) already exists." };
+            return { success: false, error: "Report path (slug) already exists." };
         }
-        return { success: false, error: "Report synchronization failed." };
+        return { success: false, error: "Analysis synchronization failed." };
     }
 }
 
@@ -267,7 +267,7 @@ export async function deleteArticle(id: string) {
         revalidatePath("/");
         return { success: true };
     } catch (error) {
-        return { success: false, error: "Report purge failed." };
+        return { success: false, error: "Analysis decommission failed." };
     }
 }
 

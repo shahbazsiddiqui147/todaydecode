@@ -58,7 +58,7 @@ export function Sidebar() {
                 {/* Navigation */}
                 <nav className="space-y-1">
                     <div className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] px-2 mb-3">
-                        Intelligence Vault
+                        Strategic Archive
                     </div>
                     {categories.map((item) => {
                         const slug = item.slug.replace(/^\/|\/$/g, '');
@@ -88,7 +88,7 @@ export function Sidebar() {
                     })}
                     {categories.length === 0 && (
                         <div className="px-2 py-4 text-[10px] font-bold text-slate-600 uppercase italic tracking-widest">
-                            Establishing Intelligence Nodes...
+                            Mapping Strategic Silos...
                         </div>
                     )}
                 </nav>
@@ -136,7 +136,7 @@ export function Sidebar() {
                 {/* System Administration */}
                 <div className="pt-4 border-t border-border-slate">
                     <div className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] px-2 mb-3">
-                        Mission Control
+                        Institutional Oversight
                     </div>
                     <Link
                         href="/admin/"
@@ -160,7 +160,7 @@ export function Sidebar() {
                 <div className="flex items-center space-x-3 mb-2">
                     <div className="h-1.5 w-1.5 rounded-full bg-accent-green animate-pulse" />
                     <span className="text-[10px] text-accent-green font-black uppercase tracking-[0.2em]">
-                        LIVE INTEL STREAM
+                        LIVE ANALYSIS FEED
                     </span>
                 </div>
                 <p className="text-[9px] text-muted-foreground font-medium leading-relaxed uppercase tracking-tighter">

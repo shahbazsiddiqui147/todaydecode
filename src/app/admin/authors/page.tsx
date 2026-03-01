@@ -132,13 +132,13 @@ export default function AuthorsPage() {
 
     return (
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-border">
+            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#CBD5E1] dark:border-[#1E293B]">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black uppercase tracking-tighter text-foreground">Personnel <span className="text-muted-foreground/60 font-medium">Database</span></h1>
-                    <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Managing analyst credentials and intelligence profiles.</p>
+                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#0F172A] dark:text-[#F1F5F9]">Analyst <span className="text-muted-foreground/60 font-medium font-sans">Roster</span></h1>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B]">Managing institutional advisor profiles and strategic expertise.</p>
                 </div>
-                <Button onClick={() => { setEditingAuthor(null); setFormData({ name: "", slug: "", role: "", bio: "", image: "", expertise: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[11px] px-6 shadow-xl">
-                    <UserPlus className="mr-2 h-4 w-4" /> Initialize Analyst
+                <Button onClick={() => { setEditingAuthor(null); setFormData({ name: "", slug: "", role: "", bio: "", image: "", expertise: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-xl bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] border-none hover:bg-black dark:hover:bg-white/90">
+                    <UserPlus className="mr-2 h-4 w-4" /> Authorize Analyst
                 </Button>
             </header>
 
@@ -147,7 +147,7 @@ export default function AuthorsPage() {
                 <div className="relative flex-1 flex items-center pl-6">
                     <Search className="h-4 w-4 text-[#64748B] mr-4" />
                     <input
-                        placeholder="Search manifests by name or designation..."
+                        placeholder="Search analysts by name or designation..."
                         className="w-full bg-transparent border-none outline-none text-sm font-bold placeholder:text-[#64748B] text-[#0F172A] dark:text-[#F1F5F9]"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
@@ -159,11 +159,11 @@ export default function AuthorsPage() {
                 <Table className="border-collapse">
                     <TableHeader className="bg-muted/50">
                         <TableRow className="border-b border-border hover:bg-transparent">
-                            <TableHead className="w-16 text-center text-muted-foreground">Protocol</TableHead>
-                            <TableHead className="py-5 pl-8 text-muted-foreground">Full Identity</TableHead>
-                            <TableHead className="text-muted-foreground">Designation</TableHead>
-                            <TableHead className="text-muted-foreground">Expertise Nodes</TableHead>
-                            <TableHead className="text-right pr-8 text-muted-foreground">Operations</TableHead>
+                            <TableHead className="w-16 text-center text-[#1E293B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Access</TableHead>
+                            <TableHead className="py-5 pl-8 text-[#1E293B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Analyst Designation</TableHead>
+                            <TableHead className="text-[#1E293B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Institutional Rank</TableHead>
+                            <TableHead className="text-[#1E293B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Strategic Silos</TableHead>
+                            <TableHead className="text-right pr-8 text-[#1E293B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Operations</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -172,13 +172,13 @@ export default function AuthorsPage() {
                                 <TableCell colSpan={5} className="h-64 text-center">
                                     <div className="flex flex-col items-center space-y-4">
                                         <div className="h-8 w-8 rounded-full border-4 border-muted border-t-primary animate-spin"></div>
-                                        <span className="text-[11px] font-black uppercase tracking-widest text-muted-foreground">Scanning Manifests...</span>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Scanning Analyst Roster...</span>
                                     </div>
                                 </TableCell>
                             </TableRow>
                         ) : filteredAuthors.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={5} className="h-64 text-center text-muted-foreground font-bold uppercase tracking-widest text-[11px] italic">No personnel found in current sector.</TableCell>
+                                <TableCell colSpan={5} className="h-64 text-center text-[#64748B] font-bold uppercase tracking-widest text-[10px] italic">No analysts found in current roster.</TableCell>
                             </TableRow>
                         ) : filteredAuthors.map((author) => (
                             <TableRow key={author.id} className="group border-b border-border/50 hover:bg-muted/30 transition-colors">
@@ -245,14 +245,14 @@ export default function AuthorsPage() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-6 animate-in fade-in duration-500">
                     <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-md" onClick={() => setIsModalOpen(false)} />
                     <div className="relative bg-white dark:bg-[#0D1425] w-full max-w-3xl rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
-                        <div className="p-10 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-white/5">
+                        <div className="p-10 border-b border-[#CBD5E1] dark:border-[#1E293B] flex justify-between items-center bg-slate-50 dark:bg-white/5">
                             <div className="space-y-1">
-                                <h2 className="text-2xl font-black uppercase tracking-tighter text-slate-900 dark:text-white">
-                                    {editingAuthor ? "Reconfigure Analysis Node" : "Initialize New Personnel"}
+                                <h2 className="text-2xl font-black uppercase tracking-tighter text-[#0F172A] dark:text-white">
+                                    {editingAuthor ? "Finalize Analyst Profile" : "Authorize Analyst"}
                                 </h2>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Section 4 Authorization Required</p>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Level 4 Access Required</p>
                             </div>
-                            <button onClick={() => setIsModalOpen(false)} className="p-2 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-white transition-colors">
+                            <button onClick={() => setIsModalOpen(false)} className="p-2 border border-[#CBD5E1] dark:border-[#1E293B] rounded-xl hover:bg-white dark:hover:bg-white/10 transition-colors">
                                 <X className="h-4 w-4" />
                             </button>
                         </div>
@@ -261,7 +261,7 @@ export default function AuthorsPage() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-3">
                                     <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
-                                        <AtSign className="h-3 w-3 mr-2 text-cyan-500" /> Full Identity
+                                        <AtSign className="h-3 w-3 mr-2 text-cyan-500" /> Analyst Name
                                     </label>
                                     <Input
                                         required
@@ -306,7 +306,7 @@ export default function AuthorsPage() {
                                 </div>
                                 <div className="space-y-3">
                                     <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
-                                        <ImageIcon className="h-3 w-3 mr-2 text-cyan-500" /> Personnel Photo (URL)
+                                        <ImageIcon className="h-3 w-3 mr-2 text-cyan-500" /> Analyst Portrait (URL)
                                     </label>
                                     <Input
                                         className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold placeholder:text-[#64748B] focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] outline-none transition-all"
@@ -343,8 +343,8 @@ export default function AuthorsPage() {
                             </div>
 
                             <div className="pt-10 flex justify-end space-x-4">
-                                <Button type="button" variant="ghost" className="h-12 px-8 rounded-xl font-black uppercase tracking-widest text-[10px] text-muted-foreground hover:text-foreground" onClick={() => setIsModalOpen(false)}>Abort Change</Button>
-                                <Button type="submit" className="h-12 px-10 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-black uppercase tracking-widest text-[10px] shadow-xl hover:bg-black dark:hover:bg-white/90">Commit Manifest</Button>
+                                <Button type="button" variant="ghost" className="h-12 px-8 rounded-xl font-black uppercase tracking-widest text-[10px] text-muted-foreground hover:text-foreground" onClick={() => setIsModalOpen(false)}>Cancel Action</Button>
+                                <Button type="submit" className="h-12 px-10 rounded-xl bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] font-black uppercase tracking-widest text-[10px] shadow-xl hover:bg-black dark:hover:bg-white/90">Confirm Authorization</Button>
                             </div>
                         </form>
                     </div>
