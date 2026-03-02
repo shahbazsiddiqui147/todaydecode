@@ -37,9 +37,9 @@ export function AnalysisCard({
     return (
         <Link
             href={`/${categorySlug}/${slug}/`}
-            className="group flex flex-col space-y-0 rounded-2xl border border-[#1E293B] bg-[#111827] overflow-hidden transition-all hover:border-accent-red/30 hover:shadow-[0_0_30px_rgba(255,75,75,0.05)]"
+            className="group flex flex-col space-y-0 rounded-2xl border border-border bg-card overflow-hidden transition-all hover:border-accent-red/30 hover:shadow-[0_0_30px_rgba(255,75,75,0.05)]"
         >
-            <div className="relative aspect-video w-full overflow-hidden border-b border-[#1E293B]">
+            <div className="relative aspect-video w-full overflow-hidden border-b border-border">
                 <Image
                     src={image}
                     alt={title}
@@ -64,16 +64,16 @@ export function AnalysisCard({
                     <span className="text-[10px] font-black text-accent-red uppercase tracking-[0.3em]">
                         {category}
                     </span>
-                    <h3 className="text-xl font-black leading-tight text-[#F1F5F9] uppercase tracking-tighter italic line-clamp-2 transition-colors group-hover:text-white">
+                    <h3 className="text-xl font-black leading-tight text-foreground uppercase tracking-tighter italic line-clamp-2 transition-colors group-hover:text-white">
                         {title}
                     </h3>
                 </div>
 
                 <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
-                    <span className="text-[10px] text-[#94A3B8] font-black uppercase tracking-[0.15em]">
+                    <span className="text-[10px] text-muted-foreground font-black uppercase tracking-[0.15em]">
                         INTELLIGENCE BRIEFING
                     </span>
-                    <span className="text-[10px] text-[#94A3B8]/60 font-bold uppercase tracking-tighter">
+                    <span className="text-[10px] text-muted-foreground/60 font-bold uppercase tracking-tighter">
                         12 MIN READ
                     </span>
                 </div>

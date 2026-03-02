@@ -34,7 +34,13 @@ To prevent theme regressions, the following tokens are non-negotiable:
 - Borders: #E2E8F0
 - Primary Text: #0F172A (Deep Ink)
 
-**THEME TOGGLE:**
+### 2.2. THE ZERO-BLEED THEME POLICY
+- **Dark Mode Purity:** No #FFFFFF (White) or light grey backgrounds are permitted in Dark Mode. All sections must use #0A0F1E or #111827.
+- **Light Mode Purity:** All sections must transition to #F8FAFC (Paper) or #FFFFFF (White). No dark navy blocks are permitted unless they are tactical buttons.
+- **Hero-Map Integration:** The Global Risk Map is a primary hero element. It must be positioned within or immediately adjacent to the Primary Headline to provide instant global context.
+- **Contrast Enforcement:** All text on dark backgrounds must be #F1F5F9 (Slate-100). All text on light backgrounds must be #0F172A (Ink).
+
+### 2.3. THEME TOGGLE:
 - Must be persistent and switch between 'dark' and 'light' classes globally.
 - Admin Panel must have high-contrast buttons (e.g., Deep Slate in light mode) to ensure visibility.
 

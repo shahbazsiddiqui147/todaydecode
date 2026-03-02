@@ -20,11 +20,11 @@ export default async function Page() {
   const metrics = await getDashboardMetrics();
 
   return (
-    <div className="flex flex-col w-full bg-[#0A0F1E] text-[#F1F5F9] overflow-x-hidden">
-      <LandingHero />
+    <div className="flex flex-col w-full bg-background text-foreground overflow-x-hidden">
+      <LandingHero regionData={fetchedRegionData} />
 
       {/* Strategic Metrics Ribbon */}
-      <div className="border-y border-[#1E293B] bg-[#0F172A]/80 backdrop-blur-md sticky top-[64px] z-20">
+      <div className="border-y border-border bg-secondary/80 backdrop-blur-md sticky top-[64px] z-20">
         <div className="max-w-7xl mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-8">
           <div className="flex items-center space-x-2 animate-pulse">
             <div className="h-2 w-2 rounded-full bg-accent-red" />
@@ -33,28 +33,28 @@ export default async function Page() {
 
           <div className="flex items-center space-x-12">
             <div className="flex flex-col">
-              <span className="text-[9px] font-bold text-[#64748B] uppercase tracking-widest">Global Risk Index</span>
-              <span className="text-sm font-black text-white italic tracking-tighter">{metrics.risk.value < 0 ? '' : '+'}{metrics.risk.value}%</span>
+              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Global Risk Index</span>
+              <span className="text-sm font-black text-foreground italic tracking-tighter">{metrics.risk.value < 0 ? '' : '+'}{metrics.risk.value}%</span>
             </div>
-            <div className="flex flex-col border-l border-[#1E293B] pl-12">
-              <span className="text-[9px] font-bold text-[#64748B] uppercase tracking-widest">Brent Crude Output</span>
-              <span className="text-sm font-black text-white italic tracking-tighter">${metrics.oil.value}</span>
+            <div className="flex flex-col border-l border-border pl-12">
+              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Brent Crude Output</span>
+              <span className="text-sm font-black text-foreground italic tracking-tighter">${metrics.oil.value}</span>
             </div>
-            <div className="flex flex-col border-l border-[#1E293B] pl-12">
-              <span className="text-[9px] font-bold text-[#64748B] uppercase tracking-widest">Reports Synthesized</span>
-              <span className="text-sm font-black text-white italic tracking-tighter">{fetchedStats.reportsCount || 0}</span>
+            <div className="flex flex-col border-l border-border pl-12">
+              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Reports Synthesized</span>
+              <span className="text-sm font-black text-foreground italic tracking-tighter">{fetchedStats.reportsCount || 0}</span>
             </div>
           </div>
 
           <div className="hidden lg:flex items-center space-x-6">
             <Link href="/geopolitics/" className="p-2 rounded hover:bg-white/5 transition-colors group">
-              <Globe className="h-4 w-4 text-[#94A3B8] group-hover:text-accent-red" />
+              <Globe className="h-4 w-4 text-muted-foreground group-hover:text-accent-red" />
             </Link>
             <Link href="/security/" className="p-2 rounded hover:bg-white/5 transition-colors group">
-              <ShieldAlert className="h-4 w-4 text-[#94A3B8] group-hover:text-accent-red" />
+              <ShieldAlert className="h-4 w-4 text-muted-foreground group-hover:text-accent-red" />
             </Link>
             <Link href="/economy/" className="p-2 rounded hover:bg-white/5 transition-colors group">
-              <TrendingUp className="h-4 w-4 text-[#94A3B8] group-hover:text-accent-red" />
+              <TrendingUp className="h-4 w-4 text-muted-foreground group-hover:text-accent-red" />
             </Link>
           </div>
         </div>
@@ -63,39 +63,27 @@ export default async function Page() {
       <main className="max-w-7xl mx-auto px-6 py-12 w-full space-y-24">
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           <div className="lg:col-span-8 space-y-8">
-            <div className="flex items-center justify-between border-b border-[#1E293B] pb-6">
-              <div className="flex items-center gap-3">
-                <Activity className="h-5 w-5 text-accent-red" />
-                <h2 className="text-sm font-black uppercase tracking-[0.25em] text-[#F1F5F9] italic">
-                  Global Hotspot Visualization
-                </h2>
-              </div>
-            </div>
-            <div className="rounded-3xl border border-[#1E293B] bg-[#111827] overflow-hidden p-2 shadow-2xl relative group">
-              <GlobalRiskMap regionData={fetchedRegionData} />
-            </div>
-          </div>
-
-          <div className="lg:col-span-4 space-y-8">
-            <div className="flex items-center gap-3 border-b border-[#1E293B] pb-6">
+            <div className="flex items-center gap-3 border-b border-border pb-6">
               <ShieldAlert className="h-5 w-5 text-accent-red" />
-              <h2 className="text-sm font-black uppercase tracking-[0.25em] text-[#F1F5F9] italic">
+              <h2 className="text-sm font-black uppercase tracking-[0.25em] text-foreground italic">
                 Unified Risk Metric
               </h2>
             </div>
-            <div className="p-8 rounded-3xl border border-[#1E293B] bg-[#111827] shadow-xl space-y-12 relative overflow-hidden group">
+            <div className="p-8 rounded-3xl border border-border bg-card shadow-xl space-y-12 relative overflow-hidden group">
               <RiskGauge value={metrics.risk.value} label="CURRENT GLOBAL RISK" />
               <div className="space-y-4 pt-8 border-t border-white/5">
                 <div className="flex items-start gap-4">
                   <div className="h-1.5 w-1.5 rounded-full bg-accent-red mt-1.5 shrink-0" />
-                  <p className="text-[11px] font-medium text-[#94A3B8] uppercase leading-relaxed tracking-tight">
-                    Detecting elevated activity across <span className="text-white font-bold">{fetchedStats.hotspots || 0} critical hotspots</span>. High-impact geopolitical shifts are currently being synthesized.
+                  <p className="text-[11px] font-medium text-muted-foreground uppercase leading-relaxed tracking-tight">
+                    Detecting elevated activity across <span className="text-foreground font-bold">{fetchedStats.hotspots || 0} critical hotspots</span>. High-impact geopolitical shifts are currently being synthesized.
                   </p>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="p-8 rounded-3xl border border-[#1E293B] bg-accent-red shadow-2xl space-y-6 group cursor-pointer hover:bg-accent-red/90 transition-all">
+          <div className="lg:col-span-4 space-y-8">
+            <div className="p-8 rounded-3xl border border-border bg-accent-red shadow-2xl space-y-6 group cursor-pointer hover:bg-accent-red/90 transition-all">
               <div className="flex items-center justify-between">
                 <div className="p-2 bg-white/10 rounded-lg">
                   <Cpu className="h-5 w-5 text-white" />
@@ -138,7 +126,7 @@ export default async function Page() {
           </div>
         </section>
 
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-[#0F172A] p-12 rounded-[2.5rem] border border-[#1E293B] shadow-2xl relative overflow-hidden group">
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-secondary p-12 rounded-[2.5rem] border border-border shadow-2xl relative overflow-hidden group">
           <div className="lg:col-span-5 space-y-8">
             <div className="space-y-4">
               <div className="p-3 bg-accent-red/10 border border-accent-red/20 rounded-2xl w-fit">

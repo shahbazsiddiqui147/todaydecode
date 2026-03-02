@@ -36,22 +36,19 @@
   --background: #F8FAFC;
   --foreground: #0F172A;
   --primary: #0F172A;
-  /* Deep Slate for Initialize Node */
   --primary-foreground: #FFFFFF;
   --sidebar: #FFFFFF;
   --sidebar-foreground: #0A0F1E;
-  --secondary: #FFFFFF;
+  --secondary: #F1F5F9;
   --secondary-foreground: #475569;
   --muted: #F1F5F9;
-  --muted-foreground: #475569;
-  /* Darker slate for readability */
+  --muted-foreground: #64748B;
   --accent-red: #FF4B4B;
   --accent-green: #10B981;
   --border: #E2E8F0;
   --card: #FFFFFF;
   --card-foreground: #0F172A;
   --destructive: #BE123C;
-  /* Crimson for high visibility */
   --destructive-foreground: #FFFFFF;
   --ring: #0F172A;
 }
@@ -61,11 +58,10 @@
   --background: #0A0F1E;
   --foreground: #F1F5F9;
   --primary: #F1F5F9;
-  /* Off-white for high contrast on navy */
   --primary-foreground: #020617;
   --sidebar: #0A0F1E;
   --sidebar-foreground: #F1F5F9;
-  --secondary: #1E293B;
+  --secondary: #111827;
   --secondary-foreground: #94A3B8;
   --muted: #1E293B;
   --muted-foreground: #94A3B8;
@@ -75,7 +71,6 @@
   --card: #111827;
   --card-foreground: #F1F5F9;
   --destructive: #EF4444;
-  /* Bright Red Actions */
   --destructive-foreground: #0A0F1E;
   --ring: #F1F5F9;
 }
