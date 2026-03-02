@@ -31,7 +31,7 @@ export function ClientLayout({ children, isMaintenanceMode }: ClientLayoutProps)
 
     if (shouldHideStandardLayout) {
         return (
-            <div className="min-h-screen bg-black w-full overflow-hidden flex flex-col items-center justify-center">
+            <div className="min-h-screen bg-background w-full overflow-hidden flex flex-col">
                 <main className="min-h-screen w-full">
                     {children}
                 </main>

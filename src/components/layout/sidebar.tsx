@@ -42,8 +42,20 @@ export function Sidebar() {
     const [categories, setCategories] = useState<any[]>([]);
 
     useEffect(() => {
-        getDashboardMetrics().then(data => setMetrics(data));
-        getPublicCategories().then(data => setCategories(data));
+        const loadSidebarData = async () => {
+            try {
+                const [metricsData, categoriesData] = await Promise.all([
+                    getDashboardMetrics(),
+                    getPublicCategories()
+                ]);
+                setMetrics(metricsData);
+                setCategories(categoriesData);
+            } catch (error) {
+                console.error("SIDEBAR_SYNC_FAILURE: Failed to link with Strategic Reservoir.", error);
+                // Categories and metrics remain empty/null, which is handled in JSX
+            }
+        };
+        loadSidebarData();
     }, []);
 
     return (

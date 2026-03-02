@@ -121,6 +121,7 @@ export default async function AuthorProfilePage({ params }: { params: Promise<{ 
                         {author.articles?.map((article: any) => (
                             <AnalysisCard
                                 key={article.slug}
+                                id={article.id}
                                 title={article.title}
                                 category={article.category.name}
                                 slug={article.slug}
