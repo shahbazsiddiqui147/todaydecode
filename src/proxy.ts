@@ -35,23 +35,10 @@ export async function proxy(request: NextRequest) {
         return NextResponse.next();
     }
 
-    // 2. Get maintenance state (Extremely broad check for reliability)
-    const m1 = process.env.MAINTENANCE_MODE;
-    const m2 = process.env.NEXT_PUBLIC_MAINTENANCE_MODE;
-    const maintenanceRaw = String(m1 || m2 || '').toLowerCase().trim();
-
-    // If it's literally anything like true/1/on/yes, it's active
-    const isMaintenanceActive =
-        maintenanceRaw.includes('true') ||
-        maintenanceRaw === '1' ||
-        maintenanceRaw === 'on' ||
-        maintenanceRaw === 'yes';
-
-    // 3. EXEMPTIONS (Static assets, Auth, and the Coming Soon page)
+    // 2. EXEMPTIONS (Static assets, Auth)
     if (
         pathname.startsWith('/_next') ||
         pathname.startsWith('/api') ||
-        pathname.startsWith('/coming-soon') ||
         pathname.startsWith('/auth') || // Allow login page access
         pathname.includes('favicon.ico') ||
         pathname.includes('.') // Broad check for file extensions
@@ -87,11 +74,7 @@ export async function proxy(request: NextRequest) {
         return response;
     }
 
-    // 5. REDIRECTION (Maintenance Mode)
-    if (isMaintenanceActive) {
-        const target = new URL('/coming-soon/', request.url);
-        return NextResponse.redirect(target);
-    }
+
 
     return NextResponse.next();
 }
