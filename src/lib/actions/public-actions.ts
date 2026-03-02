@@ -1,4 +1,4 @@
-"use server";
+
 
 import { prisma } from "@/lib/prisma";
 import { Region, ArticleStatus } from "@prisma/client";
@@ -104,7 +104,7 @@ export const getLatestReportsByRegion = cache(async (region: string, limit = 3) 
 /**
  * Fetches all visible categories for dynamic navigation.
  */
-export const getPublicCategories = cache(async () => {
+export async function getPublicCategories() {
     try {
         return await prisma.category.findMany({
             where: { isVisible: true },
@@ -114,7 +114,7 @@ export const getPublicCategories = cache(async () => {
         console.error("Critical fetching error [Categories]:", error);
         return [];
     }
-});
+}
 
 /**
  * Aggregates high-level system metrics for the homepage dashboard.

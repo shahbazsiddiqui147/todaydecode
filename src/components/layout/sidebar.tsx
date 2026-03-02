@@ -20,8 +20,6 @@ import {
 import { cn } from "@/lib/utils";
 import { RiskGauge } from "../metrics/risk-gauge";
 import { useEffect, useState } from "react";
-import { getDashboardMetrics, LiveMetric } from "@/lib/data-service";
-import { getPublicCategories } from "@/lib/actions/public-actions";
 
 // Default icon mapping for dynamic categories
 const ICON_MAP: Record<string, any> = {
@@ -36,27 +34,16 @@ const ICON_MAP: Record<string, any> = {
     "data": Database
 };
 
-export function Sidebar() {
+export function Sidebar({ initialCategories = [], initialMetrics = null }: { initialCategories?: any[], initialMetrics?: any }) {
     const pathname = usePathname();
-    const [metrics, setMetrics] = useState<{ oil?: LiveMetric; risk?: LiveMetric; conflict?: LiveMetric } | null>(null);
-    const [categories, setCategories] = useState<any[]>([]);
+    const [metrics, setMetrics] = useState<any>(initialMetrics);
+    const [categories, setCategories] = useState<any[]>(initialCategories);
 
+    // Sync with props if they change (e.g. on navigation or revalidation)
     useEffect(() => {
-        const loadSidebarData = async () => {
-            try {
-                const [metricsData, categoriesData] = await Promise.all([
-                    getDashboardMetrics(),
-                    getPublicCategories()
-                ]);
-                setMetrics(metricsData);
-                setCategories(categoriesData);
-            } catch (error) {
-                console.error("SIDEBAR_SYNC_FAILURE: Failed to link with Strategic Reservoir.", error);
-                // Categories and metrics remain empty/null, which is handled in JSX
-            }
-        };
-        loadSidebarData();
-    }, []);
+        if (initialCategories.length > 0) setCategories(initialCategories);
+        if (initialMetrics) setMetrics(initialMetrics);
+    }, [initialCategories, initialMetrics]);
 
     return (
         <div className="hidden md:flex w-72 flex-col bg-sidebar border-r border-border-slate overflow-y-auto overflow-x-hidden scrollbar-none">

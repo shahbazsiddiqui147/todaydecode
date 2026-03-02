@@ -6,8 +6,10 @@ import { AuthProvider } from "@/components/auth-provider";
 import { constructMetadata } from "@/lib/seo";
 import { ClientLayout } from "@/components/layout/client-layout";
 import { Suspense } from "react";
-import { redirect } from "next/navigation";
-import { headers } from "next/headers";
+import { PreviewBanner } from "@/components/ui/PreviewBanner";
+import { fetchShellCategories, fetchShellMetrics } from "@/lib/fetchers";
+
+import { Footer } from "@/components/layout/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,13 +27,29 @@ export const metadata = constructMetadata({
   path: "/",
 });
 
-import { PreviewBanner } from "@/components/ui/PreviewBanner";
+async function ShellDataWrapper({ children, isMaintenanceMode }: { children: React.ReactNode, isMaintenanceMode: boolean }) {
+  const [categories, metrics] = await Promise.all([
+    fetchShellCategories(),
+    fetchShellMetrics()
+  ]);
+
+  return (
+    <ClientLayout
+      isMaintenanceMode={isMaintenanceMode}
+      initialCategories={categories}
+      initialMetrics={metrics}
+      footer={<Footer />}
+    >
+      {children}
+    </ClientLayout>
+  );
+}
 
 export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   // 1. Get maintenance state
   const m1 = process.env.MAINTENANCE_MODE;
   const m2 = process.env.NEXT_PUBLIC_MAINTENANCE_MODE;
@@ -48,10 +66,19 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Suspense fallback={<div className="min-h-screen bg-black" />}>
-              <ClientLayout isMaintenanceMode={isMaintenanceMode}>
+            <Suspense fallback={
+              <div className="min-h-screen bg-background flex flex-col items-center justify-center space-y-4">
+                <div className="h-1 w-32 bg-secondary overflow-hidden rounded-full">
+                  <div className="h-full bg-accent-red animate-progress-loading" />
+                </div>
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground animate-pulse">
+                  Initializing Strategic Assets...
+                </span>
+              </div>
+            }>
+              <ShellDataWrapper isMaintenanceMode={isMaintenanceMode}>
                 {children}
-              </ClientLayout>
+              </ShellDataWrapper>
               <PreviewBanner />
             </Suspense>
           </ThemeProvider>

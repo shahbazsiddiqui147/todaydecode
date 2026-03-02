@@ -7,7 +7,9 @@ import { ShieldCheck, Lock, Mail, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export default function SignInPage() {
+import { Suspense } from "react";
+
+function SignInContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const callbackUrl = searchParams.get("callbackUrl") || "/admin/";
@@ -112,5 +114,20 @@ export default function SignInPage() {
         }
       `}</style>
         </div>
+    );
+}
+
+export default function SignInPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-[#0A0F1E] flex items-center justify-center">
+                <div className="animate-pulse flex flex-col items-center space-y-4">
+                    <div className="h-8 w-8 rounded bg-accent-red opacity-50" />
+                    <span className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.3em]">Handshake Protocol...</span>
+                </div>
+            </div>
+        }>
+            <SignInContent />
+        </Suspense>
     );
 }

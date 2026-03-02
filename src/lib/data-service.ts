@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client';
-import { cache } from 'react';
 
-const prisma = new PrismaClient();
+
+import { prisma } from './prisma';
+import { cache } from 'react';
 
 export interface LiveMetric {
     label: string;
@@ -17,10 +17,7 @@ export interface LiveMetric {
  * using Next.js force-revalidate (ISR)
  */
 
-export const getBrentCrudePrice = cache(async (): Promise<LiveMetric> => {
-    // Simulating an API call with revalidation logic
-    // const res = await fetch('https://api.example.com/oil', { next: { revalidate: 3600 } });
-
+export async function getBrentCrudePrice(): Promise<LiveMetric> {
     return {
         label: "Brent Crude Oil",
         value: 84.32,
@@ -28,28 +25,27 @@ export const getBrentCrudePrice = cache(async (): Promise<LiveMetric> => {
         unit: "USD/bbl",
         status: 'MEDIUM'
     };
-});
+}
 
-export const getGlobalRiskIndex = cache(async (): Promise<LiveMetric> => {
+export async function getGlobalRiskIndex(): Promise<LiveMetric> {
     return {
         label: "Global Risk Index",
         value: 72,
         trend: 4.5,
         status: 'HIGH'
     };
-});
+}
 
-export const getConflictIntensity = cache(async (): Promise<LiveMetric> => {
-    // In a real scenario, this might be an average of risk scores from the Article table
+export async function getConflictIntensity(): Promise<LiveMetric> {
     return {
         label: "Conflict Intensity",
         value: 85,
         trend: -2.1,
         status: 'CRITICAL'
     };
-});
+}
 
-export const getGlobalInflation = cache(async (): Promise<LiveMetric> => {
+export async function getGlobalInflation(): Promise<LiveMetric> {
     return {
         label: "Global Inflation",
         value: 3.4,
@@ -57,7 +53,7 @@ export const getGlobalInflation = cache(async (): Promise<LiveMetric> => {
         unit: "%",
         status: 'LOW'
     };
-});
+}
 
 export async function getDashboardMetrics() {
     const [oil, risk, conflict, inflation] = await Promise.all([
