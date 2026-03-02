@@ -23,7 +23,7 @@ export function LandingHero({ regionData = {} }: LandingHeroProps) {
                         <div className="flex items-center space-x-3 w-fit px-4 py-2 rounded-full border border-border bg-card/50 backdrop-blur-md animate-in fade-in slide-in-from-top-4 duration-1000">
                             <ShieldCheck className="h-4 w-4 text-accent-red" />
                             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">
-                                Institutional Intelligence <span className="text-foreground italic">v4.0 Operational</span>
+                                Institutional Strategic Advisory <span className="text-foreground italic">v4.0 Operational</span>
                             </span>
                         </div>
 
@@ -33,7 +33,7 @@ export function LandingHero({ regionData = {} }: LandingHeroProps) {
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground to-accent-red">Decoded Today</span>
                             </h1>
                             <p className="text-muted-foreground text-lg md:text-xl font-medium max-w-2xl uppercase tracking-tight leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
-                                The sovereign intelligence platform for geopolitical analysts, tactical responders, and global policy makers. High-fidelity foresight in a fragmented world.
+                                The sovereign strategic advisory think-tank for global analysts, tactical responders, and policy makers. High-fidelity foresight in a fragmented world.
                             </p>
                         </div>
 

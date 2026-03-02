@@ -12,7 +12,7 @@ export interface LiveMetric {
 }
 
 /**
- * MOCK SERVICE for Intelligence Data
+ * MOCK SERVICE for Strategic Analysis Data
  * In production, these would fetch from real financial/geopolitical APIs
  * using Next.js force-revalidate (ISR)
  */

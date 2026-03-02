@@ -39,7 +39,7 @@ export function TermDefinition({ term, definition, children }: TermDefinitionPro
                     >
                         <div className="space-y-2">
                             <span className="text-[10px] font-bold text-accent-red uppercase tracking-widest">
-                                Intelligence Glossary
+                                Research Glossary
                             </span>
                             <h4 className="text-sm font-black text-white uppercase tracking-tight">
                                 {term}

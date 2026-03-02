@@ -11,8 +11,8 @@ import { ManageSubscriptionButton } from "@/components/monetization/manage-subsc
 
 export async function generateMetadata() {
     return constructMetadata({
-        title: "Institutional Dashboard | Today Decode Intelligence",
-        description: "Your personalized intelligence command center.",
+        title: "Institutional Dashboard | Today Decode Strategic Advisory",
+        description: "Your personalized strategic command center.",
         path: "/dashboard/",
     });
 }
@@ -81,7 +81,7 @@ export default async function DashboardPage() {
                         <span className="text-[10px] font-black uppercase tracking-[0.2em]">Institutional Command</span>
                     </div>
                     <h1 className="text-4xl font-black text-foreground tracking-tight uppercase">
-                        Intelligence Desk
+                        Research Desk
                     </h1>
                     <p className="text-muted-foreground text-sm font-medium">
                         Strategic Monitoring for <span className="text-foreground font-bold">{user.name || "Field Analyst"}</span> // {user.role || "ANALYST"}
@@ -134,7 +134,7 @@ export default async function DashboardPage() {
                     <div className="space-y-8">
                         <div className="flex items-center justify-between">
                             <h2 className="text-sm font-black text-white uppercase tracking-[0.2em]">
-                                Prioritized Intelligence Briefs
+                                Prioritized Strategic Briefs
                             </h2>
                             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Based on Followed Desks</span>
                         </div>
@@ -156,7 +156,7 @@ export default async function DashboardPage() {
                             </div>
                         ) : (
                             <div className="p-12 border-2 border-dashed border-slate-800 rounded-2xl text-center bg-slate-900/20">
-                                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">No active intelligence in followed silos.</p>
+                                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">No active research in followed silos.</p>
                                 <p className="text-xs text-slate-600 mt-2 font-medium">Follow a Strategic Silo to populate your prioritized feed.</p>
                             </div>
                         )}

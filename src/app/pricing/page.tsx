@@ -80,7 +80,7 @@ export default function PricingPage() {
                         transition={{ delay: 0.1 }}
                         className="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter leading-[0.9] italic"
                     >
-                        Institutional <br /> <span className="text-accent-cyan">Intelligence Tiers</span>
+                        Institutional <br /> <span className="text-accent-cyan">Strategic Tiers</span>
                     </motion.h1>
 
                     <motion.p

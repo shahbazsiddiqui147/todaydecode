@@ -119,7 +119,7 @@ export default async function AdminDashboard() {
                                     </p>
                                     <p className="text-xs text-[#64748B] dark:text-[#94A3B8] leading-relaxed max-w-xs mx-auto font-black uppercase tracking-widest">
                                         {res.success
-                                            ? "Intelligence manifests are synchronized with the Neon Strategic Reservoir."
+                                            ? "Strategic manifests are synchronized with the Neon Strategic Reservoir."
                                             : "System link failure. Archive data unreachable. Maintenance required."}
                                     </p>
                                 </div>

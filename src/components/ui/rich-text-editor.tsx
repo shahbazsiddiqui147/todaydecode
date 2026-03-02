@@ -41,7 +41,7 @@ const Toolbar = ({ editor }: { editor: any }) => {
     };
 
     const setLink = () => {
-        const url = window.prompt("Enter intelligence source URL:");
+        const url = window.prompt("Enter strategic source URL:");
         if (url) {
             editor.chain().focus().setLink({ href: url }).run();
         }
@@ -166,7 +166,7 @@ const Toolbar = ({ editor }: { editor: any }) => {
     );
 };
 
-export function RichTextEditor({ value, onChange, placeholder = "Analyze the intelligence..." }: RichTextEditorProps) {
+export function RichTextEditor({ value, onChange, placeholder = "Synthesize strategic analysis..." }: RichTextEditorProps) {
     const editor = useEditor({
         extensions: [
             StarterKit.configure({

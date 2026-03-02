@@ -34,7 +34,7 @@ export default function ComingSoonPage() {
                         transition={{ delay: 0.2 }}
                         className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none"
                     >
-                        Intelligence Hub <br />
+                        Strategic Hub <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-500">
                             Under Protocol
                         </span>

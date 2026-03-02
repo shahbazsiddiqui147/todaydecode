@@ -13,7 +13,7 @@ export function MethodologyBadge() {
         { title: "Financial Modeling", desc: "Live-streamed economic indicators correlated with regional instability scores." },
         { title: "Geopolitical Sentiment", desc: "AI-driven analysis of official state communications and diplomatic cables." },
         { title: "Corridor Analysis", desc: "Physical chokepoint monitoring via AIS and maritime tracking systems." },
-        { title: "Analyst Audit", desc: "Final human intelligence (HUMINT) review by senior strategic specialists." }
+        { title: "Analyst Audit", desc: "Final human expertise review by senior strategic specialists." }
     ];
 
     return (
@@ -46,7 +46,7 @@ export function MethodologyBadge() {
                             <div className="p-6 border-b border-border-slate bg-slate-950/50 flex items-center justify-between">
                                 <div>
                                     <h3 className="text-sm font-black text-white uppercase tracking-[0.2em]">
-                                        Intelligence Methodology
+                                        Strategic Methodology
                                     </h3>
                                     <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest mt-1">
                                         Today Decode E-E-A-T Framework

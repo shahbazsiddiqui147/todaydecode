@@ -8,6 +8,7 @@ import { ScenarioForecast } from "@/components/analysis/scenario-forecast";
 import { ChevronRight, Globe, ShieldAlert, TrendingUp, Cpu, Zap, Activity, Layers } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
+import { Footer } from "@/components/layout/footer";
 
 export default async function Page() {
   // 1. Concurrent fetching for maximum throughput
@@ -71,7 +72,7 @@ export default async function Page() {
             </div>
             <div className="p-8 rounded-3xl border border-border bg-card shadow-xl space-y-12 relative overflow-hidden group">
               <RiskGauge value={metrics.risk.value} label="CURRENT GLOBAL RISK" />
-              <div className="space-y-4 pt-8 border-t border-white/5">
+              <div className="space-y-4 pt-8 border-t border-border/10">
                 <div className="flex items-start gap-4">
                   <div className="h-1.5 w-1.5 rounded-full bg-accent-red mt-1.5 shrink-0" />
                   <p className="text-[11px] font-medium text-muted-foreground uppercase leading-relaxed tracking-tight">
@@ -91,23 +92,26 @@ export default async function Page() {
                 <span className="text-[10px] font-black text-white/50 uppercase tracking-widest">Institutional</span>
               </div>
               <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter leading-none">
-                Request Private <br />Intelligence Session
+                Request Private <br />Strategic Briefing
               </h3>
               <button className="flex items-center text-[10px] font-black text-white uppercase tracking-[0.3em] gap-2 pt-2">
-                Terminate Latency <ChevronRight className="h-3 w-3" />
+                Initiate Protocol <ChevronRight className="h-3 w-3" />
               </button>
             </div>
           </div>
         </section>
 
         <section className="space-y-12">
-          <div className="flex items-center justify-between border-b border-[#1E293B] pb-6">
+          <div className="flex items-center justify-between border-b border-border pb-6">
             <div className="flex items-center gap-3">
               <Layers className="h-5 w-5 text-accent-red" />
-              <h2 className="text-sm font-black uppercase tracking-[0.25em] text-[#F1F5F9] italic">
-                Latest Intelligence Briefings
+              <h2 className="text-sm font-black uppercase tracking-[0.25em] text-foreground italic">
+                Latest Strategic Analysis
               </h2>
             </div>
+            <Link href="/strategic-archive/" className="text-[10px] font-black text-muted-foreground hover:text-foreground uppercase tracking-widest transition-colors flex items-center gap-2">
+              Browse Archive <ChevronRight className="h-3 w-3" />
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -126,21 +130,21 @@ export default async function Page() {
           </div>
         </section>
 
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-secondary p-12 rounded-[2.5rem] border border-border shadow-2xl relative overflow-hidden group">
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-secondary/50 p-12 rounded-[2.5rem] border border-border shadow-2xl relative overflow-hidden group">
           <div className="lg:col-span-5 space-y-8">
             <div className="space-y-4">
               <div className="p-3 bg-accent-red/10 border border-accent-red/20 rounded-2xl w-fit">
                 <Zap className="h-6 w-6 text-accent-red" />
               </div>
-              <h2 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter leading-[0.9] italic">
+              <h2 className="text-4xl md:text-5xl font-black text-foreground uppercase tracking-tighter leading-[0.9] italic dark:text-white">
                 Strategic <br />Scenario <br />Modeling
               </h2>
             </div>
-            <p className="text-[#94A3B8] font-medium text-lg max-w-sm uppercase tracking-tight leading-relaxed">
+            <p className="text-muted-foreground font-medium text-lg max-w-sm uppercase tracking-tight leading-relaxed">
               Access our proprietary quantitative forecasting engine. Predict institutional impact across multiple geopolitical timelines.
             </p>
           </div>
-          <div className="lg:col-span-7 bg-[#0D121F] rounded-3xl border border-[#1E293B] p-8 shadow-inner relative">
+          <div className="lg:col-span-7 bg-card rounded-3xl border border-border p-8 shadow-inner relative">
             <div className="grayscale group-hover:grayscale-0 transition-all duration-700">
               <ScenarioForecast
                 scenarios={{
@@ -156,18 +160,7 @@ export default async function Page() {
         </section>
       </main>
 
-      <footer className="border-t border-[#1E293B] bg-primary py-24 px-6 mt-24">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-16">
-          <div className="md:col-span-5 space-y-8">
-            <div className="text-3xl font-black tracking-tighter text-white">TODAY DECODE</div>
-            <div className="flex items-center space-x-6">
-              <Link href="/about-us/" className="text-[10px] font-black text-white uppercase tracking-widest hover:text-accent-red transition-colors">Methodology</Link>
-              <Link href="/privacy-policy/" className="text-[10px] font-black text-white uppercase tracking-widest hover:text-accent-red transition-colors">Privacy</Link>
-              <Link href="/terms-of-service/" className="text-[10px] font-black text-white uppercase tracking-widest hover:text-accent-red transition-colors">Terms</Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

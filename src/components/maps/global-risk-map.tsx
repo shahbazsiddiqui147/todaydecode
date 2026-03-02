@@ -106,7 +106,7 @@ export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
                 <div className="flex items-center space-x-2 mt-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-accent-red animate-pulse" />
                     <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-[0.2em]">
-                        Live Strategic Aggregation // Deep Intelligence
+                        Live Strategic Aggregation // Deep Research
                     </p>
                 </div>
             </div>
@@ -242,7 +242,7 @@ export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
 
                             <div className="space-y-3">
                                 <h4 className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">
-                                    {loadingReports ? "Analyzing Hotspot Intelligence..." : "Latest Strategic Dispatches"}
+                                    {loadingReports ? "Analyzing Hotspot Indicators..." : "Latest Strategic Dispatches"}
                                 </h4>
 
                                 {loadingReports ? (

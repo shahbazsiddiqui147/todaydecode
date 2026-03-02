@@ -1,6 +1,6 @@
 /**
  * Institutional Email Service for Today Decode
- * Handles automated risk alerts and intelligence briefings.
+ * Handles automated risk alerts and strategic briefings.
  */
 
 interface EmailPayload {
@@ -26,10 +26,10 @@ export const emailService = {
     },
 
     /**
-     * Weekly Intelligence Digest
+     * Weekly Strategic Digest
      */
     async sendWeeklyDigest(to: string, articles: any[]) {
-        console.log(`[EmailService] Delivering weekly intelligence digest to: ${to}`);
+        console.log(`[EmailService] Delivering weekly strategic digest to: ${to}`);
         return { success: true };
     },
 

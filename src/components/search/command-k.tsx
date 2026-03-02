@@ -43,7 +43,7 @@ export function CommandK() {
                 className="flex w-full max-w-md items-center space-x-3 rounded-md border border-border-slate bg-transparent px-3 py-1.5 text-sm text-muted-foreground group hover:border-primary/50 transition-colors shadow-subtle-glow"
             >
                 <Search className="h-4 w-4" />
-                <span className="flex-1 text-left">Search intelligence metrics or articles...</span>
+                <span className="flex-1 text-left">Search strategic metrics or reports...</span>
                 <kbd className="hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border border-border-slate bg-brand-charcoal px-1.5 font-mono text-[10px] font-medium text-slate-400 opacity-100 uppercase">
                     <span className="text-xs">⌘</span>K
                 </kbd>
@@ -60,7 +60,7 @@ export function CommandK() {
                     <div className="flex items-center border-b border-border-slate px-4 py-3">
                         <Search className="mr-2 h-4 w-4 text-slate-500" />
                         <Command.Input
-                            placeholder="Search intelligence, regions, or risk indices..."
+                            placeholder="Search regions, research, or risk indices..."
                             className="flex-1 bg-transparent text-sm outline-none placeholder:text-slate-500"
                         />
                     </div>
@@ -87,7 +87,7 @@ export function CommandK() {
                             </Command.Item>
                         </Command.Group>
 
-                        <Command.Group heading="Recent Intelligence" className="mt-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest px-2 py-1.5">
+                        <Command.Group heading="Recent Analysis" className="mt-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest px-2 py-1.5">
                             <Command.Item
                                 onSelect={() => runCommand(() => router.push("/security/barents-gap-nato-silent-conflict/"))}
                                 className="flex items-center px-2 py-2 text-sm rounded-md aria-selected:bg-slate-800 aria-selected:text-white transition-colors cursor-pointer"

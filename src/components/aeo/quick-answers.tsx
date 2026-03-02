@@ -16,7 +16,7 @@ export function QuickAnswers({ faqData }: QuickAnswersProps) {
     return (
         <section
             className="aeo-qa-section bg-slate-900 border border-slate-800 rounded-2xl p-8 my-10"
-            aria-label="Intelligence Q&A"
+            aria-label="Strategic Q&A"
         >
             <div className="flex items-center space-x-3 mb-8 border-b border-border-slate pb-4">
                 <div className="bg-accent-red/20 p-2 rounded-lg">
@@ -24,7 +24,7 @@ export function QuickAnswers({ faqData }: QuickAnswersProps) {
                 </div>
                 <div>
                     <h2 className="text-sm font-black text-white uppercase tracking-[0.2em]">
-                        Strategic Intelligence Q&A
+                        Institutional Strategic Q&A
                     </h2>
                     <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest mt-1">
                         Optimized for AI Read-Aloud & Snippet Extraction

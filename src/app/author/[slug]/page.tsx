@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     return constructMetadata({
         title: `${author.name} | Strategic Analyst Profile`,
-        description: `Professional intelligence manifest for ${author.name}. Role: ${author.role}. Sector Expertise: ${author.expertise.join(", ")}.`,
+        description: `Professional strategic manifest for ${author.name}. Role: ${author.role}. Sector Expertise: ${author.expertise.join(", ")}.`,
         path: `/author/${slug}/`,
     });
 }
@@ -70,7 +70,7 @@ export default async function AuthorProfilePage({ params }: { params: Promise<{ 
 
                             <div className="flex flex-wrap gap-4">
                                 <button className="flex items-center space-x-2 px-6 py-3 bg-white text-slate-900 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-slate-200 transition-colors shadow-xl">
-                                    <span>Follow Intelligence Feed</span>
+                                    <span>Follow Research Feed</span>
                                 </button>
                                 <div className="flex items-center space-x-2">
                                     <Link href="#" className="p-3 bg-slate-900 border border-border-slate rounded-xl hover:border-white transition-all text-slate-500 hover:text-white">
@@ -113,7 +113,7 @@ export default async function AuthorProfilePage({ params }: { params: Promise<{ 
 
                 <div className="lg:col-span-8 space-y-10">
                     <div className="flex items-center justify-between pb-4 border-b border-border-slate">
-                        <h2 className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">Intelligence Manifests / Recent Dispatches</h2>
+                        <h2 className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">Strategic Manifests / Recent Dispatches</h2>
                         <span className="text-[10px] font-black text-slate-600 uppercase tracking-tighter">Authorized Access Only</span>
                     </div>
 

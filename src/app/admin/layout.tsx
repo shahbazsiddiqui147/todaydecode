@@ -5,7 +5,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const metadata = constructMetadata({
     title: "Admin Command Center",
-    description: "Administrative sovereignty layer for geopolitical intelligence management.",
+    description: "Administrative sovereignty layer for geopolitical strategic management.",
     path: "/admin/",
     noIndex: true,
 });

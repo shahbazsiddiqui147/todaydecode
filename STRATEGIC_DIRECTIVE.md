@@ -6,18 +6,27 @@ This document is the absolute source of truth for all development on the Today D
 ---
 
 ### 1. BRAND IDENTITY & TONALITIES
-- **Identity:** Today Decode is an Elite Strategic Risk Advisory Firm and Global Think Tank. 
+- **Identity:** Today Decode is a Global Think Tank and Strategic Risk Advisory. 
 - **Rule:** Never refer to it as a "blog" or "spy agency." Use "Strategic Archive," "Analysis Desk," or "Executive Overview."
 - **Aesthetic:** High-end, institutional, academic, and professional. NO "tactical glows" in the Admin Workspace.
-- **Terminology Pivot:**
-  - 'Intelligence Vault' -> 'Strategic Archive'
-  - 'Intelligence Hub' -> 'Analysis Desk'
-  - 'Mission Control' -> 'Strategic Oversight'
-  - 'Commit Manifest' -> 'Publish Analysis'
-  - 'Initialize Node' -> 'Create Report'
-  - 'Intelligence Sector' -> 'Strategic Silo'
-  - 'Identity Nexus' -> 'Analyst Profile'
-  - 'Operational Metrics' -> 'Strategic Parameters'
+
+### 1.1. INSTITUTIONAL IDENTITY & LINGUISTICS
+- **Positioning:** Today Decode is a Global Think Tank and Strategic Risk Advisory.
+- **Forbidden Vocabulary:** Never use "Intelligence," "Mission Control," "Covert," or "Tactical Agency" jargon.
+- **Authorized Vocabulary:** Use "Strategic Analysis," "Research Desk," "Institutional Insight," "Risk Assessment," "Academic Oversight," and "Strategic Archive."
+- **Tone:** Academic, clinical, authoritative, and professional.
+
+### 1.2. TERMINOLOGY PIVOT:
+- 'Strategic Archive' (formerly Intelligence Vault)
+- 'Analysis Desk' (formerly Intelligence Hub)
+- 'Strategic Oversight' (formerly Mission Control)
+- 'Publish Analysis' (formerly Commit Manifest)
+- 'Create Report' (formerly Initialize Node)
+- 'Strategic Silo' (formerly Intelligence Sector)
+- 'Analyst Profile' (formerly Identity Nexus)
+- 'Strategic Parameters' (formerly Operational Metrics)
+- 'Global Risk Analysis' (formerly Intelligence Briefing)
+- 'Strategic Assessment' (formerly Intel Scan)
 
 ### 2. DESIGN SYSTEM (THE "ANTI-GREY" SHIELD)
 To prevent theme regressions, the following tokens are non-negotiable:
@@ -34,11 +43,13 @@ To prevent theme regressions, the following tokens are non-negotiable:
 - Borders: #E2E8F0
 - Primary Text: #0F172A (Deep Ink)
 
-### 2.2. THE ZERO-BLEED THEME POLICY
-- **Dark Mode Purity:** No #FFFFFF (White) or light grey backgrounds are permitted in Dark Mode. All sections must use #0A0F1E or #111827.
-- **Light Mode Purity:** All sections must transition to #F8FAFC (Paper) or #FFFFFF (White). No dark navy blocks are permitted unless they are tactical buttons.
-- **Hero-Map Integration:** The Global Risk Map is a primary hero element. It must be positioned within or immediately adjacent to the Primary Headline to provide instant global context.
-- **Contrast Enforcement:** All text on dark backgrounds must be #F1F5F9 (Slate-100). All text on light backgrounds must be #0F172A (Ink).
+### 2.2. THE ZERO-BLEED THEME POLICY (HARDENED)
+- **Dark Mode Purity:** All sections must use #0A0F1E (Base) or #111827 (Surface). Any #FFFFFF (White) in dark mode is a critical error.
+- **Light Mode Purity:** All sections must transition to #F8FAFC (Paper) or #FFFFFF (White). No dark navy blocks are permitted unless they are high-contrast primary buttons.
+- **Contrast Ratios:**
+  - Dark Mode: Primary Text #F1F5F9 (Slate-100), Secondary Text #94A3B8.
+  - Light Mode: Primary Text #0F172A (Ink), Secondary Text #475569.
+- **Hero-Map Integration:** The Global Risk Map must sit within the Top Hero section as a contextual visual for the "Global Risk Assessment."
 
 ### 2.3. THEME TOGGLE:
 - Must be persistent and switch between 'dark' and 'light' classes globally.

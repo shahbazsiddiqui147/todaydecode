@@ -1,6 +1,6 @@
 /**
  * Institutional Email Service for Today Decode
- * Handles automated risk alerts and intelligence briefings.
+ * Handles automated risk alerts and strategic research.
  */
 
 const SITE_URL = "https://todaydecode.com";
@@ -33,7 +33,7 @@ export const emailService = {
         const cleanPath = categoryPath.replace(/^\/|\/$/g, '');
         const articleUrl = `${SITE_URL}/${cleanPath}/${articleSlug}/`;
 
-        console.log(`[EmailService] Pulse Alert for ${userEmail}: New intelligence brief available.`);
+        console.log(`[EmailService] Pulse Alert for ${userEmail}: New strategic analysis available.`);
         console.log(`[EmailService] Artifact: ${articleTitle}`);
         console.log(`[EmailService] Access Point: ${articleUrl}`);
 

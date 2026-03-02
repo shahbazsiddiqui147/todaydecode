@@ -61,7 +61,7 @@ export default function ArticlesPage() {
             const data = await getAdminArticles();
             setArticles(data as any);
         } catch (err) {
-            toast.error("Failed to sync intelligence manifests.");
+            toast.error("Failed to sync strategic manifests.");
         } finally {
             setLoading(false);
         }
@@ -73,7 +73,7 @@ export default function ArticlesPage() {
         try {
             const res = await deleteArticle(id);
             if (res.success) {
-                toast.success("Intelligence report purged.");
+                toast.success("Strategic report purged.");
                 loadArticles();
             } else {
                 toast.error(res.error || "Purge failed.");
@@ -120,7 +120,7 @@ export default function ArticlesPage() {
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#1E293B] dark:border-[#334155]">
                 <div>
-                    <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100 uppercase italic pb-1">Intelligence <span className="text-[#64748B] dark:text-[#94A3B8] not-italic">Hub</span></h1>
+                    <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100 uppercase italic pb-1">Strategic <span className="text-[#64748B] dark:text-[#94A3B8] not-italic">Hub</span></h1>
                     <p className="text-[#64748B] dark:text-[#94A3B8] text-xs font-black uppercase tracking-widest">Manage geopolitical reports and scenarios.</p>
                 </div>
                 <Link href="/admin/articles/new/">
@@ -135,7 +135,7 @@ export default function ArticlesPage() {
                     <div className="relative flex-1 max-w-sm">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/40" />
                         <Input
-                            placeholder="SEARCH INTELLIGENCE..."
+                            placeholder="SEARCH REPORTS..."
                             className="pl-10 bg-background border-border rounded-xl h-10 text-[10px] uppercase font-black tracking-widest focus-visible:ring-primary"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}

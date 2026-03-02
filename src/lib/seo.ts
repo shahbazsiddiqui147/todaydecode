@@ -1,7 +1,7 @@
 export const SITE_URL = 'https://todaydecode.com';
 
 export function constructMetadata({
-    title = "Today Decode — Global Intelligence & Geopolitical Risk",
+    title = "Today Decode — Global Strategic Analysis & Geopolitical Risk",
     description = "Strategic analysis of Geopolitics, Economy, Security, and Global Shifts.",
     image = "/og-image.png",
     path = "",

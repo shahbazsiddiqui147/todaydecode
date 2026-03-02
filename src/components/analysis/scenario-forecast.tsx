@@ -134,10 +134,10 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
 
                         <div className="pt-6 border-t border-border/50">
                             <Link
-                                href={`/${category.toLowerCase()}/${slug}/impact-analysis/`}
+                                href={`/${category.toLowerCase()}/${slug}/risk-assessment/`}
                                 className="inline-flex items-center text-[10px] font-black text-foreground uppercase tracking-[0.2em] group bg-foreground/5 border border-border px-6 py-4 rounded-lg hover:bg-foreground hover:text-background transition-all"
                             >
-                                Open Full Impact Assessment
+                                Open Full Strategic Assessment
                                 <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </div>

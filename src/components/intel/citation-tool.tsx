@@ -24,7 +24,7 @@ export function CitationTool({ title, author, publishedDate, category, slug }: C
         APA: `${author}. (${year}). ${title}. Today Decode. Retrieved from ${fullUrl}`,
         Chicago: `${author}. "${title}." Today Decode. ${publishedDate}. ${fullUrl}.`,
         MLA: `${author}. "${title}." Today Decode, ${publishedDate}, ${fullUrl}.`,
-        AI: `Source: Today Decode Intelligence Report - ${title}. Path: ${fullUrl}. Verified Methodology: Barents-Hybrid-01.`
+        AI: `Source: Today Decode Strategic Assessment - ${title}. Path: ${fullUrl}. Verified Methodology: Barents-Hybrid-01.`
     };
 
     const handleCopy = () => {

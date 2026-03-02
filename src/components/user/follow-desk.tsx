@@ -21,7 +21,7 @@ export function FollowDesk({ type, id, label, className }: FollowDeskProps) {
     const handleFollow = () => {
         if (!session) {
             // In a real app, redirect to sign-in or show modal
-            alert("Please sign in to follow this intelligence desk.");
+            alert("Please sign in to follow this research desk.");
             return;
         }
         setIsFollowing(!isFollowing);

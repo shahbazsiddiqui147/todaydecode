@@ -62,7 +62,7 @@ export function PaywallGate({ children, isPremium = false }: PaywallGateProps) {
                         </h3>
                         <p className="text-sm text-slate-400 leading-relaxed font-medium max-w-sm mx-auto">
                             This strategic analysis is reserved for authorized advisors and institutional partners.
-                            Upgrade to <span className="text-white font-bold italic">ANALYST TIER</span> to unlock full geopolitical intelligence.
+                            Upgrade to <span className="text-white font-bold italic">ANALYST TIER</span> to unlock full geopolitical insights.
                         </p>
                     </div>
 

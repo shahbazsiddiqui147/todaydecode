@@ -51,7 +51,7 @@ export async function toggleFollowSilo(categoryId: string) {
 }
 
 /**
- * Toggles a bookmark for a specific intelligence report.
+ * Toggles a bookmark for a specific strategic report.
  */
 export async function toggleBookmarkArticle(articleId: string) {
     const session = await getServerSession(authOptions);

@@ -64,7 +64,7 @@ export function PromptLibrary({ isOpen, onClose }: PromptLibraryProps) {
     const masterPrompt = {
         system: `Act as a Senior Geopolitical Risk Analyst. Write a Strategic Analysis on: [TOPIC]\n\nRULES:\n1. TONE: Clinical, academic, forward-looking. Avoid fluff.\n2. URLS: Use /[category]/[slug]/ and end with a slash /.\n3. STRUCTURE:\n   - Headline: Institutional & Sharp.\n   - Sovereign Intro: 2-sentence hook.\n   - Executive Summary: 100-word brief.\n   - Deep Analysis: 1000+ words with H2/H3 headers.\n   - Scenario Modeling: Best, Likely, and Worst cases (Title + 2 sentences).\n   - Risk Score: 0-100.\n   - FAQ Data: 3 Q&As (150 chars max) for Google SGE.\n   - Social: Generate captions for LinkedIn, X, FB, and Instagram focused on "Strategic Oversight."`,
         analysis: `# ANALYSIS SPECIFICATIONS\n- Use quantitative indicators where possible (Index values, output percentages).\n- Structure with: THE CATALYST, SYSTEMIC IMPACT, STRATEGIC FRICTION, and OUTLOOK.\n- Maintain high-fidelity technical vocabulary (e.g., 'supply chain decoupling', 'bilateral fragmentation').`,
-        seo: `# SEO & INDEXING RULES\n- Primary Keyword: Geopolitical Risk [Topic]\n- Secondary: Strategic Analysis, Institutional Intelligence.\n- Meta Description: Start with [URGENCY RATING]. Ensure it fits within 155 chars.\n- URL: slug must be alphanumeric, lowercase, hyphenated.`,
+        seo: `# SEO & INDEXING RULES\n- Primary Keyword: Geopolitical Risk [Topic]\n- Secondary: Strategic Analysis, Institutional Research.\n- Meta Description: Start with [URGENCY RATING]. Ensure it fits within 155 chars.\n- URL: slug must be alphanumeric, lowercase, hyphenated.`,
         social: `# SOCIAL MEDIA STRATEGY\n- Focus on "Strategic Oversight" and "Institutional Authority".\n- X: Use bullet points for high-risk indicators. One link to todaydecode.com.\n- LinkedIn: Frame as a briefing for executive decision-makers.`
     };
 
@@ -152,7 +152,7 @@ export function PromptLibrary({ isOpen, onClose }: PromptLibraryProps) {
                                 <div className="flex items-center gap-4 text-slate-500">
                                     <Globe className="h-5 w-5 opacity-30" />
                                     <p className="text-[9px] font-bold uppercase tracking-widest leading-relaxed">
-                                        Today Decode Institutional Intelligence // <br />
+                                        Today Decode Institutional Research // <br />
                                         Copyright © 2026 Sovereign Analytics Group
                                     </p>
                                 </div>

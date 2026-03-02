@@ -76,7 +76,7 @@ export function QuickAnswer({ points }: { points: string[] }) {
     return (
         <div className="aeo-summary border-l-4 border-accent-red bg-primary/20 p-6 my-8 rounded-r-lg" data-aeo="summary">
             <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-accent-red mb-4">
-                Quick Intelligence Answer
+                Quick Strategic Answer
             </h3>
             <ul className="space-y-3 list-none p-0 m-0">
                 {points.map((point, i) => (

@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     const silo = await getCategoryBySlug(slug);
     if (silo) {
         return constructMetadata({
-            title: `${silo.name} | Strategic Intelligence Silo`,
+            title: `${silo.name} | Strategic Analysis Silo`,
             description: silo.description || `Tactical oversight and strategic reports for ${silo.name}.`,
             path: slug,
         });
@@ -80,7 +80,7 @@ function CategoryDesk({ silo }: { silo: any }) {
                                     {silo.name}
                                 </h1>
                                 <p className="text-[#94A3B8] max-w-2xl text-base font-medium uppercase tracking-tight leading-relaxed">
-                                    {silo.description || "Active intelligence tracking and strategic risk assessment for this global sector."}
+                                    {silo.description || "Active research tracking and strategic risk assessment for this global sector."}
                                 </p>
                             </div>
 
@@ -113,7 +113,7 @@ function CategoryDesk({ silo }: { silo: any }) {
                     <div className="flex items-center gap-3">
                         <Layers className="h-5 w-5 text-accent-red" />
                         <h2 className="text-sm font-black uppercase tracking-[0.25em] text-[#F1F5F9] italic">
-                            Intelligence Manifests
+                            Strategic Manifests
                         </h2>
                     </div>
                     <div className="flex items-center gap-4">
@@ -145,7 +145,7 @@ function CategoryDesk({ silo }: { silo: any }) {
                             <div className="space-y-2">
                                 <p className="text-lg font-black uppercase tracking-[0.4em] text-white italic">Strategic Analysis Pending</p>
                                 <p className="text-xs text-[#94A3B8] font-medium uppercase tracking-[0.1em] max-w-md mx-auto leading-relaxed">
-                                    Silo data is being authorized. Intelligence analysts are mapping tactical indicators for institutional uplink.
+                                    Silo data is being authorized. Strategic analysts are mapping tactical indicators for institutional uplink.
                                 </p>
                             </div>
                         </div>

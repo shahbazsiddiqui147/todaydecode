@@ -253,7 +253,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                         {activeTab === "content" && (
                             <div className="space-y-6">
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1">Primary Intelligence Headline</Label>
+                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1">Primary Strategic Headline</Label>
                                     <Input
                                         name="title"
                                         value={formData.title}
@@ -283,7 +283,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         name="summary"
                                         value={formData.summary}
                                         onChange={handleChange}
-                                        placeholder="Institutional brief for the intelligence silos..."
+                                        placeholder="Institutional brief for the strategic silos..."
                                         className="min-h-[120px] text-sm font-medium bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
                                     />
                                 </div>
@@ -294,7 +294,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         <RichTextEditor
                                             value={formData.content}
                                             onChange={(val) => setFormData(prev => ({ ...prev, content: val }))}
-                                            placeholder="The full breakdown of strategic intelligence..."
+                                            placeholder="The full breakdown of institutional analysis..."
                                         />
                                     </div>
                                 </div>
@@ -376,7 +376,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
 
                                     <div className="space-y-6 relative z-10">
                                         <div className="flex items-center justify-between">
-                                            <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Strategic Intelligence Nodes (FAQ)</h3>
+                                            <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Strategic Research Nodes (FAQ)</h3>
                                             <Button type="button" variant="outline" size="sm" onClick={addFaq} className="h-8 text-[9px] border-white/10 hover:bg-white/10 text-white rounded-xl">
                                                 <Plus className="h-3.5 w-3.5 mr-1" /> Initialize Node
                                             </Button>
@@ -456,7 +456,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Intelligence Meta Description</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Strategic Meta Description</Label>
                                     <Textarea
                                         name="metaDescription"
                                         value={formData.metaDescription}
@@ -493,7 +493,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             </div>
 
                             <div className="space-y-2">
-                                <Label className="text-[9px] font-black uppercase tracking-widest text-[#94A3B8] pl-1">Intelligence Sector</Label>
+                                <Label className="text-[9px] font-black uppercase tracking-widest text-[#94A3B8] pl-1">Strategic Sector</Label>
                                 <Select value={formData.categoryId} onValueChange={(v) => handleSelectChange("categoryId", v)}>
                                     <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9]">
                                         <SelectValue placeholder="SELECT SECTOR" />

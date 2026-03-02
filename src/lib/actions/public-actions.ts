@@ -56,7 +56,7 @@ export const getMapRegionData = cache(async () => {
 });
 
 /**
- * Fetches featured intelligence reports for the homepage feed.
+ * Fetches featured strategic reports for the homepage feed.
  */
 export const getFeaturedArticles = cache(async (limit = 4) => {
     try {
@@ -145,7 +145,7 @@ export const getHomepageStats = cache(async () => {
 });
 
 /**
- * Fetches a public author profile and their latest intelligence reports.
+ * Fetches a public author profile and their latest strategic reports.
  */
 export const getPublicAuthorBySlug = cache(async (slug: string) => {
     try {
@@ -204,7 +204,7 @@ export const getCategoryBySlug = cache(async (slug: string) => {
 });
 
 /**
- * Fetches intelligence reports filtered by category.
+ * Fetches strategic reports filtered by category.
  */
 export const getArticlesByCategory = cache(async (categorySlug: string, limit = 10) => {
     try {
