@@ -3,6 +3,7 @@
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 import { BreakingAlert } from "@/components/ui/breaking-alert";
 import { ReactNode, useEffect } from "react";
 import { ShieldAlert } from "lucide-react";
@@ -47,6 +48,7 @@ export function ClientLayout({ children, isMaintenanceMode }: ClientLayoutProps)
                 <main className="flex-1 p-6 md:p-8">
                     {children}
                 </main>
+                <Footer />
             </div>
         </div>
     );
