@@ -68,18 +68,18 @@ export function PaywallGate({ children, isPremium = false }: PaywallGateProps) {
 
                     <div className="space-y-5 pt-4">
                         <Link
-                            href="/pricing/"
-                            onClick={() => trackEvent('checkout_initiate', { source: 'paywall' })}
+                            href="/about/"
+                            onClick={() => trackEvent('waitlist_initiate', { source: 'paywall' })}
                             className="flex items-center justify-center space-x-3 w-full bg-accent-red hover:bg-red-600 text-white font-black uppercase text-xs py-5 rounded-2xl transition-all shadow-2xl shadow-accent-red/30 group/btn"
                         >
-                            <span className="tracking-[0.2em]">Join the Advisory</span>
+                            <span className="tracking-[0.2em]">Request Institutional Access</span>
                             <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                         </Link>
 
                         <div className="flex items-center justify-center space-x-6 text-slate-500">
                             <div className="flex items-center space-x-2">
-                                <ShieldCheck className="h-3.5 w-3.5 opacity-50 text-accent-green" />
-                                <span className="text-[10px] font-bold uppercase tracking-widest">Sovereign Encryption</span>
+                                <ShieldCheck className="h-3.5 w-3.5 opacity-50 text-accent-cyan" />
+                                <span className="text-[9px] font-black uppercase tracking-[0.2em] text-accent-cyan animate-pulse">Subscriptions Opening Soon</span>
                             </div>
                         </div>
                     </div>

@@ -95,9 +95,9 @@ export default async function DashboardPage() {
                     </div>
 
                     {user.role === 'GUEST' ? (
-                        <Link href="/pricing/">
+                        <Link href="/about/">
                             <button className="px-4 py-2 bg-accent-red text-white text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-white hover:text-primary transition-all shadow-lg shadow-accent-red/20">
-                                Upgrade to Institutional
+                                Request Institutional Access
                             </button>
                         </Link>
                     ) : (

@@ -38,10 +38,9 @@ const plans = [
             "Advanced Historical Vault Access",
             "Direct PDF Export for Briefings",
         ],
-        cta: "Join the Advisory",
-        href: "/api/stripe/checkout",
+        cta: "Join Waitlist",
+        href: "/about/",
         highlight: true,
-        priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PREMIUM || "price_premium_placeholder",
     }
 ];
 
@@ -58,30 +57,8 @@ export default function PricingPage() {
             return;
         }
 
-        if (!session) {
-            trackEvent('checkout_initiate_unauthenticated', { plan: plan.name });
-            router.push("/auth/signin?callbackUrl=/pricing/");
-            return;
-        }
-
-        setLoadingPlan(plan.name);
-        trackEvent('checkout_initiate', { plan: plan.name, source: 'pricing_page' });
-        try {
-            const response = await fetch("/api/stripe/checkout/", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ priceId: plan.priceId }),
-            });
-
-            const data = await response.json();
-            if (data.url) {
-                window.location.href = data.url;
-            }
-        } catch (error) {
-            console.error("Subscription error:", error);
-        } finally {
-            setLoadingPlan(null);
-        }
+        trackEvent('waitlist_initiate', { plan: plan.name, source: 'pricing_page' });
+        router.push("/about/");
     };
 
     return (

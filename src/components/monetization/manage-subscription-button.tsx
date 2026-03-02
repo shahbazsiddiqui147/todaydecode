@@ -10,23 +10,12 @@ export function ManageSubscriptionButton() {
     const handlePortalRedirect = async () => {
         setLoading(true);
         try {
-            const response = await fetch("/api/stripe/portal/", {
-                method: "POST",
+            toast.info("Institutional Desk Maintenance", {
+                description: "The automated billing portal is currently offline for strategic upgrades."
             });
-
-            if (!response.ok) {
-                throw new Error("Failed to generate portal link");
-            }
-
-            const data = await response.json();
-            if (data.url) {
-                window.location.href = data.url;
-            }
-        } catch (error) {
-            console.error("Portal error:", error);
-            toast.error("Institutional Link Failed", {
-                description: "Could not establish a connection to the billing desk."
-            });
+            setTimeout(() => {
+                window.location.href = "/about/";
+            }, 1500);
         } finally {
             setLoading(false);
         }
@@ -43,7 +32,7 @@ export function ManageSubscriptionButton() {
             ) : (
                 <CreditCard className="h-3.5 w-3.5 group-hover:text-accent-cyan transition-colors" />
             )}
-            <span>Manage Portal</span>
+            <span>Portal Offline</span>
         </button>
     );
 }
