@@ -118,20 +118,20 @@ export default function ArticlesPage() {
 
     return (
         <div className="space-y-6">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#1E293B] dark:border-[#334155]">
                 <div>
-                    <h1 className="text-3xl font-black tracking-tight text-foreground uppercase italic pb-1">Intelligence <span className="text-muted-foreground/60 not-italic">Hub</span></h1>
-                    <p className="text-muted-foreground text-xs font-black uppercase tracking-widest">Manage geopolitical reports and scenarios.</p>
+                    <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100 uppercase italic pb-1">Intelligence <span className="text-[#64748B] dark:text-[#94A3B8] not-italic">Hub</span></h1>
+                    <p className="text-[#64748B] dark:text-[#94A3B8] text-xs font-black uppercase tracking-widest">Manage geopolitical reports and scenarios.</p>
                 </div>
                 <Link href="/admin/articles/new/">
-                    <Button className="h-11 rounded-xl font-black uppercase tracking-widest text-[11px] px-6 shadow-xl">
+                    <Button className="h-11 rounded-xl font-black uppercase tracking-widest text-[11px] px-6 shadow-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 hover:bg-black dark:hover:bg-white/90">
                         <Plus className="h-4 w-4 mr-2" /> File New Report
                     </Button>
                 </Link>
             </div>
 
-            <div className="bg-card border border-border shadow-sm overflow-hidden rounded-3xl transition-colors">
-                <div className="p-4 border-b border-border flex items-center gap-4 bg-muted/30">
+            <div className="bg-card border border-[#E2E8F0] dark:border-[#1E293B] shadow-sm overflow-hidden rounded-3xl transition-colors">
+                <div className="p-4 border-b border-[#E2E8F0] dark:border-[#1E293B] flex items-center gap-4 bg-slate-50 dark:bg-white/5">
                     <div className="relative flex-1 max-w-sm">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/40" />
                         <Input
@@ -145,11 +145,11 @@ export default function ArticlesPage() {
 
                 <div className="overflow-x-auto">
                     <Table>
-                        <TableHeader className="bg-muted/50">
-                            <TableRow className="border-b border-border hover:bg-transparent">
-                                <TableHead className="text-[10px] uppercase font-black text-muted-foreground tracking-widest py-4">Status & Title</TableHead>
-                                <TableHead className="text-[10px] uppercase font-black text-muted-foreground tracking-widest">Metadata</TableHead>
-                                <TableHead className="text-[10px] uppercase font-black text-muted-foreground tracking-widest text-right">Operational Scale</TableHead>
+                        <TableHeader className="bg-slate-50 dark:bg-white/5">
+                            <TableRow className="border-b border-[#E2E8F0] dark:border-[#1E293B] hover:bg-transparent">
+                                <TableHead className="text-[10px] uppercase font-black text-[#64748B] dark:text-[#94A3B8] tracking-widest py-4">Status & Title</TableHead>
+                                <TableHead className="text-[10px] uppercase font-black text-[#64748B] dark:text-[#94A3B8] tracking-widest">Metadata</TableHead>
+                                <TableHead className="text-[10px] uppercase font-black text-[#64748B] dark:text-[#94A3B8] tracking-widest text-right">Operational Scale</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -158,19 +158,19 @@ export default function ArticlesPage() {
                                     <TableCell colSpan={3} className="h-64 text-center">
                                         <div className="flex flex-col items-center space-y-4">
                                             <div className="h-8 w-8 rounded-full border-4 border-muted border-t-primary animate-spin"></div>
-                                            <span className="text-[11px] font-black uppercase tracking-widest text-muted-foreground">SCANNING DATABASE...</span>
+                                            <span className="text-[11px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8]">SCANNING DATABASE...</span>
                                         </div>
                                     </TableCell>
                                 </TableRow>
                             ) : filteredArticles.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={3} className="h-64 text-center text-muted-foreground font-bold uppercase tracking-widest text-[11px] italic">
+                                    <TableCell colSpan={3} className="h-64 text-center text-[#64748B] dark:text-[#94A3B8] font-bold uppercase tracking-widest text-[11px] italic">
                                         NO REPORTS FOUND IN CURRENT SECTOR.
                                     </TableCell>
                                 </TableRow>
                             ) : (
                                 filteredArticles.map((article) => (
-                                    <TableRow key={article.id} className="group hover:bg-muted/30 border-b border-border/50 transition-colors">
+                                    <TableRow key={article.id} className="group hover:bg-muted/30 border-b border-[#E2E8F0] dark:border-[#1E293B] transition-colors">
                                         <TableCell className="py-4 pl-4">
                                             <div className="flex items-start gap-4">
                                                 <div className="mt-1">

@@ -59,36 +59,31 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next();
     }
 
-    // 4. STRATEGIC PREVIEW BYPASS
+    // 4. STRATEGIC PREVIEW BYPASS (Root & Maintenance)
     const isPreviewParam = searchParams.get('preview') === 'true';
     const hasPreviewCookie = request.cookies.get('TD_PREVIEW_ACCESS')?.value === 'authorized';
 
     if (isPreviewParam || hasPreviewCookie) {
-        // Enforce trailing slash even in preview mode
-        if (!pathname.endsWith('/') && !pathname.includes('.')) {
+        let response = NextResponse.next();
+
+        // Enforce trailing slash even in preview mode (for sub-paths)
+        if (pathname !== '/' && !pathname.endsWith('/') && !pathname.includes('.')) {
             const redirectUrl = new URL(pathname + '/', request.url);
             searchParams.forEach((value, key) => redirectUrl.searchParams.set(key, value));
-            const response = NextResponse.redirect(redirectUrl);
-            if (isPreviewParam) {
-                response.cookies.set('TD_PREVIEW_ACCESS', 'authorized', {
-                    path: '/',
-                    maxAge: 60 * 60 * 24, // 24 hours persistence
-                    httpOnly: true,
-                    sameSite: 'lax'
-                });
-            }
-            return response;
+            response = NextResponse.redirect(redirectUrl);
         }
 
-        const response = NextResponse.next();
-        if (isPreviewParam && !hasPreviewCookie) {
+        // Set/Refresh the authorization cookie
+        if (isPreviewParam || !hasPreviewCookie) {
             response.cookies.set('TD_PREVIEW_ACCESS', 'authorized', {
                 path: '/',
-                maxAge: 60 * 60 * 24,
+                maxAge: 60 * 60 * 24, // 24 hours persistence
                 httpOnly: true,
-                sameSite: 'lax'
+                sameSite: 'lax',
+                secure: process.env.NODE_ENV === 'production'
             });
         }
+
         return response;
     }
 

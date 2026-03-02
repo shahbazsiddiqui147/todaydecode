@@ -31,12 +31,24 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
     redirect('/coming-soon/');
   }
 
-  // 2. FETCH PRODUCTION DATA
-  const [featuredArticles, regionData, stats] = await Promise.all([
-    getFeaturedArticles(4),
-    getMapRegionData(),
-    getHomepageStats()
-  ]);
+  // 2. FETCH PRODUCTION DATA WITH RESILIENCE
+  let featuredArticles: any[] = [];
+  let regionData: Record<string, number> = {};
+  let stats = { hotspots: 0, reportsCount: 0, integrity: "Offline" };
+
+  try {
+    const [fetchedArticles, fetchedRegionData, fetchedStats] = await Promise.all([
+      getFeaturedArticles(4),
+      getMapRegionData(),
+      getHomepageStats()
+    ]);
+    featuredArticles = fetchedArticles;
+    regionData = fetchedRegionData;
+    stats = fetchedStats;
+  } catch (error) {
+    console.error("CRITICAL: Strategic Archive fetch failed. Deploying fallbacks.", error);
+    // Fallbacks are already initialized above
+  }
 
   return (
     <div className="space-y-10">
