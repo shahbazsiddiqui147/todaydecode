@@ -20,6 +20,21 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next();
     }
 
+    // 1.1 DASHBOARD PROTECTION
+    if (pathname.startsWith('/dashboard/')) {
+        const token = await getToken({
+            req: request,
+            secret: process.env.NEXTAUTH_SECRET
+        });
+
+        if (!token) {
+            const url = new URL('/auth/signin/', request.url);
+            url.searchParams.set('callbackUrl', encodeURI(request.url));
+            return NextResponse.redirect(url);
+        }
+        return NextResponse.next();
+    }
+
     // 2. Get maintenance state (Extremely broad check for reliability)
     const m1 = process.env.MAINTENANCE_MODE;
     const m2 = process.env.NEXT_PUBLIC_MAINTENANCE_MODE;

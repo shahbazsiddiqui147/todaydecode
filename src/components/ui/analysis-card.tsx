@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { BookmarkButton } from "@/components/intel/BookmarkButton";
 
 interface AnalysisCardProps {
     title: string;
@@ -11,6 +12,7 @@ interface AnalysisCardProps {
     image: string;
     riskLevel: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
     riskScore: number;
+    id: string;
 }
 
 export function AnalysisCard({
@@ -20,6 +22,7 @@ export function AnalysisCard({
     image,
     riskLevel,
     riskScore,
+    id,
 }: AnalysisCardProps) {
     const riskColor = {
         LOW: "bg-green-500/10 text-green-500 border-green-500/20",
@@ -50,6 +53,9 @@ export function AnalysisCard({
                     )}>
                         {riskLevel} RISK: {riskScore}
                     </span>
+                </div>
+                <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <BookmarkButton articleId={id} />
                 </div>
             </div>
 

@@ -11,6 +11,7 @@ async function main() {
         create: {
             id: 'cl_vance_1',
             name: 'Dr. Elena Vance',
+            slug: 'elena-vance',
             role: 'Strategic Analyst',
             bio: 'Former intelligence officer specializing in Arctic maritime security and High North geopolitics.',
         },

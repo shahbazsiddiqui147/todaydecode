@@ -5,6 +5,7 @@ import { AnalysisCard } from "@/components/ui/analysis-card";
 import { RiskGauge } from "@/components/metrics/risk-gauge";
 import { ShieldAlert, Layers, Activity } from "lucide-react";
 import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
+import { FollowSiloButton } from "@/components/intel/FollowSiloButton";
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }) {
     const { category } = await params;
@@ -82,6 +83,10 @@ function CategoryDesk({ silo }: { silo: any }) {
                                     {silo.description || "Active intelligence tracking and strategic risk assessment for this global sector."}
                                 </p>
                             </div>
+
+                            <div className="pt-2">
+                                <FollowSiloButton categoryId={silo.id} categoryName={silo.name} />
+                            </div>
                         </div>
 
                         <div className="flex items-center gap-10 p-8 rounded-2xl bg-[#111827] border border-[#1E293B] shadow-2xl">
@@ -122,6 +127,7 @@ function CategoryDesk({ silo }: { silo: any }) {
                     {reports.map((article: any) => (
                         <AnalysisCard
                             key={article.id}
+                            id={article.id}
                             title={article.title}
                             category={silo.name}
                             slug={article.slug}

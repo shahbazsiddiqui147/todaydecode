@@ -1,7 +1,12 @@
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { prisma } from "@/lib/prisma";
 import { constructMetadata } from "@/lib/seo";
 import { GlobalRiskMap } from "@/components/maps/global-risk-map";
 import { AnalysisCard } from "@/components/ui/analysis-card";
-import { Search, Filter, Settings, Bell, LayoutDashboard } from "lucide-react";
+import { Search, Filter, Settings, Bell, LayoutDashboard, Layers, Bookmark } from "lucide-react";
+import Link from "next/link";
 
 export async function generateMetadata() {
     return constructMetadata({
@@ -11,26 +16,59 @@ export async function generateMetadata() {
     });
 }
 
-export default function DashboardPage() {
-    // Mock followed intelligence briefs
-    const followedBriefs = [
-        {
-            title: "The Barents Gap: NATO's Silent Conflict in the High North",
-            category: "Security",
-            slug: "barents-gap-nato-conflict",
-            image: "/images/intel-1.jpg",
-            riskLevel: "HIGH" as const,
-            riskScore: 82,
+export default async function DashboardPage() {
+    const session = await getServerSession(authOptions);
+    const user = session?.user as { id?: string, name?: string, email?: string, role?: string } | undefined;
+
+    if (!user?.id) {
+        redirect("/auth/signin/?callbackUrl=/dashboard/");
+    }
+
+    // 1. Fetch Followed Categories (Watchlists)
+    const watchlists = await prisma.watchlist.findMany({
+        where: { userId: user.id },
+        include: { category: true }
+    });
+
+    const followedCategoryIds = watchlists
+        .filter(w => w.categoryId)
+        .map(w => w.categoryId as string);
+
+    // 2. Fetch Latest Analysis from followed silos
+    const followedArticles = followedCategoryIds.length > 0
+        ? await prisma.article.findMany({
+            where: {
+                categoryId: { in: followedCategoryIds },
+                status: "PUBLISHED" as any
+            },
+            include: { category: true },
+            orderBy: { publishedAt: 'desc' },
+            take: 6
+        })
+        : [];
+
+    // 3. Fetch Bookmarked Reports
+    const bookmarks = await prisma.savedAnalysis.findMany({
+        where: { userId: user.id },
+        include: {
+            article: {
+                include: { category: true }
+            }
         },
-        {
-            title: "Northern Sea Route: China's Icebreaker Expansion Strategy",
-            category: "Security",
-            slug: "northern-sea-route-china-expansion",
-            image: "/images/intel-3.jpg",
-            riskLevel: "HIGH" as const,
-            riskScore: 74,
-        }
-    ];
+        orderBy: { createdAt: 'desc' }
+    });
+
+    // 4. Aggregate data for the map (only followed regions if any, otherwise global)
+    // For now, we reuse the global data but the component could be filtered
+    const regionData: Record<string, number> = {};
+    const aggregations = await prisma.article.groupBy({
+        by: ["region"],
+        where: { status: "PUBLISHED" as any },
+        _avg: { riskScore: true }
+    });
+    aggregations.forEach((item) => {
+        regionData[item.region] = Math.round(item._avg?.riskScore || 0);
+    });
 
     return (
         <div className="space-y-12">
@@ -45,25 +83,20 @@ export default function DashboardPage() {
                         Intelligence Desk
                     </h1>
                     <p className="text-slate-500 text-sm font-medium">
-                        Strategic Monitoring for <span className="text-white font-bold">Dr. Elena Vance</span> // Analyst Level 4
+                        Strategic Monitoring for <span className="text-white font-bold">{user.name || "Field Analyst"}</span> // {user.role || "ANALYST"}
                     </p>
                 </div>
 
                 <div className="flex items-center space-x-4">
-                    <div className="relative group">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 group-focus-within:text-white transition-colors" />
-                        <input
-                            type="text"
-                            placeholder="Search followed desks..."
-                            className="bg-slate-900 border border-border-slate rounded-lg pl-10 pr-4 py-2 text-xs text-white focus:outline-none focus:border-accent-red transition-all w-64"
-                        />
+                    <div className="hidden md:flex flex-col items-end mr-4">
+                        <span className="text-[9px] font-black text-accent-green uppercase tracking-widest">Handshake Verified</span>
+                        <span className="text-[9px] font-bold text-slate-600 uppercase tracking-tighter italic">Uplink: Resilient</span>
                     </div>
-                    <button className="p-2 bg-slate-900 border border-border-slate rounded-lg hover:text-white transition-colors">
-                        <Filter className="h-4 w-4" />
-                    </button>
-                    <button className="p-2 bg-slate-900 border border-border-slate rounded-lg hover:text-white transition-colors">
-                        <Settings className="h-4 w-4" />
-                    </button>
+                    <Link href="/settings/">
+                        <button className="p-2 bg-slate-900 border border-border-slate rounded-lg hover:text-white transition-colors">
+                            <Settings className="h-4 w-4" />
+                        </button>
+                    </Link>
                 </div>
             </div>
 
@@ -72,7 +105,8 @@ export default function DashboardPage() {
                 <div className="lg:col-span-8 space-y-12">
                     <div className="space-y-6">
                         <div className="flex items-center justify-between">
-                            <h2 className="text-sm font-black text-white uppercase tracking-[0.2em]">
+                            <h2 className="text-sm font-black text-white uppercase tracking-[0.2em] flex items-center gap-2">
+                                <Layers className="h-4 w-4 text-accent-red" />
                                 Regional Watchlist (Global View)
                             </h2>
                             <div className="flex items-center space-x-2">
@@ -81,47 +115,109 @@ export default function DashboardPage() {
                             </div>
                         </div>
                         <div className="bg-slate-900/50 border border-border-slate rounded-2xl overflow-hidden p-8 backdrop-blur-sm shadow-2xl">
-                            <GlobalRiskMap />
+                            <GlobalRiskMap regionData={regionData} />
                         </div>
                     </div>
 
                     <div className="space-y-8">
-                        <h2 className="text-sm font-black text-white uppercase tracking-[0.2em]">
-                            Prioritized Intelligence Briefs
-                        </h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            {followedBriefs.map((brief) => (
-                                <AnalysisCard key={brief.slug} {...brief} />
-                            ))}
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-sm font-black text-white uppercase tracking-[0.2em]">
+                                Prioritized Intelligence Briefs
+                            </h2>
+                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Based on Followed Desks</span>
                         </div>
+
+                        {followedArticles.length > 0 ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                {followedArticles.map((article: any) => (
+                                    <AnalysisCard
+                                        key={article.id}
+                                        id={article.id}
+                                        title={article.title}
+                                        category={article.category.name}
+                                        slug={article.slug}
+                                        image="/images/intel-1.jpg"
+                                        riskLevel={article.riskLevel}
+                                        riskScore={article.riskScore}
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="p-12 border-2 border-dashed border-slate-800 rounded-2xl text-center bg-slate-900/20">
+                                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">No active intelligence in followed silos.</p>
+                                <p className="text-xs text-slate-600 mt-2 font-medium">Follow a Strategic Silo to populate your prioritized feed.</p>
+                            </div>
+                        )}
                     </div>
                 </div>
 
                 {/* Right: Desk Activity & Notifications */}
                 <div className="lg:col-span-4 space-y-8">
+                    {/* Followed Desks Manifest */}
                     <div className="bg-slate-900/50 border border-border-slate rounded-xl p-6 space-y-6 backdrop-blur-sm">
                         <div className="flex items-center justify-between">
                             <h3 className="text-[10px] font-black text-white uppercase tracking-widest">
                                 Your Followed Desks
                             </h3>
-                            <button className="text-[10px] font-bold text-accent-red uppercase hover:underline">Manage</button>
+                            <span className="text-[10px] font-bold text-slate-600 uppercase italic">Manifest Active</span>
                         </div>
 
-                        <div className="space-y-4">
-                            {[
-                                { label: 'Security // High North', articles: '12 new' },
-                                { label: 'Economy // G7 Energy', articles: '5 new' },
-                                { label: 'Geopolitics // MENA', articles: 'Updated 2h ago' }
-                            ].map((desk, i) => (
-                                <div key={i} className="flex items-center justify-between p-3 bg-slate-950/50 border border-border-slate rounded-lg group hover:border-accent-red/50 transition-all cursor-pointer">
-                                    <span className="text-[10px] font-bold text-slate-300 group-hover:text-white">{desk.label}</span>
-                                    <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{desk.articles}</span>
-                                </div>
-                            ))}
+                        <div className="space-y-3">
+                            {watchlists.length > 0 ? (
+                                watchlists.map((w) => (
+                                    <Link
+                                        key={w.id}
+                                        href={w.category ? `/${w.category.slug.replace(/^\/|\/$/g, '')}/` : '#'}
+                                        className="flex items-center justify-between p-3 bg-slate-950/50 border border-border-slate rounded-lg group hover:border-accent-red/50 transition-all"
+                                    >
+                                        <span className="text-[10px] font-bold text-slate-300 group-hover:text-white uppercase tracking-widest">
+                                            {w.category?.name || "Global Sector"}
+                                        </span>
+                                        <span className="text-[9px] font-black text-accent-red opacity-0 group-hover:opacity-100 transition-opacity">GO TO DESK</span>
+                                    </Link>
+                                ))
+                            ) : (
+                                <p className="text-[9px] font-bold text-slate-600 uppercase italic">No silos followed.</p>
+                            )}
                         </div>
                     </div>
 
-                    <div className="bg-accent-red/5 border border-accent-red/20 rounded-xl p-6 space-y-6">
+                    {/* Saved Reports (Bookmarks) */}
+                    <div className="bg-slate-900/50 border border-border-slate rounded-xl p-6 space-y-6 backdrop-blur-sm">
+                        <div className="flex items-center justify-between">
+                            <h3 className="text-[10px] font-black text-white uppercase tracking-widest flex items-center gap-2">
+                                <Bookmark className="h-3 w-3 text-accent-red" />
+                                Saved Reports
+                            </h3>
+                        </div>
+
+                        <div className="space-y-4">
+                            {bookmarks.length > 0 ? (
+                                bookmarks.map((b) => (
+                                    <Link
+                                        key={b.id}
+                                        href={`/${b.article.category.slug.replace(/^\/|\/$/g, '')}/${b.article.slug.replace(/^\/|\/$/g, '')}/`}
+                                        className="block space-y-1 group"
+                                    >
+                                        <p className="text-[11px] font-black text-slate-200 group-hover:text-white transition-colors uppercase tracking-tight italic line-clamp-2">
+                                            {b.article.title}
+                                        </p>
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-[8px] font-bold text-slate-600 uppercase tracking-widest">
+                                                {new Date(b.createdAt).toLocaleDateString()}
+                                            </span>
+                                            <span className="text-[8px] font-black text-accent-red uppercase tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity">ACCESS READ</span>
+                                        </div>
+                                    </Link>
+                                ))
+                            ) : (
+                                <p className="text-[9px] font-bold text-slate-600 uppercase italic">No analysis bookmarked.</p>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* System Integrity Notification */}
+                    <div className="bg-accent-red/5 border border-accent-red/20 rounded-xl p-6 space-y-6 shadow-2xl shadow-accent-red/5">
                         <div className="flex items-center space-x-3">
                             <div className="bg-accent-red/20 p-2 rounded-lg">
                                 <Bell className="h-4 w-4 text-accent-red" />
@@ -132,11 +228,11 @@ export default function DashboardPage() {
                         <div className="space-y-4">
                             <div className="space-y-1">
                                 <div className="flex items-center space-x-2">
-                                    <span className="text-[10px] font-black text-accent-red uppercase uppercase">Critical</span>
-                                    <span className="text-[10px] text-slate-500">14:02 UTC</span>
+                                    <span className="text-[10px] font-black text-accent-red uppercase">Critical</span>
+                                    <span className="text-[10px] text-slate-500">SYSTEM // PULSE</span>
                                 </div>
-                                <p className="text-xs text-white font-medium leading-relaxed">
-                                    Sudden volatility detected in Brent Crude pricing corridor. Impacting G7 Energy desk.
+                                <p className="text-xs text-slate-400 font-medium leading-relaxed italic">
+                                    Monitoring tactical indicators for your followed sectors. Real-time alerts will be delivered here.
                                 </p>
                             </div>
                         </div>

@@ -66,6 +66,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
         {featuredArticles.map((article: any) => (
           <AnalysisCard
             key={article.slug}
+            id={article.id}
             title={article.title}
             category={article.category.name}
             slug={article.slug}
