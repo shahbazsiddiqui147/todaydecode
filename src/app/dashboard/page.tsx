@@ -7,6 +7,7 @@ import { GlobalRiskMap } from "@/components/maps/global-risk-map";
 import { AnalysisCard } from "@/components/ui/analysis-card";
 import { Search, Filter, Settings, Bell, LayoutDashboard, Layers, Bookmark } from "lucide-react";
 import Link from "next/link";
+import { ManageSubscriptionButton } from "@/components/monetization/manage-subscription-button";
 
 export async function generateMetadata() {
     return constructMetadata({
@@ -92,6 +93,17 @@ export default async function DashboardPage() {
                         <span className="text-[9px] font-black text-accent-green uppercase tracking-widest">Handshake Verified</span>
                         <span className="text-[9px] font-bold text-slate-600 uppercase tracking-tighter italic">Uplink: Resilient</span>
                     </div>
+
+                    {user.role === 'GUEST' ? (
+                        <Link href="/pricing/">
+                            <button className="px-4 py-2 bg-accent-red text-white text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-white hover:text-primary transition-all shadow-lg shadow-accent-red/20">
+                                Upgrade to Institutional
+                            </button>
+                        </Link>
+                    ) : (
+                        <ManageSubscriptionButton />
+                    )}
+
                     <Link href="/settings/">
                         <button className="p-2 bg-slate-900 border border-border-slate rounded-lg hover:text-white transition-colors">
                             <Settings className="h-4 w-4" />
