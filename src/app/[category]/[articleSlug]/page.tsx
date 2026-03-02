@@ -49,15 +49,7 @@ export default async function ArticlePage({
     const cookieStore = await cookies();
     const hasCookie = cookieStore.get('TD_PREVIEW_ACCESS')?.value === 'true';
 
-    // Maintenance Guard (Can be bypassed by authorized internal analysts)
-    if (!isPreview && !hasCookie) {
-        const m1 = process.env.MAINTENANCE_MODE;
-        const m2 = process.env.NEXT_PUBLIC_MAINTENANCE_MODE;
-        const raw = String(m1 || m2 || '').toLowerCase();
-        if (raw.includes('true') || raw === '1' || raw === 'on') {
-            redirect('/coming-soon/');
-        }
-    }
+    // Maintenance Guard removed for public site
 
     const article = await getPublicArticleBySlug(articleSlug);
 

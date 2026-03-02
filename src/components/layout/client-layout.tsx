@@ -25,16 +25,14 @@ export function ClientLayout({
 }: ClientLayoutProps) {
     const pathname = usePathname();
 
-    const isComingSoon = pathname === '/coming-soon' || pathname === '/coming-soon/';
     const isAuthPath = pathname.startsWith('/auth');
     const isAdminPath = pathname.startsWith('/admin');
 
     // UI RENDERING LOGIC
     // We hide the standard layout (Sidebar/Header) for:
-    // 1. Coming Soon page
-    // 2. Auth pages (Signin/Signup)
-    // 3. Admin pages (Management Workspace)
-    const shouldHideStandardLayout = isComingSoon || isAuthPath || isAdminPath;
+    // 1. Auth pages (Signin/Signup)
+    // 2. Admin pages (Management Workspace)
+    const shouldHideStandardLayout = isAuthPath || isAdminPath;
 
     if (shouldHideStandardLayout) {
         return (

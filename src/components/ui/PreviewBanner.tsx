@@ -16,8 +16,8 @@ export function PreviewBanner() {
     const handleDeauthorize = () => {
         // Clear the persistence cookie
         document.cookie = "TD_PREVIEW_ACCESS=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-        // Flush the cache and return to the wall
-        window.location.href = "/coming-soon/";
+        // Flush the cache and return to the root
+        window.location.href = "/";
     };
 
     if (!isVisible) return null;
