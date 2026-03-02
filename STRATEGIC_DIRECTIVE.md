@@ -78,6 +78,11 @@ To prevent theme regressions, the following tokens are non-negotiable:
 - **Admin Design:** Professional, clean, and data-centric. NO tactical glows or red alerts unless it's a critical system error.
 - **Frontend Design:** Tactical, high-contrast, featuring data-visualizations (Maps, Gauges).
 
+### 4.1. COMPONENT ARCHITECTURE & DATA INTEGRITY
+- **Footer Sovereignty:** The Footer component must reside EXCLUSIVELY in the Root Layout (`src/app/layout.tsx`). It must never be called individually within page-level components to prevent duplication.
+- **Content Resilience:** Homepage sections (Featured Analysis, Scenario Modeling) must gracefully handle "No Data" states without breaking the theme.
+- **Section Transitions:** Every section on the homepage must use CSS variables for backgrounds to ensure zero "white-space bleed" in Dark Mode.
+
 ### 5. TECHNICAL STANDARDS
 - **Framework:** Next.js (App Router), TypeScript, Prisma, Neon (PostgreSQL), Tailwind CSS.
 - **CRUD:** All management operations must use Next.js Server Actions with Zod validation.

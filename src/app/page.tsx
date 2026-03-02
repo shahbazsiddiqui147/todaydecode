@@ -8,14 +8,19 @@ import { ScenarioForecast } from "@/components/analysis/scenario-forecast";
 import { ChevronRight, Globe, ShieldAlert, TrendingUp, Cpu, Zap, Activity, Layers } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
-import { Footer } from "@/components/layout/footer";
+import { prisma } from "@/lib/prisma";
 
 export default async function Page() {
   // 1. Concurrent fetching for maximum throughput
-  const [fetchedArticles, fetchedRegionData, fetchedStats] = await Promise.all([
-    getFeaturedArticles(4),
+  const [fetchedRegionData, fetchedStats, latestArticles] = await Promise.all([
     getMapRegionData(),
-    getHomepageStats()
+    getHomepageStats(),
+    prisma.article.findMany({
+      where: { status: "PUBLISHED" as any },
+      orderBy: { publishedAt: "desc" },
+      take: 6,
+      include: { category: true }
+    })
   ]);
 
   const metrics = await getDashboardMetrics();
@@ -114,8 +119,8 @@ export default async function Page() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {fetchedArticles.map((article: any) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {latestArticles.map((article: any) => (
               <AnalysisCard
                 key={article.id}
                 id={article.id}
@@ -130,21 +135,21 @@ export default async function Page() {
           </div>
         </section>
 
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-secondary/50 p-12 rounded-[2.5rem] border border-border shadow-2xl relative overflow-hidden group">
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-[#F8FAFC] dark:bg-[#0A0F1E] p-12 rounded-[2.5rem] border border-[#E2E8F0] dark:border-[#1E293B] shadow-2xl relative overflow-hidden group">
           <div className="lg:col-span-5 space-y-8">
             <div className="space-y-4">
               <div className="p-3 bg-accent-red/10 border border-accent-red/20 rounded-2xl w-fit">
                 <Zap className="h-6 w-6 text-accent-red" />
               </div>
-              <h2 className="text-4xl md:text-5xl font-black text-foreground uppercase tracking-tighter leading-[0.9] italic dark:text-white">
+              <h2 className="text-4xl md:text-5xl font-black text-[#0F172A] dark:text-[#F1F5F9] uppercase tracking-tighter leading-[0.9] italic">
                 Strategic <br />Scenario <br />Modeling
               </h2>
             </div>
-            <p className="text-muted-foreground font-medium text-lg max-w-sm uppercase tracking-tight leading-relaxed">
+            <p className="text-[#475569] dark:text-[#94A3B8] font-medium text-lg max-w-sm uppercase tracking-tight leading-relaxed">
               Access our proprietary quantitative forecasting engine. Predict institutional impact across multiple geopolitical timelines.
             </p>
           </div>
-          <div className="lg:col-span-7 bg-card rounded-3xl border border-border p-8 shadow-inner relative">
+          <div className="lg:col-span-7 bg-[#FFFFFF] dark:bg-[#111827] rounded-3xl border border-[#E2E8F0] dark:border-[#1E293B] p-8 shadow-inner relative">
             <div className="grayscale group-hover:grayscale-0 transition-all duration-700">
               <ScenarioForecast
                 scenarios={{
@@ -159,8 +164,6 @@ export default async function Page() {
           </div>
         </section>
       </main>
-
-      <Footer />
     </div>
   );
 }
