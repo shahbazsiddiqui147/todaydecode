@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useAnalytics } from "@/components/providers/analytics-provider";
 
 const plans = [
     {
@@ -47,20 +48,24 @@ const plans = [
 export default function PricingPage() {
     const { data: session } = useSession();
     const router = useRouter();
+    const { trackEvent } = useAnalytics();
     const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
 
     const handleSubscribe = async (plan: typeof plans[0]) => {
         if (plan.name === "Public Analysis") {
+            trackEvent('public_tier_select');
             router.push(plan.href);
             return;
         }
 
         if (!session) {
+            trackEvent('checkout_initiate_unauthenticated', { plan: plan.name });
             router.push("/auth/signin?callbackUrl=/pricing/");
             return;
         }
 
         setLoadingPlan(plan.name);
+        trackEvent('checkout_initiate', { plan: plan.name, source: 'pricing_page' });
         try {
             const response = await fetch("/api/stripe/checkout/", {
                 method: "POST",
@@ -119,44 +124,53 @@ export default function PricingPage() {
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.3 + idx * 0.1 }}
                             className={cn(
-                                "relative p-8 rounded-[2rem] border transition-all duration-500 overflow-hidden group",
+                                "relative p-8 rounded-[2.5rem] border transition-all duration-500 overflow-hidden group",
                                 plan.highlight
-                                    ? "bg-secondary border-accent-cyan/30 shadow-[0_0_50px_-12px_rgba(34,211,238,0.2)]"
-                                    : "bg-secondary/50 border-white/5 hover:border-white/10"
+                                    ? "bg-foreground dark:bg-slate-900 border-accent-cyan/30 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] dark:shadow-[0_0_50px_-12px_rgba(34,211,238,0.2)]"
+                                    : "bg-secondary dark:bg-secondary/50 border-border dark:border-white/5 hover:border-accent-cyan/20"
                             )}
                         >
                             {plan.highlight && (
-                                <>
-                                    <div className="absolute top-0 right-0 w-32 h-32 bg-accent-cyan/10 blur-[60px]" />
-                                    <div className="absolute -top-12 -right-12 w-24 h-24 bg-accent-cyan/20 rounded-full blur-[40px]" />
-                                </>
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-accent-cyan/10 blur-[100px] pointer-events-none" />
                             )}
 
                             <div className="space-y-8 relative z-10">
                                 <div className="space-y-4">
-                                    <h3 className="text-2xl font-black text-white uppercase tracking-tight italic">
+                                    <h3 className={cn(
+                                        "text-3xl font-black uppercase tracking-tight italic",
+                                        plan.highlight ? "text-white" : "text-foreground"
+                                    )}>
                                         {plan.name}
                                     </h3>
-                                    <p className="text-sm text-slate-400 font-medium leading-relaxed">
+                                    <p className={cn(
+                                        "text-sm font-medium leading-relaxed",
+                                        plan.highlight ? "text-slate-300" : "text-muted-foreground"
+                                    )}>
                                         {plan.description}
                                     </p>
                                 </div>
 
                                 <div className="flex items-baseline space-x-2">
-                                    <span className="text-5xl font-black text-white">{plan.price}</span>
-                                    <span className="text-sm text-slate-500 font-bold uppercase tracking-widest">{plan.period}</span>
+                                    <span className={cn(
+                                        "text-6xl font-black tracking-tighter",
+                                        plan.highlight ? "text-white" : "text-foreground"
+                                    )}>{plan.price}</span>
+                                    <span className="text-sm font-bold uppercase tracking-widest text-muted-foreground">{plan.period}</span>
                                 </div>
 
-                                <ul className="space-y-4 pt-12 border-t border-white/5">
+                                <ul className="space-y-4 pt-10 border-t border-white/10 dark:border-white/5">
                                     {plan.features.map((feature) => (
                                         <li key={feature} className="flex items-center space-x-3 group/item">
                                             <div className={cn(
                                                 "p-1 rounded-full",
-                                                plan.highlight ? "bg-accent-cyan/10 text-accent-cyan" : "bg-white/5 text-slate-500"
+                                                plan.highlight ? "bg-accent-cyan/20 text-accent-cyan" : "bg-slate-200 dark:bg-white/5 text-slate-500"
                                             )}>
                                                 <Check className="h-3 w-3" />
                                             </div>
-                                            <span className="text-xs font-bold text-slate-300 uppercase tracking-tight group-hover/item:text-white transition-colors">
+                                            <span className={cn(
+                                                "text-xs font-bold uppercase tracking-tight",
+                                                plan.highlight ? "text-slate-200 group-hover/item:text-white" : "text-muted-foreground group-hover/item:text-foreground"
+                                            )}>
                                                 {feature}
                                             </span>
                                         </li>
@@ -167,16 +181,16 @@ export default function PricingPage() {
                                     onClick={() => handleSubscribe(plan)}
                                     disabled={loadingPlan !== null}
                                     className={cn(
-                                        "w-full py-4 rounded-2xl text-xs font-black uppercase tracking-[0.2em] transition-all relative overflow-hidden",
+                                        "w-full py-5 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] transition-all relative overflow-hidden active:scale-95",
                                         plan.highlight
-                                            ? "bg-accent-cyan text-primary hover:bg-white shadow-[0_10px_20px_-10px_rgba(34,211,238,0.3)]"
-                                            : "bg-white/5 text-white hover:bg-white hover:text-primary border border-white/5"
+                                            ? "bg-accent-cyan text-primary hover:bg-white shadow-xl shadow-accent-cyan/20"
+                                            : "bg-slate-100 dark:bg-white/5 text-foreground dark:text-white hover:bg-foreground hover:text-white dark:hover:bg-white dark:hover:text-primary"
                                     )}
                                 >
                                     {loadingPlan === plan.name ? (
                                         <div className="flex items-center justify-center space-x-2">
                                             <div className="h-3 w-3 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
-                                            <span>Initializing...</span>
+                                            <span>INITIALIZING UPLINK...</span>
                                         </div>
                                     ) : plan.cta}
                                 </button>

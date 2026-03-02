@@ -5,6 +5,8 @@ import { Lock, ShieldCheck, ArrowRight } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { useAnalytics } from '@/components/providers/analytics-provider';
+import { useEffect } from 'react';
 
 interface PaywallGateProps {
     children: React.ReactNode;
@@ -13,12 +15,19 @@ interface PaywallGateProps {
 
 export function PaywallGate({ children, isPremium = false }: PaywallGateProps) {
     const { data: session, status } = useSession();
-
-    if (!isPremium) return <>{children}</>;
+    const { trackEvent } = useAnalytics();
 
     // Hardened Role Logic: Only ANALYST or ADMIN tiers can pass
     const userRole = (session?.user as any)?.role;
     const hasAccess = status === 'authenticated' && (userRole === 'ANALYST' || userRole === 'ADMIN');
+
+    useEffect(() => {
+        if (isPremium && !hasAccess) {
+            trackEvent('paywall_view', {
+                is_authenticated: status === 'authenticated'
+            });
+        }
+    }, [isPremium, hasAccess]);
 
     if (hasAccess) {
         return <>{children}</>;
@@ -59,7 +68,8 @@ export function PaywallGate({ children, isPremium = false }: PaywallGateProps) {
 
                     <div className="space-y-5 pt-4">
                         <Link
-                            href="/auth/signup/"
+                            href="/pricing/"
+                            onClick={() => trackEvent('checkout_initiate', { source: 'paywall' })}
                             className="flex items-center justify-center space-x-3 w-full bg-accent-red hover:bg-red-600 text-white font-black uppercase text-xs py-5 rounded-2xl transition-all shadow-2xl shadow-accent-red/30 group/btn"
                         >
                             <span className="tracking-[0.2em]">Join the Advisory</span>

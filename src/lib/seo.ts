@@ -27,7 +27,7 @@ export function constructMetadata({
     // Dynamic Institutional Descriptions for Social Dominance
     let dynamicDescription = description;
     if (riskScore !== undefined) {
-        dynamicDescription = `STRATEGIC ASSESSMENT: ${riskScore}/100 RISK // ${description}`;
+        dynamicDescription = `[RISK: ${riskScore}/100] // ${description}`;
     }
 
     return {
@@ -46,7 +46,7 @@ export function constructMetadata({
             description: dynamicDescription,
             url,
             images: [{ url: image }],
-            type: 'website',
+            type: type,
         },
         twitter: {
             card: "summary_large_image",

@@ -24,25 +24,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
 
     const articleEntries: MetadataRoute.Sitemap = articles.map((article) => ({
-        url: `${SITE_URL}/${article.category.slug}/${article.slug}/`,
+        url: `${SITE_URL}/${article.category.slug.replace(/^\/|\/$/g, '')}/${article.slug.replace(/^\/|\/$/g, '')}/`,
         lastModified: article.publishedAt,
         changeFrequency: 'daily',
         priority: 0.8,
     }));
 
     const categoryEntries: MetadataRoute.Sitemap = categories.map((category) => ({
-        url: `${SITE_URL}/${category.slug}/`,
+        url: `${SITE_URL}/${category.slug.replace(/^\/|\/$/g, '')}/`,
         changeFrequency: 'weekly',
         priority: 0.5,
     }));
 
+    const staticPages = [
+        { url: `${SITE_URL}/`, priority: 1, changeFrequency: 'daily' },
+        { url: `${SITE_URL}/pricing/`, priority: 0.7, changeFrequency: 'monthly' },
+        { url: `${SITE_URL}/about-us/`, priority: 0.5, changeFrequency: 'monthly' },
+    ] as MetadataRoute.Sitemap;
+
     return [
-        {
-            url: `${SITE_URL}/`,
-            lastModified: new Date(),
-            changeFrequency: 'daily',
-            priority: 1,
-        },
+        ...staticPages,
         ...categoryEntries,
         ...articleEntries,
     ];

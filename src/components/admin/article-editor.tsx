@@ -42,6 +42,7 @@ import { Switch } from "@/components/ui/switch";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
+import { PromptLibrary } from "@/components/admin/prompt-library";
 
 interface ArticleEditorProps {
     article?: any;
@@ -53,6 +54,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [isSlugLocked, setIsSlugLocked] = useState(true);
+    const [isFoundryOpen, setIsFoundryOpen] = useState(false);
     const [activeTab, setActiveTab] = useState<"content" | "forecast" | "aeo" | "meta">("content");
 
     const [formData, setFormData] = useState({
@@ -197,6 +199,15 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                         </SelectContent>
                     </Select>
                     <Button
+                        type="button"
+                        onClick={() => setIsFoundryOpen(true)}
+                        variant="outline"
+                        className="h-10 px-4 rounded-xl border-accent-red/20 text-accent-red bg-accent-red/5 hover:bg-accent-red/10 font-black uppercase text-[10px] tracking-widest gap-2"
+                    >
+                        <Zap className="h-4 w-4" />
+                        Launch Foundry
+                    </Button>
+                    <Button
                         type="submit"
                         disabled={loading}
                         className="h-10 px-8 rounded-xl font-black uppercase italic tracking-tighter shadow-lg shadow-primary/20 active:scale-95 transition-all text-[11px] bg-[#0F172A] text-white hover:bg-black dark:bg-white dark:text-[#0F172A] dark:hover:bg-white/90"
@@ -206,6 +217,8 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                     </Button>
                 </div>
             </div>
+
+            <PromptLibrary isOpen={isFoundryOpen} onClose={() => setIsFoundryOpen(false)} />
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 {/* Left Column: Analysis Cockpit */}

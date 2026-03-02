@@ -17,8 +17,13 @@ export function RiskGauge({
     size = 'md',
     showValue = true
 }: RiskGaugeProps) {
-    const radius = size === 'sm' ? 30 : size === 'md' ? 45 : 60;
-    const strokeWidth = size === 'sm' ? 4 : size === 'md' ? 8 : 10;
+    const sizeMap = {
+        sm: { radius: 30, stroke: 4, text: "text-[10px]", valText: "text-xs" },
+        md: { radius: 45, stroke: 8, text: "text-[10px]", valText: "text-lg" },
+        lg: { radius: 60, stroke: 10, text: "text-xs", valText: "text-2xl" }
+    };
+
+    const { radius, stroke, text, valText } = sizeMap[size];
     const normalizedValue = Math.min(Math.max(value, 0), 100);
     const circumference = 2 * Math.PI * radius;
     const offset = circumference - (normalizedValue / 100) * circumference;
@@ -32,50 +37,49 @@ export function RiskGauge({
     const colorClass = getColor(normalizedValue);
 
     return (
-        <div className="flex flex-col items-center justify-center space-y-2">
-            <div className="relative">
+        <div className="flex flex-col items-center justify-center space-y-3 w-full max-w-[200px] mx-auto">
+            <div className="relative group transition-transform duration-500 hover:scale-105">
                 <svg
-                    width={radius * 2 + strokeWidth * 2}
-                    height={radius * 2 + strokeWidth * 2}
-                    className="transform -rotate-90"
+                    width="100%"
+                    height="100%"
+                    viewBox={`0 0 ${(radius + stroke) * 2} ${(radius + stroke) * 2}`}
+                    className="transform -rotate-90 w-full h-full max-w-[150px]"
                 >
                     {/* Background circle */}
                     <circle
-                        cx={radius + strokeWidth}
-                        cy={radius + strokeWidth}
+                        cx={radius + stroke}
+                        cy={radius + stroke}
                         r={radius}
                         stroke="currentColor"
-                        strokeWidth={strokeWidth}
+                        strokeWidth={stroke}
                         fill="transparent"
-                        className="text-slate-200 dark:text-brand-navy"
+                        className="text-border dark:text-white/5"
                     />
                     {/* Progress circle */}
                     <motion.circle
                         initial={{ strokeDashoffset: circumference }}
                         animate={{ strokeDashoffset: offset }}
                         transition={{ duration: 1.5, ease: "easeOut" }}
-                        cx={radius + strokeWidth}
-                        cy={radius + strokeWidth}
+                        cx={radius + stroke}
+                        cy={radius + stroke}
                         r={radius}
                         stroke="currentColor"
-                        strokeWidth={strokeWidth}
+                        strokeWidth={stroke}
                         fill="transparent"
                         strokeDasharray={circumference}
-                        className={cn(colorClass)}
+                        className={cn(colorClass, "drop-shadow-[0_0_8px_currentColor]")}
                     />
                 </svg>
                 {showValue && (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <span className={cn(
-                            "font-bold",
-                            size === 'sm' ? "text-sm" : size === 'md' ? "text-lg" : "text-2xl"
-                        )}>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <span className={cn("font-black italic tracking-tighter", valText)}>
                             {normalizedValue}
                         </span>
+                        <span className="text-[7px] font-black uppercase tracking-widest text-slate-500 opacity-60">Index</span>
                     </div>
                 )}
             </div>
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest text-center">
+            <div className={cn("font-black uppercase tracking-[0.2em] text-center text-slate-500 italic", text)}>
                 {label}
             </div>
         </div>

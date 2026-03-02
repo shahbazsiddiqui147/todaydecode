@@ -4,6 +4,7 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
 import { BreakingAlert } from "@/components/ui/breaking-alert";
+import { AnalyticsProvider } from "@/components/providers/analytics-provider";
 import { ReactNode } from "react";
 interface ClientLayoutProps {
     children: ReactNode;

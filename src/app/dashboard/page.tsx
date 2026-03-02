@@ -80,11 +80,11 @@ export default async function DashboardPage() {
                         <LayoutDashboard className="h-4 w-4" />
                         <span className="text-[10px] font-black uppercase tracking-[0.2em]">Institutional Command</span>
                     </div>
-                    <h1 className="text-4xl font-black text-white tracking-tight uppercase">
+                    <h1 className="text-4xl font-black text-foreground tracking-tight uppercase">
                         Intelligence Desk
                     </h1>
-                    <p className="text-slate-500 text-sm font-medium">
-                        Strategic Monitoring for <span className="text-white font-bold">{user.name || "Field Analyst"}</span> // {user.role || "ANALYST"}
+                    <p className="text-muted-foreground text-sm font-medium">
+                        Strategic Monitoring for <span className="text-foreground font-bold">{user.name || "Field Analyst"}</span> // {user.role || "ANALYST"}
                     </p>
                 </div>
 
@@ -105,7 +105,7 @@ export default async function DashboardPage() {
                     )}
 
                     <Link href="/settings/">
-                        <button className="p-2 bg-slate-900 border border-border-slate rounded-lg hover:text-white transition-colors">
+                        <button className="p-2 bg-secondary border border-border-slate rounded-lg hover:text-foreground transition-colors">
                             <Settings className="h-4 w-4" />
                         </button>
                     </Link>
@@ -126,7 +126,7 @@ export default async function DashboardPage() {
                                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Live Monitoring Active</span>
                             </div>
                         </div>
-                        <div className="bg-slate-900/50 border border-border-slate rounded-2xl overflow-hidden p-8 backdrop-blur-sm shadow-2xl">
+                        <div className="bg-secondary/50 dark:bg-slate-900/50 border border-border-slate rounded-2xl overflow-hidden p-8 backdrop-blur-sm shadow-2xl">
                             <GlobalRiskMap regionData={regionData} />
                         </div>
                     </div>
@@ -166,9 +166,9 @@ export default async function DashboardPage() {
                 {/* Right: Desk Activity & Notifications */}
                 <div className="lg:col-span-4 space-y-8">
                     {/* Followed Desks Manifest */}
-                    <div className="bg-slate-900/50 border border-border-slate rounded-xl p-6 space-y-6 backdrop-blur-sm">
+                    <div className="bg-secondary/50 dark:bg-slate-900/50 border border-border-slate rounded-xl p-6 space-y-6 backdrop-blur-sm">
                         <div className="flex items-center justify-between">
-                            <h3 className="text-[10px] font-black text-white uppercase tracking-widest">
+                            <h3 className="text-[10px] font-black text-foreground dark:text-white uppercase tracking-widest">
                                 Your Followed Desks
                             </h3>
                             <span className="text-[10px] font-bold text-slate-600 uppercase italic">Manifest Active</span>
@@ -180,9 +180,9 @@ export default async function DashboardPage() {
                                     <Link
                                         key={w.id}
                                         href={w.category ? `/${w.category.slug.replace(/^\/|\/$/g, '')}/` : '#'}
-                                        className="flex items-center justify-between p-3 bg-slate-950/50 border border-border-slate rounded-lg group hover:border-accent-red/50 transition-all"
+                                        className="flex items-center justify-between p-3 bg-card/50 dark:bg-slate-950/50 border border-border-slate rounded-lg group hover:border-accent-red/50 transition-all"
                                     >
-                                        <span className="text-[10px] font-bold text-slate-300 group-hover:text-white uppercase tracking-widest">
+                                        <span className="text-[10px] font-bold text-muted-foreground dark:text-slate-300 group-hover:text-foreground dark:group-hover:text-white uppercase tracking-widest">
                                             {w.category?.name || "Global Sector"}
                                         </span>
                                         <span className="text-[9px] font-black text-accent-red opacity-0 group-hover:opacity-100 transition-opacity">GO TO DESK</span>
@@ -195,9 +195,9 @@ export default async function DashboardPage() {
                     </div>
 
                     {/* Saved Reports (Bookmarks) */}
-                    <div className="bg-slate-900/50 border border-border-slate rounded-xl p-6 space-y-6 backdrop-blur-sm">
+                    <div className="bg-secondary/50 dark:bg-slate-900/50 border border-border-slate rounded-xl p-6 space-y-6 backdrop-blur-sm">
                         <div className="flex items-center justify-between">
-                            <h3 className="text-[10px] font-black text-white uppercase tracking-widest flex items-center gap-2">
+                            <h3 className="text-[10px] font-black text-foreground dark:text-white uppercase tracking-widest flex items-center gap-2">
                                 <Bookmark className="h-3 w-3 text-accent-red" />
                                 Saved Reports
                             </h3>
@@ -211,11 +211,11 @@ export default async function DashboardPage() {
                                         href={`/${b.article.category.slug.replace(/^\/|\/$/g, '')}/${b.article.slug.replace(/^\/|\/$/g, '')}/`}
                                         className="block space-y-1 group"
                                     >
-                                        <p className="text-[11px] font-black text-slate-200 group-hover:text-white transition-colors uppercase tracking-tight italic line-clamp-2">
+                                        <p className="text-[11px] font-black text-muted-foreground dark:text-slate-200 group-hover:text-foreground dark:group-hover:text-white transition-colors uppercase tracking-tight italic line-clamp-2">
                                             {b.article.title}
                                         </p>
                                         <div className="flex items-center justify-between">
-                                            <span className="text-[8px] font-bold text-slate-600 uppercase tracking-widest">
+                                            <span className="text-[8px] font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest">
                                                 {new Date(b.createdAt).toLocaleDateString()}
                                             </span>
                                             <span className="text-[8px] font-black text-accent-red uppercase tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity">ACCESS READ</span>
@@ -234,7 +234,7 @@ export default async function DashboardPage() {
                             <div className="bg-accent-red/20 p-2 rounded-lg">
                                 <Bell className="h-4 w-4 text-accent-red" />
                             </div>
-                            <h3 className="text-[10px] font-black text-white uppercase tracking-widest">Breaking Intel Alerts</h3>
+                            <h3 className="text-[10px] font-black text-foreground dark:text-white uppercase tracking-widest">Breaking Intel Alerts</h3>
                         </div>
 
                         <div className="space-y-4">

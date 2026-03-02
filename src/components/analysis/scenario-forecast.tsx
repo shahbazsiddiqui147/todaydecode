@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { TrendingUp, AlertTriangle, ShieldCheck, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import { useAnalytics } from '@/components/providers/analytics-provider';
 
 interface Scenario {
     title: string;
@@ -26,12 +27,22 @@ interface ScenarioForecastProps {
 
 export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecastProps) {
     const [activeTab, setActiveTab] = useState<keyof Scenarios>('likely');
+    const { trackEvent } = useAnalytics();
 
     const tabs = [
         { id: 'best', label: 'Best Case', icon: ShieldCheck, color: 'text-accent-green' },
         { id: 'likely', label: 'Most Likely', icon: TrendingUp, color: 'text-yellow-500' },
         { id: 'worst', label: 'Worst Case', icon: AlertTriangle, color: 'text-accent-red' },
     ] as const;
+
+    const handleTabChange = (tabId: keyof Scenarios) => {
+        setActiveTab(tabId);
+        trackEvent('scenario_toggle_click', {
+            scenario: tabId,
+            article_slug: slug,
+            category: category
+        });
+    };
 
     const activeData = scenarios[activeTab];
 
@@ -50,7 +61,7 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}
-                        onClick={() => setActiveTab(tab.id)}
+                        onClick={() => handleTabChange(tab.id)}
                         className={cn(
                             "flex-1 flex items-center justify-center space-x-2 py-4 text-[10px] font-bold uppercase tracking-widest transition-all relative",
                             activeTab === tab.id

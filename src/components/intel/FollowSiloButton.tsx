@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { toggleFollowSilo, isFollowingSilo } from "@/lib/actions/user-actions";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useAnalytics } from "@/components/providers/analytics-provider";
 
 interface FollowSiloButtonProps {
     categoryId: string;
@@ -15,6 +16,7 @@ interface FollowSiloButtonProps {
 
 export function FollowSiloButton({ categoryId, categoryName }: FollowSiloButtonProps) {
     const { data: session } = useSession();
+    const { trackEvent } = useAnalytics();
     const [isPending, startTransition] = useTransition();
     const [following, setFollowing] = useState(false);
     const [checking, setChecking] = useState(true);
@@ -44,9 +46,17 @@ export function FollowSiloButton({ categoryId, categoryName }: FollowSiloButtonP
             if (res.error) {
                 toast.error(res.error);
             } else {
-                setFollowing(res.action === "followed");
+                const isFollowed = res.action === "followed";
+                setFollowing(isFollowed);
+
+                trackEvent('silo_follow_toggle', {
+                    category: categoryName,
+                    action: res.action,
+                    category_id: categoryId
+                });
+
                 toast.success(
-                    res.action === "followed"
+                    isFollowed
                         ? `${categoryName} added to your Strategic Oversight.`
                         : `${categoryName} removed from Oversight.`
                 );

@@ -38,6 +38,14 @@ interface GlobalRiskMapProps {
 export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
     const [tooltip, setTooltip] = useState<{ x: number; y: number; data: RegionDataInfo } | null>(null);
     const [loadingReports, setLoadingReports] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     const getRegionForCountry = (iso: string) => {
         for (const [region, isos] of Object.entries(REGION_ISO_MAP)) {
@@ -52,6 +60,7 @@ export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
     };
 
     const handleMouseEnter = async (geo: any, event: React.MouseEvent) => {
+        if (isMobile) return;
         const iso = geo.id || (geo.properties && geo.properties.ISO_A3);
         const region = getRegionForCountry(iso);
         const riskScore = getRiskForCountry(iso);
@@ -88,82 +97,117 @@ export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
     };
 
     return (
-        <div className="relative w-full aspect-[16/9] bg-card rounded-2xl border border-border-slate overflow-hidden group shadow-subtle-glow transition-colors duration-300">
-            <div className="absolute top-6 left-6 z-10">
-                <h2 className="text-xl font-black text-foreground tracking-tight uppercase leading-none">
-                    Global Risk Command
+        <div className="relative w-full overflow-hidden bg-card rounded-3xl border border-border-slate group shadow-subtle-glow transition-colors duration-300">
+            {/* Command Header */}
+            <div className="p-6 md:absolute md:top-6 md:left-6 z-10 bg-card/50 backdrop-blur-md md:rounded-2xl md:border md:border-white/5">
+                <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight uppercase leading-none italic">
+                    Global Risk <span className="text-accent-red">Command</span>
                 </h2>
                 <div className="flex items-center space-x-2 mt-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-accent-red animate-ping" />
-                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                    <span className="h-1.5 w-1.5 rounded-full bg-accent-red animate-pulse" />
+                    <p className="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em]">
                         Live Strategic Aggregation // Deep Intelligence
                     </p>
                 </div>
             </div>
 
-            <div className="absolute bottom-6 left-6 z-10 flex space-x-6">
-                <div className="flex items-center space-x-2">
-                    <div className="h-2 w-2 rounded-full bg-accent-green shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
-                    <span className="text-[10px] font-bold text-muted-foreground dark:text-slate-400 uppercase tracking-widest">Low Risk</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                    <div className="h-2 w-2 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.3)]" />
-                    <span className="text-[10px] font-bold text-muted-foreground dark:text-slate-400 uppercase tracking-widest">Medium</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                    <div className="h-2 w-2 rounded-full bg-accent-red shadow-[0_0_8px_rgba(255,75,75,0.4)]" />
-                    <span className="text-[10px] font-bold text-muted-foreground dark:text-slate-400 uppercase tracking-widest">High / Critical</span>
+            {/* Mobile Regional List Fallback */}
+            <div className="lg:hidden p-6 pt-0 space-y-4">
+                <div className="grid grid-cols-1 gap-3">
+                    {Object.keys(REGION_ISO_MAP).filter(r => r !== "GLOBAL").map(region => {
+                        const score = regionData[region] || 10;
+                        return (
+                            <Link
+                                key={region}
+                                href={`/${region.toLowerCase()}/`}
+                                className="flex items-center justify-between p-4 bg-slate-900/40 border border-white/5 rounded-2xl active:scale-95 transition-all"
+                            >
+                                <div className="space-y-1">
+                                    <h3 className="text-xs font-black uppercase tracking-widest text-[#F1F5F9]">{region} Silo</h3>
+                                    <p className="text-[8px] font-bold text-slate-500 uppercase tracking-widest">Tactical Sector Index</p>
+                                </div>
+                                <div className={cn(
+                                    "flex flex-col items-center justify-center h-10 w-12 rounded-xl border border-white/10",
+                                    score > 70 ? "bg-accent-red/20 text-accent-red border-accent-red/30" :
+                                        score > 40 ? "bg-yellow-500/20 text-yellow-500 border-yellow-500/30" :
+                                            "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                                )}>
+                                    <span className="text-xs font-black tracking-tighter">{score}</span>
+                                    <span className="text-[6px] font-black uppercase tracking-widest opacity-60">RISK</span>
+                                </div>
+                            </Link>
+                        );
+                    })}
                 </div>
             </div>
 
-            <ComposableMap
-                projectionConfig={{ scale: 140 }}
-                className="w-full h-full"
-            >
-                <ZoomableGroup center={[0, 0]} zoom={1} minZoom={1} maxZoom={4}>
-                    <Geographies geography={geoUrl}>
-                        {({ geographies }: { geographies: any[] }) =>
-                            geographies.map((geo: any) => {
-                                const iso = geo.id || (geo.properties && geo.properties.ISO_A3);
-                                const riskScore = getRiskForCountry(iso);
+            {/* Map Visualization (Hidden on small mobile, shown on tablet/desktop) */}
+            <div className={cn("relative aspect-[16/9] w-full", isMobile ? "hidden lg:block opacity-40 bg-slate-950/20" : "block")}>
+                <ComposableMap
+                    projectionConfig={{ scale: 140 }}
+                    className="w-full h-full"
+                >
+                    <ZoomableGroup center={[0, 0]} zoom={1} minZoom={1} maxZoom={4}>
+                        <Geographies geography={geoUrl}>
+                            {({ geographies }: { geographies: any[] }) =>
+                                geographies.map((geo: any) => {
+                                    const iso = geo.id || (geo.properties && geo.properties.ISO_A3);
+                                    const riskScore = getRiskForCountry(iso);
 
-                                return (
-                                    <Geography
-                                        key={geo.rsmKey}
-                                        geography={geo}
-                                        onMouseEnter={(e: React.MouseEvent) => handleMouseEnter(geo, e)}
-                                        onMouseLeave={() => setTooltip(null)}
-                                        style={{
-                                            default: {
-                                                fill: riskScore > 10 ? (colorScale(riskScore) as string) : "var(--muted)",
-                                                stroke: "var(--border)",
-                                                strokeWidth: 0.5,
-                                                outline: "none",
-                                                transition: "all 250ms"
-                                            },
-                                            hover: {
-                                                fill: riskScore > 70 ? "#FF4B4B" : riskScore > 40 ? "#EAB308" : "var(--primary)",
-                                                stroke: "var(--primary)",
-                                                strokeWidth: 1,
-                                                outline: "none",
-                                                filter: "drop-shadow(0 0 12px rgba(34, 211, 238, 0.4))",
-                                                cursor: "pointer"
-                                            },
-                                            pressed: {
-                                                fill: "var(--foreground)",
-                                                outline: "none",
-                                            }
-                                        }}
-                                    />
-                                );
-                            })
-                        }
-                    </Geographies>
-                </ZoomableGroup>
-            </ComposableMap>
+                                    return (
+                                        <Geography
+                                            key={geo.rsmKey}
+                                            geography={geo}
+                                            onMouseEnter={(e: React.MouseEvent) => handleMouseEnter(geo, e)}
+                                            onMouseLeave={() => setTooltip(null)}
+                                            style={{
+                                                default: {
+                                                    fill: riskScore > 10 ? (colorScale(riskScore) as string) : "var(--muted)",
+                                                    stroke: "var(--border)",
+                                                    strokeWidth: 0.5,
+                                                    outline: "none",
+                                                    transition: "all 250ms"
+                                                },
+                                                hover: {
+                                                    fill: riskScore > 70 ? "#FF4B4B" : riskScore > 40 ? "#EAB308" : "var(--primary)",
+                                                    stroke: "var(--primary)",
+                                                    strokeWidth: 1,
+                                                    outline: "none",
+                                                    filter: "drop-shadow(0 0 12px rgba(34, 211, 238, 0.4))",
+                                                    cursor: "pointer"
+                                                },
+                                                pressed: {
+                                                    fill: "var(--foreground)",
+                                                    outline: "none",
+                                                }
+                                            }}
+                                        />
+                                    );
+                                })
+                            }
+                        </Geographies>
+                    </ZoomableGroup>
+                </ComposableMap>
+
+                {/* Legend (Visual only) */}
+                <div className="absolute bottom-6 left-6 z-10 hidden md:flex space-x-6">
+                    <div className="flex items-center space-x-2">
+                        <div className="h-2 w-2 rounded-full bg-accent-green shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
+                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Low Risk</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <div className="h-2 w-2 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.3)]" />
+                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Medium</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <div className="h-2 w-2 rounded-full bg-accent-red shadow-[0_0_8_px_rgba(255,75,75,0.4)]" />
+                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Critical</span>
+                    </div>
+                </div>
+            </div>
 
             <AnimatePresence>
-                {tooltip && (
+                {!isMobile && tooltip && (
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9, y: 10 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
