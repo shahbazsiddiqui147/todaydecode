@@ -6,6 +6,8 @@ export function constructMetadata({
     image = "/og-image.png",
     path = "",
     type = "website",
+    riskScore,
+    impactScore,
     noIndex = false
 }: {
     title?: string;
@@ -13,16 +15,25 @@ export function constructMetadata({
     image?: string;
     path?: string;
     type?: "website" | "article" | "profile";
+    riskScore?: number;
+    impactScore?: number;
     noIndex?: boolean;
 } = {}) {
-    // Ensure path is cleaned and has a trailing slash for canonical consistency
+    // Ensure path is cleaned and has a trailing slash for absolute canonical consistency
+    // This adheres to the STRATEGIC_DIRECTIVE for Institutional Authority
     const cleanPath = path.startsWith('/') ? path : `/${path}`;
     const url = `${SITE_URL}${cleanPath.endsWith('/') ? cleanPath : cleanPath + '/'}`;
+
+    // Dynamic Institutional Descriptions for Social Dominance
+    let dynamicDescription = description;
+    if (riskScore !== undefined) {
+        dynamicDescription = `STRATEGIC ASSESSMENT: ${riskScore}/100 RISK // ${description}`;
+    }
 
     return {
         metadataBase: new URL(SITE_URL),
         title: title.includes('|') ? title : `${title} | Today Decode`,
-        description,
+        description: dynamicDescription,
         alternates: {
             canonical: url,
         },
@@ -32,7 +43,7 @@ export function constructMetadata({
         },
         openGraph: {
             title,
-            description,
+            description: dynamicDescription,
             url,
             images: [{ url: image }],
             type: 'website',
@@ -40,7 +51,7 @@ export function constructMetadata({
         twitter: {
             card: "summary_large_image",
             title,
-            description,
+            description: dynamicDescription,
             images: [image],
         },
     };

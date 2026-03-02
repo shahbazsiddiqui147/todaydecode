@@ -56,6 +56,7 @@ async function main() {
             categoryId: security.id,
             authorId: author.id,
             isPremium: true,
+            status: 'PUBLISHED',
         },
         {
             title: "Post-Petrodollar: The UAE's Pivot to AI and Quantum Supremacy",
@@ -68,6 +69,7 @@ async function main() {
             impactScore: 72,
             categoryId: tech.id,
             authorId: author.id,
+            status: 'PUBLISHED',
         },
         {
             title: "Strait of Hormuz: Energy Security and the 2026 Transit Forecast",
@@ -81,6 +83,7 @@ async function main() {
             categoryId: energy.id,
             authorId: author.id,
             isPremium: true,
+            status: 'PUBLISHED',
         }
     ];
 

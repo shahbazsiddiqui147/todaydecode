@@ -48,3 +48,25 @@ export async function fetchShellMetrics() {
         return null;
     }
 }
+
+export async function fetchHighestRiskAlert() {
+    try {
+        return await prisma.article.findFirst({
+            where: {
+                status: "PUBLISHED" as any,
+                riskScore: { gt: 80 }
+            } as any,
+            include: {
+                category: {
+                    select: { slug: true }
+                }
+            },
+            orderBy: {
+                publishedAt: 'desc'
+            }
+        });
+    } catch (error) {
+        console.error("SHELL_FETCH_FAILURE [Highest Risk Alert]:", error);
+        return null;
+    }
+}

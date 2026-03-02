@@ -251,3 +251,26 @@ export const getPageBySlug = cache(async (slug: string) => {
         return null;
     }
 });
+/**
+ * Fetches the latest published article with a riskScore > 80 for the Breaking Alert banner.
+ * Wrapped in React cache for per-request deduplication.
+ */
+export const getHighestRiskAlert = cache(async () => {
+    try {
+        return await prisma.article.findFirst({
+            where: {
+                status: "PUBLISHED" as any,
+                riskScore: { gt: 80 }
+            } as any,
+            include: {
+                category: true
+            },
+            orderBy: {
+                publishedAt: 'desc'
+            }
+        }) as any;
+    } catch (error) {
+        console.error("Critical fetching error [Highest Risk Alert]:", error);
+        return null;
+    }
+});

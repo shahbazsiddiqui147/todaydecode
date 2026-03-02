@@ -17,6 +17,7 @@ import { PaywallGate } from "@/components/monetization/paywall-gate";
 import { notFound, redirect } from "next/navigation";
 import { getPublicArticleBySlug } from "@/lib/actions/public-actions";
 import { cookies } from "next/headers";
+import { AdContainer } from "@/components/monetization/ad-container";
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string; articleSlug: string }> }) {
     const { category, articleSlug } = await params;
@@ -26,8 +27,10 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
 
     return constructMetadata({
         title: `[Strategic Analysis] ${article.title} | Today Decode`,
-        description: article.metaDescription || `Strategic Risk Assessment [${article.riskScore}/100]. Risk Level: ${article.riskLevel}. Impact Score: ${article.impactScore}. Senior analyst-verified report.`,
+        description: article.metaDescription || article.summary.substring(0, 160),
         path: `/${category}/${articleSlug}/`,
+        riskScore: article.riskScore,
+        impactScore: article.impactScore,
     });
 }
 
@@ -216,6 +219,8 @@ export default async function ArticlePage({
                 <aside className="lg:col-span-4 space-y-12">
                     <div className="sticky top-32 space-y-12">
                         <RiskGauge score={article.riskScore} label={`${article.riskLevel} STRATEGIC RISK`} />
+
+                        <AdContainer />
 
                         <div className="p-8 bg-secondary/30 border border-white/5 rounded-3xl space-y-8 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-accent-red/5 blur-[50px]" />

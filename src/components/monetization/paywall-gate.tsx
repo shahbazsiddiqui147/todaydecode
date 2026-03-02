@@ -4,6 +4,7 @@ import React from 'react';
 import { Lock, ShieldCheck, ArrowRight } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 interface PaywallGateProps {
     children: React.ReactNode;
@@ -15,57 +16,66 @@ export function PaywallGate({ children, isPremium = false }: PaywallGateProps) {
 
     if (!isPremium) return <>{children}</>;
 
-    // If user is authenticated and is an analyst/admin, show content
-    if (status === 'authenticated') {
+    // Hardened Role Logic: Only ANALYST or ADMIN tiers can pass
+    const userRole = (session?.user as any)?.role;
+    const hasAccess = status === 'authenticated' && (userRole === 'ANALYST' || userRole === 'ADMIN');
+
+    if (hasAccess) {
         return <>{children}</>;
     }
 
     return (
-        <div className="relative">
+        <div className="relative group/paywall">
             {/* Blurred Preview Content */}
-            <div className="relative pointer-events-none select-none overflow-hidden h-[400px]">
-                <div className="blur-xl opacity-30">
+            <div className="relative pointer-events-none select-none overflow-hidden h-[500px]">
+                <div className="blur-2xl opacity-20 grayscale">
                     {children}
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/80 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/95 to-transparent" />
+
+                {/* Tactical grid overlay over blur */}
+                <div className="absolute inset-0 bg-[url('/grid-light.svg')] opacity-5" />
             </div>
 
             {/* Paywall Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center p-6">
-                <div className="max-w-md w-full bg-slate-900/90 border border-border-slate rounded-2xl p-8 backdrop-blur-md shadow-2xl text-center space-y-6">
-                    <div className="mx-auto w-12 h-12 bg-accent-red/10 rounded-xl flex items-center justify-center mb-4">
-                        <Lock className="h-6 w-6 text-accent-red" />
+            <div className="absolute inset-0 flex items-center justify-center p-6 -mt-20">
+                <div className="max-w-xl w-full bg-secondary/80 border border-white/10 rounded-[2.5rem] p-10 backdrop-blur-3xl shadow-[0_0_100px_rgba(0,0,0,0.5)] text-center space-y-8 relative overflow-hidden">
+                    {/* Urgency background element */}
+                    <div className="absolute -top-24 -right-24 w-48 h-48 bg-accent-red/10 blur-[60px] rounded-full" />
+
+                    <div className="mx-auto w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center mb-4 border border-white/10 relative">
+                        <Lock className="h-7 w-7 text-accent-red" />
                     </div>
 
-                    <div className="space-y-2">
-                        <h3 className="text-xl font-black text-white uppercase tracking-tight">
+                    <div className="space-y-4">
+                        <h3 className="text-3xl font-black text-white uppercase tracking-tighter italic">
                             Institutional Access Required
                         </h3>
-                        <p className="text-sm text-slate-400 leading-relaxed">
-                            This strategic analysis is reserved for premium analysts and institutional partners.
-                            Upgrade your status to unlock full geopolitical intelligence.
+                        <p className="text-sm text-slate-400 leading-relaxed font-medium max-w-sm mx-auto">
+                            This strategic analysis is reserved for authorized advisors and institutional partners.
+                            Upgrade to <span className="text-white font-bold italic">ANALYST TIER</span> to unlock full geopolitical intelligence.
                         </p>
                     </div>
 
-                    <div className="space-y-4 pt-4">
+                    <div className="space-y-5 pt-4">
                         <Link
-                            href="/auth/signin/"
-                            className="flex items-center justify-center space-x-2 w-full bg-accent-red hover:bg-red-600 text-white font-black uppercase text-xs py-4 rounded-xl transition-all shadow-lg shadow-accent-red/20 group"
+                            href="/auth/signup/"
+                            className="flex items-center justify-center space-x-3 w-full bg-accent-red hover:bg-red-600 text-white font-black uppercase text-xs py-5 rounded-2xl transition-all shadow-2xl shadow-accent-red/30 group/btn"
                         >
-                            <span>Unlock Professional Tier</span>
-                            <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                            <span className="tracking-[0.2em]">Join the Advisory</span>
+                            <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                         </Link>
 
-                        <div className="flex items-center justify-center space-x-4">
-                            <div className="flex items-center space-x-1.5 grayscale opacity-50">
-                                <ShieldCheck className="h-3.5 w-3.5" />
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-white">Bank-Grade Security</span>
+                        <div className="flex items-center justify-center space-x-6 text-slate-500">
+                            <div className="flex items-center space-x-2">
+                                <ShieldCheck className="h-3.5 w-3.5 opacity-50 text-accent-green" />
+                                <span className="text-[10px] font-bold uppercase tracking-widest">Sovereign Encryption</span>
                             </div>
                         </div>
                     </div>
 
-                    <p className="text-[10px] text-slate-500 font-medium">
-                        Already have professional access? <Link href="/auth/signin/" className="text-white hover:underline">Sign in here</Link>
+                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest pt-4 border-t border-white/5">
+                        Existing Credential? <Link href="/auth/signin/" className="text-white hover:text-accent-red transition-colors underline decoration-accent-red/50 underline-offset-4">Sign in here</Link>
                     </p>
                 </div>
             </div>

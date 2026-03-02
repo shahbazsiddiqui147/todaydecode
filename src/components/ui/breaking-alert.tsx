@@ -1,37 +1,26 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertTriangle, ChevronRight, X } from 'lucide-react';
 import Link from 'next/link';
 
 interface AlertData {
     title: string;
-    category: string;
+    category: {
+        slug: string;
+    };
     slug: string;
     riskScore: number;
 }
 
-export function BreakingAlert() {
-    const [alert, setAlert] = useState<AlertData | null>(null);
+export function BreakingAlert({ initialAlert }: { initialAlert?: AlertData | null }) {
     const [isVisible, setIsVisible] = useState(true);
 
-    useEffect(() => {
-        // Mock fetching highest risk article
-        // In production, this would be a call to /api/intel/highest-risk
-        const mockHighestRisk = {
-            title: "Sudden Volatility in Brent Crude Corridor",
-            category: "Economy",
-            slug: "brent-crude-volatility-alert",
-            riskScore: 92,
-        };
+    if (!initialAlert || !isVisible) return null;
 
-        if (mockHighestRisk.riskScore > 80) {
-            setAlert(mockHighestRisk);
-        }
-    }, []);
-
-    if (!alert || !isVisible) return null;
+    const categorySlug = initialAlert.category.slug.replace(/^\/|\/$/g, '');
+    const articleHref = `/${categorySlug}/${initialAlert.slug}/`;
 
     return (
         <AnimatePresence>
@@ -41,9 +30,16 @@ export function BreakingAlert() {
                 exit={{ height: 0, opacity: 0 }}
                 className="relative bg-accent-red text-white z-[100] overflow-hidden"
             >
+                {/* Tactical Pulse Effect */}
+                <motion.div
+                    animate={{ opacity: [0.1, 0.3, 0.1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute inset-0 bg-white"
+                />
+
                 <div className="absolute inset-0 bg-[url('/grid-light.svg')] opacity-10" />
 
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between relative">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between relative z-10">
                     <div className="flex items-center space-x-4">
                         <motion.div
                             animate={{ scale: [1, 1.2, 1] }}
@@ -54,21 +50,21 @@ export function BreakingAlert() {
                         </motion.div>
 
                         <div className="flex items-center space-x-2 text-[10px] sm:text-xs">
-                            <span className="font-black uppercase tracking-widest whitespace-nowrap">
-                                Critical Alert [{alert.riskScore}/100]:
+                            <span className="font-black uppercase tracking-[0.2em] whitespace-nowrap">
+                                Breaking Analysis [{initialAlert.riskScore}/100 Risk]:
                             </span>
-                            <span className="font-medium opacity-90 truncate max-w-[200px] sm:max-w-md">
-                                {alert.title}
+                            <span className="font-bold opacity-100 truncate max-w-[180px] sm:max-w-md uppercase tracking-tight italic">
+                                {initialAlert.title}
                             </span>
                         </div>
                     </div>
 
                     <div className="flex items-center space-x-4">
                         <Link
-                            href={`/${alert.category.toLowerCase()}/${alert.slug}/`}
-                            className="flex items-center space-x-1 text-[10px] font-black uppercase tracking-widest bg-white/10 hover:bg-white/20 px-3 py-1 rounded transition-colors"
+                            href={articleHref}
+                            className="flex items-center space-x-1 text-[10px] font-black uppercase tracking-widest bg-white text-accent-red hover:bg-slate-100 px-4 py-1.5 rounded-lg transition-all shadow-xl shadow-black/20"
                         >
-                            <span>View Brief</span>
+                            <span>Access Brief</span>
                             <ChevronRight className="h-3 w-3" />
                         </Link>
 
@@ -81,12 +77,12 @@ export function BreakingAlert() {
                     </div>
                 </div>
 
-                {/* Pulsing progress line at bottom */}
+                {/* Tactical scanner line */}
                 <motion.div
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: 0.5 }}
-                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/30 origin-left"
+                    initial={{ x: '-100%' }}
+                    animate={{ x: '100%' }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                    className="absolute bottom-0 h-[1px] w-full bg-gradient-to-r from-transparent via-white/50 to-transparent"
                 />
             </motion.div>
         </AnimatePresence>

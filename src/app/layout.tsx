@@ -7,7 +7,7 @@ import { constructMetadata } from "@/lib/seo";
 import { ClientLayout } from "@/components/layout/client-layout";
 import { Suspense } from "react";
 import { PreviewBanner } from "@/components/ui/PreviewBanner";
-import { fetchShellCategories, fetchShellMetrics } from "@/lib/fetchers";
+import { fetchShellCategories, fetchShellMetrics, fetchHighestRiskAlert } from "@/lib/fetchers";
 
 import { Footer } from "@/components/layout/footer";
 
@@ -28,9 +28,10 @@ export const metadata = constructMetadata({
 });
 
 async function ShellDataWrapper({ children, isMaintenanceMode }: { children: React.ReactNode, isMaintenanceMode: boolean }) {
-  const [categories, metrics] = await Promise.all([
+  const [categories, metrics, highestRiskAlert] = await Promise.all([
     fetchShellCategories(),
-    fetchShellMetrics()
+    fetchShellMetrics(),
+    fetchHighestRiskAlert()
   ]);
 
   return (
@@ -38,6 +39,7 @@ async function ShellDataWrapper({ children, isMaintenanceMode }: { children: Rea
       isMaintenanceMode={isMaintenanceMode}
       initialCategories={categories}
       initialMetrics={metrics}
+      initialAlert={highestRiskAlert as any}
       footer={<Footer />}
     >
       {children}

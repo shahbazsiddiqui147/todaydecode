@@ -1,46 +1,56 @@
 "use client";
 
 import React from 'react';
+import { ExternalLink, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface AdContainerProps {
-    slot: string;
-    format?: 'auto' | 'fluid' | 'rectangle';
     className?: string;
+    label?: string;
 }
 
-/**
- * Non-intrusive, professional Ad container for Institutional tiers.
- * Compliant with Google AdSense standards.
- */
-export function AdContainer({ slot, format = 'auto', className }: AdContainerProps) {
+export function AdContainer({
+    className,
+    label = "PROMOTED ADVISORY"
+}: AdContainerProps) {
     return (
         <div className={cn(
-            "relative bg-slate-900/40 border border-border-slate/50 rounded-xl overflow-hidden py-8 px-4 text-center group transition-all hover:border-border-slate",
+            "group relative p-8 rounded-3xl bg-secondary/20 border border-white/5 overflow-hidden transition-all hover:border-white/10",
             className
         )}>
-            <div className="absolute top-2 left-1/2 -translate-x-1/2">
-                <span className="text-[8px] font-bold text-slate-600 uppercase tracking-widest">
-                    Institutional Sponsor
-                </span>
+            {/* Tactical Branding */}
+            <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+                <div className="flex items-center space-x-2">
+                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 italic">
+                        {label}
+                    </span>
+                    <Info className="h-3 w-3 text-slate-600" />
+                </div>
+                <div className="h-1.5 w-1.5 rounded-full bg-slate-800" />
             </div>
 
-            {/* Ad Placeholder / Script Injector */}
-            <div className="min-h-[100px] flex items-center justify-center">
-                <div className="space-y-2">
-                    <div className="h-4 w-48 bg-slate-800 rounded animate-pulse mx-auto" />
-                    <div className="h-3 w-32 bg-slate-800/50 rounded animate-pulse mx-auto" />
+            {/* Placeholder for actual Ad Script (AdSense/Carbon) */}
+            <div className="flex flex-col items-center justify-center min-h-[250px] space-y-4 border border-dashed border-white/5 rounded-2xl bg-black/10">
+                <div className="p-3 bg-white/5 rounded-full">
+                    <ExternalLink className="h-5 w-5 text-slate-500 opacity-50" />
+                </div>
+                <div className="text-center space-y-1">
+                    <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">
+                        External Resource Pending
+                    </p>
+                    <p className="text-[9px] text-slate-700 font-medium uppercase italic">
+                        Strategic Partner Integration Node
+                    </p>
                 </div>
             </div>
 
-            <div className="mt-4 pt-4 border-t border-border-slate/30">
-                <button className="text-[9px] font-bold text-slate-500 uppercase tracking-widest hover:text-white transition-colors">
-                    About Today Decode Partnerships
-                </button>
+            {/* Micro-label at bottom */}
+            <div className="mt-4 text-[8px] text-slate-700 font-bold uppercase tracking-tighter text-right">
+                Institutional Partner Tier // v0.1
             </div>
 
-            {/* Analytics Hook */}
-            <div className="hidden" data-ad-slot={slot} data-ad-format={format} />
+            {/* Animated grain/noise overlay for texture */}
+            <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[url('/noise.png')] mix-blend-soft-light" />
         </div>
     );
 }
