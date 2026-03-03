@@ -69,12 +69,12 @@ export function AnalysisCard({
                     </h3>
                 </div>
 
-                <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+                <div className="mt-auto pt-6 border-t border-border flex items-center justify-between">
                     <span className="text-[10px] text-muted-foreground font-black uppercase tracking-[0.15em]">
-                        STRATEGIC ANALYSIS
+                        RESEARCH ASSESSMENT
                     </span>
-                    <span className="text-[10px] text-muted-foreground/60 font-bold uppercase tracking-tighter">
-                        12 MIN READ
+                    <span className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-tighter">
+                        Archive No. 2026-{id.substring(0, 4).toUpperCase()}
                     </span>
                 </div>
             </div>

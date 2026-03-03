@@ -43,7 +43,13 @@ To prevent theme regressions, the following tokens are non-negotiable:
 - Borders: #E2E8F0
 - Primary Text: #0F172A (Deep Ink)
 
-### 2.2. THE ZERO-BLEED THEME POLICY (HARDENED)
+### 2.3. INSTITUTIONAL MINIMALISM (CFR STANDARDS)
+- **Component Purge:** Avoid radial gauges, "System Active" indicators, and tactical status badges on category pages.
+- **Linguistic Cleanliness:** Forbidden terms: "Manifests," "Verified Integrity," "Intel Reports," "Operational Scale."
+- **Layout Focus:** Prioritize Title -> Description -> List of Reports.
+- **Strategic Indicators:** Display the Risk Score as a text-based metric (e.g., Risk Rating: 72) rather than a circular gauge.
+
+### 2.4. THE ZERO-BLEED THEME POLICY (HARDENED)
 - **Dark Mode Purity:** All sections must use #0A0F1E (Base) or #111827 (Surface). Any #FFFFFF (White) in dark mode is a critical error.
 - **Light Mode Purity:** All sections must transition to #F8FAFC (Paper) or #FFFFFF (White). No dark navy blocks are permitted unless they are high-contrast primary buttons.
 - **Contrast Ratios:**

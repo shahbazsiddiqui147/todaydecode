@@ -70,19 +70,19 @@ export function FollowSiloButton({ categoryId, categoryName }: FollowSiloButtonP
         <Button
             onClick={handleToggle}
             disabled={isPending}
-            variant={following ? "outline" : "default"}
+            variant="outline"
             className={cn(
-                "h-10 px-6 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                "h-10 px-6 rounded-sm text-[10px] font-black uppercase tracking-widest transition-all",
                 following
-                    ? "border-accent-green/30 bg-accent-green/5 text-accent-green hover:bg-accent-green/10"
-                    : "bg-white text-[#0A0F1E] hover:bg-slate-200"
+                    ? "border-accent-green text-accent-green bg-transparent hover:bg-accent-green/5"
+                    : "border-foreground text-foreground bg-transparent hover:bg-foreground hover:text-background"
             )}
         >
             {isPending ? (
                 "Syncing..."
             ) : following ? (
                 <span className="flex items-center gap-2">
-                    <CheckCircle className="h-3.5 w-3.5" /> Following Desk
+                    <CheckCircle className="h-3.5 w-3.5" /> Following
                 </span>
             ) : (
                 <span className="flex items-center gap-2">
