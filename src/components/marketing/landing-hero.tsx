@@ -1,4 +1,4 @@
-import { ShieldCheck, Globe, Zap, Cpu, ChevronRight } from "lucide-react";
+import { ShieldCheck, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { GlobalRiskMap } from "@/components/maps/global-risk-map";
@@ -16,52 +16,50 @@ export function LandingHero({ regionData = {} }: LandingHeroProps) {
                 <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
             </div>
 
-            {/* Immersive Map Backdrop */}
-            <div className="absolute inset-0 z-0 flex items-center justify-center opacity-40 dark:opacity-30 fade-in duration-1000 mt-20">
-                <div className="w-[200%] md:w-[150%] lg:w-[120%] scale-150 lg:scale-125 xl:scale-110">
-                    <GlobalRiskMap regionData={regionData} isBackdrop />
+            <div className="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 xl:grid-cols-2 gap-16 items-center w-full">
+                {/* Left Column: Text */}
+                <div className="flex flex-col space-y-10 animate-in fade-in slide-in-from-left-8 duration-1000">
+                    <div className="flex items-center space-x-3 w-fit px-4 py-2 rounded-full border border-border bg-card/60 backdrop-blur-md shadow-2xl">
+                        <ShieldCheck className="h-4 w-4 text-accent-red" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-foreground">
+                            Institutional Strategic Advisory <span className="text-muted-foreground italic">v4.0</span>
+                        </span>
+                    </div>
+
+                    <div className="space-y-6">
+                        <h1 className="text-6xl md:text-8xl font-black text-foreground uppercase tracking-tighter leading-[0.85] italic">
+                            Tomorrow's Risks <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground to-accent-red">Decoded Today</span>
+                        </h1>
+                        <p className="text-foreground text-xl md:text-2xl font-black uppercase tracking-widest leading-relaxed">
+                            GLOBAL STRATEGIC ASSESSMENT <br className="hidden md:block" />
+                            <span className="text-muted-foreground">// INSTITUTIONAL RISK ARCHIVE</span>
+                        </p>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-start gap-6 pt-4">
+                        <Link href="/auth/signup/">
+                            <Button size="lg" className="h-14 px-10 text-sm font-black uppercase tracking-widest bg-foreground text-background hover:bg-muted-foreground rounded-2xl shadow-2xl cursor-pointer">
+                                Join The Archive <ChevronRight className="h-4 w-4 ml-2" />
+                            </Button>
+                        </Link>
+                        <Link href="/geopolitics/">
+                            <Button size="lg" variant="outline" className="h-14 px-10 text-sm font-black uppercase tracking-widest border-border bg-background/50 backdrop-blur-sm hover:bg-secondary rounded-2xl cursor-pointer">
+                                Personnel Entry
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
-            </div>
 
-            {/* Background gradient overlays to blend map edges and increase text readability */}
-            <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/80 via-transparent to-background" />
-
-            <div className="relative z-10 max-w-7xl mx-auto px-6 text-center flex flex-col items-center space-y-10 mt-10 pointer-events-none">
-                <div className="pointer-events-auto flex items-center space-x-3 w-fit px-4 py-2 rounded-full border border-border bg-card/60 backdrop-blur-md shadow-2xl animate-in fade-in slide-in-from-top-4 duration-1000">
-                    <ShieldCheck className="h-4 w-4 text-accent-red" />
-                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-foreground">
-                        Institutional Strategic Advisory <span className="text-muted-foreground italic">v4.0 Operational</span>
-                    </span>
+                {/* Right Column: Map */}
+                <div className="relative w-full aspect-[4/3] md:aspect-video xl:aspect-square animate-in fade-in slide-in-from-right-8 duration-1000 delay-300">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-full h-full scale-100 xl:scale-110">
+                            <GlobalRiskMap regionData={regionData} />
+                        </div>
+                    </div>
                 </div>
 
-                <div className="space-y-6 max-w-5xl pointer-events-auto">
-                    <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-foreground uppercase tracking-tighter leading-[0.85] italic animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-200">
-                        Tomorrow's Risks <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground to-accent-red">Decoded Today</span>
-                    </h1>
-                    <p className="text-foreground text-xl md:text-2xl font-black uppercase tracking-widest leading-relaxed drop-shadow-md animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
-                        GLOBAL STRATEGIC ASSESSMENT // INSTITUTIONAL RISK ARCHIVE
-                    </p>
-                </div>
-
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8 animate-in fade-in scale-in-95 duration-1000 delay-500 pointer-events-auto">
-                    <Link href="/auth/signup/">
-                        <Button size="lg" className="h-14 px-10 text-sm font-black uppercase tracking-widest bg-foreground text-background hover:bg-muted-foreground rounded-2xl shadow-2xl">
-                            Join The Archive
-                        </Button>
-                    </Link>
-                    <Link href="/geopolitics/">
-                        <Button size="lg" variant="outline" className="h-14 px-10 text-sm font-black uppercase tracking-widest border-border bg-background/50 backdrop-blur-sm hover:bg-secondary rounded-2xl">
-                            Personnel Entry
-                        </Button>
-                    </Link>
-                </div>
-            </div>
-
-            {/* Global Risk Index Summary */}
-            <div className="absolute bottom-10 right-10 z-20 bg-accent-red p-6 rounded-3xl border-4 border-background shadow-2xl animate-in slide-in-from-right-10 duration-1000 delay-700 hidden xl:flex flex-col items-center">
-                <span className="text-[10px] font-black text-white/80 uppercase tracking-widest">Global Risk Index</span>
-                <span className="text-4xl font-black text-white italic tracking-tighter tabular-nums">+72.4</span>
             </div>
         </section>
     );
