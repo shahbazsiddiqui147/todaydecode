@@ -79,7 +79,7 @@ export default function SettingsPage() {
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#1E293B] dark:border-[#1E293B]">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#0F172A] dark:text-[#22D3EE] italic pb-1">Platform <span className="text-[#64748B] dark:text-[#F1F5F9] not-italic">Parameters</span></h1>
+                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#0891B2] dark:text-[#22D3EE] italic pb-1">Platform <span className="text-[#0F172A] dark:text-[#F1F5F9] not-italic">Parameters</span></h1>
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Configure global institutional sovereignty settings.</p>
                 </div>
                 <Button
@@ -162,7 +162,7 @@ export default function SettingsPage() {
                     <div className="bg-[#111827] border border-[#1E293B] p-8 rounded-[2rem] shadow-sm space-y-8">
                         <div className="flex items-center gap-3 border-b border-[#1E293B] pb-6">
                             <Globe className="h-4 w-4 text-[#22D3EE]" />
-                            <h2 className="text-xs font-black uppercase tracking-widest italic text-white">Interface State</h2>
+                            <h2 className="text-xs font-black uppercase tracking-widest italic text-[#F1F5F9]">Interface State</h2>
                         </div>
 
                         <button

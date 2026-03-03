@@ -134,7 +134,7 @@ export default function AuthorsPage() {
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#1E293B]">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#0F172A] dark:text-[#22D3EE] italic">Analyst <span className="text-[#64748B] dark:text-[#F1F5F9] not-italic">Roster</span></h1>
+                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#0891B2] dark:text-[#22D3EE] italic">Analyst <span className="text-[#0F172A] dark:text-[#F1F5F9] not-italic">Roster</span></h1>
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Managing institutional advisor profiles and strategic expertise.</p>
                 </div>
                 <Button onClick={() => { setEditingAuthor(null); setFormData({ name: "", slug: "", role: "", bio: "", image: "", expertise: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-xl bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] border-none hover:bg-black dark:hover:bg-white/90">
@@ -191,7 +191,7 @@ export default function AuthorsPage() {
                                             {author.image ? <img src={author.image} alt="" className="h-full w-full object-cover" /> : <span className="text-white font-black italic uppercase text-xs">{(author.name || "A").charAt(0)}</span>}
                                         </div>
                                         <div className="space-y-0.5">
-                                            <div className="text-sm font-black text-foreground uppercase tracking-tight">{author.name}</div>
+                                            <div className="text-sm font-black text-[#0F172A] dark:text-[#F1F5F9] uppercase tracking-tight">{author.name}</div>
                                             <div className="text-[10px] font-mono text-muted-foreground/60 lowercase">{author.slug}</div>
                                         </div>
                                     </div>

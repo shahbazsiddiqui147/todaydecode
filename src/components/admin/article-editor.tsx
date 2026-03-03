@@ -176,7 +176,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                     </Link>
                     <div>
                         <div className="flex items-center gap-2 mb-1">
-                            <Badge className="bg-primary/10 text-primary border-primary/20 text-[10px] font-black uppercase tracking-widest px-2 py-0">
+                            <Badge className="bg-cyan-500/10 text-[#0891B2] dark:text-[#22D3EE] border-cyan-500/20 text-[10px] font-black uppercase tracking-widest px-2 py-0">
                                 {article ? "Operational Update" : "Nodal Initialization"}
                             </Badge>
                             <span className="text-[10px] text-muted-foreground font-black uppercase tracking-widest opacity-40 italic">#WarRoomProtocol</span>
@@ -238,8 +238,8 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 className={cn(
                                     "flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border-b-2",
                                     activeTab === tab.id
-                                        ? "bg-background text-cyan-400 border-cyan-400 shadow-sm"
-                                        : "text-muted-foreground border-transparent hover:text-foreground hover:bg-muted/50"
+                                        ? "bg-white dark:bg-[#020617] text-[#0891B2] dark:text-[#22D3EE] border-[#0891B2] dark:border-[#22D3EE] shadow-sm"
+                                        : "text-[#64748B] dark:text-[#94A3B8] border-transparent hover:text-foreground hover:bg-muted/50"
                                 )}
                             >
                                 <tab.icon className="h-3.5 w-3.5" />
@@ -474,8 +474,8 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                 <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
                     {/* Analyst Profile */}
                     <div className="bg-[#111827] dark:bg-[#111827] border border-[#1E293B] dark:border-[#1E293B] rounded-3xl p-6 shadow-sm space-y-6">
-                        <div className="flex items-center gap-2 border-b border-[#1E293B] pb-4 text-[#CBD5E1]">
-                            <Shield className="h-4 w-4 text-cyan-400" />
+                        <div className="flex items-center gap-2 border-b border-[#1E293B] pb-4 text-[#F1F5F9]">
+                            <Shield className="h-4 w-4 text-[#22D3EE]" />
                             <h2 className="text-[11px] font-black uppercase tracking-widest italic">Institutional Attribution</h2>
                         </div>
 
@@ -526,8 +526,8 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                     {/* Tactical Volatility (Sliders) */}
                     <div className="bg-slate-900 dark:bg-slate-950 text-white rounded-3xl p-6 shadow-2xl border border-white/5 space-y-8 relative overflow-hidden">
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 via-orange-500 to-red-500 opacity-50" />
-                        <div className="flex items-center gap-2 border-b border-white/10 pb-4">
-                            <Activity className="h-4 w-4 text-emerald-400" />
+                        <div className="flex items-center gap-2 border-b border-white/10 pb-4 text-[#F1F5F9]">
+                            <Activity className="h-4 w-4 text-[#22D3EE]" />
                             <h2 className="text-[11px] font-black uppercase tracking-widest italic">Operational Metrics</h2>
                         </div>
 

@@ -69,12 +69,14 @@ export function Sidebar() {
         <aside className="w-64 h-screen sticky top-0 bg-sidebar border-r border-border flex flex-col transition-colors duration-300 overflow-y-auto">
             <div className="p-6 border-b border-border mb-4 bg-sidebar">
                 <div className="flex items-center space-x-2.5">
-                    <div className="bg-primary p-1.5 rounded-lg">
-                        <ShieldCheck className="h-5 w-5 text-primary-foreground" />
+                    <div className="flex items-center space-x-3">
+                        <div className="border border-border dark:border-[#1E293B] p-2 rounded-xl bg-white dark:bg-[#0F172A] shadow-sm">
+                            <ShieldCheck className="h-5 w-5 text-[#0891B2] dark:text-[#22D3EE]" />
+                        </div>
+                        <span className="font-black uppercase tracking-tighter text-base text-[#0891B2] dark:text-[#22D3EE] italic leading-none">
+                            Strategic <span className="text-[#0F172A] dark:text-[#F1F5F9] not-italic">Hub</span>
+                        </span>
                     </div>
-                    <span className="font-bold tracking-tight text-lg text-[#0F172A] dark:text-[#94A3B8]">
-                        STRATEGIC <span className="text-muted-foreground dark:text-[#F1F5F9] font-medium uppercase">Overview</span>
-                    </span>
                 </div>
             </div>
 

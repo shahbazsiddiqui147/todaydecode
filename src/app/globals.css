@@ -104,11 +104,11 @@ footer {
 }
 
 .prose h1 {
-  @apply text-4xl font-black uppercase italic tracking-tighter mb-6 mt-8;
+  @apply text-4xl font-black uppercase italic tracking-tighter mb-6 mt-8 text-foreground;
 }
 
 .prose h2 {
-  @apply text-2xl font-black uppercase italic tracking-tighter mb-4 mt-6;
+  @apply text-2xl font-black uppercase italic tracking-tighter mb-4 mt-6 text-foreground/90;
 }
 
 .prose h3 {

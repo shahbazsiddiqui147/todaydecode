@@ -74,7 +74,7 @@ export default function ContributorsAdminPage() {
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#1E293B] dark:border-[#1E293B]">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#0F172A] dark:text-[#22D3EE] italic pb-1">Strategic <span className="text-[#64748B] dark:text-[#F1F5F9] not-italic">Contributors</span></h1>
+                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#0891B2] dark:text-[#22D3EE] italic pb-1">Strategic <span className="text-[#0F172A] dark:text-[#F1F5F9] not-italic">Contributors</span></h1>
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Manage external analysts and guest researchers.</p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -130,7 +130,7 @@ export default function ContributorsAdminPage() {
                                                 {user.image ? <img src={user.image} className="h-full w-full object-cover rounded-xl" /> : (user.name || user.email || "?").charAt(0)}
                                             </div>
                                             <div className="space-y-0.5">
-                                                <p className="text-sm font-black uppercase tracking-tight text-foreground">{user.name || "Unidentified Applicant"}</p>
+                                                <p className="text-sm font-black uppercase tracking-tight text-[#0F172A] dark:text-[#F1F5F9]">{user.name || "Unidentified Applicant"}</p>
                                                 <p className="text-[10px] font-mono text-muted-foreground/60 flex items-center gap-1.5"><Mail className="h-3 w-3" /> {user.email}</p>
                                             </div>
                                         </div>

@@ -57,6 +57,7 @@ To prevent theme regressions, the following tokens are non-negotiable:
 
 ### 2.1. THE SOVEREIGN UI CONTRAST STANDARD (HARDENED)
 - **No Ghost UI:** All interactive elements (Inputs, Selects, Modals) must have a clearly defined 1px border. 
+- **No Block Highlights:** Headers must never use background color blocks behind text. Use two-tone typography for emphasis to ensure 100% readability in both themes.
 - **Light Mode Labels:** Primary labels must use #1E293B (Slate-800) or #0F172A (Ink) for absolute readability.
 - **Input Surfaces:**
   - **Light Mode:** White background (#FFFFFF), #CBD5E1 borders, and #0F172A text.
