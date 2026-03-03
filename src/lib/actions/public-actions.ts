@@ -265,3 +265,17 @@ export const getHighestRiskAlert = cache(async () => {
         return null;
     }
 });
+
+/**
+ * Fetches institutional metrics for a specific country by ISO-A3 code.
+ */
+export const getCountryMetric = cache(async (countryCode: string) => {
+    try {
+        return await prisma.countryMetric.findUnique({
+            where: { countryCode }
+        });
+    } catch (error) {
+        console.error("Critical fetching error [Country Metric]:", error);
+        return null;
+    }
+});

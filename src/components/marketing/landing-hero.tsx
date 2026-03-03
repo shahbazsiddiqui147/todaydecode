@@ -19,21 +19,13 @@ export function LandingHero({ regionData = {} }: LandingHeroProps) {
             <div className="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 xl:grid-cols-2 gap-16 items-center w-full min-h-[60vh]">
                 {/* Left Column: Text */}
                 <div className="flex flex-col space-y-10 animate-in fade-in slide-in-from-left-8 duration-1000 z-20">
-                    <div className="flex items-center space-x-3 w-fit px-4 py-2 rounded-full border border-border bg-card/60 backdrop-blur-md shadow-2xl">
-                        <ShieldCheck className="h-4 w-4 text-accent-red" />
-                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-foreground">
-                            Institutional Strategic Advisory <span className="text-muted-foreground italic">v1.0 LIVE</span>
-                        </span>
-                    </div>
-
                     <div className="space-y-6">
-                        <h1 className="text-6xl md:text-8xl font-black text-foreground uppercase tracking-tighter leading-[0.85] italic">
+                        <h1 className="text-5xl md:text-6xl font-black text-foreground uppercase tracking-tighter leading-[0.85] italic">
                             Tomorrow's Risks <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground to-accent-red">Decoded Today</span>
                         </h1>
-                        <p className="text-foreground text-xl md:text-2xl font-black uppercase tracking-widest leading-relaxed">
-                            GLOBAL STRATEGIC ASSESSMENT <br className="hidden md:block" />
-                            <span className="text-muted-foreground">// INSTITUTIONAL RISK ARCHIVE</span>
+                        <p className="text-foreground text-lg md:text-xl font-black uppercase tracking-widest leading-relaxed">
+                            Global Strategic Assessment
                         </p>
                     </div>
 
@@ -52,9 +44,9 @@ export function LandingHero({ regionData = {} }: LandingHeroProps) {
                 </div>
 
                 {/* Right Column: Huge Map */}
-                <div className="relative w-full aspect-square md:aspect-video xl:aspect-square animate-in fade-in slide-in-from-right-8 duration-1000 delay-300 pointer-events-none xl:pointer-events-auto">
+                <div className="relative w-full aspect-square md:aspect-video xl:aspect-square animate-in fade-in slide-in-from-right-8 duration-1000 delay-300 xl:pointer-events-auto">
                     <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-[120%] h-[120%] xl:w-[150%] xl:h-[150%] xl:-mr-40 opacity-40 xl:opacity-100">
+                        <div className="w-[140%] h-[140%] xl:w-[180%] xl:h-[180%] xl:-mr-60 opacity-40 xl:opacity-100">
                             <GlobalRiskMap regionData={regionData} isBackdrop />
                         </div>
                     </div>

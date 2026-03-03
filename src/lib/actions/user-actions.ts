@@ -118,23 +118,47 @@ export async function isFollowingSilo(categoryId: string) {
 }
 
 /**
- * Checks if the current user has bookmarked a specific article.
+ * Saves or updates a country's institutional metrics.
  */
-export async function isBookmarkedArticle(articleId: string) {
+export async function saveCountryMetric(data: {
+    countryCode: string;
+    countryName: string;
+    literacy: string;
+    economy: string;
+    energy: string;
+    army: string;
+}) {
     const session = await getServerSession(authOptions);
-    const user = session?.user as { id?: string } | undefined;
-    if (!user?.id) return false;
+    const user = session?.user as any;
 
-    const userId = user.id;
+    if (user?.role !== 'ADMIN') {
+        return { error: "Institutional authority required for metric submission." };
+    }
 
-    const bookmark = await prisma.savedAnalysis.findUnique({
-        where: {
-            userId_articleId: {
-                userId,
-                articleId
+    try {
+        await prisma.countryMetric.upsert({
+            where: { countryCode: data.countryCode },
+            update: {
+                literacy: data.literacy,
+                economy: data.economy,
+                energy: data.energy,
+                army: data.army,
+                countryName: data.countryName
+            },
+            create: {
+                countryCode: data.countryCode,
+                countryName: data.countryName,
+                literacy: data.literacy,
+                economy: data.economy,
+                energy: data.energy,
+                army: data.army
             }
-        }
-    });
+        });
 
-    return !!bookmark;
+        revalidatePath('/');
+        return { success: true };
+    } catch (error) {
+        console.error("Metric Save Failure:", error);
+        return { error: "Failed to authorize metrics. Matrix link error." };
+    }
 }

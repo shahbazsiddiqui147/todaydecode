@@ -214,3 +214,14 @@ model NavigationItem {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model CountryMetric {
+  id          String   @id @default(cuid())
+  countryCode String   @unique // ISO-A3
+  countryName String
+  literacy    String?  // e.g. "98%"
+  economy     String?  // e.g. "GDP $2.5T / +1.2%"
+  energy      String?  // e.g. "72% Nuclear / 28% Fossil"
+  army        String?  // e.g. "Active: 1.2M / Reserve: 2M"
+  updatedAt   DateTime @updatedAt
+}
