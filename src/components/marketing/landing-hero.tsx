@@ -16,13 +16,13 @@ export function LandingHero({ regionData = {} }: LandingHeroProps) {
                 <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
             </div>
 
-            <div className="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 xl:grid-cols-2 gap-16 items-center w-full">
+            <div className="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 xl:grid-cols-2 gap-16 items-center w-full min-h-[60vh]">
                 {/* Left Column: Text */}
-                <div className="flex flex-col space-y-10 animate-in fade-in slide-in-from-left-8 duration-1000">
+                <div className="flex flex-col space-y-10 animate-in fade-in slide-in-from-left-8 duration-1000 z-20">
                     <div className="flex items-center space-x-3 w-fit px-4 py-2 rounded-full border border-border bg-card/60 backdrop-blur-md shadow-2xl">
                         <ShieldCheck className="h-4 w-4 text-accent-red" />
                         <span className="text-[10px] font-black uppercase tracking-[0.3em] text-foreground">
-                            Institutional Strategic Advisory <span className="text-muted-foreground italic">v4.0</span>
+                            Institutional Strategic Advisory <span className="text-muted-foreground italic">v1.0 LIVE</span>
                         </span>
                     </div>
 
@@ -43,7 +43,7 @@ export function LandingHero({ regionData = {} }: LandingHeroProps) {
                                 Join The Archive <ChevronRight className="h-4 w-4 ml-2" />
                             </Button>
                         </Link>
-                        <Link href="/geopolitics/">
+                        <Link href="/strategic-archive/">
                             <Button size="lg" variant="outline" className="h-14 px-10 text-sm font-black uppercase tracking-widest border-border bg-background/50 backdrop-blur-sm hover:bg-secondary rounded-2xl cursor-pointer">
                                 Personnel Entry
                             </Button>
@@ -51,11 +51,11 @@ export function LandingHero({ regionData = {} }: LandingHeroProps) {
                     </div>
                 </div>
 
-                {/* Right Column: Map */}
-                <div className="relative w-full aspect-[4/3] md:aspect-video xl:aspect-square animate-in fade-in slide-in-from-right-8 duration-1000 delay-300">
+                {/* Right Column: Huge Map */}
+                <div className="relative w-full aspect-square md:aspect-video xl:aspect-square animate-in fade-in slide-in-from-right-8 duration-1000 delay-300 pointer-events-none xl:pointer-events-auto">
                     <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-full h-full scale-100 xl:scale-110">
-                            <GlobalRiskMap regionData={regionData} />
+                        <div className="w-[120%] h-[120%] xl:w-[150%] xl:h-[150%] xl:-mr-40 opacity-40 xl:opacity-100">
+                            <GlobalRiskMap regionData={regionData} isBackdrop />
                         </div>
                     </div>
                 </div>

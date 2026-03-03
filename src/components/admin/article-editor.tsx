@@ -472,7 +472,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
 
                 {/* Right Column: Tactical Sidebar */}
                 <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
-                    {/* Identity Nexus */}
+                    {/* Analyst Profile */}
                     <div className="bg-[#111827] dark:bg-[#111827] border border-[#1E293B] dark:border-[#1E293B] rounded-3xl p-6 shadow-sm space-y-6">
                         <div className="flex items-center gap-2 border-b border-[#1E293B] pb-4 text-[#CBD5E1]">
                             <Shield className="h-4 w-4 text-cyan-400" />

@@ -78,7 +78,7 @@ export default async function RootLayout({
                 </span>
               </div>
             }>
-              <ShellDataWrapper isMaintenanceMode={isMaintenanceMode}>
+              <ShellDataWrapper isMaintenanceMode={false}>
                 {children}
               </ShellDataWrapper>
               <PreviewBanner />

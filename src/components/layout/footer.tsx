@@ -60,9 +60,10 @@ export async function Footer() {
                 <div className="md:col-span-1 space-y-6">
                     <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-foreground dark:text-white italic">Analysis Desk</h4>
                     <nav className="flex flex-col gap-3">
-                        <Link href="/geopolitics/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Geopolitics</Link>
-                        <Link href="/global-economy/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Global Economy</Link>
-                        <Link href="/security-defense/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Security & Defense</Link>
+                        <Link href="/security/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Security Silo</Link>
+                        <Link href="/economy/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Economy Silo</Link>
+                        <Link href="/technology/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Technology Silo</Link>
+                        <Link href="/energy/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Energy Silo</Link>
                     </nav>
                 </div>
 

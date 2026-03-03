@@ -35,46 +35,23 @@ export async function proxy(request: NextRequest) {
         return NextResponse.next();
     }
 
-    // 2. EXEMPTIONS (Static assets, Auth)
+    // 2. EXEMPTIONS (Static assets, Auth, API)
     if (
         pathname.startsWith('/_next') ||
         pathname.startsWith('/api') ||
-        pathname.startsWith('/auth') || // Allow login page access
+        pathname.startsWith('/auth') ||
         pathname.includes('favicon.ico') ||
-        pathname.includes('.') // Broad check for file extensions
+        pathname.includes('.')
     ) {
         return NextResponse.next();
     }
 
-    // 4. STRATEGIC PREVIEW BYPASS (Root & Maintenance)
-    const isPreviewParam = searchParams.get('preview') === 'true';
-    const hasPreviewCookie = request.cookies.get('TD_PREVIEW_ACCESS')?.value === 'authorized';
-
-    if (isPreviewParam || hasPreviewCookie) {
-        let response = NextResponse.next();
-
-        // Enforce trailing slash even in preview mode (for sub-paths)
-        if (pathname !== '/' && !pathname.endsWith('/') && !pathname.includes('.')) {
-            const redirectUrl = new URL(pathname + '/', request.url);
-            searchParams.forEach((value, key) => redirectUrl.searchParams.set(key, value));
-            response = NextResponse.redirect(redirectUrl);
-        }
-
-        // Set/Refresh the authorization cookie
-        if (isPreviewParam || !hasPreviewCookie) {
-            response.cookies.set('TD_PREVIEW_ACCESS', 'authorized', {
-                path: '/',
-                maxAge: 60 * 60 * 24, // 24 hours persistence
-                httpOnly: true,
-                sameSite: 'lax',
-                secure: process.env.NODE_ENV === 'production'
-            });
-        }
-
-        return response;
+    // 3. TRAILING SLASH ENFORCEMENT (Strategic Directive compliance)
+    if (pathname !== '/' && !pathname.endsWith('/') && !pathname.includes('.')) {
+        const redirectUrl = new URL(pathname + '/', request.url);
+        searchParams.forEach((value, key) => redirectUrl.searchParams.set(key, value));
+        return NextResponse.redirect(redirectUrl);
     }
-
-
 
     return NextResponse.next();
 }

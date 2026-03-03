@@ -170,7 +170,7 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                                             onMouseLeave={() => setTooltip(null)}
                                             style={{
                                                 default: {
-                                                    fill: riskScore > 10 ? (colorScale(riskScore) as string) : "var(--muted)",
+                                                    fill: riskScore > 10 ? (colorScale(riskScore) as string) : "var(--muted-map)",
                                                     stroke: "var(--border)",
                                                     strokeWidth: 0.5,
                                                     outline: "none",

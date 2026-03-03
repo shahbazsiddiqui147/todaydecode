@@ -51,6 +51,7 @@
   --destructive: #BE123C;
   --destructive-foreground: #FFFFFF;
   --ring: #0F172A;
+  --muted-map: #E2E8F0;
 }
 
 .dark {
@@ -73,6 +74,7 @@
   --destructive: #EF4444;
   --destructive-foreground: #0A0F1E;
   --ring: #F1F5F9;
+  --muted-map: #1E293B;
 }
 
 body {
