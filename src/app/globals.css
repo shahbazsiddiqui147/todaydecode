@@ -138,3 +138,7 @@ footer {
 .prose a {
   @apply text-accent-red font-bold underline underline-offset-4 hover:text-red-400;
 }
+/* Institutional Legibility Guardrails */
+.dark h1, .dark h2, .dark h3 { color: #F1F5F9 !important; }
+.dark td { color: #F1F5F9 !important; }
+.dark .text-muted-foreground { color: #94A3B8 !important; }

@@ -74,7 +74,7 @@ export function Sidebar() {
                             <ShieldCheck className="h-5 w-5 text-[#0891B2] dark:text-[#22D3EE]" />
                         </div>
                         <span className="font-black uppercase tracking-tighter text-base text-[#0891B2] dark:text-[#22D3EE] italic leading-none">
-                            Strategic <span className="text-[#0F172A] dark:text-[#F1F5F9] not-italic font-medium">Hub</span>
+                            Strategic <span className="text-[#0F172A] dark:text-white not-italic font-medium">Hub</span>
                         </span>
                     </div>
                 </div>
