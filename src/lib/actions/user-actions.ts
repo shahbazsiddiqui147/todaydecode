@@ -118,6 +118,33 @@ export async function isFollowingSilo(categoryId: string) {
 }
 
 /**
+ * Checks if the current user has bookmarked a specific strategic report.
+ */
+export async function isBookmarkedArticle(articleId: string) {
+    const session = await getServerSession(authOptions);
+    const user = session?.user as { id?: string } | undefined;
+    if (!user?.id) return false;
+
+    const userId = user.id;
+
+    try {
+        const bookmark = await prisma.savedAnalysis.findUnique({
+            where: {
+                userId_articleId: {
+                    userId,
+                    articleId
+                }
+            }
+        });
+
+        return !!bookmark;
+    } catch (error) {
+        console.error("Bookmark Check Failure:", error);
+        return false;
+    }
+}
+
+/**
  * Saves or updates a country's institutional metrics.
  */
 export async function saveCountryMetric(data: {
