@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { getSiteSettings, upsertSiteSettings } from "@/lib/actions/admin-actions";
+import { UploadNode } from "@/components/admin/UploadNode";
 
 export default function SettingsPage() {
     const [loading, setLoading] = useState(true);
@@ -101,31 +102,26 @@ export default function SettingsPage() {
                             <h2 className="text-xs font-black uppercase tracking-widest italic text-foreground">Visual Identity Nodes</h2>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                        <div className="space-y-10">
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Institutional Name</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[#1E293B] dark:text-[#F1F5F9] pl-1">Institutional Name</label>
                                 <Input
                                     value={formData.siteName}
                                     onChange={(e) => setFormData({ ...formData, siteName: e.target.value })}
                                     className="h-14 font-black uppercase tracking-tight bg-white dark:bg-[#020617] border-[#1E293B] rounded-2xl focus:ring-[#22D3EE]"
                                 />
                             </div>
-                            <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Primary Logo URL</label>
-                                <Input
-                                    value={formData.logoUrl}
-                                    onChange={(e) => setFormData({ ...formData, logoUrl: e.target.value })}
-                                    className="h-14 font-mono text-xs bg-white dark:bg-[#020617] border-[#1E293B] rounded-2xl focus:ring-[#22D3EE]"
-                                />
-                            </div>
-                        </div>
 
-                        <div className="space-y-3 pt-4">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Favicon Protocol URL</label>
-                            <Input
-                                value={formData.faviconUrl}
-                                onChange={(e) => setFormData({ ...formData, faviconUrl: e.target.value })}
-                                className="h-14 font-mono text-xs bg-white dark:bg-[#020617] border-[#1E293B] rounded-2xl focus:ring-[#22D3EE]"
+                            <UploadNode
+                                label="Primary Logo Asset"
+                                currentUrl={formData.logoUrl}
+                                onUploadComplete={(url: string) => setFormData({ ...formData, logoUrl: url })}
+                            />
+
+                            <UploadNode
+                                label="Favicon Protocol Asset"
+                                currentUrl={formData.faviconUrl}
+                                onUploadComplete={(url: string) => setFormData({ ...formData, faviconUrl: url })}
                             />
                         </div>
                     </div>
@@ -138,7 +134,7 @@ export default function SettingsPage() {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">X (Twitter) Terminal</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[#1E293B] dark:text-[#F1F5F9] pl-1">X (Twitter) Terminal</label>
                                 <Input
                                     value={formData.socialLinks.x}
                                     onChange={(e) => setFormData({ ...formData, socialLinks: { ...formData.socialLinks, x: e.target.value } })}
@@ -146,7 +142,7 @@ export default function SettingsPage() {
                                 />
                             </div>
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">LinkedIn Dossier</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[#1E293B] dark:text-[#F1F5F9] pl-1">LinkedIn Dossier</label>
                                 <Input
                                     value={formData.socialLinks.linkedin}
                                     onChange={(e) => setFormData({ ...formData, socialLinks: { ...formData.socialLinks, linkedin: e.target.value } })}
