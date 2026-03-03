@@ -20,8 +20,8 @@ export function LandingHero({ regionData = {} }: LandingHeroProps) {
                 {/* Top Section: Heading */}
                 <div className="flex flex-col space-y-6 animate-in fade-in slide-in-from-top-8 duration-1000 z-20 w-full px-4">
                     <div className="space-y-4">
-                        <h1 className="text-4xl md:text-6xl lg:text-8xl xl:text-9xl font-black text-foreground uppercase tracking-[0.05em] leading-none italic whitespace-nowrap">
-                            Tomorrow's Risks Decoded Today
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-foreground uppercase tracking-[0.05em] leading-none italic whitespace-nowrap">
+                            Tomorrow's Risks Decoded Today.
                         </h1>
                         <p className="text-foreground text-lg md:text-2xl font-black uppercase tracking-[0.4em] leading-relaxed opacity-70">
                             Global Strategic Assessment
