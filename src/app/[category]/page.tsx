@@ -6,16 +6,33 @@ import { RiskGauge } from "@/components/metrics/risk-gauge";
 import { ShieldAlert, Layers, Activity } from "lucide-react";
 import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
 import { FollowSiloButton } from "@/components/intel/FollowSiloButton";
+import fs from 'fs';
+
+function debugLog(message: string) {
+    try {
+        const logPath = 'f:/TodayDecode/tmp/handshake-debug.log';
+        const timestamp = new Date().toISOString();
+        fs.appendFileSync(logPath, `[${timestamp}] ${message}\n`);
+    } catch (e) {
+        // Ignore logging errors
+    }
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }) {
     const { category } = await params;
     const normalizedSlug = `/${category.replace(/\/$/, '')}/`;
 
+    debugLog(`[Metadata Handshake] category: "${category}" | normalized: "${normalizedSlug}"`);
+
     // Strategy 1: Normalized slug search
     let silo = await getCategoryBySlug(normalizedSlug);
+    debugLog(`[Metadata Handshake] Strategy 1 (normalized): ${silo ? 'FOUND' : 'MISSING'}`);
 
     // Strategy 2: Raw param fallback
-    if (!silo) silo = await getCategoryBySlug(category);
+    if (!silo) {
+        silo = await getCategoryBySlug(category);
+        debugLog(`[Metadata Handshake] Strategy 2 (raw): ${silo ? 'FOUND' : 'MISSING'}`);
+    }
 
     if (silo) {
         return constructMetadata({
@@ -43,13 +60,14 @@ export default async function CatchAllSlugPage({ params }: { params: Promise<{ c
     const { category } = await params;
     const normalizedSlug = `/${category.replace(/\/$/, '')}/`;
 
-    console.log(`[Strategic Handshake] Attempting to resolve Silo/Page: ${normalizedSlug}`);
+    debugLog(`[Page Handshake] category: "${category}" | normalized: "${normalizedSlug}"`);
 
     // Unified Data Retrieval
     let silo = await getCategoryBySlug(normalizedSlug);
     if (!silo) silo = await getCategoryBySlug(category);
 
     if (silo) {
+        debugLog(`[Page Handshake] Silo Found: ${silo.name}`);
         return <CategoryDesk silo={silo} />;
     }
 
@@ -57,9 +75,11 @@ export default async function CatchAllSlugPage({ params }: { params: Promise<{ c
     if (!page) page = await getPageBySlug(category);
 
     if (page) {
+        debugLog(`[Page Handshake] Page Found: ${page.title}`);
         return <InstitutionalPage page={page} />;
     }
 
+    debugLog(`[Page Handshake] NOTHING FOUND -> 404`);
     notFound();
 }
 
