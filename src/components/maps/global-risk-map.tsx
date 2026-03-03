@@ -72,9 +72,9 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
         const region = getRegionForCountry(iso);
         const riskScore = getRiskForCountry(iso);
 
-        // Calculate position - slightly offset to right and up from cursor
-        const x = event.clientX + 20;
-        const y = event.clientY - 150; // Move up to avoid cursor masking
+        // Position tooltip close to mouse cursor
+        const x = event.clientX + 10;
+        const y = event.clientY + 10;
 
         const initialData: RegionDataInfo = {
             id: iso,
@@ -168,7 +168,10 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
             )}
 
             {/* Map Visualization (Hidden on small mobile, shown on tablet/desktop) */}
-            <div className={cn("relative aspect-[16/9] w-full", (isMobile && !isBackdrop) ? "hidden lg:block opacity-40 bg-secondary/20" : "block")}>
+            <div className={cn(
+                "relative aspect-[16/9] w-full border border-border/50 rounded-2xl overflow-hidden bg-secondary/5",
+                (isMobile && !isBackdrop) ? "hidden lg:block opacity-40" : "block"
+            )}>
                 <ComposableMap
                     projectionConfig={{ scale: 140 }}
                     className="w-full h-full"
