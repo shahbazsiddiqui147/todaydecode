@@ -33,9 +33,10 @@ const REGION_ISO_MAP: Record<string, string[]> = {
 
 interface GlobalRiskMapProps {
     regionData?: Record<string, number>;
+    isBackdrop?: boolean;
 }
 
-export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
+export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRiskMapProps) {
     const [tooltip, setTooltip] = useState<{ x: number; y: number; data: RegionDataInfo } | null>(null);
     const [loadingReports, setLoadingReports] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
@@ -97,52 +98,59 @@ export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
     };
 
     return (
-        <div className="relative w-full overflow-hidden bg-card rounded-3xl border border-border group shadow-subtle-glow transition-colors duration-300">
+        <div className={cn(
+            "relative w-full overflow-hidden shadow-subtle-glow transition-colors duration-300",
+            !isBackdrop ? "bg-card rounded-3xl border border-border group" : ""
+        )}>
             {/* Command Header */}
-            <div className="p-6 md:absolute md:top-6 md:left-6 z-10 bg-card/50 backdrop-blur-md md:rounded-2xl md:border md:border-white/5">
-                <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight uppercase leading-none italic">
-                    Global Risk <span className="text-accent-red">Command</span>
-                </h2>
-                <div className="flex items-center space-x-2 mt-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-accent-red animate-pulse" />
-                    <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-[0.2em]">
-                        Live Strategic Aggregation // Deep Research
-                    </p>
+            {!isBackdrop && (
+                <div className="p-6 md:absolute md:top-6 md:left-6 z-10 bg-card/50 backdrop-blur-md md:rounded-2xl md:border md:border-white/5">
+                    <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight uppercase leading-none italic">
+                        Global Risk <span className="text-accent-red">Command</span>
+                    </h2>
+                    <div className="flex items-center space-x-2 mt-2">
+                        <span className="h-1.5 w-1.5 rounded-full bg-accent-red animate-pulse" />
+                        <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-[0.2em]">
+                            Live Strategic Aggregation // Deep Research
+                        </p>
+                    </div>
                 </div>
-            </div>
+            )}
 
             {/* Mobile Regional List Fallback */}
-            <div className="lg:hidden p-6 pt-0 space-y-4">
-                <div className="grid grid-cols-1 gap-3">
-                    {Object.keys(REGION_ISO_MAP).filter(r => r !== "GLOBAL").map(region => {
-                        const score = regionData[region] || 10;
-                        return (
-                            <Link
-                                key={region}
-                                href={`/${region.toLowerCase()}/`}
-                                className="flex items-center justify-between p-4 bg-secondary border border-border rounded-2xl active:scale-95 transition-all"
-                            >
-                                <div className="space-y-1">
-                                    <h3 className="text-xs font-black uppercase tracking-widest text-foreground">{region} Silo</h3>
-                                    <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">Tactical Sector Index</p>
-                                </div>
-                                <div className={cn(
-                                    "flex flex-col items-center justify-center h-10 w-12 rounded-xl border border-border",
-                                    score > 70 ? "bg-accent-red/20 text-accent-red border-accent-red/30" :
-                                        score > 40 ? "bg-yellow-500/20 text-yellow-500 border-yellow-500/30" :
-                                            "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
-                                )}>
-                                    <span className="text-xs font-black tracking-tighter">{score}</span>
-                                    <span className="text-[6px] font-black uppercase tracking-widest opacity-60">RISK</span>
-                                </div>
-                            </Link>
-                        );
-                    })}
+            {!isBackdrop && (
+                <div className="lg:hidden p-6 pt-0 space-y-4">
+                    <div className="grid grid-cols-1 gap-3">
+                        {Object.keys(REGION_ISO_MAP).filter(r => r !== "GLOBAL").map(region => {
+                            const score = regionData[region] || 10;
+                            return (
+                                <Link
+                                    key={region}
+                                    href={`/${region.toLowerCase()}/`}
+                                    className="flex items-center justify-between p-4 bg-secondary border border-border rounded-2xl active:scale-95 transition-all"
+                                >
+                                    <div className="space-y-1">
+                                        <h3 className="text-xs font-black uppercase tracking-widest text-foreground">{region} Silo</h3>
+                                        <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">Tactical Sector Index</p>
+                                    </div>
+                                    <div className={cn(
+                                        "flex flex-col items-center justify-center h-10 w-12 rounded-xl border border-border",
+                                        score > 70 ? "bg-accent-red/20 text-accent-red border-accent-red/30" :
+                                            score > 40 ? "bg-yellow-500/20 text-yellow-500 border-yellow-500/30" :
+                                                "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                                    )}>
+                                        <span className="text-xs font-black tracking-tighter">{score}</span>
+                                        <span className="text-[6px] font-black uppercase tracking-widest opacity-60">RISK</span>
+                                    </div>
+                                </Link>
+                            );
+                        })}
+                    </div>
                 </div>
-            </div>
+            )}
 
             {/* Map Visualization (Hidden on small mobile, shown on tablet/desktop) */}
-            <div className={cn("relative aspect-[16/9] w-full", isMobile ? "hidden lg:block opacity-40 bg-secondary/20" : "block")}>
+            <div className={cn("relative aspect-[16/9] w-full", (isMobile && !isBackdrop) ? "hidden lg:block opacity-40 bg-secondary/20" : "block")}>
                 <ComposableMap
                     projectionConfig={{ scale: 140 }}
                     className="w-full h-full"
@@ -190,24 +198,26 @@ export function GlobalRiskMap({ regionData = {} }: GlobalRiskMapProps) {
                 </ComposableMap>
 
                 {/* Legend (Visual only) */}
-                <div className="absolute bottom-6 left-6 z-10 hidden md:flex space-x-6">
-                    <div className="flex items-center space-x-2">
-                        <div className="h-2 w-2 rounded-full bg-accent-green shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
-                        <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Low Risk</span>
+                {!isBackdrop && (
+                    <div className="absolute bottom-6 left-6 z-10 hidden md:flex space-x-6">
+                        <div className="flex items-center space-x-2">
+                            <div className="h-2 w-2 rounded-full bg-accent-green shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
+                            <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Low Risk</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <div className="h-2 w-2 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.3)]" />
+                            <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Medium</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <div className="h-2 w-2 rounded-full bg-accent-red shadow-[0_0_8_px_rgba(255,75,75,0.4)]" />
+                            <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Critical</span>
+                        </div>
                     </div>
-                    <div className="flex items-center space-x-2">
-                        <div className="h-2 w-2 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.3)]" />
-                        <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Medium</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <div className="h-2 w-2 rounded-full bg-accent-red shadow-[0_0_8_px_rgba(255,75,75,0.4)]" />
-                        <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Critical</span>
-                    </div>
-                </div>
+                )}
             </div>
 
             <AnimatePresence>
-                {!isMobile && tooltip && (
+                {!isMobile && !isBackdrop && tooltip && (
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9, y: 10 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}

@@ -19,7 +19,7 @@ export function LandingHero({ regionData = {} }: LandingHeroProps) {
             {/* Immersive Map Backdrop */}
             <div className="absolute inset-0 z-0 flex items-center justify-center opacity-40 dark:opacity-30 fade-in duration-1000 mt-20">
                 <div className="w-[200%] md:w-[150%] lg:w-[120%] scale-150 lg:scale-125 xl:scale-110">
-                    <GlobalRiskMap regionData={regionData} />
+                    <GlobalRiskMap regionData={regionData} isBackdrop />
                 </div>
             </div>
 
