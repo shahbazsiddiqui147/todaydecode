@@ -6,8 +6,6 @@ import { RiskGauge } from "@/components/metrics/risk-gauge";
 import { ShieldAlert, Layers, Activity } from "lucide-react";
 import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
 import { FollowSiloButton } from "@/components/intel/FollowSiloButton";
-import { CategoryDesk } from "./_components/CategoryDesk"; // Assuming it was extracted or just keep it simple
-import { InstitutionalPage } from "@/components/institutional/institutional-page";
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }) {
     const { category } = await params;
@@ -71,9 +69,9 @@ function CategoryDesk({ silo }: { silo: any }) {
     const reportCount = reports.length;
 
     return (
-        <div className="min-h-screen bg-[#0A0F1E] text-[#F1F5F9]">
+        <div className="min-h-screen bg-background text-foreground">
             {/* Structural Header */}
-            <div className="w-full border-b border-[#1E293B] bg-transparent backdrop-blur-sm">
+            <div className="w-full border-b border-border bg-secondary/30 backdrop-blur-sm">
                 <div className="max-w-7xl mx-auto px-6 py-12 space-y-8">
                     <Breadcrumbs items={[
                         { label: 'Home', href: '/' },
@@ -91,10 +89,10 @@ function CategoryDesk({ silo }: { silo: any }) {
                             </div>
 
                             <div className="space-y-3">
-                                <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-white italic">
+                                <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-foreground italic">
                                     {silo.name}
                                 </h1>
-                                <p className="text-[#94A3B8] max-w-2xl text-base font-medium uppercase tracking-tight leading-relaxed">
+                                <p className="text-muted-foreground max-w-2xl text-base font-medium uppercase tracking-tight leading-relaxed">
                                     {silo.description || "Active research tracking and strategic risk assessment for this global sector."}
                                 </p>
                             </div>
@@ -104,13 +102,13 @@ function CategoryDesk({ silo }: { silo: any }) {
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-10 p-8 rounded-2xl bg-[#111827] border border-[#1E293B] shadow-2xl">
+                        <div className="flex items-center gap-10 p-8 rounded-2xl bg-card border border-border shadow-2xl">
                             <RiskGauge value={silo.avgRisk} label="Sector Risk" size="sm" />
-                            <div className="h-12 w-px bg-[#1E293B]" />
+                            <div className="h-12 w-px bg-border" />
                             <div className="flex flex-col gap-4">
                                 <div className="space-y-1">
-                                    <div className="text-[10px] font-black text-[#94A3B8] uppercase tracking-[0.2em]">Intel Reports</div>
-                                    <div className="text-3xl font-black text-white italic tracking-tighter">{reportCount}</div>
+                                    <div className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Intel Reports</div>
+                                    <div className="text-3xl font-black text-foreground italic tracking-tighter">{reportCount}</div>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <div className="h-1.5 w-1.5 rounded-full bg-accent-green animate-pulse" />
@@ -124,17 +122,17 @@ function CategoryDesk({ silo }: { silo: any }) {
 
             {/* Strategic Grid */}
             <div className="max-w-7xl mx-auto px-6 py-20 bg-transparent">
-                <div className="flex items-center justify-between mb-12 border-b border-[#1E293B] pb-6">
+                <div className="flex items-center justify-between mb-12 border-b border-border pb-6">
                     <div className="flex items-center gap-3">
                         <Layers className="h-5 w-5 text-accent-red" />
-                        <h2 className="text-sm font-black uppercase tracking-[0.25em] text-[#F1F5F9] italic">
+                        <h2 className="text-sm font-black uppercase tracking-[0.25em] text-foreground italic">
                             Strategic Manifests
                         </h2>
                     </div>
                     <div className="flex items-center gap-4">
-                        <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-widest">Integrity: Verified</span>
-                        <div className="h-4 w-px bg-[#1E293B]" />
-                        <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-widest italic">{new Date().getUTCFullYear()} Archive</span>
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Integrity: Verified</span>
+                        <div className="h-4 w-px bg-border" />
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest italic">{new Date().getUTCFullYear()} Archive</span>
                     </div>
                 </div>
 
@@ -154,12 +152,12 @@ function CategoryDesk({ silo }: { silo: any }) {
                 </div>
 
                 {reportCount === 0 && (
-                    <div className="py-40 text-center border-2 border-dashed border-[#1E293B] rounded-3xl bg-[#111827]/30">
+                    <div className="py-40 text-center border-2 border-dashed border-border rounded-3xl bg-muted/30">
                         <div className="flex flex-col items-center space-y-6">
-                            <Activity className="h-16 w-16 text-[#1E293B] animate-pulse" />
+                            <Activity className="h-16 w-16 text-muted-foreground animate-pulse" />
                             <div className="space-y-2">
-                                <p className="text-lg font-black uppercase tracking-[0.4em] text-white italic">Strategic Analysis Pending</p>
-                                <p className="text-xs text-[#94A3B8] font-medium uppercase tracking-[0.1em] max-w-md mx-auto leading-relaxed">
+                                <p className="text-lg font-black uppercase tracking-[0.4em] text-foreground italic">Strategic Analysis Pending</p>
+                                <p className="text-xs text-muted-foreground font-medium uppercase tracking-[0.1em] max-w-md mx-auto leading-relaxed">
                                     Silo data is being authorized. Strategic analysts are mapping tactical indicators for institutional uplink.
                                 </p>
                             </div>
@@ -168,5 +166,36 @@ function CategoryDesk({ silo }: { silo: any }) {
                 )}
             </div>
         </div>
+    );
+}
+
+function InstitutionalPage({ page }: { page: any }) {
+    return (
+        <article className="min-h-screen bg-background text-foreground pb-32">
+            <div className="max-w-4xl mx-auto px-6 py-20 space-y-16">
+                <div className="space-y-8">
+                    <Breadcrumbs items={[
+                        { label: 'Home', href: '/' },
+                        { label: page.title, href: '#' }
+                    ]} />
+                    <div className="space-y-4">
+                        <div className="h-1 w-20 bg-accent-red" />
+                        <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter italic text-foreground leading-[0.9]">
+                            {page.title}
+                        </h1>
+                    </div>
+                </div>
+
+                <div
+                    className="institutional-content prose prose-slate dark:prose-invert max-w-none 
+                        prose-headings:uppercase prose-headings:tracking-tighter prose-headings:font-black prose-headings:italic
+                        prose-p:text-lg prose-p:font-medium prose-p:leading-relaxed prose-p:tracking-tight
+                        prose-strong:text-foreground prose-strong:font-black
+                        prose-a:text-accent-red prose-a:no-underline hover:prose-a:underline
+                        border-t border-border pt-16"
+                    dangerouslySetInnerHTML={{ __html: page.content }}
+                />
+            </div>
+        </article>
     );
 }
