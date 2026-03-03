@@ -9,23 +9,23 @@ import { FollowSiloButton } from "@/components/intel/FollowSiloButton";
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }) {
     const { category } = await params;
-    const slug = `/${category}/`;
+    const normalizedSlug = `/${category}/`;
 
-    const silo = await getCategoryBySlug(slug);
+    const silo = await getCategoryBySlug(normalizedSlug);
     if (silo) {
         return constructMetadata({
             title: `${silo.name} | Strategic Analysis Silo`,
             description: silo.description || `Tactical oversight and strategic reports for ${silo.name}.`,
-            path: slug,
+            path: normalizedSlug,
         });
     }
 
-    const page = await getPageBySlug(slug);
+    const page = await getPageBySlug(normalizedSlug);
     if (page) {
         return constructMetadata({
             title: page.metaTitle || `${page.title} | Institutional`,
             description: page.metaDescription || undefined,
-            path: slug,
+            path: normalizedSlug,
         });
     }
 
@@ -34,16 +34,16 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
 
 export default async function CatchAllSlugPage({ params }: { params: Promise<{ category: string }> }) {
     const { category } = await params;
-    const categorySlug = `/${category}/`;
+    const normalizedSlug = `/${category}/`;
 
-    console.log(`[Strategic Handshake] Attempting to resolve Silo/Page: ${categorySlug}`);
+    console.log(`[Strategic Handshake] Attempting to resolve Silo/Page: ${normalizedSlug}`);
 
-    const silo = await getCategoryBySlug(categorySlug);
+    const silo = await getCategoryBySlug(normalizedSlug);
     if (silo) {
         return <CategoryDesk silo={silo} />;
     }
 
-    const page = await getPageBySlug(categorySlug);
+    const page = await getPageBySlug(normalizedSlug);
     if (page) {
         return <InstitutionalPage page={page} />;
     }

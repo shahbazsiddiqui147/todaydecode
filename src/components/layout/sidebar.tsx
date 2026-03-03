@@ -71,22 +71,22 @@ export function Sidebar({
                     </div>
                     {(curatedNav.length > 0 ? curatedNav : categories).map((item) => {
                         const label = item.label || item.name;
-                        const rawHref = item.href || `/${item.slug.replace(/^\/|\/$/g, '')}/`;
+                        const rawHref = item.href || (item.slug ? `/${item.slug.replace(/^\/|\/$/g, '')}/` : "/");
                         const href = rawHref.startsWith('http') || rawHref === '/' ? rawHref : (rawHref.endsWith('/') ? rawHref : `${rawHref}/`);
 
                         const isActive = pathname === href || (href !== '/' && pathname.startsWith(href));
                         // Lookup icon or fallback to Globe
-                        const Icon = ICON_MAP[label.toLowerCase()] || ICON_MAP[item.slug?.replace('/', '')] || Globe;
+                        const Icon = ICON_MAP[label.toLowerCase()] || ICON_MAP[item.slug?.replace(/\//g, '')] || Globe;
 
                         return (
                             <Link
-                                key={item.id}
+                                key={item.id || item.slug}
                                 href={href}
                                 className={cn(
                                     "group flex items-center px-2 py-2.5 text-sm font-medium rounded-md transition-all",
                                     isActive
-                                        ? "bg-secondary text-foreground shadow-lg shadow-black/5 dark:shadow-black/40"
-                                        : "text-muted-foreground hover:bg-secondary/50 hover:text-foreground"
+                                        ? "bg-secondary text-[#F1F5F9] shadow-lg shadow-black/5 dark:shadow-black/40"
+                                        : "text-muted-foreground hover:bg-secondary/50 hover:text-[#F1F5F9]"
                                 )}
                             >
                                 <Icon className={cn(

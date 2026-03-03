@@ -153,7 +153,7 @@ export default function NavigationAdminPage() {
                                             <TableCell className="py-5 pl-8">
                                                 <div className="flex items-center gap-3">
                                                     <div className="h-2 w-2 rounded-full bg-[#22D3EE]" />
-                                                    <span className="text-sm font-black uppercase tracking-tight text-[#0F172A] dark:text-[#F1F5F9] font-medium">{item.label}</span>
+                                                    <span className="text-sm font-black uppercase tracking-tight text-[#F1F5F9] dark:text-[#F1F5F9] font-medium">{item.label}</span>
                                                 </div>
                                             </TableCell>
                                             <TableCell>
