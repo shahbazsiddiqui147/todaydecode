@@ -69,14 +69,14 @@ export function Sidebar({
                     <div className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] px-2 mb-3">
                         {curatedNav.length > 0 ? "Strategic Navigation" : "Strategic Archive"}
                     </div>
-                    {(curatedNav.length > 0 ? curatedNav : categories).map((item) => {
-                        const label = item.label || item.name;
-                        const rawHref = item.href || (item.slug ? `/${item.slug.replace(/^\/|\/$/g, '')}/` : "/");
-                        const href = rawHref.startsWith('http') || rawHref === '/' ? rawHref : (rawHref.endsWith('/') ? rawHref : `${rawHref}/`);
+                    {categories.map((item) => {
+                        const label = item.name;
+                        const slug = item.slug.replace(/^\/|\/$/g, '');
+                        const href = `/${slug}/`;
 
                         const isActive = pathname === href || (href !== '/' && pathname.startsWith(href));
                         // Lookup icon or fallback to Globe
-                        const Icon = ICON_MAP[label.toLowerCase()] || ICON_MAP[item.slug?.replace(/\//g, '')] || Globe;
+                        const Icon = ICON_MAP[label.toLowerCase()] || ICON_MAP[slug] || Globe;
 
                         return (
                             <Link

@@ -9,9 +9,14 @@ import { FollowSiloButton } from "@/components/intel/FollowSiloButton";
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }) {
     const { category } = await params;
-    const normalizedSlug = `/${category}/`;
+    const normalizedSlug = `/${category.replace(/\/$/, '')}/`;
 
-    const silo = await getCategoryBySlug(normalizedSlug);
+    // Strategy 1: Normalized slug search
+    let silo = await getCategoryBySlug(normalizedSlug);
+
+    // Strategy 2: Raw param fallback
+    if (!silo) silo = await getCategoryBySlug(category);
+
     if (silo) {
         return constructMetadata({
             title: `${silo.name} | Strategic Analysis Silo`,
@@ -20,7 +25,9 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
         });
     }
 
-    const page = await getPageBySlug(normalizedSlug);
+    let page = await getPageBySlug(normalizedSlug);
+    if (!page) page = await getPageBySlug(category);
+
     if (page) {
         return constructMetadata({
             title: page.metaTitle || `${page.title} | Institutional`,
@@ -34,16 +41,21 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
 
 export default async function CatchAllSlugPage({ params }: { params: Promise<{ category: string }> }) {
     const { category } = await params;
-    const normalizedSlug = `/${category}/`;
+    const normalizedSlug = `/${category.replace(/\/$/, '')}/`;
 
     console.log(`[Strategic Handshake] Attempting to resolve Silo/Page: ${normalizedSlug}`);
 
-    const silo = await getCategoryBySlug(normalizedSlug);
+    // Unified Data Retrieval
+    let silo = await getCategoryBySlug(normalizedSlug);
+    if (!silo) silo = await getCategoryBySlug(category);
+
     if (silo) {
         return <CategoryDesk silo={silo} />;
     }
 
-    const page = await getPageBySlug(normalizedSlug);
+    let page = await getPageBySlug(normalizedSlug);
+    if (!page) page = await getPageBySlug(category);
+
     if (page) {
         return <InstitutionalPage page={page} />;
     }
