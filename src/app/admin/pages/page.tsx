@@ -114,10 +114,10 @@ export default function PagesManager() {
 
     return (
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#CBD5E1] dark:border-[#1E293B]">
+            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#1E293B] dark:border-[#1E293B]">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#0F172A] dark:text-[#F1F5F9]">Institutional <span className="text-muted-foreground/60 font-medium font-sans">Pages</span></h1>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B]">Management of About Us, Privacy Policy, Terms, and Strategic Frameworks.</p>
+                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#0F172A] dark:text-[#94A3B8] italic">Institutional <span className="text-[#64748B] dark:text-[#F1F5F9] not-italic">Pages</span></h1>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Management of About Us, Privacy Policy, Terms, and Strategic Frameworks.</p>
                 </div>
                 <Button onClick={() => { setEditingPage(null); setFormData({ title: "", slug: "", content: "", metaTitle: "", metaDescription: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-xl bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] border-none hover:bg-black dark:hover:bg-white/90">
                     <Plus className="mr-2 h-4 w-4" /> Initialize New Page

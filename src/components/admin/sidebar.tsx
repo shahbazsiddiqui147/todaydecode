@@ -34,7 +34,7 @@ const GROUPS = [
         items: [
             { name: "Articles", icon: FileText, href: "/admin/articles/" },
             { name: "Drafts", icon: FileEdit, href: "/admin/drafts/" },
-            { name: "Media Library", icon: ImageIcon, href: "/admin/media/" },
+            { name: "Media Library", icon: ImageIcon, href: "/admin/media-library/" },
         ]
     },
     {
@@ -48,6 +48,7 @@ const GROUPS = [
         name: "Structure",
         items: [
             { name: "Categories", icon: Map, href: "/admin/categories/" },
+            { name: "Pages", icon: Layers, href: "/admin/pages/" },
             { name: "Navigation", icon: Layers, href: "/admin/navigation/" },
         ]
     },
@@ -55,7 +56,7 @@ const GROUPS = [
         name: "System",
         items: [
             { name: "Analytics", icon: BarChart3, href: "/admin/analytics/" },
-            { name: "Audit Logs", icon: History, href: "/admin/logs/" },
+            { name: "Audit Logs", icon: History, href: "/admin/audit-logs/" },
             { name: "Settings", icon: Settings, href: "/admin/settings/" },
         ]
     }
@@ -71,8 +72,8 @@ export function Sidebar() {
                     <div className="bg-primary p-1.5 rounded-lg">
                         <ShieldCheck className="h-5 w-5 text-primary-foreground" />
                     </div>
-                    <span className="font-bold tracking-tight text-lg text-[#0F172A] dark:text-[#F1F5F9]">
-                        STRATEGIC <span className="text-muted-foreground font-medium uppercase">Overview</span>
+                    <span className="font-bold tracking-tight text-lg text-[#0F172A] dark:text-[#94A3B8]">
+                        STRATEGIC <span className="text-muted-foreground dark:text-[#F1F5F9] font-medium uppercase">Overview</span>
                     </span>
                 </div>
             </div>
