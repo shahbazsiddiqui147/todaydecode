@@ -135,21 +135,21 @@ export default async function Page() {
           </div>
         </section>
 
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-[#0A0F1E] p-12 rounded-[2.5rem] border border-[#1E293B] shadow-2xl relative overflow-hidden group">
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-slate-50 dark:bg-[#0A0F1E] p-12 rounded-[2.5rem] border border-border dark:border-[#1E293B] shadow-2xl relative overflow-hidden group">
           <div className="lg:col-span-5 space-y-8">
             <div className="space-y-4">
               <div className="p-3 bg-accent-red/10 border border-accent-red/20 rounded-2xl w-fit">
                 <Zap className="h-6 w-6 text-accent-red" />
               </div>
-              <h2 className="text-4xl md:text-5xl font-black text-[#F1F5F9] uppercase tracking-tighter leading-[0.9] italic">
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-[#F1F5F9] uppercase tracking-tighter leading-[0.9] italic">
                 Strategic <br />Scenario <br />Modeling
               </h2>
             </div>
-            <p className="text-[#94A3B8] font-medium text-lg max-w-sm uppercase tracking-tight leading-relaxed">
+            <p className="text-slate-600 dark:text-[#94A3B8] font-medium text-lg max-w-sm uppercase tracking-tight leading-relaxed">
               Access our proprietary quantitative forecasting engine. Predict institutional impact across multiple geopolitical timelines.
             </p>
           </div>
-          <div className="lg:col-span-7 bg-[#111827] rounded-3xl border border-[#1E293B] p-8 shadow-inner relative">
+          <div className="lg:col-span-7 bg-white dark:bg-[#111827] rounded-3xl border border-border dark:border-[#1E293B] p-8 shadow-inner relative">
             <div className="grayscale group-hover:grayscale-0 transition-all duration-700">
               <ScenarioForecast
                 scenarios={{
