@@ -52,7 +52,7 @@ export default function DraftsPage() {
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#1E293B] dark:border-[#1E293B]">
                 <div>
-                    <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-[#94A3B8] uppercase italic pb-1">Strategic <span className="text-[#64748B] dark:text-[#F1F5F9] not-italic">Drafts</span></h1>
+                    <h1 className="text-3xl font-black tracking-tight text-[#0F172A] dark:text-[#F1F5F9] uppercase italic pb-1">Strategic <span className="text-[#64748B] dark:text-[#94A3B8] not-italic">Drafts</span></h1>
                     <p className="text-[#64748B] dark:text-[#94A3B8] text-xs font-black uppercase tracking-widest">Manage unpublished strategic reports.</p>
                 </div>
             </div>

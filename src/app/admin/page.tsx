@@ -37,7 +37,7 @@ export default async function AdminDashboard() {
                         <Activity className={cn("h-3 w-3", res.success ? "text-cyan-500" : "text-accent-red")} />
                         <span>Institutional Status: {res.success ? "Operational" : "Degraded Linkage"}</span>
                     </div>
-                    <h1 className="text-4xl font-black tracking-tight text-slate-900 dark:text-[#94A3B8] uppercase italic">Strategic <span className="text-[#64748B] dark:text-[#F1F5F9] not-italic">Oversight</span></h1>
+                    <h1 className="text-4xl font-black tracking-tight text-[#0F172A] dark:text-[#F1F5F9] uppercase italic">Strategic <span className="text-[#64748B] dark:text-[#94A3B8] not-italic">Oversight</span></h1>
                     <p className="text-[#64748B] dark:text-[#94A3B8] font-medium border-l-2 border-[#CBD5E1] dark:border-[#1E293B] pl-4 py-1">Institutional management of global risk analysis and strategic repositories.</p>
                 </div>
                 <div className="flex items-center gap-3">

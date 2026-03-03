@@ -71,10 +71,10 @@ export function Sidebar() {
                 <div className="flex items-center space-x-2.5">
                     <div className="flex items-center space-x-3">
                         <div className="border border-border dark:border-[#1E293B] p-2 rounded-xl bg-white dark:bg-[#0F172A] shadow-sm">
-                            <ShieldCheck className="h-5 w-5 text-[#0891B2] dark:text-[#22D3EE]" />
+                            <ShieldCheck className="h-5 w-5 text-[#0F172A] dark:text-[#F1F5F9]" />
                         </div>
-                        <span className="font-black uppercase tracking-tighter text-base text-[#0891B2] dark:text-[#22D3EE] italic leading-none">
-                            Strategic <span className="text-[#0F172A] dark:text-white not-italic font-medium">Hub</span>
+                        <span className="font-black uppercase tracking-tighter text-base text-[#0F172A] dark:text-[#F1F5F9] italic leading-none">
+                            Strategic <span className="text-[#64748B] dark:text-[#94A3B8] not-italic font-medium">Hub</span>
                         </span>
                     </div>
                 </div>

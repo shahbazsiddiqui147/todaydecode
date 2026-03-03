@@ -5,7 +5,7 @@ export default function AnalyticsPage() {
         <div className="space-y-12">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#1E293B] dark:border-[#1E293B]">
                 <div>
-                    <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-[#94A3B8] uppercase italic pb-1">Impact <span className="text-[#64748B] dark:text-[#F1F5F9] not-italic">Analytics</span></h1>
+                    <h1 className="text-3xl font-black tracking-tight text-[#0F172A] dark:text-[#F1F5F9] uppercase italic pb-1">Impact <span className="text-[#64748B] dark:text-[#94A3B8] not-italic">Analytics</span></h1>
                     <p className="text-[#64748B] dark:text-[#94A3B8] text-xs font-black uppercase tracking-widest">Monitor institutional reach and tactical engagement.</p>
                 </div>
             </div>
