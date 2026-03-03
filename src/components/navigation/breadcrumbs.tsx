@@ -39,7 +39,7 @@ export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
                 <li>
                     <Link
                         href="/"
-                        className="text-slate-500 hover:text-white transition-colors flex items-center"
+                        className="text-muted-foreground hover:text-foreground transition-colors flex items-center"
                     >
                         <Home className="h-3 w-3" />
                         <span className="sr-only">Home</span>
@@ -47,14 +47,14 @@ export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
                 </li>
                 {items.map((item, index) => (
                     <li key={index} className="flex items-center space-x-2">
-                        <ChevronRight className="h-3 w-3 text-slate-700" />
+                        <ChevronRight className="h-3 w-3 text-muted-foreground/50" />
                         <Link
                             href={item.href}
                             className={cn(
                                 "text-[10px] font-bold uppercase tracking-widest transition-colors",
                                 index === items.length - 1
-                                    ? "text-white pointer-events-none"
-                                    : "text-slate-500 hover:text-white"
+                                    ? "text-foreground pointer-events-none"
+                                    : "text-muted-foreground hover:text-foreground"
                             )}
                             aria-current={index === items.length - 1 ? "page" : undefined}
                         >

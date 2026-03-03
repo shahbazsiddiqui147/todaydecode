@@ -85,7 +85,7 @@ function CategoryDesk({ silo }: { silo: any }) {
                                     <span className="h-1.5 w-1.5 rounded-full bg-accent-red animate-pulse" />
                                     <span className="text-[10px] font-black uppercase tracking-[0.3em] text-accent-red">Live Silo Monitoring</span>
                                 </div>
-                                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#94A3B8]">Lead Analyst: {silo.leadAnalyst || "Strategic Oversight Group"}</span>
+                                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Lead Analyst: {silo.leadAnalyst || "Strategic Oversight Group"}</span>
                             </div>
 
                             <div className="space-y-3">

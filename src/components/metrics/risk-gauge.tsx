@@ -72,14 +72,14 @@ export function RiskGauge({
                 </svg>
                 {showValue && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                        <span className={cn("font-black italic tracking-tighter", valText)}>
+                        <span className={cn("font-black italic tracking-tighter text-foreground", valText)}>
                             {normalizedValue}
                         </span>
-                        <span className="text-[7px] font-black uppercase tracking-widest text-slate-500 opacity-60">Index</span>
+                        <span className="text-[7px] font-black uppercase tracking-widest text-muted-foreground">Index</span>
                     </div>
                 )}
             </div>
-            <div className={cn("font-black uppercase tracking-[0.2em] text-center text-slate-500 italic", text)}>
+            <div className={cn("font-black uppercase tracking-[0.2em] text-center text-muted-foreground italic", text)}>
                 {label}
             </div>
         </div>
