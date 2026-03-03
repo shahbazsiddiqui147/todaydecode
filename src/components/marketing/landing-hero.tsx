@@ -18,7 +18,7 @@ export function LandingHero({ regionData = {} }: LandingHeroProps) {
 
             <div className="relative z-10 w-full flex flex-col items-center justify-center space-y-12 text-center">
                 {/* Top Section: Heading */}
-                <div className="flex flex-col space-y-6 animate-in fade-in slide-in-from-top-8 duration-1000 z-20 w-full px-4">
+                <div className="flex flex-col space-y-6 animate-in fade-in slide-in-from-top-8 duration-1000 z-20 w-full px-4 border-b border-border/20 pb-12">
                     <div className="space-y-4">
                         <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black text-foreground uppercase tracking-[0.05em] leading-none italic max-w-[95vw] mx-auto">
                             Tomorrow's Risks Decoded Today.
@@ -30,7 +30,7 @@ export function LandingHero({ regionData = {} }: LandingHeroProps) {
                 </div>
 
                 {/* Bottom Section: Huge Map */}
-                <div className="relative w-full aspect-video animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300 xl:pointer-events-auto overflow-visible">
+                <div className="relative w-full aspect-[21/9] lg:aspect-[3/1] animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300 xl:pointer-events-auto overflow-visible">
                     <div className="absolute inset-0 flex items-center justify-center">
                         <div className="w-[100%] lg:w-[130%] h-full opacity-60 xl:opacity-100 scale-110 lg:scale-125">
                             <GlobalRiskMap regionData={regionData} isBackdrop />

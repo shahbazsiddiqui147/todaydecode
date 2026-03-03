@@ -72,9 +72,9 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
         const region = getRegionForCountry(iso);
         const riskScore = getRiskForCountry(iso);
 
-        // Position tooltip close to mouse cursor
-        const x = event.clientX + 10;
-        const y = event.clientY + 10;
+        // Position tooltip very close to mouse cursor
+        const x = event.clientX + 5;
+        const y = event.clientY + 5;
 
         const initialData: RegionDataInfo = {
             id: iso,
@@ -169,7 +169,7 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
 
             {/* Map Visualization (Hidden on small mobile, shown on tablet/desktop) */}
             <div className={cn(
-                "relative aspect-[16/9] w-full border border-border/50 rounded-2xl overflow-hidden bg-secondary/5",
+                "relative aspect-[21/9] lg:aspect-[3/1] w-full border border-border/50 rounded-2xl overflow-hidden bg-secondary/5",
                 (isMobile && !isBackdrop) ? "hidden lg:block opacity-40" : "block"
             )}>
                 <ComposableMap
@@ -250,7 +250,7 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                             pointerEvents: "none",
                             zIndex: 100
                         }}
-                        className="bg-card/95 border border-border p-6 rounded-[2rem] shadow-2xl backdrop-blur-2xl min-w-[320px] max-w-[400px] shadow-subtle-glow transition-colors duration-300"
+                        className="bg-card/95 border border-border p-4 rounded-3xl shadow-2xl backdrop-blur-2xl min-w-[280px] max-w-[350px] shadow-subtle-glow transition-colors duration-300"
                     >
                         <div className="flex flex-col space-y-6">
                             <div className="flex items-center justify-between border-b border-border/10 pb-4">
