@@ -128,9 +128,9 @@ export default function CategoriesPage() {
 
     return (
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#1E293B] dark:border-[#1E293B]">
+            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#1E293B]">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black uppercase tracking-tighter text-slate-900 dark:text-[#94A3B8] italic">Strategic <span className="text-[#64748B] dark:text-[#F1F5F9] not-italic">Silos</span></h1>
+                    <h1 className="text-3xl font-black uppercase tracking-tighter text-slate-900 dark:text-[#22D3EE] italic">Strategic <span className="text-[#64748B] dark:text-[#F1F5F9] not-italic">Silos</span></h1>
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Institutional parameters for global risk analysis and analysis desks.</p>
                 </div>
                 <Button onClick={() => { setEditingCategory(null); setFormData({ name: "", slug: "", description: "", order: "0", isVisible: true, icon: "", leadAnalyst: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-none hover:bg-black dark:hover:bg-white/90">
@@ -138,10 +138,10 @@ export default function CategoriesPage() {
                 </Button>
             </header>
 
-            <div className="bg-card border border-[#E2E8F0] dark:border-[#1E293B] rounded-3xl overflow-hidden shadow-sm shadow-black/5 dark:shadow-none transition-colors">
+            <div className="bg-card border border-[#1E293B] rounded-3xl overflow-hidden shadow-sm shadow-black/5 dark:shadow-none transition-colors">
                 <Table className="border-collapse">
                     <TableHeader className="bg-slate-50 dark:bg-white/5">
-                        <TableRow className="border-b border-[#E2E8F0] dark:border-[#1E293B] hover:bg-transparent">
+                        <TableRow className="border-b border-[#1E293B] hover:bg-transparent">
                             <TableHead className="w-16 text-center text-[#1E293B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Priority</TableHead>
                             <TableHead className="py-5 pl-8 text-[#1E293B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Strategic Silo</TableHead>
                             <TableHead className="text-[#1E293B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Protocol Path (Slug)</TableHead>
@@ -164,7 +164,7 @@ export default function CategoriesPage() {
                                 <TableCell colSpan={5} className="h-64 text-center text-[#64748B] font-bold uppercase tracking-widest text-[10px] italic">No silos found in system interface.</TableCell>
                             </TableRow>
                         ) : categories.map((cat) => (
-                            <TableRow key={cat.id} className="group border-b border-[#E2E8F0] dark:border-[#1E293B] hover:bg-muted/30 transition-colors">
+                            <TableRow key={cat.id} className="group border-b border-[#1E293B] hover:bg-muted/30 transition-colors">
                                 <TableCell className="text-center font-mono font-black text-xs text-muted-foreground/60">
                                     {cat.order}
                                 </TableCell>

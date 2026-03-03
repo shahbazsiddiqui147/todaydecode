@@ -14,13 +14,25 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function Header() {
+export function Header({ navigationItems = [] }: { navigationItems?: any[] }) {
     const { data: session } = useSession();
 
     return (
         <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center justify-between border-b border-border-slate bg-background/80 backdrop-blur-md px-6">
-            <div className="flex flex-1 items-center">
+            <div className="flex flex-1 items-center gap-8">
                 <CommandK />
+
+                <nav className="hidden lg:flex items-center gap-6">
+                    {navigationItems.map((item) => (
+                        <Link
+                            key={item.id}
+                            href={item.href}
+                            className="text-[10px] font-black uppercase tracking-[0.2em] text-[#94A3B8] hover:text-[#22D3EE] transition-colors"
+                        >
+                            {item.label}
+                        </Link>
+                    ))}
+                </nav>
             </div>
 
             <div className="flex items-center space-x-4">

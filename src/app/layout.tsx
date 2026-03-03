@@ -7,7 +7,14 @@ import { constructMetadata } from "@/lib/seo";
 import { ClientLayout } from "@/components/layout/client-layout";
 import { Suspense } from "react";
 import { PreviewBanner } from "@/components/ui/PreviewBanner";
-import { fetchShellCategories, fetchShellMetrics, fetchHighestRiskAlert } from "@/lib/fetchers";
+import {
+  fetchShellCategories,
+  fetchShellMetrics,
+  fetchHighestRiskAlert,
+  fetchHeaderNavigation,
+  fetchSideNavigation,
+  fetchSiteSettings
+} from "@/lib/fetchers";
 
 import { Footer } from "@/components/layout/footer";
 
@@ -27,19 +34,24 @@ export const metadata = constructMetadata({
   path: "/",
 });
 
-async function ShellDataWrapper({ children, isMaintenanceMode }: { children: React.ReactNode, isMaintenanceMode: boolean }) {
-  const [categories, metrics, highestRiskAlert] = await Promise.all([
+async function ShellDataWrapper({ children }: { children: React.ReactNode }) {
+  const [categories, metrics, highestRiskAlert, headerNav, sideNav, settings] = await Promise.all([
     fetchShellCategories(),
     fetchShellMetrics(),
-    fetchHighestRiskAlert()
+    fetchHighestRiskAlert(),
+    fetchHeaderNavigation(),
+    fetchSideNavigation(),
+    fetchSiteSettings()
   ]);
 
   return (
     <ClientLayout
-      isMaintenanceMode={isMaintenanceMode}
+      isMaintenanceMode={settings.maintenanceMode}
       initialCategories={categories}
       initialMetrics={metrics}
       initialAlert={highestRiskAlert as any}
+      headerNavigation={headerNav}
+      sideNavigation={sideNav}
       footer={<Footer />}
     >
       {children}
@@ -52,12 +64,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // 1. Get maintenance state
-  const m1 = process.env.MAINTENANCE_MODE;
-  const m2 = process.env.NEXT_PUBLIC_MAINTENANCE_MODE;
-  const maintenanceRaw = String(m1 || m2 || '').toLowerCase().trim();
-  const isMaintenanceMode = maintenanceRaw.includes('true') || maintenanceRaw === '1' || maintenanceRaw === 'on';
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
@@ -78,7 +84,7 @@ export default async function RootLayout({
                 </span>
               </div>
             }>
-              <ShellDataWrapper isMaintenanceMode={false}>
+              <ShellDataWrapper>
                 {children}
               </ShellDataWrapper>
               <PreviewBanner />

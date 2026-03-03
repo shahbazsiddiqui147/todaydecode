@@ -34,16 +34,26 @@ const ICON_MAP: Record<string, any> = {
     "data": Database
 };
 
-export function Sidebar({ initialCategories = [], initialMetrics = null }: { initialCategories?: any[], initialMetrics?: any }) {
+export function Sidebar({
+    initialCategories = [],
+    initialMetrics = null,
+    navigationItems = []
+}: {
+    initialCategories?: any[],
+    initialMetrics?: any,
+    navigationItems?: any[]
+}) {
     const pathname = usePathname();
     const [metrics, setMetrics] = useState<any>(initialMetrics);
     const [categories, setCategories] = useState<any[]>(initialCategories);
+    const [curatedNav, setCuratedNav] = useState<any[]>(navigationItems);
 
     // Sync with props if they change (e.g. on navigation or revalidation)
     useEffect(() => {
         if (initialCategories.length > 0) setCategories(initialCategories);
         if (initialMetrics) setMetrics(initialMetrics);
-    }, [initialCategories, initialMetrics]);
+        if (navigationItems.length > 0) setCuratedNav(navigationItems);
+    }, [initialCategories, initialMetrics, navigationItems]);
 
     return (
         <div className="hidden md:flex w-72 flex-col bg-sidebar border-r border-border-slate overflow-y-auto overflow-x-hidden scrollbar-none">
@@ -57,14 +67,16 @@ export function Sidebar({ initialCategories = [], initialMetrics = null }: { ini
                 {/* Navigation */}
                 <nav className="space-y-1">
                     <div className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] px-2 mb-3">
-                        Strategic Archive
+                        {curatedNav.length > 0 ? "Strategic Navigation" : "Strategic Archive"}
                     </div>
-                    {categories.map((item) => {
-                        const slug = item.slug.replace(/^\/|\/$/g, '');
-                        const href = `/${slug}/`;
-                        const isActive = pathname === href || pathname.startsWith(`/${slug}/`);
+                    {(curatedNav.length > 0 ? curatedNav : categories).map((item) => {
+                        const label = item.label || item.name;
+                        const rawHref = item.href || `/${item.slug.replace(/^\/|\/$/g, '')}/`;
+                        const href = rawHref.startsWith('http') || rawHref === '/' ? rawHref : (rawHref.endsWith('/') ? rawHref : `${rawHref}/`);
+
+                        const isActive = pathname === href || (href !== '/' && pathname.startsWith(href));
                         // Lookup icon or fallback to Globe
-                        const Icon = ICON_MAP[item.slug.replace('/', '')] || ICON_MAP[item.name.toLowerCase()] || Globe;
+                        const Icon = ICON_MAP[label.toLowerCase()] || ICON_MAP[item.slug?.replace('/', '')] || Globe;
 
                         return (
                             <Link
@@ -79,13 +91,13 @@ export function Sidebar({ initialCategories = [], initialMetrics = null }: { ini
                             >
                                 <Icon className={cn(
                                     "mr-3 h-5 w-5 shrink-0 transition-colors",
-                                    isActive ? "text-accent-red" : "group-hover:text-accent-red"
+                                    isActive ? "text-[#22D3EE]" : "group-hover:text-[#22D3EE]"
                                 )} />
-                                {item.name}
+                                {label}
                             </Link>
                         );
                     })}
-                    {categories.length === 0 && (
+                    {curatedNav.length === 0 && categories.length === 0 && (
                         <div className="px-2 py-4 text-[10px] font-bold text-slate-600 uppercase italic tracking-widest">
                             Mapping Strategic Silos...
                         </div>

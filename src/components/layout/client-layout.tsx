@@ -13,6 +13,8 @@ interface ClientLayoutProps {
     initialCategories?: any[];
     initialMetrics?: any;
     initialAlert?: any;
+    headerNavigation?: any[];
+    sideNavigation?: any[];
 }
 
 export function ClientLayout({
@@ -21,7 +23,9 @@ export function ClientLayout({
     isMaintenanceMode,
     initialCategories = [],
     initialMetrics = null,
-    initialAlert = null
+    initialAlert = null,
+    headerNavigation = [],
+    sideNavigation = []
 }: ClientLayoutProps) {
     const pathname = usePathname();
 
@@ -49,10 +53,14 @@ export function ClientLayout({
     return (
         <AnalyticsProvider>
             <div className="flex min-h-screen bg-background text-foreground">
-                <Sidebar initialCategories={initialCategories} initialMetrics={initialMetrics} />
+                <Sidebar
+                    initialCategories={initialCategories}
+                    initialMetrics={initialMetrics}
+                    navigationItems={sideNavigation}
+                />
                 <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
                     <BreakingAlert initialAlert={initialAlert} />
-                    <Header />
+                    <Header navigationItems={headerNavigation} />
                     <main className="flex-1 p-6 md:p-8">
                         {children}
                     </main>

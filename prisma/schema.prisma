@@ -194,3 +194,23 @@ model Page {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
+
+model SiteSettings {
+  id               String   @id @default("1")
+  siteName         String   @default("Today Decode")
+  logoUrl          String?
+  faviconUrl       String?
+  socialLinks      Json?    // { x, linkedin, facebook }
+  maintenanceMode  Boolean  @default(false)
+  updatedAt        DateTime @updatedAt
+}
+
+model NavigationItem {
+  id        String   @id @default(cuid())
+  label     String
+  href      String
+  order     Int      @default(0)
+  type      String   @default("HEADER") // HEADER, SIDEBAR, FOOTER
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

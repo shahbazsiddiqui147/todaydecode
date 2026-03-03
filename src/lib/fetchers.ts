@@ -70,3 +70,39 @@ export async function fetchHighestRiskAlert() {
         return null;
     }
 }
+
+export async function fetchSideNavigation() {
+    try {
+        return await prisma.navigationItem.findMany({
+            where: { type: "SIDEBAR" },
+            orderBy: { order: "asc" }
+        });
+    } catch (error) {
+        return [];
+    }
+}
+
+export async function fetchHeaderNavigation() {
+    try {
+        return await prisma.navigationItem.findMany({
+            where: { type: "HEADER" },
+            orderBy: { order: "asc" }
+        });
+    } catch (error) {
+        return [];
+    }
+}
+
+export async function fetchSiteSettings() {
+    try {
+        let settings = await prisma.siteSettings.findUnique({ where: { id: "1" } });
+        if (!settings) {
+            settings = await prisma.siteSettings.create({
+                data: { id: "1", siteName: "Today Decode" }
+            });
+        }
+        return settings;
+    } catch (error) {
+        return { siteName: "Today Decode", maintenanceMode: false };
+    }
+}

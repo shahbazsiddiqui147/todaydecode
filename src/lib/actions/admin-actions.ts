@@ -68,6 +68,22 @@ const PageSchema = z.object({
     metaDescription: z.string().optional().nullable(),
 });
 
+const SiteSettingsSchema = z.object({
+    siteName: z.string().min(2, "Site name required."),
+    logoUrl: z.string().optional().nullable(),
+    faviconUrl: z.string().optional().nullable(),
+    socialLinks: z.record(z.string(), z.string().url().or(z.literal(""))).optional().nullable(),
+    maintenanceMode: z.boolean().default(false),
+});
+
+const NavigationItemSchema = z.object({
+    id: z.string().optional(),
+    label: z.string().min(2, "Label required."),
+    href: z.string().min(1, "Link required."),
+    order: z.number().int().default(0),
+    type: z.enum(["HEADER", "SIDEBAR", "FOOTER"]).default("HEADER"),
+});
+
 // --- Utilities ---
 
 // --- Utilities (Deprecated in favor of central slugify) ---
@@ -373,6 +389,114 @@ export async function getAdminPages() {
 
 export async function getAdminPageById(id: string) {
     return await prisma.page.findUnique({ where: { id } });
+}
+
+// --- Site Settings Actions ---
+
+export async function getSiteSettings() {
+    let settings = await prisma.siteSettings.findUnique({ where: { id: "1" } });
+    if (!settings) {
+        settings = await prisma.siteSettings.create({
+            data: { id: "1", siteName: "Today Decode" }
+        });
+    }
+    return settings;
+}
+
+export async function upsertSiteSettings(data: z.infer<typeof SiteSettingsSchema>) {
+    try {
+        const validated = SiteSettingsSchema.parse(data);
+        const settings = await prisma.siteSettings.upsert({
+            where: { id: "1" },
+            update: {
+                siteName: validated.siteName,
+                logoUrl: validated.logoUrl,
+                faviconUrl: validated.faviconUrl,
+                socialLinks: validated.socialLinks as any,
+                maintenanceMode: validated.maintenanceMode,
+            },
+            create: {
+                id: "1",
+                siteName: validated.siteName,
+                logoUrl: validated.logoUrl,
+                faviconUrl: validated.faviconUrl,
+                socialLinks: validated.socialLinks as any,
+                maintenanceMode: validated.maintenanceMode,
+            },
+        });
+        revalidatePath("/");
+        return { success: true, data: settings };
+    } catch (error: any) {
+        return { success: false, error: "Settings sync failed." };
+    }
+}
+
+// --- Navigation Actions ---
+
+export async function getNavigationItems() {
+    return await prisma.navigationItem.findMany({ orderBy: { order: "asc" } });
+}
+
+export async function upsertNavigationItem(data: z.infer<typeof NavigationItemSchema>) {
+    try {
+        const validated = NavigationItemSchema.parse(data);
+        // Trailing slash enforcement
+        if (validated.href !== "/" && !validated.href.endsWith("/") && !validated.href.startsWith("http")) {
+            validated.href = `${validated.href}/`;
+        }
+
+        const nav = await prisma.navigationItem.upsert({
+            where: { id: validated.id || "new-nav" },
+            update: {
+                label: validated.label,
+                href: validated.href,
+                order: validated.order,
+                type: validated.type,
+            },
+            create: {
+                label: validated.label,
+                href: validated.href,
+                order: validated.order,
+                type: validated.type,
+            },
+        });
+        revalidatePath("/");
+        return { success: true, data: nav };
+    } catch (error) {
+        return { success: false, error: "Navigation sync failed." };
+    }
+}
+
+export async function deleteNavigationItem(id: string) {
+    try {
+        await prisma.navigationItem.delete({ where: { id } });
+        revalidatePath("/");
+        return { success: true };
+    } catch (error) {
+        return { success: false, error: "Link removal failed." };
+    }
+}
+
+// --- Contributor/Analyst Pipeline Actions ---
+
+export async function getPendingAnalysts() {
+    return await prisma.user.findMany({
+        where: { role: "GUEST" },
+        orderBy: { email: "asc" }
+    });
+}
+
+export async function approveAnalyst(userId: string) {
+    try {
+        await prisma.user.update({
+            where: { id: userId },
+            data: { role: "ANALYST" }
+        });
+        revalidatePath("/admin/contributors/");
+        return { success: true };
+    } catch (error) {
+        return { success: false, error: "Authorization failed." };
+    }
 }
 
 /**
