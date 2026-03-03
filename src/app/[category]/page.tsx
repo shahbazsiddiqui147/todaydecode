@@ -80,14 +80,9 @@ function CategoryDesk({ silo }: { silo: any }) {
 
                     <div className="flex flex-col space-y-8 max-w-4xl">
                         <div className="space-y-6">
-                            <div className="flex flex-wrap items-center gap-4">
-                                <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-foreground italic leading-none">
-                                    {silo.name}
-                                </h1>
-                                <div className="inline-flex items-center px-4 py-1.5 bg-foreground text-background rounded-sm text-[11px] font-black tracking-[0.2em] uppercase">
-                                    Risk Rating: {silo.avgRisk}/100
-                                </div>
-                            </div>
+                            <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-foreground italic leading-none whitespace-nowrap">
+                                {silo.name}
+                            </h1>
 
                             <p className="text-[#94A3B8] max-w-2xl text-xl font-medium uppercase tracking-tight leading-relaxed">
                                 {silo.description || "Active research tracking and strategic risk assessment for this global sector."}
