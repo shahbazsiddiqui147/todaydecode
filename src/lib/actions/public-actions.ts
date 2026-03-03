@@ -172,10 +172,9 @@ export const getPublicAuthorBySlug = cache(async (slug: string) => {
 export const getCategoryBySlug = cache(async (slug: string) => {
     try {
         const clean = slug.replace(/^\/|\/$/g, '');
-        const normalizedSlug = `/${clean}/`;
 
         const category = await prisma.category.findUnique({
-            where: { slug: normalizedSlug },
+            where: { slug: clean },
             include: {
                 articles: {
                     where: { status: "PUBLISHED" as any },
@@ -209,10 +208,9 @@ export const getCategoryBySlug = cache(async (slug: string) => {
 export const getArticlesByCategory = cache(async (categorySlug: string, limit = 10) => {
     try {
         const clean = categorySlug.replace(/^\/|\/$/g, '');
-        const normalizedSlug = `/${clean}/`;
 
         const category = await prisma.category.findUnique({
-            where: { slug: normalizedSlug }
+            where: { slug: clean }
         });
 
         if (!category) return [];
@@ -241,10 +239,9 @@ export const getArticlesByCategory = cache(async (categorySlug: string, limit = 
 export const getPageBySlug = cache(async (slug: string) => {
     try {
         const clean = slug.replace(/^\/|\/$/g, '');
-        const normalizedSlug = `/${clean}/`;
 
         return await prisma.page.findUnique({
-            where: { slug: normalizedSlug }
+            where: { slug: clean }
         });
     } catch (error) {
         console.error("Critical fetching error [Institutional Page]:", error);
