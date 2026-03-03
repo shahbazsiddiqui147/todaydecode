@@ -85,8 +85,8 @@ export function Sidebar({
                                 className={cn(
                                     "group flex items-center px-2 py-2.5 text-sm font-medium rounded-md transition-all",
                                     isActive
-                                        ? "bg-secondary text-slate-900 dark:text-[#F1F5F9] shadow-lg shadow-black/5 dark:shadow-black/40"
-                                        : "text-muted-foreground hover:bg-secondary/50 hover:text-slate-900 dark:text-[#F1F5F9]"
+                                        ? "bg-secondary text-slate-950 dark:text-white shadow-lg shadow-black/5 dark:shadow-black/40"
+                                        : "text-muted-foreground hover:bg-secondary/50 hover:text-slate-950 dark:text-white"
                                 )}
                             >
                                 <Icon className={cn(

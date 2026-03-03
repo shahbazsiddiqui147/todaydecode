@@ -72,7 +72,7 @@ function CategoryDesk({ silo }: { silo: any }) {
         <div className="min-h-screen bg-background text-foreground">
             {/* Structural Header */}
             <div className="w-full border-b border-border bg-secondary/30 backdrop-blur-sm">
-                <div className="max-w-7xl mx-auto px-6 py-12 space-y-8">
+                <div className="max-w-screen-2xl mx-auto px-6 py-12 space-y-8">
                     <Breadcrumbs items={[
                         { label: 'Home', href: '/' },
                         { label: silo.name, href: `/${silo.slug.replace(/^\/|\/$/g, '')}/` }
@@ -121,7 +121,7 @@ function CategoryDesk({ silo }: { silo: any }) {
             </div>
 
             {/* Strategic Grid */}
-            <div className="max-w-7xl mx-auto px-6 py-20 bg-transparent">
+            <div className="max-w-screen-2xl mx-auto px-6 py-20 bg-transparent">
                 <div className="flex items-center justify-between mb-12 border-b border-border pb-6">
                     <div className="flex items-center gap-3">
                         <Layers className="h-5 w-5 text-accent-red" />
@@ -172,7 +172,7 @@ function CategoryDesk({ silo }: { silo: any }) {
 function InstitutionalPage({ page }: { page: any }) {
     return (
         <article className="min-h-screen bg-background text-foreground pb-32">
-            <div className="max-w-4xl mx-auto px-6 py-20 space-y-16">
+            <div className="max-w-5xl mx-auto px-6 py-20 space-y-16">
                 <div className="space-y-8">
                     <Breadcrumbs items={[
                         { label: 'Home', href: '/' },
