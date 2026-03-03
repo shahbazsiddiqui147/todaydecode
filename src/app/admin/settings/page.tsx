@@ -79,7 +79,7 @@ export default function SettingsPage() {
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#1E293B] dark:border-[#1E293B]">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#0F172A] dark:text-[#F1F5F9] italic pb-1">Platform <span className="text-[#64748B] dark:text-[#94A3B8] not-italic">Parameters</span></h1>
+                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#22D3EE] dark:text-[#22D3EE] italic pb-1">Platform <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Parameters</span></h1>
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Configure global institutional sovereignty settings.</p>
                 </div>
                 <Button

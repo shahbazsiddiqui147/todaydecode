@@ -34,7 +34,7 @@ const GROUPS = [
         items: [
             { name: "Articles", icon: FileText, href: "/admin/articles/" },
             { name: "Drafts", icon: FileEdit, href: "/admin/drafts/" },
-            { name: "Media Library", icon: ImageIcon, href: "/admin/media-library/" },
+            { name: "Media Library", icon: ImageIcon, href: "/admin/media/" },
         ]
     },
     {
@@ -56,7 +56,7 @@ const GROUPS = [
         name: "System",
         items: [
             { name: "Analytics", icon: BarChart3, href: "/admin/analytics/" },
-            { name: "Audit Logs", icon: History, href: "/admin/audit-logs/" },
+            { name: "Audit Logs", icon: History, href: "/admin/logs/" },
             { name: "Settings", icon: Settings, href: "/admin/settings/" },
         ]
     }
@@ -71,10 +71,10 @@ export function Sidebar() {
                 <div className="flex items-center space-x-2.5">
                     <div className="flex items-center space-x-3">
                         <div className="border border-border dark:border-[#1E293B] p-2 rounded-xl bg-[#0F172A] dark:bg-[#020617] shadow-sm">
-                            <ShieldCheck className="h-5 w-5 text-[#F1F5F9] dark:text-[#F1F5F9]" />
+                            <ShieldCheck className="h-5 w-5 text-[#22D3EE] dark:text-[#22D3EE]" />
                         </div>
-                        <span className="font-black uppercase tracking-tighter text-base text-white dark:text-[#F1F5F9] italic leading-none">
-                            Strategic <span className="text-slate-400 dark:text-[#94A3B8] not-italic font-medium">Hub</span>
+                        <span className="font-black uppercase tracking-tighter text-base text-[#22D3EE] dark:text-[#22D3EE] italic leading-none">
+                            Strategic <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic font-medium">Hub</span>
                         </span>
                     </div>
                 </div>

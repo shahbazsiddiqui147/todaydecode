@@ -120,7 +120,7 @@ export default function ArticlesPage() {
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#1E293B]">
                 <div>
-                    <h1 className="text-3xl font-black tracking-tight text-[#0F172A] dark:text-[#F1F5F9] uppercase italic pb-1">Strategic <span className="text-[#64748B] dark:text-[#94A3B8] not-italic">Hub</span></h1>
+                    <h1 className="text-3xl font-black tracking-tight text-[#22D3EE] dark:text-[#22D3EE] uppercase italic pb-1">Strategic <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Hub</span></h1>
                     <p className="text-[#64748B] dark:text-[#94A3B8] text-xs font-black uppercase tracking-widest">Manage geopolitical reports and scenarios.</p>
                 </div>
                 <Link href="/admin/articles/new/">
@@ -177,7 +177,7 @@ export default function ArticlesPage() {
                                                     {getStatusBadge(article.status)}
                                                 </div>
                                                 <div className="space-y-1">
-                                                    <h3 className="text-sm font-black text-[#0F172A] dark:text-[#F1F5F9] leading-none tracking-tight hover:text-primary transition-colors cursor-pointer uppercase font-medium">
+                                                    <h3 className="text-sm font-black text-[#F1F5F9] dark:text-[#F1F5F9] leading-none tracking-tight hover:text-primary transition-colors cursor-pointer uppercase font-medium">
                                                         <Link href={`/admin/articles/${article.id}/`}>{article.title}</Link>
                                                     </h3>
                                                     <div className="flex items-center gap-2 text-[10px] text-muted-foreground/60 font-black uppercase tracking-widest">
@@ -192,7 +192,7 @@ export default function ArticlesPage() {
                                         </TableCell>
                                         <TableCell>
                                             <div className="space-y-1">
-                                                <div className="flex items-center gap-2 text-[11px] font-black text-[#0F172A] dark:text-[#F1F5F9] uppercase tracking-tight font-medium">
+                                                <div className="flex items-center gap-2 text-[11px] font-black text-[#F1F5F9] dark:text-[#F1F5F9] uppercase tracking-tight font-medium">
                                                     <span className="w-1 h-3 bg-primary" />
                                                     {article.author.name}
                                                 </div>

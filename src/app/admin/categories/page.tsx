@@ -130,7 +130,7 @@ export default function CategoriesPage() {
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#1E293B]">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#0F172A] dark:text-[#F1F5F9] italic">Strategic <span className="text-[#64748B] dark:text-[#94A3B8] not-italic">Silos</span></h1>
+                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#22D3EE] dark:text-[#22D3EE] italic">Strategic <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Silos</span></h1>
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Institutional parameters for global risk analysis and analysis desks.</p>
                 </div>
                 <Button onClick={() => { setEditingCategory(null); setFormData({ name: "", slug: "", description: "", order: "0", isVisible: true, icon: "", leadAnalyst: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-none hover:bg-black dark:hover:bg-white/90">
@@ -173,7 +173,7 @@ export default function CategoriesPage() {
                                         <div className="h-10 w-10 rounded-xl bg-muted/50 border border-border flex items-center justify-center shrink-0">
                                             <Map className="h-5 w-5 text-[#94A3B8] group-hover:text-[#22D3EE] transition-colors" />
                                         </div>
-                                        <div className="text-sm font-black text-[#0F172A] dark:text-[#F1F5F9] uppercase tracking-tight font-medium">{cat.name}</div>
+                                        <div className="text-sm font-black text-[#F1F5F9] dark:text-[#F1F5F9] uppercase tracking-tight font-medium">{cat.name}</div>
                                     </div>
                                 </TableCell>
                                 <TableCell className="font-mono text-[10px] text-muted-foreground/60">{cat.slug}</TableCell>
