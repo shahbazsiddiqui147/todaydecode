@@ -130,7 +130,7 @@ export default function ContributorsAdminPage() {
                                                 {user.image ? <img src={user.image} className="h-full w-full object-cover rounded-xl" /> : (user.name || user.email || "?").charAt(0)}
                                             </div>
                                             <div className="space-y-0.5">
-                                                <p className="text-sm font-black uppercase tracking-tight text-[#0F172A] dark:text-[#F1F5F9]">{user.name || "Unidentified Applicant"}</p>
+                                                <p className="text-sm font-black uppercase tracking-tight text-[#0F172A] dark:text-[#F1F5F9] font-medium">{user.name || "Unidentified Applicant"}</p>
                                                 <p className="text-[10px] font-mono text-muted-foreground/60 flex items-center gap-1.5"><Mail className="h-3 w-3" /> {user.email}</p>
                                             </div>
                                         </div>

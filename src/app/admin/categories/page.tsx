@@ -173,7 +173,7 @@ export default function CategoriesPage() {
                                         <div className="h-10 w-10 rounded-xl bg-muted/50 border border-border flex items-center justify-center shrink-0">
                                             <Map className="h-5 w-5 text-[#94A3B8] group-hover:text-[#22D3EE] transition-colors" />
                                         </div>
-                                        <div className="text-sm font-black text-[#0F172A] dark:text-[#F1F5F9] uppercase tracking-tight">{cat.name}</div>
+                                        <div className="text-sm font-black text-[#0F172A] dark:text-[#F1F5F9] uppercase tracking-tight font-medium">{cat.name}</div>
                                     </div>
                                 </TableCell>
                                 <TableCell className="font-mono text-[10px] text-muted-foreground/60">{cat.slug}</TableCell>

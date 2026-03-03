@@ -162,7 +162,7 @@ export default function SettingsPage() {
                     <div className="bg-[#111827] border border-[#1E293B] p-8 rounded-[2rem] shadow-sm space-y-8">
                         <div className="flex items-center gap-3 border-b border-[#1E293B] pb-6">
                             <Globe className="h-4 w-4 text-[#22D3EE]" />
-                            <h2 className="text-xs font-black uppercase tracking-widest italic text-[#F1F5F9]">Interface State</h2>
+                            <h2 className="text-xs font-black uppercase tracking-widest italic text-[#F1F5F9] font-medium">Interface State</h2>
                         </div>
 
                         <button

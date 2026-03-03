@@ -177,7 +177,7 @@ export default function ArticlesPage() {
                                                     {getStatusBadge(article.status)}
                                                 </div>
                                                 <div className="space-y-1">
-                                                    <h3 className="text-sm font-black text-foreground leading-none tracking-tight hover:text-primary transition-colors cursor-pointer uppercase">
+                                                    <h3 className="text-sm font-black text-[#0F172A] dark:text-[#F1F5F9] leading-none tracking-tight hover:text-primary transition-colors cursor-pointer uppercase font-medium">
                                                         <Link href={`/admin/articles/${article.id}/`}>{article.title}</Link>
                                                     </h3>
                                                     <div className="flex items-center gap-2 text-[10px] text-muted-foreground/60 font-black uppercase tracking-widest">
@@ -192,7 +192,7 @@ export default function ArticlesPage() {
                                         </TableCell>
                                         <TableCell>
                                             <div className="space-y-1">
-                                                <div className="flex items-center gap-2 text-[11px] font-black text-foreground uppercase tracking-tight">
+                                                <div className="flex items-center gap-2 text-[11px] font-black text-[#0F172A] dark:text-[#F1F5F9] uppercase tracking-tight font-medium">
                                                     <span className="w-1 h-3 bg-primary" />
                                                     {article.author.name}
                                                 </div>

@@ -191,7 +191,7 @@ export default function AuthorsPage() {
                                             {author.image ? <img src={author.image} alt="" className="h-full w-full object-cover" /> : <span className="text-white font-black italic uppercase text-xs">{(author.name || "A").charAt(0)}</span>}
                                         </div>
                                         <div className="space-y-0.5">
-                                            <div className="text-sm font-black text-[#0F172A] dark:text-[#F1F5F9] uppercase tracking-tight">{author.name}</div>
+                                            <div className="text-sm font-black text-[#0F172A] dark:text-[#F1F5F9] uppercase tracking-tight font-medium">{author.name}</div>
                                             <div className="text-[10px] font-mono text-muted-foreground/60 lowercase">{author.slug}</div>
                                         </div>
                                     </div>
