@@ -69,7 +69,7 @@ function CategoryDesk({ silo }: { silo: any }) {
     const reportCount = reports.length;
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#0A0F1E] text-foreground transition-colors duration-300">
+        <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
             {/* Structural Header */}
             <div className="w-full bg-transparent">
                 <div className="max-w-screen-2xl mx-auto px-6 py-20 space-y-12">
@@ -84,7 +84,7 @@ function CategoryDesk({ silo }: { silo: any }) {
                                 {silo.name}
                             </h1>
 
-                            <p className="text-[#94A3B8] max-w-2xl text-xl font-medium uppercase tracking-tight leading-relaxed">
+                            <p className="text-muted-foreground max-w-2xl text-xl font-medium uppercase tracking-tight leading-relaxed">
                                 {silo.description || "Active research tracking and strategic risk assessment for this global sector."}
                             </p>
                         </div>

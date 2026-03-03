@@ -61,7 +61,7 @@ export function ClientLayout({
                 <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
                     <BreakingAlert initialAlert={initialAlert} />
                     <Header navigationItems={headerNavigation} />
-                    <main className="flex-1 p-6 md:p-8">
+                    <main className="flex-1">
                         {children}
                     </main>
                     {footer}
