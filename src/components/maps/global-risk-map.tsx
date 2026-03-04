@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
 import { scaleLinear } from "d3-scale";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { getLatestReportsByRegion, getCountryMetric } from "@/lib/actions/public-actions";
@@ -43,9 +43,17 @@ interface GlobalRiskMapProps {
 }
 
 export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRiskMapProps) {
-    const [tooltip, setTooltip] = useState<{ x: number; y: number; data: RegionDataInfo } | null>(null);
+    const [tooltip, setTooltip] = useState<{ id: string; data: RegionDataInfo } | null>(null);
     const [loadingReports, setLoadingReports] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+
+    // High-precision mouse tracking
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    // Smooth spring animation for the tooltip movement
+    const smoothX = useSpring(mouseX, { damping: 20, stiffness: 150 });
+    const smoothY = useSpring(mouseY, { damping: 20, stiffness: 150 });
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 1024);
@@ -72,10 +80,6 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
         const region = getRegionForCountry(iso);
         const riskScore = getRiskForCountry(iso);
 
-        // Position tooltip very close to mouse cursor
-        const x = event.clientX + 5;
-        const y = event.clientY + 5;
-
         const initialData: RegionDataInfo = {
             id: iso,
             name: (geo.properties && geo.properties.NAME) || iso,
@@ -85,7 +89,11 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
             metrics: null
         };
 
-        setTooltip({ x, y, data: initialData });
+        setTooltip({ id: iso, data: initialData });
+
+        // Update mouse position immediately on entry
+        mouseX.set(event.clientX);
+        mouseY.set(event.clientY);
 
         setLoadingReports(true);
         try {
@@ -168,10 +176,18 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
             )}
 
             {/* Map Visualization (Hidden on small mobile, shown on tablet/desktop) */}
-            <div className={cn(
-                "relative aspect-[21/9] lg:aspect-[3/1] w-full border border-border/50 rounded-2xl overflow-hidden bg-secondary/5",
-                (isMobile && !isBackdrop) ? "hidden lg:block opacity-40" : "block"
-            )}>
+            <div
+                onMouseMove={(e) => {
+                    if (!isMobile) {
+                        mouseX.set(e.clientX);
+                        mouseY.set(e.clientY);
+                    }
+                }}
+                className={cn(
+                    "relative aspect-[21/9] lg:aspect-[3/1] w-full border border-border/50 rounded-2xl overflow-hidden bg-secondary/5",
+                    (isMobile && !isBackdrop) ? "hidden lg:block opacity-40" : "block"
+                )}
+            >
                 <ComposableMap
                     projectionConfig={{ scale: 140 }}
                     className="w-full h-full"
@@ -202,7 +218,7 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                                                     stroke: "var(--primary)",
                                                     strokeWidth: 1,
                                                     outline: "none",
-                                                    filter: "drop-shadow(0 0 12px rgba(34, 211, 238, 0.4))",
+                                                    filter: "drop-shadow(0 0 16px rgba(255, 255, 255, 0.6))",
                                                     cursor: "pointer"
                                                 },
                                                 pressed: {
@@ -240,17 +256,22 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
             <AnimatePresence>
                 {!isMobile && tooltip && (
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9, y: 10 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
                         style={{
                             position: "fixed",
-                            left: tooltip.x,
-                            top: tooltip.y,
+                            left: 0,
+                            top: 0,
+                            x: smoothX,
+                            y: smoothY,
+                            // Dynamic translation based on viewport proximity
+                            translateX: mouseX.get() > window.innerWidth - 350 ? -330 : 20,
+                            translateY: mouseY.get() > window.innerHeight - 400 ? -420 : 20,
                             pointerEvents: "none",
                             zIndex: 100
                         }}
-                        className="bg-card/95 border border-border p-4 rounded-3xl shadow-2xl backdrop-blur-2xl min-w-[280px] max-w-[350px] shadow-subtle-glow transition-colors duration-300"
+                        className="bg-[#111827] border border-[#1E293B] p-4 rounded-2xl shadow-2xl backdrop-blur-2xl min-w-[280px] max-w-[320px] transition-colors duration-300 ring-1 ring-white/10"
                     >
                         <div className="flex flex-col space-y-6">
                             <div className="flex items-center justify-between border-b border-border/10 pb-4">
@@ -258,7 +279,7 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                                     <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
                                         Sovereign Entity // {tooltip.data.id}
                                     </span>
-                                    <h3 className="text-foreground font-black text-2xl tracking-tighter leading-none italic uppercase">
+                                    <h3 className="text-[#F1F5F9] font-black text-2xl tracking-tighter leading-none italic uppercase">
                                         {tooltip.data.name}
                                     </h3>
                                 </div>
