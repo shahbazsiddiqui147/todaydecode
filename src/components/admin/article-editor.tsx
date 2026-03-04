@@ -292,7 +292,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                             value={formData.featuredImage}
                                             onChange={handleChange}
                                             placeholder="https://images.unsplash.com/..."
-                                            className="flex-1 h-12 bg-white dark:!bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:!text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
+                                            className="flex-1 h-12 bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 placeholder:text-slate-500 rounded-xl focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
                                         />
                                         <div className="relative">
                                             <input
@@ -338,7 +338,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.title}
                                         onChange={handleChange}
                                         placeholder="ENTER HEADLINE..."
-                                        className="text-2xl font-black h-16 bg-white dark:!bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:!text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] px-6 uppercase tracking-tight italic shadow-sm"
+                                        className="text-2xl font-black h-16 bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 placeholder:text-slate-500 rounded-2xl focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] px-6 uppercase tracking-tight italic shadow-sm"
                                     />
                                 </div>
 
@@ -352,7 +352,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.onPageLead}
                                         onChange={handleChange}
                                         placeholder="A high-end strategic hook for the live analysis..."
-                                        className="min-h-[100px] text-sm font-medium bg-white dark:!bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:!text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
+                                        className="min-h-[100px] text-sm font-medium bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 placeholder:text-slate-500 rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
                                     />
                                 </div>
 
@@ -363,7 +363,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.summary}
                                         onChange={handleChange}
                                         placeholder="Institutional brief for the strategic silos..."
-                                        className="min-h-[120px] text-sm font-medium bg-white dark:!bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:!text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
+                                        className="min-h-[120px] text-sm font-medium bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 placeholder:text-slate-500 rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
                                     />
                                 </div>
 
@@ -391,13 +391,13 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.scenarios.best.title}
                                         onChange={(e) => handleScenarioChange("best", "title", e.target.value)}
                                         placeholder="SCENARIO TITLE..."
-                                        className="bg-white dark:!bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:!text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl font-semibold uppercase text-[11px] focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE]"
+                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 placeholder:text-slate-500 rounded-xl font-semibold uppercase text-[11px] focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE]"
                                     />
                                     <Textarea
                                         value={formData.scenarios.best.description}
                                         onChange={(e) => handleScenarioChange("best", "description", e.target.value)}
                                         placeholder="ESTABLISH THE PARAMETERS..."
-                                        className="bg-white dark:!bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:!text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl min-h-[100px] text-sm focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE]"
+                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 placeholder:text-slate-500 rounded-xl min-h-[100px] text-sm focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE]"
                                     />
                                 </div>
 
@@ -410,13 +410,13 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.scenarios.likely.title}
                                         onChange={(e) => handleScenarioChange("likely", "title", e.target.value)}
                                         placeholder="SCENARIO TITLE..."
-                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl font-semibold uppercase text-[11px] border-opacity-100 opacity-100"
+                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 placeholder:text-slate-500 rounded-xl font-semibold uppercase text-[11px]"
                                     />
                                     <Textarea
                                         value={formData.scenarios.likely.description}
                                         onChange={(e) => handleScenarioChange("likely", "description", e.target.value)}
                                         placeholder="ESTABLISH THE PARAMETERS..."
-                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl min-h-[100px] text-sm border-opacity-100 opacity-100"
+                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-950 dark:text-slate-100 placeholder:text-slate-500 rounded-xl min-h-[100px] text-sm"
                                     />
                                 </div>
 
@@ -429,13 +429,13 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.scenarios.worst.title}
                                         onChange={(e) => handleScenarioChange("worst", "title", e.target.value)}
                                         placeholder="SCENARIO TITLE..."
-                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl font-semibold uppercase text-[11px] border-opacity-100 opacity-100"
+                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 placeholder:text-slate-500 rounded-xl font-semibold uppercase text-[11px]"
                                     />
                                     <Textarea
                                         value={formData.scenarios.worst.description}
                                         onChange={(e) => handleScenarioChange("worst", "description", e.target.value)}
                                         placeholder="ESTABLISH THE PARAMETERS..."
-                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl min-h-[100px] text-sm border-opacity-100 opacity-100"
+                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-950 dark:text-slate-100 placeholder:text-slate-500 rounded-xl min-h-[100px] text-sm"
                                     />
                                 </div>
                             </div>
@@ -479,13 +479,13 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                                         value={faq.question}
                                                         onChange={(e) => handleFaqChange(idx, "question", e.target.value)}
                                                         placeholder="Semantic Inquiry..."
-                                                        className="bg-white dark:!bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:!text-[#F1F5F9] font-semibold h-10 rounded-xl focus-visible:ring-[#22D3EE]"
+                                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 font-semibold h-10 rounded-xl focus-visible:ring-[#22D3EE]"
                                                     />
                                                     <Textarea
                                                         value={faq.answer}
                                                         onChange={(e) => handleFaqChange(idx, "answer", e.target.value)}
                                                         placeholder="Institutional Authority Response..."
-                                                        className="bg-white dark:!bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-600 dark:text-slate-400 h-24 resize-none text-[13px] rounded-xl focus-visible:ring-[#22D3EE] leading-relaxed"
+                                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-700 dark:text-slate-200 h-24 resize-none text-[13px] rounded-xl focus-visible:ring-[#22D3EE] leading-relaxed"
                                                     />
                                                 </div>
                                             ))}
@@ -526,24 +526,24 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Institutional Meta Title</Label>
+                                        <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100 pl-1">Institutional Meta Title</Label>
                                         <Input
                                             name="metaTitle"
                                             value={formData.metaTitle}
                                             onChange={handleChange}
                                             placeholder="SEO Headline..."
-                                            className="h-12 bg-card border-border rounded-xl font-bold text-xs"
+                                            className="h-12 bg-white dark:bg-card border-border rounded-xl font-bold text-xs text-slate-900 dark:text-slate-100"
                                         />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Institutional Meta Description</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100 pl-1">Institutional Meta Description</Label>
                                     <Textarea
                                         name="metaDescription"
                                         value={formData.metaDescription}
                                         onChange={handleChange}
                                         placeholder="Silo summary for outside indexers..."
-                                        className="min-h-[120px] bg-card border-border rounded-xl resize-none font-medium text-xs px-6 py-4"
+                                        className="min-h-[120px] bg-white dark:bg-card border-border rounded-xl resize-none font-medium text-xs px-6 py-4 text-slate-900 dark:text-slate-100"
                                     />
                                 </div>
                             </div>
