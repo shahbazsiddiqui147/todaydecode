@@ -290,7 +290,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
 
                                 <div className="space-y-2">
                                     <Label className="text-[10px] font-black uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1 mb-2 block">Full Strategic Analysis</Label>
-                                    <div className="rounded-2xl border border-border overflow-hidden bg-background">
+                                    <div className="rounded-2xl border border-[#CBD5E1] dark:border-[#1E293B] overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F1F5F9]">
                                         <RichTextEditor
                                             value={formData.content}
                                             onChange={(val) => setFormData(prev => ({ ...prev, content: val }))}
