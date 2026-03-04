@@ -31,12 +31,13 @@ export function AnalysisCard({
         CRITICAL: "bg-accent-red/10 text-accent-red border-accent-red/20",
     }[riskLevel];
 
-    // Normalize category slug for direct routing
-    const categorySlug = category.toLowerCase().replace(/^\/|\/$/g, '');
+    // Normalize category and article slug for high-fidelity routing (prevents triple-slashes)
+    const normalizedCategory = category.toLowerCase().replace(/^\/|\/$/g, '');
+    const normalizedArticle = slug.replace(/^\/|\/$/g, '');
 
     return (
         <Link
-            href={`/${categorySlug}/${slug}/`}
+            href={`/${normalizedCategory}/${normalizedArticle}/`}
             className="group flex flex-col space-y-0 rounded-2xl border border-border bg-card overflow-hidden transition-all hover:border-accent-red/30 hover:shadow-[0_0_30px_rgba(255,75,75,0.05)]"
         >
             <div className="relative aspect-video w-full overflow-hidden border-b border-border">

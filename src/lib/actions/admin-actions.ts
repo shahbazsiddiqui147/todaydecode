@@ -279,8 +279,10 @@ export async function upsertArticle(data: z.infer<typeof ArticleSchema>) {
         // Revalidate specific analysis paths
         const category = await prisma.category.findUnique({ where: { id: validated.categoryId } });
         if (category) {
-            revalidatePath(`/${category.slug}`);
-            revalidatePath(`/${category.slug}${slug}`);
+            const categorySlug = category.slug.replace(/^\/|\/$/g, '');
+            const articleSlug = slug.replace(/^\/|\/$/g, '');
+            revalidatePath(`/${categorySlug}`);
+            revalidatePath(`/${categorySlug}/${articleSlug}`);
         }
 
         return { success: true, data: article };

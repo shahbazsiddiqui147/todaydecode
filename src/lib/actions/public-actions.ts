@@ -10,9 +10,12 @@ import { cache } from "react";
  */
 export const getPublicArticleBySlug = cache(async (slug: string) => {
     try {
+        // Normalize slug for institutional database consistency (mandatory /.../ format)
+        const normalizedSlug = `/${slug.replace(/^\/|\/$/g, '')}/`;
+
         const article = await prisma.article.findUnique({
             where: {
-                slug,
+                slug: normalizedSlug,
                 status: "PUBLISHED" as any
             } as any,
             include: {
