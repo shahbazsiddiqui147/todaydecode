@@ -42,6 +42,7 @@ model Article {
   content         String    @db.Text
   status          ArticleStatus @default(DRAFT)
   isFeatured      Boolean   @default(false)
+  isFeaturedScenario Boolean   @default(false)
   featuredImage   String?
   
   // Data-Driven Attributes

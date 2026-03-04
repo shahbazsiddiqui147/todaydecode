@@ -47,17 +47,17 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
     const activeData = scenarios[activeTab];
 
     return (
-        <div className="bg-card/50 border border-border rounded-2xl overflow-hidden backdrop-blur-sm">
-            <div className="p-6 border-b border-border bg-secondary/30">
-                <h2 className="text-xl font-black text-foreground tracking-tight uppercase mb-1">
+        <div className="bg-card/50 border border-[#1E293B] rounded-2xl overflow-hidden backdrop-blur-sm">
+            <div className="p-6 border-b border-[#1E293B] bg-secondary/30">
+                <h2 className="text-xl font-black text-[#F1F5F9] tracking-tight uppercase mb-1">
                     Strategic Scenario Forecast
                 </h2>
-                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                     Predictive Outcome Modeling // 12-Month Outlook
                 </p>
             </div>
 
-            <div className="flex border-b border-border">
+            <div className="flex border-b border-[#1E293B]">
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}
@@ -65,8 +65,8 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
                         className={cn(
                             "flex-1 flex items-center justify-center space-x-2 py-4 text-[10px] font-bold uppercase tracking-widest transition-all relative",
                             activeTab === tab.id
-                                ? "text-foreground bg-secondary"
-                                : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                                ? "text-[#F1F5F9] bg-secondary"
+                                : "text-slate-400 hover:text-[#F1F5F9] hover:bg-secondary/50"
                         )}
                     >
                         <tab.icon className={cn("h-3 w-3", activeTab === tab.id ? tab.color : "text-slate-600")} />
@@ -96,15 +96,15 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
                     >
                         <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                             <div className="space-y-4 max-w-xl">
-                                <h3 className={cn("text-2xl font-black tracking-tight", tabs.find(t => t.id === activeTab)?.color)}>
+                                <h3 className={cn("text-2xl font-black tracking-tight text-[#F1F5F9]")}>
                                     {activeData.title}
                                 </h3>
-                                <p className="text-muted-foreground text-base leading-relaxed">
+                                <p className="text-slate-400 text-base leading-relaxed">
                                     {activeData.desc}
                                 </p>
                             </div>
-                            <div className="bg-background/50 p-4 rounded-xl border border-border min-w-[120px] text-center">
-                                <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">
+                            <div className="bg-background/50 p-4 rounded-xl border border-[#1E293B] min-w-[120px] text-center">
+                                <div className="text-[10px] font-bold text-[#F1F5F9] uppercase tracking-widest mb-1">
                                     Impact Score
                                 </div>
                                 <div className={cn("text-4xl font-black tabular-nums", tabs.find(t => t.id === activeTab)?.color)}>
@@ -134,8 +134,8 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
 
                         <div className="pt-6 border-t border-border/50">
                             <Link
-                                href={`/${category.toLowerCase()}/${slug}/risk-assessment/`}
-                                className="inline-flex items-center text-[10px] font-black text-foreground uppercase tracking-[0.2em] group bg-foreground/5 border border-border px-6 py-4 rounded-lg hover:bg-foreground hover:text-background transition-all"
+                                href={`/${category.toLowerCase()}/${slug}/`}
+                                className="inline-flex items-center text-[10px] font-black text-[#F1F5F9] uppercase tracking-[0.2em] group bg-white/5 border border-[#1E293B] px-6 py-4 rounded-lg hover:bg-[#F1F5F9] hover:text-[#020617] transition-all"
                             >
                                 Open Full Strategic Assessment
                                 <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />

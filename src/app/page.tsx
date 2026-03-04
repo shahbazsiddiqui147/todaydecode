@@ -13,7 +13,13 @@ import { prisma } from "@/lib/prisma";
 
 export default async function Page() {
   // 1. Concurrent fetching for maximum throughput
-  const [fetchedRegionData, fetchedStats, categoriesWithArticles] = await Promise.all([
+  const [
+    fetchedRegionData,
+    fetchedStats,
+    categoriesWithArticles,
+    riskAggregation,
+    featuredScenarioArticle
+  ] = await Promise.all([
     getMapRegionData(),
     getHomepageStats(),
     prisma.category.findMany({
@@ -25,8 +31,35 @@ export default async function Page() {
           take: 8,
         }
       }
+    }),
+    prisma.article.aggregate({
+      _avg: { riskScore: true },
+      where: { status: "PUBLISHED" as any }
+    }),
+    prisma.article.findFirst({
+      where: {
+        status: "PUBLISHED" as any,
+        isFeaturedScenario: true
+      },
+      include: {
+        category: { select: { slug: true } }
+      },
+      orderBy: { publishedAt: "desc" }
     })
   ]);
+
+  const avgRisk = Math.round(riskAggregation._avg.riskScore || 50);
+
+  // Default values for Scenario Forecast if no featured scenario exists
+  const defaultScenarios = {
+    best: { title: "Optimal Resolution", desc: "Stabilization through diplomatic protocols and economic incentives.", impact: 22 },
+    likely: { title: "Regulated Tension", desc: "Sustained competition within established international frameworks.", impact: 58 },
+    worst: { title: "Institutional Fracture", desc: "Complete breakdown of security architecture and supply chain decoupling.", impact: 92 }
+  };
+
+  const activeScenarios = (featuredScenarioArticle?.scenarios as any) || defaultScenarios;
+  const activeCategory = featuredScenarioArticle?.category?.slug || "geopolitics";
+  const activeSlug = featuredScenarioArticle?.slug || "preview";
 
   const metrics = await getDashboardMetrics();
 
@@ -47,7 +80,7 @@ export default async function Page() {
           <div className="flex items-center space-x-12">
             <div className="flex flex-col">
               <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Global Risk Index</span>
-              <span className="text-sm font-black text-foreground italic tracking-tighter">{metrics.risk.value < 0 ? '' : '+'}{metrics.risk.value}%</span>
+              <span className="text-sm font-black text-foreground italic tracking-tighter">{avgRisk < 0 ? '' : '+'}{avgRisk}%</span>
             </div>
             <div className="flex flex-col border-l border-border pl-12">
               <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Brent Crude Output</span>
@@ -97,12 +130,12 @@ export default async function Page() {
                 </h2>
               </div>
               <div className="p-8 rounded-3xl border border-[#1E293B] bg-card shadow-xl space-y-12 relative overflow-hidden group">
-                <RiskGauge value={metrics.risk.value} label="AGGREGATE RISK RATING" />
+                <RiskGauge value={avgRisk} label="AGGREGATE RISK RATING" />
                 <div className="space-y-4 pt-8 border-t border-border/10">
                   <div className="flex items-start gap-4">
                     <div className="h-1.5 w-1.5 rounded-full bg-accent-red mt-1.5 shrink-0" />
                     <p className="text-[11px] font-medium text-muted-foreground uppercase leading-relaxed tracking-tight">
-                      Aggregated geopolitical volatility metrics indicate <span className="text-foreground font-bold">{metrics.risk.value > 60 ? 'elevated' : 'stable'} risk status</span> across core global sectors.
+                      Aggregated geopolitical volatility metrics indicate <span className="text-foreground font-bold">{avgRisk > 60 ? 'elevated' : 'stable'} risk status</span> across core global sectors.
                     </p>
                   </div>
                 </div>
@@ -145,13 +178,9 @@ export default async function Page() {
             <div className="lg:col-span-7 bg-white dark:bg-[#0A0F1E] rounded-3xl border border-[#1E293B] p-8 shadow-inner relative">
               <div className="grayscale group-hover:grayscale-0 transition-all duration-700">
                 <ScenarioForecast
-                  scenarios={{
-                    best: { title: "Optimal Resolution", desc: "Stabilization through diplomatic protocols and economic incentives.", impact: 22 },
-                    likely: { title: "Regulated Tension", desc: "Sustained competition within established international frameworks.", impact: 58 },
-                    worst: { title: "Institutional Fracture", desc: "Complete breakdown of security architecture and supply chain decoupling.", impact: 92 }
-                  }}
-                  category="geopolitics"
-                  slug="preview"
+                  scenarios={activeScenarios}
+                  category={activeCategory}
+                  slug={activeSlug}
                 />
               </div>
             </div>

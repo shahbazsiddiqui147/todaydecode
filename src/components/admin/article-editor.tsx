@@ -66,6 +66,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
         content: article?.content || "",
         status: article?.status || "DRAFT",
         isFeatured: article?.isFeatured || false,
+        isFeaturedScenario: article?.isFeaturedScenario || false,
         isPremium: article?.isPremium || false,
         region: article?.region || "GLOBAL",
         riskLevel: article?.riskLevel || "MEDIUM",
@@ -597,6 +598,13 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                     <p className="text-[8px] text-slate-600 dark:text-slate-300 font-bold uppercase tracking-tighter italic">Strategic Hub Spotlight</p>
                                 </div>
                                 <Switch checked={formData.isFeatured} onCheckedChange={(c) => handleSwitchChange("isFeatured", c)} />
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-muted/20 rounded-2xl border border-border/50">
+                                <div className="space-y-0.5">
+                                    <Label className="text-[10px] font-black uppercase tracking-widest">Scenario Showcase</Label>
+                                    <p className="text-[8px] text-slate-600 dark:text-slate-300 font-bold uppercase tracking-tighter italic">Featured Homepage Analysis</p>
+                                </div>
+                                <Switch checked={formData.isFeaturedScenario} onCheckedChange={(c) => handleSwitchChange("isFeaturedScenario", c)} />
                             </div>
                         </div>
                     </div>
