@@ -57,14 +57,16 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
 
     // Reactive translation logic for boundary detection (no re-renders needed)
     const translateX = useTransform(smoothX, (val) => {
-        if (typeof window === "undefined") return 15;
-        return val > window.innerWidth - 350 ? -340 : 15;
+        if (typeof window === "undefined") return 10;
+        // If near right edge (within 350px), flip toolip to left side of cursor
+        // Box width is ~320px. 320 + 10 offset = 330
+        return val > window.innerWidth - 350 ? -330 : 10;
     });
 
     const translateY = useTransform(smoothY, (val) => {
-        if (typeof window === "undefined") return 15;
-        // If near the bottom, flip up. Tooltip height is roughly 400px.
-        return val > window.innerHeight - 450 ? -430 : 15;
+        if (typeof window === "undefined") return 10;
+        // If near bottom, flip up. Box height is ~400px.
+        return val > window.innerHeight - 450 ? -410 : 10;
     });
 
     useEffect(() => {
@@ -103,9 +105,9 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
 
         setTooltip({ id: iso, data: initialData });
 
-        // Update mouse position immediately on entry
-        mouseX.set(event.clientX);
-        mouseY.set(event.clientY);
+        // Update mouse position INSTANTLY to prevent glide-in from origin
+        mouseX.jump(event.clientX);
+        mouseY.jump(event.clientY);
 
         setLoadingReports(true);
         try {
