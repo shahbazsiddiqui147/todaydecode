@@ -71,19 +71,24 @@ const Toolbar = ({ editor }: { editor: any }) => {
         }
     };
 
+    const getBtnClass = (activeName: string, attrs?: any) => cn(
+        "h-8 w-8 transition-all duration-200",
+        editor.isActive(activeName, attrs)
+            ? "bg-[#22D3EE] dark:bg-[#22D3EE] text-[#020617] dark:text-[#020617] shadow-[0_0_15px_rgba(34,211,238,0.4)]"
+            : "text-[#0F172A] dark:text-[#F1F5F9] hover:bg-slate-200 dark:hover:bg-[#1E293B]"
+    );
+
+    const Divider = () => <div className="w-px h-4 bg-slate-300 dark:bg-[#1E293B] mx-2 shadow-sm" />;
+
     return (
-        <div className="editor-toolbar flex flex-wrap items-center gap-1 p-2 border-b border-[#334155] bg-slate-100 dark:bg-[#111827] sticky top-0 z-10 backdrop-blur-sm text-slate-600 dark:text-[#F1F5F9]">
+        <div className="editor-toolbar flex flex-wrap items-center gap-1 p-2 border border-[#1E293B] bg-white dark:bg-[#111827] sticky top-0 z-20 backdrop-blur-md rounded-t-2xl shadow-xl">
             <Button
                 type="button"
                 variant="ghost"
                 size="icon"
                 onClick={() => editor.chain().focus().toggleBold().run()}
-                className={cn(
-                    "h-8 w-8 transition-all",
-                    editor.isActive("bold")
-                        ? "bg-[#22D3EE] text-[#0A0F1E] hover:bg-[#22D3EE]/90"
-                        : "hover:bg-slate-200 dark:hover:bg-[#1E293B]"
-                )}
+                className={getBtnClass("bold")}
+                title="Bold (High-Contrast)"
             >
                 <Bold className="h-4 w-4" />
             </Button>
@@ -92,27 +97,21 @@ const Toolbar = ({ editor }: { editor: any }) => {
                 variant="ghost"
                 size="icon"
                 onClick={() => editor.chain().focus().toggleItalic().run()}
-                className={cn(
-                    "h-8 w-8 transition-all",
-                    editor.isActive("italic")
-                        ? "bg-[#22D3EE] text-[#0A0F1E] hover:bg-[#22D3EE]/90"
-                        : "hover:bg-slate-200 dark:hover:bg-[#1E293B]"
-                )}
+                className={getBtnClass("italic")}
+                title="Italic (High-Contrast)"
             >
                 <Italic className="h-4 w-4" />
             </Button>
-            <div className="w-px h-4 bg-slate-300 dark:bg-[#334155] mx-1" />
+
+            <Divider />
+
             <Button
                 type="button"
                 variant="ghost"
                 size="icon"
                 onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-                className={cn(
-                    "h-8 w-8 transition-all",
-                    editor.isActive("heading", { level: 1 })
-                        ? "bg-[#22D3EE] text-[#0A0F1E] hover:bg-[#22D3EE]/90"
-                        : "hover:bg-slate-200 dark:hover:bg-[#1E293B]"
-                )}
+                className={getBtnClass("heading", { level: 1 })}
+                title="Strategic Headline 1"
             >
                 <Heading1 className="h-4 w-4" />
             </Button>
@@ -121,12 +120,8 @@ const Toolbar = ({ editor }: { editor: any }) => {
                 variant="ghost"
                 size="icon"
                 onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-                className={cn(
-                    "h-8 w-8 transition-all",
-                    editor.isActive("heading", { level: 2 })
-                        ? "bg-[#22D3EE] text-[#0A0F1E] hover:bg-[#22D3EE]/90"
-                        : "hover:bg-slate-200 dark:hover:bg-[#1E293B]"
-                )}
+                className={getBtnClass("heading", { level: 2 })}
+                title="Strategic Headline 2"
             >
                 <Heading2 className="h-4 w-4" />
             </Button>
@@ -135,27 +130,21 @@ const Toolbar = ({ editor }: { editor: any }) => {
                 variant="ghost"
                 size="icon"
                 onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-                className={cn(
-                    "h-8 w-8 transition-all",
-                    editor.isActive("heading", { level: 3 })
-                        ? "bg-[#22D3EE] text-[#0A0F1E] hover:bg-[#22D3EE]/90"
-                        : "hover:bg-slate-200 dark:hover:bg-[#1E293B]"
-                )}
+                className={getBtnClass("heading", { level: 3 })}
+                title="Strategic Headline 3"
             >
                 <Heading3 className="h-4 w-4" />
             </Button>
-            <div className="w-px h-4 bg-slate-300 dark:bg-[#334155] mx-1" />
+
+            <Divider />
+
             <Button
                 type="button"
                 variant="ghost"
                 size="icon"
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
-                className={cn(
-                    "h-8 w-8 transition-all",
-                    editor.isActive("bulletList")
-                        ? "bg-[#22D3EE] text-[#0A0F1E] hover:bg-[#22D3EE]/90"
-                        : "hover:bg-slate-200 dark:hover:bg-[#1E293B]"
-                )}
+                className={getBtnClass("bulletList")}
+                title="Categorical Feed (List)"
             >
                 <List className="h-4 w-4" />
             </Button>
@@ -164,27 +153,21 @@ const Toolbar = ({ editor }: { editor: any }) => {
                 variant="ghost"
                 size="icon"
                 onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                className={cn(
-                    "h-8 w-8 transition-all",
-                    editor.isActive("orderedList")
-                        ? "bg-[#22D3EE] text-[#0A0F1E] hover:bg-[#22D3EE]/90"
-                        : "hover:bg-slate-200 dark:hover:bg-[#1E293B]"
-                )}
+                className={getBtnClass("orderedList")}
+                title="Sequential Feed (Ordered)"
             >
                 <ListOrdered className="h-4 w-4" />
             </Button>
-            <div className="w-px h-4 bg-slate-300 dark:bg-[#334155] mx-1" />
+
+            <Divider />
+
             <Button
                 type="button"
                 variant="ghost"
                 size="icon"
                 onClick={() => editor.chain().focus().toggleBlockquote().run()}
-                className={cn(
-                    "h-8 w-8 transition-all",
-                    editor.isActive("blockquote")
-                        ? "bg-[#22D3EE] text-[#0A0F1E] hover:bg-[#22D3EE]/90"
-                        : "hover:bg-slate-200 dark:hover:bg-[#1E293B]"
-                )}
+                className={getBtnClass("blockquote")}
+                title="Institutional Quote"
             >
                 <Quote className="h-4 w-4" />
             </Button>
@@ -193,7 +176,8 @@ const Toolbar = ({ editor }: { editor: any }) => {
                 variant="ghost"
                 size="icon"
                 onClick={addImage}
-                className="h-8 w-8 hover:bg-slate-200 dark:hover:bg-[#1E293B]"
+                className="h-8 w-8 text-[#0F172A] dark:text-[#F1F5F9] hover:bg-slate-200 dark:hover:bg-[#1E293B] transition-all"
+                title="Inject Strategic Asset"
             >
                 <ImageIcon className="h-4 w-4" />
             </Button>
@@ -202,12 +186,8 @@ const Toolbar = ({ editor }: { editor: any }) => {
                 variant="ghost"
                 size="icon"
                 onClick={setLink}
-                className={cn(
-                    "h-8 w-8 transition-all",
-                    editor.isActive("link")
-                        ? "bg-[#22D3EE] text-[#0A0F1E] hover:bg-[#22D3EE]/90"
-                        : "hover:bg-slate-200 dark:hover:bg-[#1E293B]"
-                )}
+                className={getBtnClass("link")}
+                title="Reference Link"
             >
                 <LinkIcon className="h-4 w-4" />
             </Button>
@@ -216,18 +196,19 @@ const Toolbar = ({ editor }: { editor: any }) => {
                 variant="ghost"
                 size="icon"
                 onClick={() => editor.chain().focus().insertContent({ type: 'mermaidBlock' }).run()}
-                className="h-8 w-8 text-[#22D3EE] hover:bg-slate-200 dark:hover:bg-[#1E293B]"
+                className="h-8 w-8 text-[#22D3EE] hover:bg-slate-200 dark:hover:bg-[#1E293B] transition-all"
                 title="Insert Structural Diagram (Mermaid)"
             >
                 <Share2 className="h-4 w-4" />
             </Button>
-            <div className="ml-auto flex gap-1">
+
+            <div className="ml-auto flex items-center gap-1">
                 <Button
                     type="button"
                     variant="ghost"
                     size="icon"
                     onClick={() => editor.chain().focus().undo().run()}
-                    className="h-8 w-8 hover:bg-slate-200 dark:hover:bg-[#1E293B]"
+                    className="h-8 w-8 text-[#0F172A] dark:text-[#F1F5F9] hover:bg-slate-200 dark:hover:bg-[#1E293B] transition-all opacity-60 hover:opacity-100"
                 >
                     <Undo className="h-4 w-4" />
                 </Button>
@@ -236,7 +217,7 @@ const Toolbar = ({ editor }: { editor: any }) => {
                     variant="ghost"
                     size="icon"
                     onClick={() => editor.chain().focus().redo().run()}
-                    className="h-8 w-8 hover:bg-slate-200 dark:hover:bg-[#1E293B]"
+                    className="h-8 w-8 text-[#0F172A] dark:text-[#F1F5F9] hover:bg-slate-200 dark:hover:bg-[#1E293B] transition-all opacity-60 hover:opacity-100"
                 >
                     <Redo className="h-4 w-4" />
                 </Button>
