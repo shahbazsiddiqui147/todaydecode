@@ -4,6 +4,7 @@ import { LandingHero } from "@/components/marketing/landing-hero";
 import { RiskGauge } from "@/components/metrics/risk-gauge";
 import { GlobalRiskMap } from "@/components/maps/global-risk-map";
 import { AnalysisCard } from "@/components/ui/analysis-card";
+import { SiloSection } from "@/components/home/SiloSection";
 import { ScenarioForecast } from "@/components/analysis/scenario-forecast";
 import { ChevronRight, Globe, ShieldAlert, ShieldCheck, TrendingUp, Cpu, Zap, Activity, Layers } from "lucide-react";
 import Link from "next/link";
@@ -12,25 +13,32 @@ import { prisma } from "@/lib/prisma";
 
 export default async function Page() {
   // 1. Concurrent fetching for maximum throughput
-  const [fetchedRegionData, fetchedStats, latestArticles] = await Promise.all([
+  const [fetchedRegionData, fetchedStats, categoriesWithArticles] = await Promise.all([
     getMapRegionData(),
     getHomepageStats(),
-    prisma.article.findMany({
-      where: { status: "PUBLISHED" as any },
-      orderBy: { publishedAt: "desc" },
-      take: 6,
-      include: { category: true }
+    prisma.category.findMany({
+      orderBy: { order: "asc" },
+      include: {
+        articles: {
+          where: { status: "PUBLISHED" as any },
+          orderBy: { publishedAt: "desc" },
+          take: 3,
+        }
+      }
     })
   ]);
 
   const metrics = await getDashboardMetrics();
 
+  // Filter out categories with zero published articles
+  const activeSilos = categoriesWithArticles.filter(cat => cat.articles.length > 0);
+
   return (
-    <div className="flex flex-col w-full bg-background text-foreground overflow-x-hidden">
+    <div className="flex flex-col w-full bg-[#F8FAFC] dark:bg-[#0A0F1E] text-foreground overflow-x-hidden">
       <LandingHero regionData={fetchedRegionData} />
 
       {/* Strategic Metrics Ribbon */}
-      <div className="border-y border-border bg-secondary/80 backdrop-blur-md sticky top-[64px] z-20">
+      <div className="border-y border-[#1E293B] bg-secondary/80 backdrop-blur-md sticky top-[64px] z-20">
         <div className="max-w-7xl mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-8">
           <div className="flex items-center space-x-2">
             <span className="text-[9px] font-black uppercase tracking-[0.3em] text-muted-foreground/40">Assessment Refresh: {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()} // 04:00 UTC</span>
@@ -66,9 +74,10 @@ export default async function Page() {
       </div>
 
       <main className="max-w-7xl mx-auto px-6 py-12 w-full space-y-24">
+        {/* Core Metric & Action Section */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           <div className="lg:col-span-8 space-y-8">
-            <div className="flex items-center gap-3 border-b border-border pb-6">
+            <div className="flex items-center gap-3 border-b border-[#1E293B] pb-6">
               <ShieldAlert className="h-5 w-5 text-accent-red" />
               <h2 className="text-sm font-black uppercase tracking-[0.25em] text-foreground italic">
                 Global Strategic Risk Index
@@ -105,36 +114,18 @@ export default async function Page() {
           </div>
         </section>
 
-        <section className="space-y-12">
-          <div className="flex items-center justify-between border-b border-border pb-6">
-            <div className="flex items-center gap-3">
-              <Layers className="h-5 w-5 text-accent-red" />
-              <h2 className="text-sm font-black uppercase tracking-[0.25em] text-foreground italic">
-                Latest Strategic Analysis
-              </h2>
-            </div>
-            <Link href="/strategic-archive/" className="text-[10px] font-black text-muted-foreground hover:text-foreground uppercase tracking-widest transition-colors flex items-center gap-2">
-              Browse Archive <ChevronRight className="h-3 w-3" />
-            </Link>
-          </div>
+        {/* Strategic Silo Loop */}
+        {activeSilos.map((silo) => (
+          <SiloSection
+            key={silo.id}
+            title={silo.name}
+            slug={silo.slug}
+            articles={silo.articles}
+          />
+        ))}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {latestArticles.map((article: any) => (
-              <AnalysisCard
-                key={article.id}
-                id={article.id}
-                title={article.title}
-                category={article.category.name}
-                slug={article.slug}
-                image="/images/intel-1.jpg"
-                riskLevel={article.riskLevel}
-                riskScore={article.riskScore}
-              />
-            ))}
-          </div>
-        </section>
-
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-slate-50 dark:bg-[#0A0F1E] p-12 rounded-[2.5rem] border border-border dark:border-[#1E293B] shadow-2xl relative overflow-hidden group">
+        {/* Institutional Blocks */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-slate-50 dark:bg-[#111827] p-12 rounded-[2.5rem] border border-[#1E293B] shadow-2xl relative overflow-hidden group">
           <div className="lg:col-span-5 space-y-8">
             <div className="space-y-4">
               <div className="p-3 bg-accent-red/10 border border-accent-red/20 rounded-2xl w-fit">
@@ -148,7 +139,7 @@ export default async function Page() {
               Access our proprietary quantitative forecasting engine. Predict institutional impact across multiple geopolitical timelines.
             </p>
           </div>
-          <div className="lg:col-span-7 bg-white dark:bg-[#111827] rounded-3xl border border-border dark:border-[#1E293B] p-8 shadow-inner relative">
+          <div className="lg:col-span-7 bg-white dark:bg-[#0A0F1E] rounded-3xl border border-[#1E293B] p-8 shadow-inner relative">
             <div className="grayscale group-hover:grayscale-0 transition-all duration-700">
               <ScenarioForecast
                 scenarios={{
