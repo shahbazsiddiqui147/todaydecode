@@ -56,17 +56,16 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
     const smoothY = useSpring(mouseY, { damping: 25, stiffness: 200 });
 
     // Reactive translation logic for boundary detection (no re-renders needed)
-    const translateX = useTransform(smoothX, (val) => {
-        if (typeof window === "undefined") return 10;
-        // If near right edge (within 350px), flip toolip to left side of cursor
-        // Box width is ~320px. 320 + 10 offset = 330
-        return val > window.innerWidth - 350 ? -330 : 10;
+    const tooltipX = useTransform(smoothX, (val) => {
+        if (typeof window === "undefined") return val + 15;
+        // If near right edge (within 350px), flip box to left side of cursor
+        return val > window.innerWidth - 350 ? val - 330 : val + 15;
     });
 
-    const translateY = useTransform(smoothY, (val) => {
-        if (typeof window === "undefined") return 10;
-        // If near bottom, flip up. Box height is ~400px.
-        return val > window.innerHeight - 450 ? -410 : 10;
+    const tooltipY = useTransform(smoothY, (val) => {
+        if (typeof window === "undefined") return val + 15;
+        // If near bottom (within 450px), flip box upward
+        return val > window.innerHeight - 450 ? val - 410 : val + 15;
     });
 
     useEffect(() => {
@@ -277,10 +276,8 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                             position: "fixed",
                             left: 0,
                             top: 0,
-                            x: smoothX,
-                            y: smoothY,
-                            translateX,
-                            translateY,
+                            x: tooltipX,
+                            y: tooltipY,
                             pointerEvents: "none",
                             zIndex: 100
                         }}
