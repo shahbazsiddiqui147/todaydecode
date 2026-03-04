@@ -72,155 +72,131 @@ const Toolbar = ({ editor }: { editor: any }) => {
     };
 
     const getBtnClass = (activeName: string, attrs?: any) => cn(
-        "h-8 w-8 transition-all duration-200",
+        "h-8 w-8 flex items-center justify-center rounded-md transition-all duration-200 outline-none focus:ring-2 focus:ring-[#22D3EE]/50",
         editor.isActive(activeName, attrs)
-            ? "!bg-[#22D3EE] !text-[#020617] shadow-[0_0_15px_rgba(34,211,238,0.4)]"
+            ? "bg-[#22D3EE] text-[#020617] shadow-[0_0_15px_rgba(34,211,238,0.4)]"
             : "text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800"
     );
 
-    const Divider = () => <div className="w-px h-4 bg-slate-300 dark:bg-[#1E293B] mx-2 shadow-sm" />;
+    const Divider = () => <div className="w-px h-4 bg-slate-300 dark:bg-[#1E293B] mx-2" />;
 
     return (
         <div className="editor-toolbar flex flex-wrap items-center gap-1 p-2 border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-[#111827] sticky top-0 z-20 backdrop-blur-md rounded-t-2xl shadow-xl">
-            <Button
+            <button
                 type="button"
-                variant="ghost"
-                size="icon"
                 onClick={() => editor.chain().focus().toggleBold().run()}
                 className={getBtnClass("bold")}
-                title="Bold (High-Contrast)"
+                title="Bold (Ctrl+B)"
             >
                 <Bold className="h-4 w-4" />
-            </Button>
-            <Button
+            </button>
+            <button
                 type="button"
-                variant="ghost"
-                size="icon"
                 onClick={() => editor.chain().focus().toggleItalic().run()}
                 className={getBtnClass("italic")}
-                title="Italic (High-Contrast)"
+                title="Italic (Ctrl+I)"
             >
                 <Italic className="h-4 w-4" />
-            </Button>
+            </button>
 
             <Divider />
 
-            <Button
+            <button
                 type="button"
-                variant="ghost"
-                size="icon"
                 onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
                 className={getBtnClass("heading", { level: 1 })}
-                title="Strategic Headline 1"
+                title="Heading 1"
             >
                 <Heading1 className="h-4 w-4" />
-            </Button>
-            <Button
+            </button>
+            <button
                 type="button"
-                variant="ghost"
-                size="icon"
                 onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
                 className={getBtnClass("heading", { level: 2 })}
-                title="Strategic Headline 2"
+                title="Heading 2"
             >
                 <Heading2 className="h-4 w-4" />
-            </Button>
-            <Button
+            </button>
+            <button
                 type="button"
-                variant="ghost"
-                size="icon"
                 onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
                 className={getBtnClass("heading", { level: 3 })}
-                title="Strategic Headline 3"
+                title="Heading 3"
             >
                 <Heading3 className="h-4 w-4" />
-            </Button>
+            </button>
 
             <Divider />
 
-            <Button
+            <button
                 type="button"
-                variant="ghost"
-                size="icon"
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
                 className={getBtnClass("bulletList")}
-                title="Categorical Feed (List)"
+                title="Bullet List"
             >
                 <List className="h-4 w-4" />
-            </Button>
-            <Button
+            </button>
+            <button
                 type="button"
-                variant="ghost"
-                size="icon"
                 onClick={() => editor.chain().focus().toggleOrderedList().run()}
                 className={getBtnClass("orderedList")}
-                title="Sequential Feed (Ordered)"
+                title="Numbered List"
             >
                 <ListOrdered className="h-4 w-4" />
-            </Button>
+            </button>
 
             <Divider />
 
-            <Button
+            <button
                 type="button"
-                variant="ghost"
-                size="icon"
                 onClick={() => editor.chain().focus().toggleBlockquote().run()}
                 className={getBtnClass("blockquote")}
-                title="Institutional Quote"
+                title="Blockquote"
             >
                 <Quote className="h-4 w-4" />
-            </Button>
-            <Button
+            </button>
+            <button
                 type="button"
-                variant="ghost"
-                size="icon"
                 onClick={addImage}
-                className="h-8 w-8 text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all"
-                title="Inject Strategic Asset"
+                className="h-8 w-8 flex items-center justify-center rounded-md text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all outline-none"
+                title="Upload Image"
             >
                 <ImageIcon className="h-4 w-4" />
-            </Button>
-            <Button
+            </button>
+            <button
                 type="button"
-                variant="ghost"
-                size="icon"
                 onClick={setLink}
                 className={getBtnClass("link")}
-                title="Reference Link"
+                title="Insert Link"
             >
                 <LinkIcon className="h-4 w-4" />
-            </Button>
-            <Button
+            </button>
+            <button
                 type="button"
-                variant="ghost"
-                size="icon"
                 onClick={() => editor.chain().focus().insertContent({ type: 'mermaidBlock' }).run()}
-                className="h-8 w-8 text-[#0891B2] dark:text-[#22D3EE] hover:bg-slate-200 dark:hover:bg-slate-800 transition-all font-bold"
-                title="Insert Structural Diagram (Mermaid)"
+                className="h-8 w-8 flex items-center justify-center rounded-md text-[#0891B2] dark:text-[#22D3EE] hover:bg-slate-200 dark:hover:bg-slate-800 transition-all font-bold outline-none"
+                title="Structural Diagram (Mermaid)"
             >
                 <Share2 className="h-4 w-4" />
-            </Button>
+            </button>
 
             <div className="ml-auto flex items-center gap-1">
-                <Button
+                <button
                     type="button"
-                    variant="ghost"
-                    size="icon"
                     onClick={() => editor.chain().focus().undo().run()}
-                    className="h-8 w-8 text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all opacity-60 hover:opacity-100"
+                    className="h-8 w-8 flex items-center justify-center rounded-md text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all opacity-60 hover:opacity-100 outline-none"
+                    title="Undo"
                 >
                     <Undo className="h-4 w-4" />
-                </Button>
-                <Button
+                </button>
+                <button
                     type="button"
-                    variant="ghost"
-                    size="icon"
                     onClick={() => editor.chain().focus().redo().run()}
-                    className="h-8 w-8 text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all opacity-60 hover:opacity-100"
+                    className="h-8 w-8 flex items-center justify-center rounded-md text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all opacity-60 hover:opacity-100 outline-none"
+                    title="Redo"
                 >
                     <Redo className="h-4 w-4" />
-                </Button>
+                </button>
             </div>
         </div>
     );
