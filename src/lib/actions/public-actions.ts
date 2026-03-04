@@ -152,8 +152,11 @@ export const getHomepageStats = cache(async () => {
  */
 export const getPublicAuthorBySlug = cache(async (slug: string) => {
     try {
+        // Normalize slug for institutional database consistency (mandatory /.../ format)
+        const normalizedSlug = `/${slug.replace(/^\/|\/$/g, '')}/`;
+
         return await prisma.author.findUnique({
-            where: { slug },
+            where: { slug: normalizedSlug },
             include: {
                 articles: {
                     where: { status: "PUBLISHED" as any },
