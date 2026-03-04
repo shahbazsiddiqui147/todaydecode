@@ -18,8 +18,8 @@ export function Header({ navigationItems = [] }: { navigationItems?: any[] }) {
     const { data: session } = useSession();
 
     return (
-        <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center justify-between border-b border-border-slate bg-background/80 backdrop-blur-md px-6">
-            <div className="flex flex-1 items-center gap-8">
+        <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center justify-between border-b border-border-slate bg-background/80 backdrop-blur-md px-4 sm:px-6">
+            <div className="flex flex-1 items-center gap-4 sm:gap-8 overflow-hidden">
                 <CommandK />
 
                 <nav className="hidden lg:flex items-center gap-6">
@@ -35,7 +35,7 @@ export function Header({ navigationItems = [] }: { navigationItems?: any[] }) {
                 </nav>
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4 ml-4">
                 <ThemeToggle />
 
                 {session ? (
@@ -83,14 +83,15 @@ export function Header({ navigationItems = [] }: { navigationItems?: any[] }) {
                         </DropdownMenuContent>
                     </DropdownMenu>
                 ) : (
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1 sm:gap-3">
                         <Link href="/auth/signin/">
-                            <button className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] hover:text-white transition-colors px-4 py-2">
-                                Sign In
+                            <button className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] hover:text-white transition-colors px-2 sm:px-4 py-2">
+                                <span className="hidden sm:inline">Sign In</span>
+                                <User className="sm:hidden h-4 w-4" />
                             </button>
                         </Link>
                         <Link href="/auth/signup/">
-                            <button className="bg-white text-[#0A0F1E] text-[10px] font-black uppercase tracking-widest px-6 py-2 rounded-xl hover:bg-slate-200 transition-all shadow-lg">
+                            <button className="bg-white text-[#0A0F1E] text-[10px] font-black uppercase tracking-widest px-3 sm:px-6 py-2 rounded-xl hover:bg-slate-200 transition-all shadow-lg whitespace-nowrap">
                                 Join Archive
                             </button>
                         </Link>

@@ -40,11 +40,11 @@ export function CommandK() {
         <>
             <button
                 onClick={() => setOpen(true)}
-                className="flex w-full max-w-md items-center space-x-3 rounded-md border border-border-slate bg-transparent px-3 py-1.5 text-sm text-muted-foreground group hover:border-primary/50 transition-colors shadow-subtle-glow"
+                className="flex items-center space-x-0 sm:space-x-3 rounded-lg border border-border-slate bg-transparent px-2 sm:px-3 py-1.5 text-sm text-muted-foreground group hover:border-primary/50 transition-colors shadow-subtle-glow w-auto sm:w-full sm:max-w-md"
             >
                 <Search className="h-4 w-4" />
-                <span className="flex-1 text-left">Search strategic metrics or reports...</span>
-                <kbd className="hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border border-border-slate bg-brand-charcoal px-1.5 font-mono text-[10px] font-medium text-slate-400 opacity-100 uppercase">
+                <span className="hidden sm:inline-flex flex-1 text-left">Search strategic metrics or reports...</span>
+                <kbd className="hidden md:inline-flex h-5 select-none items-center gap-1 rounded border border-border-slate bg-brand-charcoal px-1.5 font-mono text-[10px] font-medium text-slate-400 opacity-100 uppercase">
                     <span className="text-xs">⌘</span>K
                 </kbd>
             </button>
