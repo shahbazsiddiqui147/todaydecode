@@ -148,9 +148,9 @@ export default async function ArticlePage({
                                 </div>
                                 <div className="space-y-0.5">
                                     <Link href={`/author/${article.author.slug.replace(/^\/|\/$/g, '')}/`}>
-                                        <div className="text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white hover:text-accent-red transition-colors cursor-pointer">{article.author.name}</div>
+                                        <div className="text-xs font-black uppercase tracking-widest text-slate-900 dark:text-[#F1F5F9] hover:text-accent-red transition-colors cursor-pointer">{article.author.name}</div>
                                     </Link>
-                                    <div className="text-[9px] text-slate-500 uppercase font-black tracking-widest">{article.author.role}</div>
+                                    <div className="text-[9px] text-slate-500 dark:text-[#94A3B8] uppercase font-black tracking-widest">{article.author.role}</div>
                                 </div>
                             </div>
                             <div className="flex items-center space-x-8 text-[9px] font-black text-slate-500 uppercase tracking-[0.2em]">
@@ -179,9 +179,9 @@ export default async function ArticlePage({
                 <main className="lg:col-span-7 space-y-16">
                     <div className="space-y-8">
                         {article.onPageLead && (
-                            <div className="relative p-8 rounded-3xl bg-secondary/30 border border-[#E2E8F0] dark:border-[#1E293B] overflow-hidden backdrop-blur-sm">
+                            <div className="analysis-intro relative p-8 rounded-3xl bg-secondary/30 border border-[#E2E8F0] dark:border-[#1E293B] overflow-hidden backdrop-blur-sm">
                                 <div className="absolute top-0 left-0 w-1.5 h-full bg-accent-red" />
-                                <p className="text-xl md:text-2xl font-medium text-slate-900 dark:text-slate-100 leading-relaxed tracking-tight">
+                                <p className="text-xl md:text-2xl font-medium text-slate-900 dark:text-[#F1F5F9] leading-relaxed tracking-tight">
                                     "{article.onPageLead}"
                                 </p>
                             </div>
@@ -209,10 +209,10 @@ export default async function ArticlePage({
                 <aside className="lg:col-span-4 space-y-12">
                     <div className="sticky top-32 space-y-12">
                         {/* Related Research - Priority Pos 1 */}
-                        <div className="p-8 bg-secondary/30 border border-border rounded-3xl space-y-8 relative overflow-hidden">
+                        <div className="p-8 bg-secondary/30 border border-[#E2E8F0] dark:border-[#1E293B] rounded-3xl space-y-8 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-accent-red/5 blur-[50px]" />
                             <div className="flex items-center justify-between border-b border-border/10 pb-4">
-                                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Related Research Desk</h4>
+                                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-[#94A3B8]">Related Research Desk</h4>
                                 <span className="text-[9px] font-black text-accent-red uppercase tracking-tighter">Live Sync</span>
                             </div>
                             <div className="space-y-6">

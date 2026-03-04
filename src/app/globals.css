@@ -196,6 +196,15 @@ h3 {
   color: #94A3B8 !important;
 }
 
+/* Zero-Bleed Dark Mode Guardrails */
+.dark blockquote {
+  color: #F1F5F9 !important;
+}
+
+.dark .analysis-intro p {
+  color: #F1F5F9 !important;
+}
+
 /* System-Wide Label Hardening */
 .dark label {
   color: #F1F5F9 !important;
