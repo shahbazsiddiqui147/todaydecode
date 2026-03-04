@@ -142,3 +142,8 @@ footer {
 .dark h1, .dark h2, .dark h3 { color: #F1F5F9 !important; }
 .dark td { color: #F1F5F9 !important; }
 .dark .text-muted-foreground { color: #94A3B8 !important; }
+
+/* System-Wide Label Hardening */
+.dark label { color: #F1F5F9 !important; }
+.dark input::placeholder, .dark textarea::placeholder { color: #64748B !important; }
+.dark .text-sm.font-medium { color: #F1F5F9 !important; }

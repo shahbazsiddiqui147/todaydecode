@@ -284,14 +284,14 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                         {activeTab === "content" && (
                             <div className="space-y-6">
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#CBD5E1] pl-1">Featured Image URL</Label>
+                                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-[#1E293B] dark:text-[#F1F5F9] pl-1">Featured Image URL</Label>
                                     <div className="flex gap-2">
                                         <Input
                                             name="featuredImage"
                                             value={formData.featuredImage}
                                             onChange={handleChange}
                                             placeholder="https://images.unsplash.com/..."
-                                            className="h-12 bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE]"
+                                            className="h-12 bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] border-opacity-100 opacity-100"
                                         />
                                         <div className="relative">
                                             <input
@@ -331,7 +331,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#CBD5E1] pl-1">Primary Strategic Headline</Label>
+                                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-[#1E293B] dark:text-[#F1F5F9] pl-1">Primary Strategic Headline</Label>
                                     <Input
                                         name="title"
                                         value={formData.title}
@@ -342,7 +342,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#CBD5E1] pl-1 flex justify-between">
+                                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-[#1E293B] dark:text-[#F1F5F9] pl-1 flex justify-between">
                                         <span>On-Page Executive Summary</span>
                                         <span className="opacity-40 lowercase italic font-normal">Institutional Intro</span>
                                     </Label>
@@ -351,18 +351,18 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.onPageLead}
                                         onChange={handleChange}
                                         placeholder="A high-end strategic hook for the live analysis..."
-                                        className="min-h-[100px] text-sm font-medium bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
+                                        className="min-h-[100px] text-sm font-medium bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all border-opacity-100 opacity-100"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#CBD5E1] pl-1">Institutional Brief (Global Feed)</Label>
+                                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-[#1E293B] dark:text-[#F1F5F9] pl-1">Institutional Brief (Global Feed)</Label>
                                     <Textarea
                                         name="summary"
                                         value={formData.summary}
                                         onChange={handleChange}
                                         placeholder="Institutional brief for the strategic silos..."
-                                        className="min-h-[120px] text-sm font-medium bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
+                                        className="min-h-[120px] text-sm font-medium bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all border-opacity-100 opacity-100"
                                     />
                                 </div>
 
@@ -390,13 +390,13 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.scenarios.best.title}
                                         onChange={(e) => handleScenarioChange("best", "title", e.target.value)}
                                         placeholder="SCENARIO TITLE..."
-                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl font-black uppercase text-[11px] focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE]"
+                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl font-semibold uppercase text-[11px] focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] border-opacity-100 opacity-100"
                                     />
                                     <Textarea
                                         value={formData.scenarios.best.description}
                                         onChange={(e) => handleScenarioChange("best", "description", e.target.value)}
                                         placeholder="ESTABLISH THE PARAMETERS..."
-                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl min-h-[100px] text-sm focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE]"
+                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl min-h-[100px] text-sm focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] border-opacity-100 opacity-100"
                                     />
                                 </div>
 
@@ -409,13 +409,13 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.scenarios.likely.title}
                                         onChange={(e) => handleScenarioChange("likely", "title", e.target.value)}
                                         placeholder="SCENARIO TITLE..."
-                                        className="bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl font-black uppercase text-[11px]"
+                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl font-semibold uppercase text-[11px] border-opacity-100 opacity-100"
                                     />
                                     <Textarea
                                         value={formData.scenarios.likely.description}
                                         onChange={(e) => handleScenarioChange("likely", "description", e.target.value)}
                                         placeholder="ESTABLISH THE PARAMETERS..."
-                                        className="bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl min-h-[100px] text-sm"
+                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl min-h-[100px] text-sm border-opacity-100 opacity-100"
                                     />
                                 </div>
 
@@ -428,13 +428,13 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.scenarios.worst.title}
                                         onChange={(e) => handleScenarioChange("worst", "title", e.target.value)}
                                         placeholder="SCENARIO TITLE..."
-                                        className="bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl font-black uppercase text-[11px]"
+                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl font-semibold uppercase text-[11px] border-opacity-100 opacity-100"
                                     />
                                     <Textarea
                                         value={formData.scenarios.worst.description}
                                         onChange={(e) => handleScenarioChange("worst", "description", e.target.value)}
                                         placeholder="ESTABLISH THE PARAMETERS..."
-                                        className="bg-[#020617] dark:bg-[#020617] border-[#1E293B] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl min-h-[100px] text-sm"
+                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl min-h-[100px] text-sm border-opacity-100 opacity-100"
                                     />
                                 </div>
                             </div>
@@ -454,7 +454,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
 
                                     <div className="space-y-6 relative z-10">
                                         <div className="flex items-center justify-between">
-                                            <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300">Strategic Research Nodes (FAQ)</h3>
+                                            <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-600 dark:text-[#F1F5F9]">Strategic Research Nodes (FAQ)</h3>
                                             <Button type="button" variant="outline" size="sm" onClick={addFaq} className="h-8 text-[9px] border-white/10 hover:bg-white/10 text-white rounded-xl">
                                                 <Plus className="h-3.5 w-3.5 mr-1" /> Initialize Node
                                             </Button>
@@ -476,13 +476,13 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                                         value={faq.question}
                                                         onChange={(e) => handleFaqChange(idx, "question", e.target.value)}
                                                         placeholder="Strategic Question Factor..."
-                                                        className="bg-transparent border-white/20 text-white font-bold h-10 rounded-xl focus-visible:ring-emerald-500"
+                                                        className="bg-transparent border-[#CBD5E1] dark:border-[#1E293B] text-white font-semibold h-10 rounded-xl focus-visible:ring-[#22D3EE] border-opacity-100 opacity-100"
                                                     />
                                                     <Textarea
                                                         value={faq.answer}
                                                         onChange={(e) => handleFaqChange(idx, "answer", e.target.value)}
                                                         placeholder="Institutional Solution Snippet..."
-                                                        className="bg-transparent border-white/10 text-slate-400 h-24 resize-none text-[13px] rounded-xl focus-visible:ring-emerald-500 leading-relaxed"
+                                                        className="bg-transparent border-[#CBD5E1] dark:border-[#1E293B] text-slate-400 h-24 resize-none text-[13px] rounded-xl focus-visible:ring-[#22D3EE] leading-relaxed border-opacity-100 opacity-100"
                                                     />
                                                 </div>
                                             ))}
@@ -497,7 +497,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <div className="flex items-center justify-between pl-1">
-                                            <Label className="text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300">Protocol Path (Slug Override)</Label>
+                                            <Label className="text-[10px] font-semibold uppercase tracking-wider text-slate-600 dark:text-[#F1F5F9]">Protocol Path (Slug Override)</Label>
                                             <button
                                                 type="button"
                                                 onClick={() => setIsSlugLocked(!isSlugLocked)}
@@ -523,7 +523,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label className="text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 pl-1">Sovereign Meta Title</Label>
+                                        <Label className="text-[10px] font-semibold uppercase tracking-wider text-slate-600 dark:text-[#F1F5F9] pl-1">Sovereign Meta Title</Label>
                                         <Input
                                             name="metaTitle"
                                             value={formData.metaTitle}
@@ -534,7 +534,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 pl-1">Strategic Meta Description</Label>
+                                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-slate-600 dark:text-[#F1F5F9] pl-1">Strategic Meta Description</Label>
                                     <Textarea
                                         name="metaDescription"
                                         value={formData.metaDescription}
@@ -554,12 +554,12 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                     <div className="bg-[#111827] dark:bg-[#111827] border border-[#1E293B] dark:border-[#1E293B] rounded-3xl p-6 shadow-sm space-y-6">
                         <div className="flex items-center gap-2 border-b border-[#1E293B] pb-4 text-[#F1F5F9]">
                             <Shield className="h-4 w-4 text-[#22D3EE]" />
-                            <h2 className="text-[11px] font-black uppercase tracking-widest italic">Institutional Attribution</h2>
+                            <h2 className="text-[11px] font-black uppercase tracking-widest italic text-[#0F172A] dark:text-[#22D3EE]">Institutional Attribution</h2>
                         </div>
 
                         <div className="space-y-4">
                             <div className="space-y-2">
-                                <Label className="text-[9px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#CBD5E1] pl-1">Strategic Analyst</Label>
+                                <Label className="text-[9px] font-semibold uppercase tracking-wider text-[#64748B] dark:text-[#F1F5F9] pl-1">Strategic Analyst</Label>
                                 <Select value={formData.authorId} onValueChange={(v) => handleSelectChange("authorId", v)}>
                                     <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9]">
                                         <SelectValue placeholder="FETCH ANALYST" />
@@ -571,7 +571,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             </div>
 
                             <div className="space-y-2">
-                                <Label className="text-[9px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#CBD5E1] pl-1">Strategic Sector</Label>
+                                <Label className="text-[9px] font-semibold uppercase tracking-wider text-[#64748B] dark:text-[#F1F5F9] pl-1">Strategic Sector</Label>
                                 <Select value={formData.categoryId} onValueChange={(v) => handleSelectChange("categoryId", v)}>
                                     <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9]">
                                         <SelectValue placeholder="SELECT SECTOR" />
@@ -606,13 +606,13 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 via-orange-500 to-red-500 opacity-50" />
                         <div className="flex items-center gap-2 border-b border-white/10 pb-4 text-[#F1F5F9]">
                             <Activity className="h-4 w-4 text-[#22D3EE]" />
-                            <h2 className="text-[11px] font-black uppercase tracking-widest italic">Operational Metrics</h2>
+                            <h2 className="text-[11px] font-black uppercase tracking-widest italic text-[#0F172A] dark:text-[#22D3EE]">Operational Metrics</h2>
                         </div>
 
                         <div className="space-y-8 relative z-10">
                             <div className="space-y-3">
                                 <div className="flex items-center justify-between">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300">Operation Region</Label>
+                                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-slate-600 dark:text-[#F1F5F9]">Operation Region</Label>
                                     <Globe className="h-3.5 w-3.5 opacity-40" />
                                 </div>
                                 <Select value={formData.region} onValueChange={(v) => handleSelectChange("region", v)}>
@@ -629,7 +629,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
 
                             <div className="space-y-3">
                                 <div className="flex items-center justify-between">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300">Calculated Risk Index</Label>
+                                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-slate-600 dark:text-[#F1F5F9]">Calculated Risk Index</Label>
                                     <span className={cn(
                                         "text-[10px] font-black px-2 py-0.5 rounded-full border",
                                         formData.riskLevel === "CRITICAL" ? "bg-red-500/20 text-red-400 border-red-500/30" :
@@ -654,7 +654,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             <div className="space-y-4">
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
-                                        <span className="text-slate-600 dark:text-slate-300">Risk Intensity</span>
+                                        <span className="text-slate-600 dark:text-[#F1F5F9] font-semibold tracking-wider">Risk Intensity</span>
                                         <span className="text-emerald-500">{formData.riskScore}%</span>
                                     </div>
                                     <input
@@ -668,7 +668,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
 
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
-                                        <span className="text-slate-600 dark:text-slate-300">Strategic Impact</span>
+                                        <span className="text-slate-600 dark:text-[#F1F5F9] font-semibold tracking-wider">Strategic Impact</span>
                                         <span className="text-blue-500">{formData.impactScore}%</span>
                                     </div>
                                     <input
