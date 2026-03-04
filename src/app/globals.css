@@ -151,35 +151,30 @@ footer {
 h1,
 h2,
 h3 {
+  color: #0F172A;
   @apply transition-colors duration-300;
-}
-
-:root h1,
-:root h2,
-:root h3 {
-  color: #0F172A !important;
 }
 
 .dark h1,
 .dark h2,
 .dark h3 {
-  color: #F1F5F9 !important;
+  color: #F1F5F9;
 }
 
-:root .prose p {
-  color: #1E293B !important;
+.prose p {
+  color: #1E293B;
 }
 
 .dark .prose p {
-  color: #CBD5E1 !important;
+  color: #CBD5E1;
 }
 
-:root .text-muted-foreground {
-  color: #475569 !important;
+.text-muted-foreground {
+  color: #475569;
 }
 
 .dark .text-muted-foreground {
-  color: #94A3B8 !important;
+  color: #94A3B8;
 }
 
 /* Institutional Border Contrast */

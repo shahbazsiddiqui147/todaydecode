@@ -148,7 +148,7 @@ export default async function ArticlePage({
                                 </div>
                                 <div className="space-y-0.5">
                                     <Link href={`/author/${article.author.slug.replace(/^\/|\/$/g, '')}/`}>
-                                        <div className="text-xs font-black uppercase tracking-widest text-white hover:text-accent-red transition-colors cursor-pointer">{article.author.name}</div>
+                                        <div className="text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white hover:text-accent-red transition-colors cursor-pointer">{article.author.name}</div>
                                     </Link>
                                     <div className="text-[9px] text-slate-500 uppercase font-black tracking-widest">{article.author.role}</div>
                                 </div>
@@ -167,11 +167,11 @@ export default async function ArticlePage({
                     <div className="sticky top-32 space-y-8 flex flex-col items-center">
                         <FollowDesk type="category" id={article.categoryId} label={article.category.name} />
                         <div className="h-px w-8 bg-white/5" />
-                        <button className="p-3 bg-slate-900/50 border border-white/5 rounded-2xl hover:border-accent-red transition-all group">
-                            <Share2 className="h-5 w-5 text-slate-500 group-hover:text-white" />
+                        <button className="p-3 bg-secondary/50 dark:bg-slate-900/50 border border-border dark:border-white/5 rounded-2xl hover:border-accent-red transition-all group">
+                            <Share2 className="h-5 w-5 text-slate-600 dark:text-slate-400 group-hover:text-white" />
                         </button>
-                        <button className="p-3 bg-slate-900/50 border border-white/5 rounded-2xl hover:border-accent-red transition-all group">
-                            <Bookmark className="h-5 w-5 text-slate-500 group-hover:text-white" />
+                        <button className="p-3 bg-secondary/50 dark:bg-slate-900/50 border border-border dark:border-white/5 rounded-2xl hover:border-accent-red transition-all group">
+                            <Bookmark className="h-5 w-5 text-slate-600 dark:text-slate-400 group-hover:text-white" />
                         </button>
                     </div>
                 </aside>
@@ -181,7 +181,7 @@ export default async function ArticlePage({
                         {article.onPageLead && (
                             <div className="relative p-8 rounded-3xl bg-secondary/30 border border-[#E2E8F0] dark:border-[#1E293B] overflow-hidden backdrop-blur-sm">
                                 <div className="absolute top-0 left-0 w-1.5 h-full bg-accent-red" />
-                                <p className="text-xl md:text-2xl font-medium text-[#0F172A] dark:text-[#F1F5F9] leading-relaxed tracking-tight">
+                                <p className="text-xl md:text-2xl font-medium text-slate-900 dark:text-slate-100 leading-relaxed tracking-tight">
                                     "{article.onPageLead}"
                                 </p>
                             </div>

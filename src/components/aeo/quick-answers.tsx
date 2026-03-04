@@ -15,16 +15,16 @@ export function QuickAnswers({ faqData }: QuickAnswersProps) {
 
     return (
         <section
-            className="aeo-qa-section bg-[#111827] border border-[#1E293B] rounded-3xl p-8 my-10 relative overflow-hidden"
+            className="aeo-qa-section bg-secondary/20 dark:bg-card border border-border rounded-3xl p-8 my-10 relative overflow-hidden"
             aria-label="Strategic Q&A"
         >
             <div className="absolute top-0 right-0 w-64 h-64 bg-accent-red/5 blur-[100px]" />
-            <div className="flex items-center space-x-4 mb-10 border-b border-[#1E293B] pb-6 relative z-10">
+            <div className="flex items-center space-x-4 mb-10 border-b border-border pb-6 relative z-10">
                 <div className="bg-accent-red/10 p-3 rounded-xl border border-accent-red/20 shadow-[0_0_15px_rgba(255,75,75,0.1)]">
                     <ShieldCheck className="h-6 w-6 text-accent-red" />
                 </div>
                 <div>
-                    <h2 className="text-md font-black text-[#0F172A] dark:text-[#F1F5F9] uppercase tracking-tighter">
+                    <h2 className="text-md font-black text-slate-900 dark:text-white uppercase tracking-tighter">
                         Institutional Strategic Analysis Desk Q&A
                     </h2>
                     <p className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mt-1.5 flex items-center gap-2">
@@ -43,7 +43,7 @@ export function QuickAnswers({ faqData }: QuickAnswersProps) {
                         itemType="https://schema.org/Question"
                     >
                         <h3
-                            className="text-lg font-black text-[#22D3EE] tracking-tighter mb-4 group-hover:text-white transition-colors uppercase italic"
+                            className="text-lg font-black text-[#22D3EE] tracking-tighter mb-4 group-hover:text-slate-900 dark:group-hover:text-white transition-colors uppercase italic"
                             itemProp="name"
                         >
                             {item.question}
@@ -56,7 +56,7 @@ export function QuickAnswers({ faqData }: QuickAnswersProps) {
                         >
                             <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-[#22D3EE] to-transparent" />
                             <p
-                                className="text-[#1E293B] dark:text-[#F1F5F9] text-[15px] font-medium leading-[1.75] max-w-2xl"
+                                className="text-slate-800 dark:text-slate-200 text-[15px] font-medium leading-[1.75] max-w-2xl"
                                 itemProp="text"
                             >
                                 {item.answer}
