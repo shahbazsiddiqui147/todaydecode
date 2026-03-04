@@ -210,7 +210,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             <Badge className="bg-cyan-500/10 text-[#0891B2] dark:text-[#22D3EE] border-cyan-500/20 text-[10px] font-black uppercase tracking-widest px-2 py-0">
                                 {article ? "Operational Update" : "Nodal Initialization"}
                             </Badge>
-                            <span className="text-[10px] text-muted-foreground font-black uppercase tracking-widest opacity-40 italic">#StrategicOversight</span>
+                            <span className="text-[10px] text-slate-600 dark:text-slate-300 font-black uppercase tracking-widest opacity-40 italic">#StrategicOversight</span>
                         </div>
                         <h1 className="text-2xl font-black uppercase italic tracking-tighter text-[#0F172A] dark:text-[#F1F5F9] leading-none">
                             {formData.title || "PROPOSED_STRATEGIC_ANALYSIS"}
@@ -284,7 +284,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                         {activeTab === "content" && (
                             <div className="space-y-6">
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1">Featured Image URL</Label>
+                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#CBD5E1] pl-1">Featured Image URL</Label>
                                     <div className="flex gap-2">
                                         <Input
                                             name="featuredImage"
@@ -306,7 +306,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                                 variant="outline"
                                                 className="h-12 w-12 rounded-xl border-dashed border-[#CBD5E1] dark:border-[#1E293B] hover:bg-muted/50 transition-all active:scale-95"
                                             >
-                                                <UploadCloud className="h-5 w-5 text-muted-foreground" />
+                                                <UploadCloud className="h-5 w-5 text-slate-600 dark:text-slate-300" />
                                             </Button>
                                         </div>
                                     </div>
@@ -331,7 +331,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1">Primary Strategic Headline</Label>
+                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#CBD5E1] pl-1">Primary Strategic Headline</Label>
                                     <Input
                                         name="title"
                                         value={formData.title}
@@ -342,7 +342,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1 flex justify-between">
+                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#CBD5E1] pl-1 flex justify-between">
                                         <span>On-Page Executive Summary</span>
                                         <span className="opacity-40 lowercase italic font-normal">Institutional Intro</span>
                                     </Label>
@@ -356,7 +356,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1">Institutional Brief (Global Feed)</Label>
+                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#CBD5E1] pl-1">Institutional Brief (Global Feed)</Label>
                                     <Textarea
                                         name="summary"
                                         value={formData.summary}
@@ -367,7 +367,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1 mb-2 block">Full Strategic Analysis</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#1E293B] dark:text-[#CBD5E1] pl-1 mb-2 block">Full Strategic Analysis</Label>
                                     <div className="rounded-2xl border border-[#CBD5E1] dark:border-[#1E293B] overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F1F5F9]">
                                         <RichTextEditor
                                             value={formData.content}
@@ -454,7 +454,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
 
                                     <div className="space-y-6 relative z-10">
                                         <div className="flex items-center justify-between">
-                                            <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Strategic Research Nodes (FAQ)</h3>
+                                            <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300">Strategic Research Nodes (FAQ)</h3>
                                             <Button type="button" variant="outline" size="sm" onClick={addFaq} className="h-8 text-[9px] border-white/10 hover:bg-white/10 text-white rounded-xl">
                                                 <Plus className="h-3.5 w-3.5 mr-1" /> Initialize Node
                                             </Button>
@@ -497,7 +497,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <div className="flex items-center justify-between pl-1">
-                                            <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Protocol Path (Slug Override)</Label>
+                                            <Label className="text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300">Protocol Path (Slug Override)</Label>
                                             <button
                                                 type="button"
                                                 onClick={() => setIsSlugLocked(!isSlugLocked)}
@@ -523,7 +523,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Sovereign Meta Title</Label>
+                                        <Label className="text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 pl-1">Sovereign Meta Title</Label>
                                         <Input
                                             name="metaTitle"
                                             value={formData.metaTitle}
@@ -534,7 +534,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Strategic Meta Description</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 pl-1">Strategic Meta Description</Label>
                                     <Textarea
                                         name="metaDescription"
                                         value={formData.metaDescription}
@@ -559,7 +559,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
 
                         <div className="space-y-4">
                             <div className="space-y-2">
-                                <Label className="text-[9px] font-black uppercase tracking-widest text-[#94A3B8] pl-1">Strategic Analyst</Label>
+                                <Label className="text-[9px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#CBD5E1] pl-1">Strategic Analyst</Label>
                                 <Select value={formData.authorId} onValueChange={(v) => handleSelectChange("authorId", v)}>
                                     <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9]">
                                         <SelectValue placeholder="FETCH ANALYST" />
@@ -571,7 +571,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             </div>
 
                             <div className="space-y-2">
-                                <Label className="text-[9px] font-black uppercase tracking-widest text-[#94A3B8] pl-1">Strategic Sector</Label>
+                                <Label className="text-[9px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#CBD5E1] pl-1">Strategic Sector</Label>
                                 <Select value={formData.categoryId} onValueChange={(v) => handleSelectChange("categoryId", v)}>
                                     <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9]">
                                         <SelectValue placeholder="SELECT SECTOR" />
@@ -587,14 +587,14 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             <div className="flex items-center justify-between p-3 bg-muted/20 rounded-2xl border border-border/50">
                                 <div className="space-y-0.5">
                                     <Label className="text-[10px] font-black uppercase tracking-widest">Premium Status</Label>
-                                    <p className="text-[8px] text-muted-foreground font-bold uppercase tracking-tighter italic">Institutional Restricted</p>
+                                    <p className="text-[8px] text-slate-600 dark:text-slate-300 font-bold uppercase tracking-tighter italic">Institutional Restricted</p>
                                 </div>
                                 <Switch checked={formData.isPremium} onCheckedChange={(c) => handleSwitchChange("isPremium", c)} />
                             </div>
                             <div className="flex items-center justify-between p-3 bg-muted/20 rounded-2xl border border-border/50">
                                 <div className="space-y-0.5">
                                     <Label className="text-[10px] font-black uppercase tracking-widest">Featured Node</Label>
-                                    <p className="text-[8px] text-muted-foreground font-bold uppercase tracking-tighter italic">Strategic Hub Spotlight</p>
+                                    <p className="text-[8px] text-slate-600 dark:text-slate-300 font-bold uppercase tracking-tighter italic">Strategic Hub Spotlight</p>
                                 </div>
                                 <Switch checked={formData.isFeatured} onCheckedChange={(c) => handleSwitchChange("isFeatured", c)} />
                             </div>
@@ -612,7 +612,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                         <div className="space-y-8 relative z-10">
                             <div className="space-y-3">
                                 <div className="flex items-center justify-between">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Operation Region</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300">Operation Region</Label>
                                     <Globe className="h-3.5 w-3.5 opacity-40" />
                                 </div>
                                 <Select value={formData.region} onValueChange={(v) => handleSelectChange("region", v)}>
@@ -629,7 +629,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
 
                             <div className="space-y-3">
                                 <div className="flex items-center justify-between">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Calculated Risk Index</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300">Calculated Risk Index</Label>
                                     <span className={cn(
                                         "text-[10px] font-black px-2 py-0.5 rounded-full border",
                                         formData.riskLevel === "CRITICAL" ? "bg-red-500/20 text-red-400 border-red-500/30" :
@@ -654,7 +654,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             <div className="space-y-4">
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
-                                        <span className="text-slate-500">Risk Intensity</span>
+                                        <span className="text-slate-600 dark:text-slate-300">Risk Intensity</span>
                                         <span className="text-emerald-500">{formData.riskScore}%</span>
                                     </div>
                                     <input
@@ -668,7 +668,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
 
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
-                                        <span className="text-slate-500">Strategic Impact</span>
+                                        <span className="text-slate-600 dark:text-slate-300">Strategic Impact</span>
                                         <span className="text-blue-500">{formData.impactScore}%</span>
                                     </div>
                                     <input

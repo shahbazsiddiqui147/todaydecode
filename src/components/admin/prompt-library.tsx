@@ -38,7 +38,7 @@ function PromptSection({ title, content, icon: Icon, color }: PromptSectionProps
                 </div>
                 <button
                     onClick={handleCopy}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[9px] font-bold uppercase tracking-widest text-slate-400 hover:text-white transition-all"
+                    className="flex items-center gap-2 px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[9px] font-bold uppercase tracking-widest text-slate-300 hover:text-white transition-all"
                 >
                     {copied ? <Check className="h-3 w-3 text-accent-green" /> : <Copy className="h-3 w-3" />}
                     <span>{copied ? 'Copied' : 'Copy'}</span>
@@ -46,7 +46,7 @@ function PromptSection({ title, content, icon: Icon, color }: PromptSectionProps
             </div>
 
             <div className="relative">
-                <pre className="text-[11px] text-slate-400 font-medium leading-relaxed font-mono whitespace-pre-wrap line-clamp-4 group-hover:line-clamp-none transition-all duration-500">
+                <pre className="text-[11px] text-slate-300 font-medium leading-relaxed font-mono whitespace-pre-wrap line-clamp-4 group-hover:line-clamp-none transition-all duration-500">
                     {content}
                 </pre>
                 <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-slate-950/50 to-transparent group-hover:opacity-0 transition-opacity" />
