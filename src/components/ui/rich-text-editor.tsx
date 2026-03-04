@@ -72,7 +72,7 @@ const Toolbar = ({ editor }: { editor: any }) => {
     };
 
     return (
-        <div className="flex flex-wrap items-center gap-1 p-2 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 sticky top-0 z-10 backdrop-blur-sm">
+        <div className="flex flex-wrap items-center gap-1 p-2 border-b border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-950 sticky top-0 z-10 backdrop-blur-sm text-slate-600 dark:text-slate-100">
             <Button
                 type="button"
                 variant="ghost"
@@ -233,7 +233,7 @@ export function RichTextEditor({ value, onChange, placeholder = "Synthesize stra
     });
 
     return (
-        <div className="border border-slate-200 dark:border-slate-800 bg-transparent flex flex-col group focus-within:ring-1 focus-within:ring-slate-400 transition-all">
+        <div className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#020617] flex flex-col group focus-within:ring-1 focus-within:ring-slate-400 transition-all">
             <Toolbar editor={editor} />
             <EditorContent editor={editor} />
         </div>
