@@ -52,7 +52,7 @@ export const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
     return (
         <div
             ref={containerRef}
-            className="mermaid-wrapper w-full flex justify-center py-12 bg-slate-950/20 rounded-3xl border border-white/5 my-12 overflow-hidden shadow-inner"
+            className="mermaid-wrapper w-full flex justify-center py-12 bg-[#111827] rounded-3xl border border-[#1E293B] my-12 overflow-hidden shadow-inner"
             dangerouslySetInnerHTML={{ __html: svg }}
         />
     );

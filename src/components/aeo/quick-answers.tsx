@@ -15,7 +15,7 @@ export function QuickAnswers({ faqData }: QuickAnswersProps) {
 
     return (
         <section
-            className="aeo-qa-section bg-slate-900 border border-slate-800 rounded-2xl p-8 my-10"
+            className="aeo-qa-section bg-background border border-[#1E293B] rounded-2xl p-8 my-10"
             aria-label="Strategic Q&A"
         >
             <div className="flex items-center space-x-3 mb-8 border-b border-border-slate pb-4">

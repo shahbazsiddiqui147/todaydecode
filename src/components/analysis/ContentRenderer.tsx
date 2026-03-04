@@ -19,7 +19,7 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({ content }) => 
     };
 
     return (
-        <div className="prose prose-invert prose-slate max-w-none text-slate-200 leading-relaxed text-xl font-medium tracking-tight">
+        <div className="prose prose-invert prose-slate max-w-none text-slate-300 leading-[1.75] text-[1.125rem] font-medium tracking-tight">
             {parse(content, options)}
         </div>
     );

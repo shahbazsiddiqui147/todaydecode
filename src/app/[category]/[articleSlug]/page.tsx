@@ -87,7 +87,7 @@ export default async function ArticlePage({
     const readingTime = `${Math.ceil(article.content.length / 1000) + 2} min read`;
 
     return (
-        <div className="relative min-h-screen bg-primary pb-20">
+        <div className="relative min-h-screen bg-background pb-20">
             <ReadingProgressBar />
             <JsonLd
                 type="Article"
@@ -110,7 +110,7 @@ export default async function ArticlePage({
                     className="object-cover opacity-60 grayscale hover:grayscale-0 transition-opacity duration-1000"
                     priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
 
                 <div className="absolute bottom-0 left-0 right-0 p-8 max-w-7xl mx-auto">
                     <div className="flex flex-col space-y-6">
@@ -121,18 +121,18 @@ export default async function ArticlePage({
                         ]} />
 
                         <div className="space-y-4">
-                            <div className="flex items-center space-x-3">
+                            <div className="flex items-center space-x-2">
                                 <span className={cn(
-                                    "text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded border",
-                                    article.riskLevel === 'CRITICAL' ? "bg-accent-red/20 text-accent-red border-accent-red/30" :
-                                        article.riskLevel === 'HIGH' ? "bg-orange-500/20 text-orange-400 border-orange-500/30" :
-                                            "bg-accent-green/20 text-accent-green border-accent-green/30"
+                                    "text-[9px] font-black uppercase tracking-[0.2em] px-2 py-0.5 rounded border leading-none",
+                                    article.riskLevel === 'CRITICAL' ? "bg-accent-red/10 text-accent-red border-accent-red/20" :
+                                        article.riskLevel === 'HIGH' ? "bg-orange-500/10 text-orange-400 border-orange-500/20" :
+                                            "bg-accent-green/10 text-accent-green border-accent-green/20"
                                 )}>
                                     {article.riskLevel} Risk
                                 </span>
                                 <MethodologyBadge />
                             </div>
-                            <h1 className="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter leading-[0.9] max-w-5xl italic">
+                            <h1 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[1.1] max-w-5xl">
                                 {article.title}
                             </h1>
                         </div>

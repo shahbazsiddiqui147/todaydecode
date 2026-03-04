@@ -111,19 +111,19 @@ footer {
 }
 
 .prose h1 {
-  @apply text-4xl font-black uppercase italic tracking-tighter mb-6 mt-8 text-foreground;
+  @apply text-[2.25rem] md:text-[3.75rem] font-black uppercase tracking-tighter mb-8 mt-12 text-[#F1F5F9] leading-[1.1];
 }
 
 .prose h2 {
-  @apply text-2xl font-black uppercase italic tracking-tighter mb-4 mt-6 text-foreground/90;
+  @apply text-[1.875rem] font-semibold uppercase tracking-wide mb-6 mt-10 text-[#22D3EE];
 }
 
 .prose h3 {
-  @apply text-xl font-black uppercase italic tracking-tighter mb-3 mt-4;
+  @apply text-[1.5rem] font-medium uppercase tracking-wide mb-4 mt-8 text-[#F1F5F9];
 }
 
 .prose p {
-  @apply mb-4 leading-relaxed;
+  @apply mb-6 leading-[1.75] text-[1.125rem] text-slate-300;
 }
 
 .prose ul {

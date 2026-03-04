@@ -25,6 +25,13 @@ To provide high-fidelity, institutional-grade strategic intelligence through a m
 - **Framer Motion Integration:** Use for smooth transitions; avoid "teleporting" UI elements.
 - **High-Contrast Focus:** Hover states must be sharp and instantly recognizable (e.g., high-contrast country glow).
 
+### 2.4. EXECUTIVE TYPOGRAPHY SCALE (INSTITUTIONAL)
+- **H1 (Primary Title):** Max size 3.75rem (60px) on desktop, 2.25rem on mobile. Weight: Bold/Extra-Bold. No Italics.
+- **H2 (Section Headers):** 1.875rem (30px). Weight: Semi-bold. Uppercase for 'THEMATIC ANALYSIS'.
+- **H3 (Sub-sections):** 1.5rem (24px). Weight: Medium/Semi-bold.
+- **Body Copy:** 1.125rem (18px) for readability. Line-height: 1.75 (Relaxed).
+- **Anti-Grey/White Banding:** Every section wrapper in the article template must use `bg-transparent` or inherit the theme background. Hardcoded white backgrounds in Dark Mode are a protocol violation.
+
 ## 3. TECHNICAL STANDARDS
 
 ### 3.1 Visual Logic (Mermaid)

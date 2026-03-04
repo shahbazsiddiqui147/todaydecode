@@ -47,7 +47,7 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
     const activeData = scenarios[activeTab];
 
     return (
-        <div className="bg-card/50 border border-[#1E293B] rounded-2xl overflow-hidden backdrop-blur-sm">
+        <div className="bg-background/40 border border-[#1E293B] rounded-2xl overflow-hidden backdrop-blur-sm">
             <div className="p-6 border-b border-[#1E293B] bg-secondary/30">
                 <h2 className="text-xl font-black text-[#F1F5F9] tracking-tight uppercase mb-1">
                     Strategic Scenario Forecast
