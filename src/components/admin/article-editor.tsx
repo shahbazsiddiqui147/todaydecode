@@ -560,7 +560,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
 
                         <div className="space-y-4">
                             <div className="space-y-2">
-                                <Label className="text-[9px] font-semibold uppercase tracking-wider text-[#64748B] dark:text-[#F1F5F9] pl-1">Strategic Analyst</Label>
+                                <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Strategic Analyst</Label>
                                 <Select value={formData.authorId} onValueChange={(v) => handleSelectChange("authorId", v)}>
                                     <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9]">
                                         <SelectValue placeholder="FETCH ANALYST" />
@@ -572,7 +572,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             </div>
 
                             <div className="space-y-2">
-                                <Label className="text-[9px] font-semibold uppercase tracking-wider text-[#64748B] dark:text-[#F1F5F9] pl-1">Strategic Sector</Label>
+                                <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Strategic Sector</Label>
                                 <Select value={formData.categoryId} onValueChange={(v) => handleSelectChange("categoryId", v)}>
                                     <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9]">
                                         <SelectValue placeholder="SELECT SECTOR" />
@@ -597,14 +597,14 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                     <Label className="text-[10px] font-black uppercase tracking-widest">Featured Node</Label>
                                     <p className="text-[8px] text-slate-600 dark:text-slate-300 font-bold uppercase tracking-tighter italic">Research Desk Spotlight</p>
                                 </div>
-                                <Switch checked={formData.isFeatured} onCheckedChange={(c) => handleSwitchChange("isFeatured", c)} />
+                                <Switch checked={formData.isFeatured} onCheckedChange={(c) => handleSwitchChange("isFeatured", c)} className="data-[state=checked]:bg-[#22D3EE] focus-visible:ring-[#22D3EE]/50" />
                             </div>
-                            <div className="flex items-center justify-between p-3 bg-muted/20 rounded-2xl border border-border/50">
+                            <div className="flex items-center justify-between p-3 bg-white/5 rounded-2xl border border-white/10">
                                 <div className="space-y-0.5">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest">Scenario Showcase</Label>
-                                    <p className="text-[8px] text-slate-600 dark:text-slate-300 font-bold uppercase tracking-tighter italic">Featured Homepage Analysis</p>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9]">Scenario Showcase</Label>
+                                    <p className="text-[8px] text-slate-400 font-bold uppercase tracking-tighter italic">Featured Homepage Analysis</p>
                                 </div>
-                                <Switch checked={formData.isFeaturedScenario} onCheckedChange={(c) => handleSwitchChange("isFeaturedScenario", c)} />
+                                <Switch checked={formData.isFeaturedScenario} onCheckedChange={(c) => handleSwitchChange("isFeaturedScenario", c)} className="data-[state=checked]:bg-[#22D3EE] focus-visible:ring-[#22D3EE]/50" />
                             </div>
                         </div>
                     </div>

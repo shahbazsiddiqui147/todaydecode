@@ -92,13 +92,20 @@ footer {
 
 /* TipTap / ProseMirror Professional Styling */
 .ProseMirror {
-  outline: none;
+  outline: none !important;
+  padding: 2rem;
+  min-height: 500px;
+}
+
+.dark .ProseMirror {
+  color: #F1F5F9 !important;
+  background-color: #020617 !important;
 }
 
 .ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
-  color: #adb5bd;
+  color: #64748B;
   pointer-events: none;
   height: 0;
 }
@@ -138,12 +145,37 @@ footer {
 .prose a {
   @apply text-accent-red font-bold underline underline-offset-4 hover:text-red-400;
 }
+
 /* Institutional Legibility Guardrails */
-.dark h1, .dark h2, .dark h3 { color: #F1F5F9 !important; }
-.dark td { color: #F1F5F9 !important; }
-.dark .text-muted-foreground { color: #94A3B8 !important; }
+.dark h1,
+.dark h2,
+.dark h3 {
+  color: #F1F5F9 !important;
+}
+
+.dark td {
+  color: #F1F5F9 !important;
+}
+
+.dark .text-muted-foreground {
+  color: #94A3B8 !important;
+}
 
 /* System-Wide Label Hardening */
-.dark label { color: #F1F5F9 !important; }
-.dark input::placeholder, .dark textarea::placeholder { color: #64748B !important; }
-.dark .text-sm.font-medium { color: #F1F5F9 !important; }
+.dark label {
+  color: #F1F5F9 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748B !important;
+}
+
+.dark .text-sm.font-medium {
+  color: #F1F5F9 !important;
+}
+
+/* Editor Toolbar Hardening */
+.editor-toolbar button:hover {
+  background-color: #334155 !important;
+}
