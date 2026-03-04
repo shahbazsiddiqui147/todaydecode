@@ -5,7 +5,7 @@ import { RiskGauge } from "@/components/metrics/risk-gauge";
 import { GlobalRiskMap } from "@/components/maps/global-risk-map";
 import { AnalysisCard } from "@/components/ui/analysis-card";
 import { ScenarioForecast } from "@/components/analysis/scenario-forecast";
-import { ChevronRight, Globe, ShieldAlert, TrendingUp, Cpu, Zap, Activity, Layers } from "lucide-react";
+import { ChevronRight, Globe, ShieldAlert, ShieldCheck, TrendingUp, Cpu, Zap, Activity, Layers } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
@@ -32,9 +32,8 @@ export default async function Page() {
       {/* Strategic Metrics Ribbon */}
       <div className="border-y border-border bg-secondary/80 backdrop-blur-md sticky top-[64px] z-20">
         <div className="max-w-7xl mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-8">
-          <div className="flex items-center space-x-2 animate-pulse">
-            <div className="h-2 w-2 rounded-full bg-accent-red" />
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-accent-red">System Synchronized</span>
+          <div className="flex items-center space-x-2">
+            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-muted-foreground/40">Assessment Refresh: {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()} // 04:00 UTC</span>
           </div>
 
           <div className="flex items-center space-x-12">
@@ -47,7 +46,7 @@ export default async function Page() {
               <span className="text-sm font-black text-foreground italic tracking-tighter">${metrics.oil.value}</span>
             </div>
             <div className="flex flex-col border-l border-border pl-12">
-              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Reports Synthesized</span>
+              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Reports Published</span>
               <span className="text-sm font-black text-foreground italic tracking-tighter">{fetchedStats.reportsCount || 0}</span>
             </div>
           </div>
@@ -72,16 +71,16 @@ export default async function Page() {
             <div className="flex items-center gap-3 border-b border-border pb-6">
               <ShieldAlert className="h-5 w-5 text-accent-red" />
               <h2 className="text-sm font-black uppercase tracking-[0.25em] text-foreground italic">
-                Unified Risk Metric
+                Global Strategic Risk Index
               </h2>
             </div>
-            <div className="p-8 rounded-3xl border border-border bg-card shadow-xl space-y-12 relative overflow-hidden group">
-              <RiskGauge value={metrics.risk.value} label="CURRENT GLOBAL RISK" />
+            <div className="p-8 rounded-3xl border border-[#1E293B] bg-card shadow-xl space-y-12 relative overflow-hidden group">
+              <RiskGauge value={metrics.risk.value} label="AGGREGATE RISK RATING" />
               <div className="space-y-4 pt-8 border-t border-border/10">
                 <div className="flex items-start gap-4">
                   <div className="h-1.5 w-1.5 rounded-full bg-accent-red mt-1.5 shrink-0" />
                   <p className="text-[11px] font-medium text-muted-foreground uppercase leading-relaxed tracking-tight">
-                    Detecting elevated activity across <span className="text-foreground font-bold">{fetchedStats.hotspots || 0} critical hotspots</span>. High-impact geopolitical shifts are currently being synthesized.
+                    Aggregated geopolitical volatility metrics indicate <span className="text-foreground font-bold">{metrics.risk.value > 60 ? 'elevated' : 'stable'} risk status</span> across core global sectors.
                   </p>
                 </div>
               </div>
@@ -89,18 +88,18 @@ export default async function Page() {
           </div>
 
           <div className="lg:col-span-4 space-y-8">
-            <div className="p-8 rounded-3xl border border-border bg-accent-red shadow-2xl space-y-6 group cursor-pointer hover:bg-accent-red/90 transition-all">
+            <div className="p-8 rounded-3xl border border-[#1E293B] bg-accent-red shadow-2xl space-y-6 group cursor-pointer hover:bg-accent-red/90 transition-all">
               <div className="flex items-center justify-between">
                 <div className="p-2 bg-white/10 rounded-lg">
-                  <Cpu className="h-5 w-5 text-white" />
+                  <ShieldCheck className="h-5 w-5 text-white" />
                 </div>
-                <span className="text-[10px] font-black text-white/50 uppercase tracking-widest">Institutional</span>
+                <span className="text-[10px] font-black text-white/50 uppercase tracking-widest">Institutional Advisory</span>
               </div>
               <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter leading-none">
-                Request Private <br />Strategic Briefing
+                Private Strategic <br />Consultancy
               </h3>
               <button className="flex items-center text-[10px] font-black text-white uppercase tracking-[0.3em] gap-2 pt-2">
-                Initiate Protocol <ChevronRight className="h-3 w-3" />
+                Request Briefing <ChevronRight className="h-3 w-3" />
               </button>
             </div>
           </div>
