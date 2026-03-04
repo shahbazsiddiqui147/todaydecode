@@ -112,7 +112,7 @@ export default async function ArticlePage({
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
 
-                <div className="absolute bottom-0 left-0 right-0 p-8 max-w-7xl mx-auto">
+                <div className="absolute bottom-0 left-0 right-0 p-8 max-w-screen-2xl mx-auto px-6">
                     <div className="flex flex-col space-y-6">
                         <Breadcrumbs items={[
                             { label: 'Home', href: '/' },
@@ -162,7 +162,7 @@ export default async function ArticlePage({
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-16 mt-16">
+            <div className="max-w-screen-2xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-16 mt-16">
                 <aside className="lg:col-span-1 hidden lg:block">
                     <div className="sticky top-32 space-y-8 flex flex-col items-center">
                         <FollowDesk type="category" id={article.categoryId} label={article.category.name} />

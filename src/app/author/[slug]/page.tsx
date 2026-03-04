@@ -30,7 +30,7 @@ export default async function AuthorProfilePage({ params }: { params: Promise<{ 
         <div className="min-h-screen bg-primary pb-20">
             {/* Tactical Header */}
             <div className="bg-secondary/40 border-b border-border-slate py-12">
-                <div className="max-w-7xl mx-auto px-8">
+                <div className="max-w-screen-2xl mx-auto px-6">
                     <Breadcrumbs items={[
                         { label: 'Home', href: '/' },
                         { label: 'Personnel', href: '#' },
@@ -89,7 +89,7 @@ export default async function AuthorProfilePage({ params }: { params: Promise<{ 
                 </div>
             </div>
 
-            <main className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 mt-16">
+            <main className="max-w-screen-2xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 mt-16">
                 <div className="lg:col-span-4 space-y-10">
                     <section className="space-y-4">
                         <h2 className="text-xs font-black uppercase tracking-[0.3em] text-slate-500 pb-4 border-b border-border-slate">Operational Background</h2>
