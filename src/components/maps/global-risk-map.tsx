@@ -170,7 +170,7 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                                 >
                                     <div className="space-y-1">
                                         <h3 className="text-xs font-black uppercase tracking-widest text-foreground">{region} Silo</h3>
-                                        <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">Tactical Sector Index</p>
+                                        <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">Strategic Sector Index</p>
                                     </div>
                                     <div className={cn(
                                         "flex flex-col items-center justify-center h-10 w-12 rounded-xl border border-border",

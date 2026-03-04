@@ -18,7 +18,7 @@ export function AdContainer({
             "group relative p-8 rounded-3xl bg-secondary/20 border border-white/5 overflow-hidden transition-all hover:border-white/10",
             className
         )}>
-            {/* Tactical Branding */}
+            {/* Strategic Branding */}
             <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
                 <div className="flex items-center space-x-2">
                     <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 italic">

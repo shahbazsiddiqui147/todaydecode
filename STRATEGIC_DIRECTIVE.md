@@ -4,8 +4,8 @@
 To provide high-fidelity, institutional-grade strategic intelligence through a minimalist and authoritative interface.
 
 ### 1.1 Institutional Identity & Linguistics
-- **Forbidden Tactical Phrases:** "System Synchronized," "Initiate Protocol," "Sector Active," "Synthesizing Dispatches."
-- **Institutional Equivalents:** "Data Refreshed," "Request Access," "Current Regional Status," "Analyzing Developments."
+- **Forbidden Institutional Phrases:** "War Room," "Tactical," "War," "System Synchronized," "Initiate Protocol," "Sector Active," "Synthesizing Dispatches."
+- **Institutional Equivalents:** "Strategic Desk," "Analytical," "Sovereign," "Data Refreshed," "Request Access," "Regional Status," "Analyzing Developments."
 - **Core Metric Identity:** The central gauge is the 'Global Strategic Risk Index.' Its purpose is macro-level risk aggregation for executive decision-making.
 
 ## 2. DESIGN STANDARDS

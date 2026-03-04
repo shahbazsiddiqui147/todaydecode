@@ -42,7 +42,7 @@ export function PaywallGate({ children, isPremium = false }: PaywallGateProps) {
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/95 to-transparent" />
 
-                {/* Tactical grid overlay over blur */}
+                {/* Institutional grid overlay over blur */}
                 <div className="absolute inset-0 bg-[url('/grid-light.svg')] opacity-5" />
             </div>
 

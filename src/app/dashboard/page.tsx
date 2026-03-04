@@ -244,7 +244,7 @@ export default async function DashboardPage() {
                                     <span className="text-[10px] text-slate-500">SYSTEM // PULSE</span>
                                 </div>
                                 <p className="text-xs text-slate-400 font-medium leading-relaxed italic">
-                                    Monitoring tactical indicators for your followed sectors. Real-time alerts will be delivered here.
+                                    Monitoring strategic indicators for your followed sectors. Real-time alerts will be delivered here.
                                 </p>
                             </div>
                         </div>

@@ -180,7 +180,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             <Badge className="bg-cyan-500/10 text-[#0891B2] dark:text-[#22D3EE] border-cyan-500/20 text-[10px] font-black uppercase tracking-widest px-2 py-0">
                                 {article ? "Operational Update" : "Nodal Initialization"}
                             </Badge>
-                            <span className="text-[10px] text-muted-foreground font-black uppercase tracking-widest opacity-40 italic">#WarRoomProtocol</span>
+                            <span className="text-[10px] text-muted-foreground font-black uppercase tracking-widest opacity-40 italic">#StrategicOversight</span>
                         </div>
                         <h1 className="text-2xl font-black uppercase italic tracking-tighter text-[#0F172A] dark:text-[#F1F5F9] leading-none">
                             {formData.title || "PROPOSED_STRATEGIC_ANALYSIS"}
@@ -284,7 +284,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         name="onPageLead"
                                         value={formData.onPageLead}
                                         onChange={handleChange}
-                                        placeholder="A high-end tactical hook for the live analysis..."
+                                        placeholder="A high-end strategic hook for the live analysis..."
                                         className="min-h-[100px] text-sm font-medium bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
                                     />
                                 </div>
@@ -482,7 +482,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                     </div>
                 </div>
 
-                {/* Right Column: Tactical Sidebar */}
+                {/* Right Column: Analytical Sidebar */}
                 <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
                     {/* Analyst Profile */}
                     <div className="bg-[#111827] dark:bg-[#111827] border border-[#1E293B] dark:border-[#1E293B] rounded-3xl p-6 shadow-sm space-y-6">
@@ -528,14 +528,14 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             <div className="flex items-center justify-between p-3 bg-muted/20 rounded-2xl border border-border/50">
                                 <div className="space-y-0.5">
                                     <Label className="text-[10px] font-black uppercase tracking-widest">Featured Node</Label>
-                                    <p className="text-[8px] text-muted-foreground font-bold uppercase tracking-tighter italic">War Room Spotlight</p>
+                                    <p className="text-[8px] text-muted-foreground font-bold uppercase tracking-tighter italic">Strategic Hub Spotlight</p>
                                 </div>
                                 <Switch checked={formData.isFeatured} onCheckedChange={(c) => handleSwitchChange("isFeatured", c)} />
                             </div>
                         </div>
                     </div>
 
-                    {/* Tactical Volatility (Sliders) */}
+                    {/* Analytical Volatility (Sliders) */}
                     <div className="bg-slate-900 dark:bg-slate-950 text-white rounded-3xl p-6 shadow-2xl border border-white/5 space-y-8 relative overflow-hidden">
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 via-orange-500 to-red-500 opacity-50" />
                         <div className="flex items-center gap-2 border-b border-white/10 pb-4 text-[#F1F5F9]">

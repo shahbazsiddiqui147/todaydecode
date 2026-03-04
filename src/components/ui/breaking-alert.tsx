@@ -30,7 +30,7 @@ export function BreakingAlert({ initialAlert }: { initialAlert?: AlertData | nul
                 exit={{ height: 0, opacity: 0 }}
                 className="relative bg-accent-red text-white z-[100] overflow-hidden"
             >
-                {/* Tactical Pulse Effect */}
+                {/* Analytical Pulse Effect */}
                 <motion.div
                     animate={{ opacity: [0.1, 0.3, 0.1] }}
                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -77,7 +77,7 @@ export function BreakingAlert({ initialAlert }: { initialAlert?: AlertData | nul
                     </div>
                 </div>
 
-                {/* Tactical scanner line */}
+                {/* Research scanner line */}
                 <motion.div
                     initial={{ x: '-100%' }}
                     animate={{ x: '100%' }}

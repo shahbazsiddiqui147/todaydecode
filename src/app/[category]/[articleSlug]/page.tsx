@@ -67,7 +67,7 @@ export default async function ArticlePage({
         },
         likely: {
             title: rawScenarios.likely?.title || "Linear Tension",
-            desc: rawScenarios.likely?.description || "Baseline trajectory based on current tactical indicators.",
+            desc: rawScenarios.likely?.description || "Baseline trajectory based on current analytical indicators.",
             impact: article.impactScore
         },
         worst: {

@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     if (silo) {
         return constructMetadata({
             title: `${silo.name} | Strategic Analysis Silo`,
-            description: silo.description || `Tactical oversight and strategic reports for ${silo.name}.`,
+            description: silo.description || `Strategic oversight and analytical reports for ${silo.name}.`,
             path: normalizedSlug,
         });
     }
@@ -136,7 +136,7 @@ function CategoryDesk({ silo }: { silo: any }) {
                             <div className="space-y-3">
                                 <p className="text-2xl font-black uppercase tracking-[0.4em] text-foreground italic">Analysis Pending</p>
                                 <p className="text-sm text-muted-foreground font-medium uppercase tracking-[0.1em] max-w-md mx-auto leading-relaxed">
-                                    Institutional data is being authorized for public release. Strategic analysts are mapping tactical indicators.
+                                    Institutional data is being authorized for public release. Strategic analysts are mapping analytical indicators.
                                 </p>
                             </div>
                         </div>
