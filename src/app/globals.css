@@ -91,27 +91,15 @@ footer {
 }
 
 /* TipTap / ProseMirror Professional Styling */
+/* TipTap / ProseMirror Professional Styling */
 .ProseMirror {
   outline: none !important;
   padding: 2rem;
   min-height: 500px;
 }
 
-.dark .ProseMirror {
-  color: #F1F5F9 !important;
-  background-color: #020617 !important;
-}
-
-.ProseMirror p.is-editor-empty:first-child::before {
-  content: attr(data-placeholder);
-  float: left;
-  color: #64748B;
-  pointer-events: none;
-  height: 0;
-}
-
 .prose h1 {
-  @apply text-[2.25rem] md:text-[3.75rem] font-black uppercase tracking-tighter mb-8 mt-12 text-[#F1F5F9] leading-[1.1];
+  @apply text-[2.25rem] md:text-[3.75rem] font-black uppercase tracking-tighter mb-8 mt-12 leading-[1.1];
 }
 
 .prose h2 {
@@ -119,11 +107,11 @@ footer {
 }
 
 .prose h3 {
-  @apply text-[1.5rem] font-medium uppercase tracking-wide mb-4 mt-8 text-[#F1F5F9];
+  @apply text-[1.5rem] font-medium uppercase tracking-wide mb-4 mt-8;
 }
 
 .prose p {
-  @apply mb-6 leading-[1.75] text-[1.125rem] text-slate-300;
+  @apply mb-6 leading-[1.75] text-[1.125rem];
 }
 
 .prose ul {
@@ -146,11 +134,63 @@ footer {
   @apply text-accent-red font-bold underline underline-offset-4 hover:text-red-400;
 }
 
+.dark .ProseMirror {
+  color: #F1F5F9 !important;
+  background-color: #020617 !important;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #64748B;
+  pointer-events: none;
+  height: 0;
+}
+
 /* Institutional Legibility Guardrails */
+h1,
+h2,
+h3 {
+  @apply transition-colors duration-300;
+}
+
+:root h1,
+:root h2,
+:root h3 {
+  color: #0F172A !important;
+}
+
 .dark h1,
 .dark h2,
 .dark h3 {
   color: #F1F5F9 !important;
+}
+
+:root .prose p {
+  color: #1E293B !important;
+}
+
+.dark .prose p {
+  color: #CBD5E1 !important;
+}
+
+:root .text-muted-foreground {
+  color: #475569 !important;
+}
+
+.dark .text-muted-foreground {
+  color: #94A3B8 !important;
+}
+
+/* Institutional Border Contrast */
+:root .border,
+:root .border-border {
+  border-color: #E2E8F0 !important;
+}
+
+.dark .border,
+.dark .border-border {
+  border-color: #1E293B !important;
 }
 
 .dark td {

@@ -32,9 +32,11 @@ To provide high-fidelity, institutional-grade strategic intelligence through a m
 - **Body Copy:** 1.125rem (18px) for readability. Line-height: 1.75 (Relaxed).
 - **Anti-Grey/White Banding:** Every section wrapper in the article template must use `bg-transparent` or inherit the theme background. Hardcoded white backgrounds in Dark Mode are a protocol violation.
 
-## 3. TECHNICAL STANDARDS
+- Diagrams must scale to viewport width without loss of fidelity.
 
-### 3.1 Visual Logic (Mermaid)
-- **Sovereign Diagramming:** Support ASCII-based diagramming (Mermaid.js) for structural analysis.
-- **Diagram Aesthetic:** Mermaid diagrams must inherit the 'Deep Navy' theme. Node backgrounds should be #111827, borders #1E293B, and text #F1F5F9. Lines/arrows should use Cyan #22D3EE.
-- **Responsive Scalability:** Diagrams must scale to viewport width without loss of fidelity.
+## 5. TECHNICAL STANDARDS
+
+### 5.1 Protocol Standards
+- **Visual Logic Protocol:** The 'VISUAL LOGIC' section in any report must be rendered as a high-fidelity SVG using Mermaid.js. Raw ASCII code is a protocol violation.
+- **Sidebar Hierarchy:** 1. Related Research, 2. Institutional Citation Tool, 3. Promoted Advisory.
+- **Labeling Protocol:** Use 'Analysis Desk' and 'Strategic Archive' in all headers. Purge 'Intelligence' from research labels.

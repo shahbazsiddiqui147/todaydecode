@@ -11,9 +11,18 @@ interface ContentRendererProps {
 export const ContentRenderer: React.FC<ContentRendererProps> = ({ content }) => {
     const options: HTMLReactParserOptions = {
         replace: (domNode: any) => {
-            if (domNode instanceof Element && domNode.name === 'pre' && domNode.attribs.class === 'mermaid') {
-                const code = (domNode.children[0] as Text)?.data || '';
+            // Priority 1: Semantic code blocks from Tiptap
+            if (domNode instanceof Element && domNode.name === 'pre' && (domNode.attribs.class?.includes('mermaid') || domNode.attribs['data-type'] === 'mermaid')) {
+                const code = (domNode.children[0] as Text)?.data || domNode.children.map((c: any) => c.data).join('') || '';
                 return <MermaidRenderer code={code} />;
+            }
+
+            // Priority 2: Raw text intercepts for blocks starting with graph/mermaid keywords
+            if (domNode instanceof Element && domNode.name === 'p') {
+                const text = (domNode.children[0] as Text)?.data || '';
+                if (text.trim().startsWith('graph ') || text.trim().startsWith('%%{init')) {
+                    return <MermaidRenderer code={text} />;
+                }
             }
         },
     };
