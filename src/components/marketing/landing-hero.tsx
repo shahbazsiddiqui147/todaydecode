@@ -21,10 +21,10 @@ export function LandingHero({ regionData = {} }: LandingHeroProps) {
                 <div className="flex flex-col space-y-6 animate-in fade-in slide-in-from-top-8 duration-1000 z-20 w-full px-4 border-b border-border/20 pb-12">
                     <div className="space-y-4">
                         <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black text-foreground uppercase tracking-[0.05em] leading-none italic max-w-[95vw] mx-auto">
-                            Tomorrow's Risks Decoded Today.
+                            Decoding Global <span className="text-[#22D3EE]">Friction</span>.
                         </h1>
                         <p className="text-foreground text-lg md:text-2xl font-black uppercase tracking-[0.4em] leading-relaxed opacity-70">
-                            Global Strategic Assessment
+                            Institutional Risk Research
                         </p>
                     </div>
                 </div>

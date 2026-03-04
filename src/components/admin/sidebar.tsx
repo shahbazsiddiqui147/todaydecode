@@ -26,7 +26,7 @@ const GROUPS = [
     {
         name: "Oversight",
         items: [
-            { name: "Strategic Overview", icon: LayoutDashboard, href: "/admin/" },
+            { name: "Executive Oversight", icon: LayoutDashboard, href: "/admin/" },
         ]
     },
     {
@@ -74,7 +74,7 @@ export function Sidebar() {
                             <ShieldCheck className="h-5 w-5 text-[#22D3EE] dark:text-[#22D3EE]" />
                         </div>
                         <span className="font-black uppercase tracking-tighter text-base text-[#22D3EE] dark:text-[#22D3EE] italic leading-none">
-                            Strategic <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic font-medium">Hub</span>
+                            Research <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic font-medium">Desk</span>
                         </span>
                     </div>
                 </div>

@@ -113,7 +113,7 @@ export default async function AuthorProfilePage({ params }: { params: Promise<{ 
 
                 <div className="lg:col-span-8 space-y-10">
                     <div className="flex items-center justify-between pb-4 border-b border-border-slate">
-                        <h2 className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">Strategic Manifests / Recent Dispatches</h2>
+                        <h2 className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">Research Portfolios / Recent Reports</h2>
                         <span className="text-[10px] font-black text-slate-600 uppercase tracking-tighter">Authorized Access Only</span>
                     </div>
 

@@ -61,7 +61,7 @@ export default function ArticlesPage() {
             const data = await getAdminArticles();
             setArticles(data as any);
         } catch (err) {
-            toast.error("Failed to sync strategic manifests.");
+            toast.error("Failed to sync research portfolios.");
         } finally {
             setLoading(false);
         }

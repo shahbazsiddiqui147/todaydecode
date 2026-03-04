@@ -53,7 +53,7 @@ export function Header({ navigationItems = [] }: { navigationItems?: any[] }) {
                         <DropdownMenuContent align="end" className="w-64 bg-[#0D1425] border-slate-800 rounded-2xl p-2 shadow-2xl">
                             <DropdownMenuLabel className="p-4">
                                 <div className="flex flex-col space-y-1">
-                                    <p className="text-[11px] font-black text-white uppercase tracking-tighter italic">{session.user?.name || "Field Analyst"}</p>
+                                    <p className="text-[11px] font-black text-white uppercase tracking-tighter italic">{session.user?.name || "Strategic Analyst"}</p>
                                     <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest truncate">{session.user?.email}</p>
                                 </div>
                             </DropdownMenuLabel>
@@ -61,14 +61,14 @@ export function Header({ navigationItems = [] }: { navigationItems?: any[] }) {
                             <Link href="/dashboard/">
                                 <DropdownMenuItem className="flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer hover:bg-white/5 group">
                                     <LayoutDashboard className="h-4 w-4 text-accent-red" />
-                                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-300 group-hover:text-white">Analyst Desk</span>
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-300 group-hover:text-white">Research Desk</span>
                                 </DropdownMenuItem>
                             </Link>
                             {(session.user as any).role === "ADMIN" && (
                                 <Link href="/admin/">
                                     <DropdownMenuItem className="flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer hover:bg-white/5 group">
                                         <ShieldCheck className="h-4 w-4 text-accent-green" />
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-300 group-hover:text-white">Command Center</span>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-300 group-hover:text-white">Research Terminal</span>
                                     </DropdownMenuItem>
                                 </Link>
                             )}
@@ -78,7 +78,7 @@ export function Header({ navigationItems = [] }: { navigationItems?: any[] }) {
                                 className="flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer hover:bg-accent-red/10 group"
                             >
                                 <LogOut className="h-4 w-4 text-slate-500 group-hover:text-accent-red" />
-                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 group-hover:text-accent-red">Terminate Session</span>
+                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 group-hover:text-accent-red">Authorize Logout</span>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>

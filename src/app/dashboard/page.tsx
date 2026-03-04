@@ -76,12 +76,12 @@ export default async function DashboardPage() {
             {/* Header Section */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-border-slate">
                 <div className="space-y-2">
-                    <div className="flex items-center space-x-2 text-accent-red">
+                    <div className="flex items-center space-x-2 text-[#22D3EE]">
                         <LayoutDashboard className="h-4 w-4" />
-                        <span className="text-[10px] font-black uppercase tracking-[0.2em]">Institutional Command</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.2em]">Executive Oversight</span>
                     </div>
                     <h1 className="text-4xl font-black text-foreground tracking-tight uppercase">
-                        Research Desk
+                        Research <span className="text-[#22D3EE]">Desk</span>
                     </h1>
                     <p className="text-muted-foreground text-sm font-medium">
                         Strategic Monitoring for <span className="text-foreground font-bold">{user.name || "Field Analyst"}</span> // {user.role || "ANALYST"}
@@ -165,13 +165,13 @@ export default async function DashboardPage() {
 
                 {/* Right: Desk Activity & Notifications */}
                 <div className="lg:col-span-4 space-y-8">
-                    {/* Followed Desks Manifest */}
+                    {/* Subscribed Research Portfolios */}
                     <div className="bg-secondary/50 dark:bg-slate-900/50 border border-border-slate rounded-xl p-6 space-y-6 backdrop-blur-sm">
                         <div className="flex items-center justify-between">
                             <h3 className="text-[10px] font-black text-foreground dark:text-white uppercase tracking-widest">
                                 Your Followed Desks
                             </h3>
-                            <span className="text-[10px] font-bold text-slate-600 uppercase italic">Manifest Active</span>
+                            <span className="text-[10px] font-bold text-slate-600 uppercase italic">Portfolio Active</span>
                         </div>
 
                         <div className="space-y-3">
@@ -234,7 +234,7 @@ export default async function DashboardPage() {
                             <div className="bg-accent-red/20 p-2 rounded-lg">
                                 <Bell className="h-4 w-4 text-accent-red" />
                             </div>
-                            <h3 className="text-[10px] font-black text-foreground dark:text-white uppercase tracking-widest">Breaking Intel Alerts</h3>
+                            <h3 className="text-[10px] font-black text-foreground dark:text-white uppercase tracking-widest">Strategic Insight Alerts</h3>
                         </div>
 
                         <div className="space-y-4">

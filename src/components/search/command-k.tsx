@@ -43,7 +43,7 @@ export function CommandK() {
                 className="flex items-center space-x-0 sm:space-x-3 rounded-lg border border-border-slate bg-transparent px-2 sm:px-3 py-1.5 text-sm text-muted-foreground group hover:border-primary/50 transition-colors shadow-subtle-glow w-auto sm:w-full sm:max-w-md"
             >
                 <Search className="h-4 w-4" />
-                <span className="hidden sm:inline-flex flex-1 text-left">Search strategic metrics or reports...</span>
+                <span className="hidden sm:inline-flex flex-1 text-left">Search strategic assessments or research...</span>
                 <kbd className="hidden md:inline-flex h-5 select-none items-center gap-1 rounded border border-border-slate bg-brand-charcoal px-1.5 font-mono text-[10px] font-medium text-slate-400 opacity-100 uppercase">
                     <span className="text-xs">⌘</span>K
                 </kbd>
@@ -60,7 +60,7 @@ export function CommandK() {
                     <div className="flex items-center border-b border-border-slate px-4 py-3">
                         <Search className="mr-2 h-4 w-4 text-slate-500" />
                         <Command.Input
-                            placeholder="Search regions, research, or risk indices..."
+                            placeholder="Search regions, assessments, or risk indices..."
                             className="flex-1 bg-transparent text-sm outline-none placeholder:text-slate-500"
                         />
                     </div>

@@ -21,7 +21,7 @@ export default function ContributorsPublicPage() {
                     </h1>
 
                     <p className="text-lg md:text-xl text-[#94A3B8] font-medium max-w-2xl mx-auto leading-relaxed animate-in fade-in duration-1000 delay-200">
-                        Today Decode is expanding its intelligence network. We are seeking academic researchers, defense analysts, and economic strategists to contribute to our global risk assessment framework.
+                        Today Decode is expanding its strategic analysis network. We are seeking academic researchers, geopolitical analysts, and economic strategists to contribute to our global risk assessment framework.
                     </p>
                 </div>
             </div>
@@ -62,7 +62,7 @@ export default function ContributorsPublicPage() {
                         <div className="space-y-8 font-medium leading-relaxed">
                             <section className="space-y-4">
                                 <h4 className="font-black uppercase text-sm tracking-widest text-[#22D3EE]">01. Intellectual Sovereignty</h4>
-                                <p>Analysts retain intellectual credit for their reports but grant Today Decode exclusive distribution rights within our premium intelligence silos. All contributors are vetted for academic and professional credentials prior to authorization.</p>
+                                <p>Analysts retain intellectual credit for their reports but grant Today Decode exclusive distribution rights within our premium strategic silos. All contributors are vetted for academic and professional credentials prior to authorization.</p>
                             </section>
 
                             <section className="space-y-4">

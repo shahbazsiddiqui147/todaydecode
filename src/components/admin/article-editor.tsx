@@ -261,7 +261,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             { id: "content", label: "Analysis Content", icon: FileText },
                             { id: "forecast", label: "Scenarios", icon: TrendingUp },
                             { id: "aeo", label: "AEO/GEO", icon: Zap },
-                            { id: "meta", label: "Strategic Meta (SEO)", icon: Globe },
+                            { id: "meta", label: "Analytical Meta (SEO)", icon: Globe },
                         ].map((tab) => (
                             <button
                                 key={tab.id}
@@ -357,7 +357,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-[#1E293B] dark:text-[#F1F5F9] pl-1">Institutional Brief (Global Feed)</Label>
+                                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-[#1E293B] dark:text-[#F1F5F9] pl-1">Institutional Brief (Strategic Feed)</Label>
                                     <Textarea
                                         name="summary"
                                         value={formData.summary}
@@ -404,7 +404,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 <div className="p-6 rounded-2xl border border-blue-500/20 bg-blue-500/5 space-y-4">
                                     <div className="flex items-center gap-2">
                                         <Activity className="h-4 w-4 text-blue-500" />
-                                        <h3 className="text-xs font-black uppercase italic tracking-tighter text-blue-600 dark:text-blue-400">Linear Tension (Most Likely)</h3>
+                                        <h3 className="text-xs font-black uppercase italic tracking-tighter text-blue-600 dark:text-blue-400">Institutional Continuity (Most Likely)</h3>
                                     </div>
                                     <Input
                                         value={formData.scenarios.likely.title}
@@ -595,7 +595,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             <div className="flex items-center justify-between p-3 bg-muted/20 rounded-2xl border border-border/50">
                                 <div className="space-y-0.5">
                                     <Label className="text-[10px] font-black uppercase tracking-widest">Featured Node</Label>
-                                    <p className="text-[8px] text-slate-600 dark:text-slate-300 font-bold uppercase tracking-tighter italic">Strategic Hub Spotlight</p>
+                                    <p className="text-[8px] text-slate-600 dark:text-slate-300 font-bold uppercase tracking-tighter italic">Research Desk Spotlight</p>
                                 </div>
                                 <Switch checked={formData.isFeatured} onCheckedChange={(c) => handleSwitchChange("isFeatured", c)} />
                             </div>

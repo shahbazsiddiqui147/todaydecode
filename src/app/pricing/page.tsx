@@ -32,7 +32,7 @@ const plans = [
         description: "Full strategic access for decision makers and institutions.",
         features: [
             "Full Access to Premium Reports",
-            "Real-time Intel Pulse (Risk > 80)",
+            "Real-time Assessment Insight (Risk > 80)",
             "Deep-dive Scenario Forecasts",
             "Priority Analyst Queries",
             "Advanced Historical Vault Access",
