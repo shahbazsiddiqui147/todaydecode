@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
 import { scaleLinear } from "d3-scale";
-import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { getLatestReportsByRegion, getCountryMetric } from "@/lib/actions/public-actions";
@@ -52,8 +52,20 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
     const mouseY = useMotionValue(0);
 
     // Smooth spring animation for the tooltip movement
-    const smoothX = useSpring(mouseX, { damping: 20, stiffness: 150 });
-    const smoothY = useSpring(mouseY, { damping: 20, stiffness: 150 });
+    const smoothX = useSpring(mouseX, { damping: 25, stiffness: 200 });
+    const smoothY = useSpring(mouseY, { damping: 25, stiffness: 200 });
+
+    // Reactive translation logic for boundary detection (no re-renders needed)
+    const translateX = useTransform(smoothX, (val) => {
+        if (typeof window === "undefined") return 15;
+        return val > window.innerWidth - 350 ? -340 : 15;
+    });
+
+    const translateY = useTransform(smoothY, (val) => {
+        if (typeof window === "undefined") return 15;
+        // If near the bottom, flip up. Tooltip height is roughly 400px.
+        return val > window.innerHeight - 450 ? -430 : 15;
+    });
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 1024);
@@ -265,13 +277,12 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                             top: 0,
                             x: smoothX,
                             y: smoothY,
-                            // Dynamic translation based on viewport proximity
-                            translateX: mouseX.get() > window.innerWidth - 350 ? -330 : 20,
-                            translateY: mouseY.get() > window.innerHeight - 400 ? -420 : 20,
+                            translateX,
+                            translateY,
                             pointerEvents: "none",
                             zIndex: 100
                         }}
-                        className="bg-[#111827] border border-[#1E293B] p-4 rounded-2xl shadow-2xl backdrop-blur-2xl min-w-[280px] max-w-[320px] transition-colors duration-300 ring-1 ring-white/10"
+                        className="bg-[#111827] border border-[#1E293B] p-4 rounded-2xl shadow-2xl backdrop-blur-2xl min-w-[300px] max-w-[340px] transition-colors duration-300 ring-1 ring-white/10"
                     >
                         <div className="flex flex-col space-y-6">
                             <div className="flex items-center justify-between border-b border-border/10 pb-4">
