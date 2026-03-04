@@ -2,6 +2,8 @@ import { put } from '@vercel/blob';
 import { NextResponse } from 'next/server';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+import { writeFile, mkdir } from 'fs/promises';
+import path from 'path';
 
 export async function POST(request: Request): Promise<NextResponse> {
     try {
@@ -13,13 +15,34 @@ export async function POST(request: Request): Promise<NextResponse> {
         }
 
         const { searchParams } = new URL(request.url);
-        const filename = searchParams.get('filename') || 'unnamed-asset.png';
+        const filename = searchParams.get('filename') || `asset-${Date.now()}.png`;
 
         if (!request.body) {
             return NextResponse.json({ error: 'No strategic data provided' }, { status: 400 });
         }
 
-        // Upload to Vercel Blob
+        // Recovery Path: Local Fallback if Blob Token is missing
+        if (!process.env.BLOB_READ_WRITE_TOKEN) {
+            console.warn('[Strategic Warning]: BLOB_READ_WRITE_TOKEN is missing. Falling back to local filesystem.');
+
+            const buffer = Buffer.from(await request.arrayBuffer());
+            const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
+
+            // Ensure directory exists
+            await mkdir(uploadsDir, { recursive: true });
+
+            const filePath = path.join(uploadsDir, filename);
+            await writeFile(filePath, buffer);
+
+            return NextResponse.json({
+                url: `/uploads/${filename}`,
+                pathname: `uploads/${filename}`,
+                contentType: 'image/octet-stream',
+                contentDisposition: 'inline'
+            });
+        }
+
+        // Upload to Vercel Blob (Production)
         const blob = await put(filename, request.body, {
             access: 'public',
         });

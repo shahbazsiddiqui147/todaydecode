@@ -17,11 +17,15 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({ content }) => 
                 return <MermaidRenderer code={code} />;
             }
 
-            // Priority 2: Raw text intercepts for blocks starting with graph/mermaid keywords
+            // Priority 2: Robust Regex Text Intercepts (Direct logic blocks)
             if (domNode instanceof Element && domNode.name === 'p') {
                 const text = (domNode.children[0] as Text)?.data || '';
-                if (text.trim().startsWith('graph ') || text.trim().startsWith('%%{init')) {
-                    return <MermaidRenderer code={text} />;
+                const trimmed = text.trim();
+                const isMermaid = /^(graph|flowchart|sequenceDiagram|gantt|classDiagram|stateDiagram|erDiagram|journey|pie|gitGraph|requirementDiagram)\s/i.test(trimmed) ||
+                    trimmed.startsWith('%%{init');
+
+                if (isMermaid) {
+                    return <MermaidRenderer code={trimmed} />;
                 }
             }
         },

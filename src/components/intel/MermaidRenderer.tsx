@@ -2,36 +2,44 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import mermaid from 'mermaid';
+import { useTheme } from 'next-themes';
 
 interface MermaidRendererProps {
     code: string;
 }
 
 export const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
+    const { theme } = useTheme();
     const containerRef = useRef<HTMLDivElement>(null);
     const [svg, setSvg] = useState<string>('');
-    const [isRendered, setIsRendered] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         const renderDiagram = async () => {
-            if (!code || isRendered) return;
+            if (!code || !mounted) return;
 
             try {
+                const isDark = theme === 'dark' || (theme === 'system' && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
                 mermaid.initialize({
                     startOnLoad: false,
-                    theme: 'base',
+                    theme: isDark ? 'dark' : 'default',
                     securityLevel: 'loose',
                     themeVariables: {
                         backgroundColor: 'transparent',
-                        primaryColor: '#111827',
-                        primaryBorderColor: '#1E293B',
-                        primaryTextColor: '#F1F5F9',
+                        primaryColor: isDark ? '#111827' : '#F1F5F9',
+                        primaryBorderColor: isDark ? '#1E293B' : '#E2E8F0',
+                        primaryTextColor: isDark ? '#F1F5F9' : '#0F172A',
                         lineColor: '#22D3EE',
-                        secondaryColor: '#0A0F1E',
-                        tertiaryColor: '#1e293b',
-                        mainBkg: '#111827',
-                        nodeBorder: '#1E293B',
-                        nodeTextColor: '#F1F5F9',
+                        secondaryColor: isDark ? '#0A0F1E' : '#FFFFFF',
+                        tertiaryColor: isDark ? '#1e293b' : '#f8fafc',
+                        mainBkg: isDark ? '#111827' : '#F8FAFC',
+                        nodeBorder: isDark ? '#1E293B' : '#E2E8F0',
+                        nodeTextColor: isDark ? '#F1F5F9' : '#0F172A',
                         fontSize: '14px',
                         fontFamily: 'Inter, sans-serif'
                     }
@@ -40,19 +48,20 @@ export const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
                 const id = `mermaid-render-${Math.random().toString(36).substr(2, 9)}`;
                 const { svg: renderedSvg } = await mermaid.render(id, code);
                 setSvg(renderedSvg);
-                setIsRendered(true);
             } catch (error) {
                 console.error('Mermaid render failure:', error);
             }
         };
 
         renderDiagram();
-    }, [code, isRendered]);
+    }, [code, theme, mounted]);
+
+    if (!mounted) return null;
 
     return (
         <div
             ref={containerRef}
-            className="mermaid-wrapper w-full flex justify-center py-12 bg-[#111827] rounded-3xl border border-[#1E293B] my-12 overflow-hidden shadow-inner"
+            className="mermaid-wrapper w-full flex justify-center py-12 bg-[#F1F5F9] dark:bg-[#111827] rounded-3xl border border-[#E2E8F0] dark:border-[#1E293B] my-12 overflow-hidden shadow-inner relative z-10"
             dangerouslySetInnerHTML={{ __html: svg }}
         />
     );

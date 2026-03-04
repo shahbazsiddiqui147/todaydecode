@@ -24,7 +24,7 @@ export function QuickAnswers({ faqData }: QuickAnswersProps) {
                     <ShieldCheck className="h-6 w-6 text-accent-red" />
                 </div>
                 <div>
-                    <h2 className="text-md font-black text-[#F1F5F9] uppercase tracking-tighter">
+                    <h2 className="text-md font-black text-[#0F172A] dark:text-[#F1F5F9] uppercase tracking-tighter">
                         Institutional Strategic Analysis Desk Q&A
                     </h2>
                     <p className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mt-1.5 flex items-center gap-2">
@@ -56,7 +56,7 @@ export function QuickAnswers({ faqData }: QuickAnswersProps) {
                         >
                             <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-[#22D3EE] to-transparent" />
                             <p
-                                className="text-[#F1F5F9] text-[15px] font-medium leading-[1.75] max-w-2xl"
+                                className="text-[#1E293B] dark:text-[#F1F5F9] text-[15px] font-medium leading-[1.75] max-w-2xl"
                                 itemProp="text"
                             >
                                 {item.answer}

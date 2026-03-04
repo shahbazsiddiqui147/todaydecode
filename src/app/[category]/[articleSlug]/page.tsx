@@ -117,7 +117,7 @@ export default async function ArticlePage({
                         <Breadcrumbs items={[
                             { label: 'Home', href: '/' },
                             { label: article.category.name, href: `/${article.category.slug.replace(/^\/|\/$/g, '')}/` },
-                            { label: 'Strategic Analysis', href: '#' }
+                            { label: 'Structural Analysis', href: '#' }
                         ]} />
 
                         <div className="space-y-4">
@@ -179,9 +179,9 @@ export default async function ArticlePage({
                 <main className="lg:col-span-7 space-y-16">
                     <div className="space-y-8">
                         {article.onPageLead && (
-                            <div className="relative p-8 rounded-3xl bg-secondary/30 border border-white/5 overflow-hidden">
-                                <div className="absolute top-0 left-0 w-1 h-full bg-accent-red" />
-                                <p className="text-2xl font-black italic text-white leading-snug tracking-tight">
+                            <div className="relative p-8 rounded-3xl bg-secondary/30 border border-[#E2E8F0] dark:border-[#1E293B] overflow-hidden backdrop-blur-sm">
+                                <div className="absolute top-0 left-0 w-1.5 h-full bg-accent-red" />
+                                <p className="text-xl md:text-2xl font-medium text-[#0F172A] dark:text-[#F1F5F9] leading-relaxed tracking-tight">
                                     "{article.onPageLead}"
                                 </p>
                             </div>

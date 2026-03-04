@@ -47,37 +47,35 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
     const activeData = scenarios[activeTab];
 
     return (
-        <div className="bg-background/40 border border-[#1E293B] rounded-2xl overflow-hidden backdrop-blur-sm">
-            <div className="p-6 border-b border-[#1E293B] bg-secondary/30">
-                <h2 className="text-xl font-black text-[#F1F5F9] tracking-tight uppercase mb-1">
-                    Strategic Scenario Forecast
+        <div className="bg-background/40 border border-[#E2E8F0] dark:border-[#1E293B] rounded-2xl overflow-hidden backdrop-blur-sm">
+            <div className="p-6 border-b border-[#E2E8F0] dark:border-[#1E293B] bg-secondary/30">
+                <h2 className="text-xl font-black text-[#0F172A] dark:text-[#F1F5F9] tracking-tight uppercase mb-1">
+                    Scenario Synthesis Desk
                 </h2>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                     Predictive Outcome Modeling // 12-Month Outlook
                 </p>
             </div>
 
-            <div className="flex border-b border-[#1E293B]">
+            <div className="flex border-b border-[#E2E8F0] dark:border-[#1E293B]">
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}
                         onClick={() => handleTabChange(tab.id)}
                         className={cn(
-                            "flex-1 flex items-center justify-center space-x-2 py-4 text-[10px] font-bold uppercase tracking-widest transition-all relative",
+                            "flex-1 flex items-center justify-center space-x-2 py-4 text-[10px] font-black uppercase tracking-widest transition-all relative",
                             activeTab === tab.id
-                                ? "text-[#F1F5F9] bg-secondary"
-                                : "text-slate-400 hover:text-[#F1F5F9] hover:bg-secondary/50"
+                                ? "text-[#22D3EE] bg-secondary/50"
+                                : "text-slate-500 hover:text-[#22D3EE] hover:bg-secondary/30"
                         )}
                     >
-                        <tab.icon className={cn("h-3 w-3", activeTab === tab.id ? tab.color : "text-slate-600")} />
-                        <span>{tab.label}</span>
+                        <tab.icon className={cn("h-4 w-4", activeTab === tab.id ? "text-[#22D3EE]" : "text-slate-400")} />
+                        <span className="md:inline hidden">{tab.label}</span>
+                        <span className="md:hidden inline">{tab.id.charAt(0).toUpperCase()}</span>
                         {activeTab === tab.id && (
                             <motion.div
                                 layoutId="activeTabIndicator"
-                                className={cn(
-                                    "absolute bottom-0 left-0 right-0 h-0.5",
-                                    tab.id === 'best' ? 'bg-accent-green' : tab.id === 'likely' ? 'bg-yellow-500' : 'bg-accent-red'
-                                )}
+                                className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#22D3EE]"
                             />
                         )}
                     </button>
@@ -99,7 +97,7 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
                                 <h3 className={cn("text-2xl font-black tracking-tight text-[#F1F5F9]")}>
                                     {activeData.title}
                                 </h3>
-                                <p className="text-slate-400 text-base leading-relaxed">
+                                <p className="text-[#1E293B] dark:text-[#CBD5E1] text-base leading-relaxed">
                                     {activeData.desc}
                                 </p>
                             </div>
@@ -134,10 +132,10 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
 
                         <div className="pt-6 border-t border-border/50">
                             <Link
-                                href={`/${category.toLowerCase()}/${slug}/`}
-                                className="inline-flex items-center text-[10px] font-black text-[#F1F5F9] uppercase tracking-[0.2em] group bg-white/5 border border-[#1E293B] px-6 py-4 rounded-lg hover:bg-[#F1F5F9] hover:text-[#020617] transition-all"
+                                href={`/${category.toLowerCase()}/${slug.replace(/^\/|\/$/g, '')}/`}
+                                className="inline-flex items-center text-[10px] font-black text-[#0F172A] dark:text-[#F1F5F9] uppercase tracking-[0.2em] group bg-white/5 border border-[#E2E8F0] dark:border-[#1E293B] px-6 py-4 rounded-lg hover:bg-[#F1F5F9] hover:text-[#020617] dark:hover:text-[#020617] transition-all"
                             >
-                                Open Full Strategic Assessment
+                                Assessment Finalized // Data Reconciled
                                 <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </div>
