@@ -447,17 +447,19 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                     <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 blur-[100px]" />
                                     <div className="relative z-10 flex items-center justify-between">
                                         <div className="flex items-center gap-2">
-                                            <Zap className="h-5 w-5 text-emerald-400" />
-                                            <h2 className="text-md font-black uppercase italic">Strategic Visibility Center</h2>
+                                            <Zap className="h-5 w-5 text-[#22D3EE]" />
+                                            <h2 className="text-md font-black uppercase italic tracking-tighter">
+                                                <span className="text-[#22D3EE]">SEARCH & AI</span> <span className="text-[#F1F5F9]">AUTHORITY HUB</span>
+                                            </h2>
                                         </div>
-                                        <Badge className="bg-emerald-500 text-white border-none py-0.5">PROTOCOL_READY</Badge>
+                                        <Badge className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 py-0.5 rounded-full text-[9px] font-black tracking-widest uppercase">OPTIMIZATION_READY</Badge>
                                     </div>
 
                                     <div className="space-y-6 relative z-10">
                                         <div className="flex items-center justify-between">
-                                            <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-600 dark:text-[#F1F5F9]">Strategic Research Nodes (FAQ)</h3>
-                                            <Button type="button" variant="outline" size="sm" onClick={addFaq} className="h-8 text-[9px] border-white/10 hover:bg-white/10 text-white rounded-xl">
-                                                <Plus className="h-3.5 w-3.5 mr-1" /> Initialize Node
+                                            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-800 dark:text-slate-100">SEMANTIC DISCOVERY DATA (FAQ)</h3>
+                                            <Button type="button" variant="outline" size="sm" onClick={addFaq} className="h-8 text-[9px] border-white/10 hover:bg-white/10 text-white rounded-xl font-black uppercase tracking-widest">
+                                                <Plus className="h-3.5 w-3.5 mr-1" /> Add Semantic Node
                                             </Button>
                                         </div>
 
@@ -476,14 +478,14 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                                     <Input
                                                         value={faq.question}
                                                         onChange={(e) => handleFaqChange(idx, "question", e.target.value)}
-                                                        placeholder="Strategic Question Factor..."
-                                                        className="bg-transparent border-[#CBD5E1] dark:border-[#1E293B] text-white font-semibold h-10 rounded-xl focus-visible:ring-[#22D3EE] border-opacity-100 opacity-100"
+                                                        placeholder="Semantic Inquiry..."
+                                                        className="bg-white dark:!bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:!text-[#F1F5F9] font-semibold h-10 rounded-xl focus-visible:ring-[#22D3EE]"
                                                     />
                                                     <Textarea
                                                         value={faq.answer}
                                                         onChange={(e) => handleFaqChange(idx, "answer", e.target.value)}
-                                                        placeholder="Institutional Solution Snippet..."
-                                                        className="bg-transparent border-[#CBD5E1] dark:border-[#1E293B] text-slate-400 h-24 resize-none text-[13px] rounded-xl focus-visible:ring-[#22D3EE] leading-relaxed border-opacity-100 opacity-100"
+                                                        placeholder="Institutional Authority Response..."
+                                                        className="bg-white dark:!bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-600 dark:text-slate-400 h-24 resize-none text-[13px] rounded-xl focus-visible:ring-[#22D3EE] leading-relaxed"
                                                     />
                                                 </div>
                                             ))}
@@ -498,7 +500,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <div className="flex items-center justify-between pl-1">
-                                            <Label className="text-[10px] font-semibold uppercase tracking-wider text-slate-600 dark:text-[#F1F5F9]">Protocol Path (Slug Override)</Label>
+                                            <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9]">Structural Path (Slug Override)</Label>
                                             <button
                                                 type="button"
                                                 onClick={() => setIsSlugLocked(!isSlugLocked)}
@@ -524,7 +526,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label className="text-[10px] font-semibold uppercase tracking-wider text-slate-600 dark:text-[#F1F5F9] pl-1">Sovereign Meta Title</Label>
+                                        <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Institutional Meta Title</Label>
                                         <Input
                                             name="metaTitle"
                                             value={formData.metaTitle}
@@ -535,7 +537,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-slate-600 dark:text-[#F1F5F9] pl-1">Strategic Meta Description</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Institutional Meta Description</Label>
                                     <Textarea
                                         name="metaDescription"
                                         value={formData.metaDescription}
