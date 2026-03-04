@@ -75,6 +75,18 @@ export default async function Page() {
 
       <main className="w-full flex flex-col items-center">
         <div className="max-w-7xl w-full px-6 py-12 space-y-32">
+          {/* Strategic Silo Loop */}
+          <div className="space-y-32">
+            {activeSilos.map((silo) => (
+              <SiloSection
+                key={silo.id}
+                title={silo.name}
+                slug={silo.slug}
+                articles={silo.articles}
+              />
+            ))}
+          </div>
+
           {/* Core Metric & Action Section */}
           <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             <div className="lg:col-span-8 space-y-8">
@@ -114,18 +126,6 @@ export default async function Page() {
               </div>
             </div>
           </section>
-
-          {/* Strategic Silo Loop */}
-          <div className="space-y-32">
-            {activeSilos.map((silo) => (
-              <SiloSection
-                key={silo.id}
-                title={silo.name}
-                slug={silo.slug}
-                articles={silo.articles}
-              />
-            ))}
-          </div>
 
           {/* Institutional Blocks */}
           <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-slate-100 dark:bg-[#111827] p-12 rounded-[2.5rem] border border-[#1E293B] shadow-2xl relative overflow-hidden group">
