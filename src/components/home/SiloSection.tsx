@@ -39,7 +39,7 @@ export function SiloSection({ title, slug, articles }: SiloSectionProps) {
                         title={article.title}
                         category={title}
                         slug={article.slug}
-                        image="/images/intel-1.jpg"
+                        image={article.featuredImage || "/images/intel-1.jpg"}
                         riskLevel={article.riskLevel}
                         riskScore={article.riskScore}
                     />

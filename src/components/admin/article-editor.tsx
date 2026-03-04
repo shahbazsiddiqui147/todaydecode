@@ -74,6 +74,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
         authorId: article?.authorId || "",
         metaTitle: article?.metaTitle || "",
         metaDescription: article?.metaDescription || "",
+        featuredImage: article?.featuredImage || "",
         scenarios: article?.scenarios || {
             best: { title: "Strategic Convergence", description: "" },
             likely: { title: "Linear Tension", description: "" },
@@ -252,6 +253,17 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                     <div className="min-h-[600px] animate-in fade-in slide-in-from-bottom-2 duration-500">
                         {activeTab === "content" && (
                             <div className="space-y-6">
+                                <div className="space-y-2">
+                                    <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1">Featured Image URL</Label>
+                                    <Input
+                                        name="featuredImage"
+                                        value={formData.featuredImage}
+                                        onChange={handleChange}
+                                        placeholder="https://images.unsplash.com/..."
+                                        className="h-12 bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE]"
+                                    />
+                                </div>
+
                                 <div className="space-y-2">
                                     <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1">Primary Strategic Headline</Label>
                                     <Input

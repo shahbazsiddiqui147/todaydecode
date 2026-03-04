@@ -95,7 +95,7 @@ export default async function ArticlePage({
                     summary: article.summary,
                     publishedAt: article.publishedAt.toISOString(),
                     authorName: article.author.name,
-                    image: "/images/intel-1.jpg",
+                    image: article.featuredImage || "/images/intel-1.jpg",
                     faqData: (article.faqData as any) || []
                 }}
             />
@@ -103,7 +103,7 @@ export default async function ArticlePage({
             {/* Hero Section */}
             <div className="relative h-[65vh] w-full overflow-hidden border-b border-border-slate">
                 <Image
-                    src="/images/intel-1.jpg"
+                    src={article.featuredImage || "/images/intel-1.jpg"}
                     alt={article.title}
                     fill
                     className="object-cover opacity-60 grayscale hover:grayscale-0 transition-opacity duration-1000"

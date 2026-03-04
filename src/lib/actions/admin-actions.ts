@@ -57,6 +57,7 @@ const ArticleSchema = z.object({
     categoryId: z.string().min(1, "Strategic Silo selection required."),
     isPremium: z.boolean().default(false),
     publishedAt: z.date().optional().nullable(),
+    featuredImage: z.string().optional().nullable(),
 });
 
 const PageSchema = z.object({
@@ -242,6 +243,7 @@ export async function upsertArticle(data: z.infer<typeof ArticleSchema>) {
                 categoryId: validated.categoryId,
                 isPremium: validated.isPremium,
                 publishedAt: (validated.status === "PUBLISHED" && !validated.publishedAt) ? new Date() : (validated.publishedAt || undefined),
+                featuredImage: validated.featuredImage,
             },
             create: {
                 title: validated.title,
@@ -263,6 +265,7 @@ export async function upsertArticle(data: z.infer<typeof ArticleSchema>) {
                 categoryId: validated.categoryId,
                 isPremium: validated.isPremium,
                 publishedAt: validated.status === "PUBLISHED" ? new Date() : (validated.publishedAt || undefined),
+                featuredImage: validated.featuredImage,
             },
         });
 
