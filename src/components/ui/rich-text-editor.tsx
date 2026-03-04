@@ -34,10 +34,32 @@ const Toolbar = ({ editor }: { editor: any }) => {
     if (!editor) return null;
 
     const addImage = () => {
-        const url = window.prompt("Enter Strategic Image URL:");
-        if (url) {
-            editor.chain().focus().setImage({ src: url }).run();
-        }
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = async (e: any) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+
+            try {
+                const response = await fetch(
+                    `/api/upload?filename=${encodeURIComponent(file.name)}`,
+                    {
+                        method: 'POST',
+                        body: file,
+                    }
+                );
+
+                if (!response.ok) throw new Error('Upload failed');
+
+                const blob = await response.json();
+                editor.chain().focus().setImage({ src: blob.url }).run();
+            } catch (error) {
+                console.error('[Strategic Editor Upload Error]:', error);
+                alert("Failed to synchronize strategic asset.");
+            }
+        };
+        input.click();
     };
 
     const setLink = () => {

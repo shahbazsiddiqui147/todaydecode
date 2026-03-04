@@ -32,7 +32,8 @@ import {
     Activity,
     AlertCircle,
     Lock,
-    Unlock
+    Unlock,
+    UploadCloud
 } from "lucide-react";
 import { slugify } from "@/lib/slugify";
 import { toast } from "sonner";
@@ -133,6 +134,35 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
             ...prev,
             faqData: prev.faqData.filter((_: any, i: number) => i !== index)
         }));
+    };
+
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setLoading(true);
+        const toastId = toast.loading("Uploading strategic asset...");
+
+        try {
+            const response = await fetch(
+                `/api/upload?filename=${encodeURIComponent(file.name)}`,
+                {
+                    method: 'POST',
+                    body: file,
+                }
+            );
+
+            if (!response.ok) throw new Error('Upload failed');
+
+            const blob = await response.json();
+            setFormData(prev => ({ ...prev, featuredImage: blob.url }));
+            toast.success("Asset synchronized successfully.", { id: toastId });
+        } catch (error) {
+            console.error('Upload error:', error);
+            toast.error("Asset synchronization failed.", { id: toastId });
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -255,13 +285,49 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             <div className="space-y-6">
                                 <div className="space-y-2">
                                     <Label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] pl-1">Featured Image URL</Label>
-                                    <Input
-                                        name="featuredImage"
-                                        value={formData.featuredImage}
-                                        onChange={handleChange}
-                                        placeholder="https://images.unsplash.com/..."
-                                        className="h-12 bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE]"
-                                    />
+                                    <div className="flex gap-2">
+                                        <Input
+                                            name="featuredImage"
+                                            value={formData.featuredImage}
+                                            onChange={handleChange}
+                                            placeholder="https://images.unsplash.com/..."
+                                            className="h-12 bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE]"
+                                        />
+                                        <div className="relative">
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={handleFileUpload}
+                                                className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                                                id="featured-upload"
+                                            />
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                className="h-12 w-12 rounded-xl border-dashed border-[#CBD5E1] dark:border-[#1E293B] hover:bg-muted/50 transition-all active:scale-95"
+                                            >
+                                                <UploadCloud className="h-5 w-5 text-muted-foreground" />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                    {formData.featuredImage && (
+                                        <div className="mt-2 relative group w-full max-w-sm aspect-video rounded-2xl overflow-hidden border border-border">
+                                            <img
+                                                src={formData.featuredImage}
+                                                alt="Preview"
+                                                className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+                                            />
+                                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setFormData(prev => ({ ...prev, featuredImage: "" }))}
+                                                    className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                                                >
+                                                    <Trash2 className="h-4 w-4" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="space-y-2">
