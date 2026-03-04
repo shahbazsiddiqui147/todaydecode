@@ -24,3 +24,10 @@ To provide high-fidelity, institutional-grade strategic intelligence through a m
 - **Dynamic Positioning:** Tooltips must calculate viewport boundaries to ensure they don't bleed off-screen, always staying within the 'Strategic Archive' grid.
 - **Framer Motion Integration:** Use for smooth transitions; avoid "teleporting" UI elements.
 - **High-Contrast Focus:** Hover states must be sharp and instantly recognizable (e.g., high-contrast country glow).
+
+## 3. TECHNICAL STANDARDS
+
+### 3.1 Visual Logic (Mermaid)
+- **Sovereign Diagramming:** Support ASCII-based diagramming (Mermaid.js) for structural analysis.
+- **Diagram Aesthetic:** Mermaid diagrams must inherit the 'Deep Navy' theme. Node backgrounds should be #111827, borders #1E293B, and text #F1F5F9. Lines/arrows should use Cyan #22D3EE.
+- **Responsive Scalability:** Diagrams must scale to viewport width without loss of fidelity.

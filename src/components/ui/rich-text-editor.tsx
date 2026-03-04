@@ -19,10 +19,12 @@ import {
     Quote,
     Undo,
     Redo,
-    Code
+    Code,
+    Share2
 } from "lucide-react";
 import { Button } from "./button";
 import { cn } from "@/lib/utils";
+import { MermaidBlock } from "@/components/admin/Editor/extensions/MermaidNode";
 
 interface RichTextEditorProps {
     value: string;
@@ -164,6 +166,16 @@ const Toolbar = ({ editor }: { editor: any }) => {
             >
                 <LinkIcon className="h-4 w-4" />
             </Button>
+            <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => editor.chain().focus().insertContent({ type: 'mermaidBlock' }).run()}
+                className="h-8 w-8 text-[#22D3EE]"
+                title="Insert Structural Diagram (Mermaid)"
+            >
+                <Share2 className="h-4 w-4" />
+            </Button>
             <div className="ml-auto flex gap-1">
                 <Button
                     type="button"
@@ -207,6 +219,7 @@ export function RichTextEditor({ value, onChange, placeholder = "Synthesize stra
             Placeholder.configure({
                 placeholder,
             }),
+            MermaidBlock,
         ],
         content: value,
         onUpdate: ({ editor }) => {

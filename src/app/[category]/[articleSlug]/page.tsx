@@ -18,6 +18,7 @@ import { notFound, redirect } from "next/navigation";
 import { getPublicArticleBySlug } from "@/lib/actions/public-actions";
 import { cookies } from "next/headers";
 import { AdContainer } from "@/components/monetization/ad-container";
+import { ContentRenderer } from "@/components/analysis/ContentRenderer";
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string; articleSlug: string }> }) {
     const { category, articleSlug } = await params;
@@ -192,10 +193,7 @@ export default async function ArticlePage({
                         <QuickAnswers faqData={(article.faqData as any) || []} />
 
                         <PaywallGate isPremium={article.isPremium}>
-                            <article
-                                className="prose prose-invert prose-slate max-w-none text-slate-200 leading-relaxed text-xl font-medium tracking-tight"
-                                dangerouslySetInnerHTML={{ __html: article.content }}
-                            />
+                            <ContentRenderer content={article.content} />
                         </PaywallGate>
 
                         <div className="space-y-10 pt-16 border-t border-white/5">
