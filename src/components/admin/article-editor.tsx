@@ -292,7 +292,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                             value={formData.featuredImage}
                                             onChange={handleChange}
                                             placeholder="https://images.unsplash.com/..."
-                                            className="h-12 bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] border-opacity-100 opacity-100"
+                                            className="flex-1 h-12 bg-white dark:!bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:!text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
                                         />
                                         <div className="relative">
                                             <input
@@ -338,7 +338,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.title}
                                         onChange={handleChange}
                                         placeholder="ENTER HEADLINE..."
-                                        className="text-2xl font-black h-16 bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] px-6 uppercase tracking-tight italic shadow-sm"
+                                        className="text-2xl font-black h-16 bg-white dark:!bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:!text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] px-6 uppercase tracking-tight italic shadow-sm"
                                     />
                                 </div>
 
@@ -352,7 +352,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.onPageLead}
                                         onChange={handleChange}
                                         placeholder="A high-end strategic hook for the live analysis..."
-                                        className="min-h-[100px] text-sm font-medium bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all border-opacity-100 opacity-100"
+                                        className="min-h-[100px] text-sm font-medium bg-white dark:!bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:!text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
                                     />
                                 </div>
 
@@ -363,7 +363,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.summary}
                                         onChange={handleChange}
                                         placeholder="Institutional brief for the strategic silos..."
-                                        className="min-h-[120px] text-sm font-medium bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all border-opacity-100 opacity-100"
+                                        className="min-h-[120px] text-sm font-medium bg-white dark:!bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:!text-[#F1F5F9] placeholder:text-[#64748B] rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
                                     />
                                 </div>
 
@@ -391,13 +391,13 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.scenarios.best.title}
                                         onChange={(e) => handleScenarioChange("best", "title", e.target.value)}
                                         placeholder="SCENARIO TITLE..."
-                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl font-semibold uppercase text-[11px] focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] border-opacity-100 opacity-100"
+                                        className="bg-white dark:!bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:!text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl font-semibold uppercase text-[11px] focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE]"
                                     />
                                     <Textarea
                                         value={formData.scenarios.best.description}
                                         onChange={(e) => handleScenarioChange("best", "description", e.target.value)}
                                         placeholder="ESTABLISH THE PARAMETERS..."
-                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl min-h-[100px] text-sm focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] border-opacity-100 opacity-100"
+                                        className="bg-white dark:!bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:!text-[#F1F5F9] placeholder:text-[#64748B] rounded-xl min-h-[100px] text-sm focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE]"
                                     />
                                 </div>
 
@@ -620,7 +620,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                         <div className="space-y-8 relative z-10">
                             <div className="space-y-3">
                                 <div className="flex items-center justify-between">
-                                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-slate-600 dark:text-[#F1F5F9]">Operation Region</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">Operation Region</Label>
                                     <Globe className="h-3.5 w-3.5 opacity-40" />
                                 </div>
                                 <Select value={formData.region} onValueChange={(v) => handleSelectChange("region", v)}>
@@ -637,7 +637,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
 
                             <div className="space-y-3">
                                 <div className="flex items-center justify-between">
-                                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-slate-600 dark:text-[#F1F5F9]">Calculated Risk Index</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">Calculated Risk Index</Label>
                                     <span className={cn(
                                         "text-[10px] font-black px-2 py-0.5 rounded-full border",
                                         formData.riskLevel === "CRITICAL" ? "bg-red-500/20 text-red-400 border-red-500/30" :
@@ -662,7 +662,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             <div className="space-y-4">
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
-                                        <span className="text-slate-600 dark:text-[#F1F5F9] font-semibold tracking-wider">Risk Intensity</span>
+                                        <span className="text-slate-800 dark:text-slate-100 font-black tracking-widest uppercase">Risk Intensity</span>
                                         <span className="text-emerald-500">{formData.riskScore}%</span>
                                     </div>
                                     <input
@@ -676,7 +676,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
 
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
-                                        <span className="text-slate-600 dark:text-[#F1F5F9] font-semibold tracking-wider">Strategic Impact</span>
+                                        <span className="text-slate-800 dark:text-slate-100 font-black tracking-widest uppercase">Strategic Impact</span>
                                         <span className="text-blue-500">{formData.impactScore}%</span>
                                     </div>
                                     <input
@@ -695,12 +695,12 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                     <div className="p-6 border-2 border-dashed border-border rounded-3xl bg-muted/5">
                         <div className="flex items-center gap-2 mb-4">
                             <Database className="h-3.5 w-3.5 opacity-40" />
-                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground italic">System Integrity Map</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 italic">System Integrity Map</span>
                         </div>
-                        <div className="space-y-2 font-mono text-[9px] text-muted-foreground/60 leading-tight">
-                            <p>Node_ID: <span className="text-foreground">{article?.id || "INITIALIZING..."}</span></p>
-                            <p>Vector: <span className="text-foreground">{formData.slug || "AUTO_GEN"}</span></p>
-                            <p>Clock: <span className="text-foreground">{article?.publishedAt ? new Date(article.publishedAt).toLocaleString() : "NEW_CYCLE"}</span></p>
+                        <div className="space-y-2 font-mono text-[9px] text-slate-500 dark:text-slate-400 leading-tight">
+                            <p>Node_ID: <span className="text-slate-800 dark:text-slate-100">{article?.id || "INITIALIZING..."}</span></p>
+                            <p>Vector: <span className="text-slate-800 dark:text-slate-100">{formData.slug || "AUTO_GEN"}</span></p>
+                            <p>Clock: <span className="text-slate-800 dark:text-slate-100">{article?.publishedAt ? new Date(article.publishedAt).toLocaleString() : "NEW_CYCLE"}</span></p>
                         </div>
                     </div>
                 </div>
