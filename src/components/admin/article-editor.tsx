@@ -285,7 +285,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                         {activeTab === "content" && (
                             <div className="space-y-6">
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-[#1E293B] dark:text-[#F1F5F9] pl-1">Featured Image URL</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100 pl-1">Featured Image Asset</Label>
                                     <div className="flex gap-2">
                                         <Input
                                             name="featuredImage"
@@ -332,7 +332,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-[#1E293B] dark:text-[#F1F5F9] pl-1">Primary Strategic Headline</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100 pl-1">Primary Strategic Headline</Label>
                                     <Input
                                         name="title"
                                         value={formData.title}
@@ -343,9 +343,9 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-[#1E293B] dark:text-[#F1F5F9] pl-1 flex justify-between">
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100 pl-1 flex justify-between">
                                         <span>On-Page Executive Summary</span>
-                                        <span className="opacity-40 lowercase italic font-normal">Institutional Intro</span>
+                                        <span className="opacity-40 lowercase italic font-normal text-slate-500 dark:text-slate-400">Institutional Intro</span>
                                     </Label>
                                     <Textarea
                                         name="onPageLead"
@@ -357,7 +357,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-semibold uppercase tracking-wider text-[#1E293B] dark:text-[#F1F5F9] pl-1">Institutional Brief (Strategic Feed)</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100 pl-1">Institutional Brief (Strategic Feed)</Label>
                                     <Textarea
                                         name="summary"
                                         value={formData.summary}
@@ -368,7 +368,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#1E293B] dark:text-[#CBD5E1] pl-1 mb-2 block">Full Strategic Analysis</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100 pl-1 mb-2 block">Full Strategic Analysis</Label>
                                     <div className="rounded-2xl border border-[#CBD5E1] dark:border-[#1E293B] overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F1F5F9]">
                                         <RichTextEditor
                                             value={formData.content}
@@ -587,15 +587,15 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                         <div className="flex flex-col gap-3 pt-2">
                             <div className="flex items-center justify-between p-3 bg-muted/20 rounded-2xl border border-border/50">
                                 <div className="space-y-0.5">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest">Premium Status</Label>
-                                    <p className="text-[8px] text-slate-600 dark:text-slate-300 font-bold uppercase tracking-tighter italic">Institutional Restricted</p>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">Premium Status</Label>
+                                    <p className="text-[8px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-tighter italic">Institutional Restricted</p>
                                 </div>
                                 <Switch checked={formData.isPremium} onCheckedChange={(c) => handleSwitchChange("isPremium", c)} />
                             </div>
                             <div className="flex items-center justify-between p-3 bg-muted/20 rounded-2xl border border-border/50">
                                 <div className="space-y-0.5">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest">Featured Node</Label>
-                                    <p className="text-[8px] text-slate-600 dark:text-slate-300 font-bold uppercase tracking-tighter italic">Research Desk Spotlight</p>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">Featured Node</Label>
+                                    <p className="text-[8px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-tighter italic">Research Desk Spotlight</p>
                                 </div>
                                 <Switch checked={formData.isFeatured} onCheckedChange={(c) => handleSwitchChange("isFeatured", c)} className="data-[state=checked]:bg-[#22D3EE] focus-visible:ring-[#22D3EE]/50" />
                             </div>

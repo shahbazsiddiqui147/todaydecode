@@ -74,14 +74,14 @@ const Toolbar = ({ editor }: { editor: any }) => {
     const getBtnClass = (activeName: string, attrs?: any) => cn(
         "h-8 w-8 transition-all duration-200",
         editor.isActive(activeName, attrs)
-            ? "bg-[#22D3EE] dark:bg-[#22D3EE] text-[#020617] dark:text-[#020617] shadow-[0_0_15px_rgba(34,211,238,0.4)]"
-            : "text-[#0F172A] dark:text-[#F1F5F9] hover:bg-slate-200 dark:hover:bg-[#1E293B]"
+            ? "!bg-[#22D3EE] !text-[#020617] shadow-[0_0_15px_rgba(34,211,238,0.4)]"
+            : "text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800"
     );
 
     const Divider = () => <div className="w-px h-4 bg-slate-300 dark:bg-[#1E293B] mx-2 shadow-sm" />;
 
     return (
-        <div className="editor-toolbar flex flex-wrap items-center gap-1 p-2 border border-[#1E293B] bg-white dark:bg-[#111827] sticky top-0 z-20 backdrop-blur-md rounded-t-2xl shadow-xl">
+        <div className="editor-toolbar flex flex-wrap items-center gap-1 p-2 border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-[#111827] sticky top-0 z-20 backdrop-blur-md rounded-t-2xl shadow-xl">
             <Button
                 type="button"
                 variant="ghost"
@@ -176,7 +176,7 @@ const Toolbar = ({ editor }: { editor: any }) => {
                 variant="ghost"
                 size="icon"
                 onClick={addImage}
-                className="h-8 w-8 text-[#0F172A] dark:text-[#F1F5F9] hover:bg-slate-200 dark:hover:bg-[#1E293B] transition-all"
+                className="h-8 w-8 text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all"
                 title="Inject Strategic Asset"
             >
                 <ImageIcon className="h-4 w-4" />
@@ -196,7 +196,7 @@ const Toolbar = ({ editor }: { editor: any }) => {
                 variant="ghost"
                 size="icon"
                 onClick={() => editor.chain().focus().insertContent({ type: 'mermaidBlock' }).run()}
-                className="h-8 w-8 text-[#22D3EE] hover:bg-slate-200 dark:hover:bg-[#1E293B] transition-all"
+                className="h-8 w-8 text-[#0891B2] dark:text-[#22D3EE] hover:bg-slate-200 dark:hover:bg-slate-800 transition-all font-bold"
                 title="Insert Structural Diagram (Mermaid)"
             >
                 <Share2 className="h-4 w-4" />
@@ -208,7 +208,7 @@ const Toolbar = ({ editor }: { editor: any }) => {
                     variant="ghost"
                     size="icon"
                     onClick={() => editor.chain().focus().undo().run()}
-                    className="h-8 w-8 text-[#0F172A] dark:text-[#F1F5F9] hover:bg-slate-200 dark:hover:bg-[#1E293B] transition-all opacity-60 hover:opacity-100"
+                    className="h-8 w-8 text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all opacity-60 hover:opacity-100"
                 >
                     <Undo className="h-4 w-4" />
                 </Button>
@@ -217,7 +217,7 @@ const Toolbar = ({ editor }: { editor: any }) => {
                     variant="ghost"
                     size="icon"
                     onClick={() => editor.chain().focus().redo().run()}
-                    className="h-8 w-8 text-[#0F172A] dark:text-[#F1F5F9] hover:bg-slate-200 dark:hover:bg-[#1E293B] transition-all opacity-60 hover:opacity-100"
+                    className="h-8 w-8 text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all opacity-60 hover:opacity-100"
                 >
                     <Redo className="h-4 w-4" />
                 </Button>
