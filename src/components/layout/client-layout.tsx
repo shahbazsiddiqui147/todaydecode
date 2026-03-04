@@ -29,8 +29,8 @@ export function ClientLayout({
 }: ClientLayoutProps) {
     const pathname = usePathname();
 
-    const isAuthPath = pathname.startsWith('/auth');
-    const isAdminPath = pathname.startsWith('/admin');
+    const isAuthPath = pathname === '/auth' || pathname.startsWith('/auth/');
+    const isAdminPath = pathname === '/admin' || pathname.startsWith('/admin/');
 
     // UI RENDERING LOGIC
     // We hide the standard layout (Sidebar/Header) for:
