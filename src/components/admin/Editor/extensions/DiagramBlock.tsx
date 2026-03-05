@@ -51,6 +51,7 @@ const DiagramComponent = ({ node, updateAttributes }: NodeViewProps) => {
                         <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#22D3EE] italic">Structural Logic Model</span>
                     </div>
                     <button
+                        type="button"
                         onClick={() => setIsEditing(!isEditing)}
                         className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 hover:bg-[#22D3EE]/10 text-[9px] font-black uppercase tracking-widest text-[#22D3EE] transition-all border border-[#22D3EE]/20"
                     >
@@ -82,6 +83,7 @@ const DiagramComponent = ({ node, updateAttributes }: NodeViewProps) => {
                                         <p className="text-[11px] text-slate-400 font-medium leading-relaxed">{error}</p>
                                     </div>
                                     <button
+                                        type="button"
                                         onClick={() => setIsEditing(true)}
                                         className="mt-2 text-[9px] font-black text-[#22D3EE] uppercase underline underline-offset-4"
                                     >
