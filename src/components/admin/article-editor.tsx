@@ -85,6 +85,8 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
         faqData: Array.isArray(article?.faqData) ? article.faqData : [
             { question: "What is the primary driver of this conflict?", answer: "" },
         ],
+        auditNodes: article?.auditNodes || "",
+        researchArchive: article?.researchArchive || "",
     });
 
     // Real-time Slug Sync logic
@@ -384,11 +386,40 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                             </button>
                                         </div>
                                     </div>
-                                    <div className="rounded-2xl border border-[#1E293B] overflow-hidden bg-slate-950 text-[#F1F5F9]">
+                                    <div className="rounded-2xl border border-[#1E293B] bg-slate-950 text-[#F1F5F9]">
                                         <RichTextEditor
                                             value={formData.content}
                                             onChange={(val) => setFormData(prev => ({ ...prev, content: val }))}
                                             placeholder="The full breakdown of institutional analysis..."
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
+                                    <div className="space-y-4">
+                                        <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1 flex items-center gap-2">
+                                            <Database className="h-3.5 w-3.5 text-cyan-500" />
+                                            THE AUDIT NODES
+                                        </Label>
+                                        <Textarea
+                                            name="auditNodes"
+                                            value={formData.auditNodes || ""}
+                                            onChange={handleChange}
+                                            placeholder="Bibliographic reference nodes..."
+                                            className="min-h-[150px] text-xs font-mono bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-600 rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
+                                        />
+                                    </div>
+                                    <div className="space-y-4">
+                                        <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1 flex items-center gap-2">
+                                            <Shield className="h-3.5 w-3.5 text-red-500" />
+                                            COLLECTED RESEARCH ARCHIVE
+                                        </Label>
+                                        <Textarea
+                                            name="researchArchive"
+                                            value={formData.researchArchive || ""}
+                                            onChange={handleChange}
+                                            placeholder="Institutional research URL collection..."
+                                            className="min-h-[150px] text-xs font-mono bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-600 rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
                                         />
                                     </div>
                                 </div>

@@ -54,8 +54,10 @@ model Article {
   // Scenario Forecast (Best/Most Likely/Worst)
   scenarios       Json?     
   
-  // SEO & AEO
+  // SEO, AEO & Academic Archival
   faqData         Json?     // For Google SGE/AI citation
+  auditNodes      String?   @db.Text
+  researchArchive String?   @db.Text
   metaTitle       String?
   metaDescription String?
   

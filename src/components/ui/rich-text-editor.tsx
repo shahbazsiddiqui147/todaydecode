@@ -25,6 +25,14 @@ import {
 import { Button } from "./button";
 import { cn } from "@/lib/utils";
 import { DiagramBlock } from "@/components/admin/Editor/extensions/DiagramBlock";
+import { TextCase } from "@/components/admin/Editor/extensions/TextCase";
+import TextStyle from "@tiptap/extension-text-style";
+import {
+    Type,
+    CaseSensitive,
+    CaseUpper,
+    CaseLower
+} from "lucide-react";
 
 interface RichTextEditorProps {
     value: string;
@@ -155,6 +163,44 @@ const Toolbar = ({ editor }: { editor: any }) => {
             >
                 <Quote className="h-4 w-4" />
             </button>
+
+            <Divider />
+
+            <button
+                type="button"
+                onClick={() => editor.chain().focus().setTextCase('uppercase').run()}
+                className={getBtnClass("textStyle", { textTransform: 'uppercase' })}
+                title="ALL CAPS"
+            >
+                <CaseUpper className="h-4 w-4" />
+            </button>
+            <button
+                type="button"
+                onClick={() => editor.chain().focus().setTextCase('small-caps').run()}
+                className={getBtnClass("textStyle", { fontVariant: 'small-caps' })}
+                title="Small Caps"
+            >
+                <Type className="h-3.5 w-3.5" />
+            </button>
+            <button
+                type="button"
+                onClick={() => editor.chain().focus().setTextCase('sentence').run()}
+                className="h-8 w-8 flex items-center justify-center rounded-md text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all outline-none"
+                title="Sentence Case"
+            >
+                <CaseSensitive className="h-4 w-4" />
+            </button>
+            <button
+                type="button"
+                onClick={() => editor.chain().focus().setTextCase('none').run()}
+                className="h-8 w-8 flex items-center justify-center rounded-md text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all outline-none opacity-50 hover:opacity-100"
+                title="Reset Case"
+            >
+                <CaseLower className="h-4 w-4" />
+            </button>
+
+            <Divider />
+
             <button
                 type="button"
                 onClick={addImage}
@@ -209,6 +255,8 @@ export function RichTextEditor({ value, onChange, placeholder = "Synthesize stra
             StarterKit.configure({
                 heading: false, // Handled by Heading extension below
             }),
+            TextStyle,
+            TextCase,
             Heading.configure({
                 levels: [1, 2, 3],
             }),
@@ -236,9 +284,9 @@ export function RichTextEditor({ value, onChange, placeholder = "Synthesize stra
     });
 
     return (
-        <div className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#020617] flex flex-col group focus-within:ring-1 focus-within:ring-slate-400 dark:focus-within:ring-[#22D3EE]/30 transition-all rounded-2xl overflow-hidden shadow-2xl">
+        <div className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#020617] flex flex-col group focus-within:ring-1 focus-within:ring-slate-400 dark:focus-within:ring-[#22D3EE]/30 transition-all rounded-2xl relative">
             <Toolbar editor={editor} />
-            <EditorContent editor={editor} className="text-[#0F172A] dark:text-[#F1F5F9]" />
+            <EditorContent editor={editor} className="text-[#0F172A] dark:text-[#F1F5F9] rounded-b-2xl overflow-hidden" />
         </div>
     );
 }
