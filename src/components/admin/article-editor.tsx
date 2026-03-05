@@ -263,10 +263,9 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                     {/* Navigation Tabs (Strategic Selection) */}
                     <div className="flex items-center gap-1 p-1 bg-muted/30 rounded-2xl border border-border/50">
                         {[
-                            { id: "content", label: "Analysis Content", icon: FileText },
-                            { id: "forecast", label: "Scenarios", icon: TrendingUp },
-                            { id: "aeo", label: "AEO/GEO", icon: Zap },
-                            { id: "meta", label: "Analytical Meta (SEO)", icon: Globe },
+                            { id: "content", label: "Analysis Desk", icon: FileText },
+                            { id: "aeo", label: "AEO Hub", icon: Zap },
+                            { id: "meta", label: "Meta (SEO)", icon: Globe },
                         ].map((tab) => (
                             <button
                                 key={tab.id}
@@ -395,94 +394,117 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
-                                    <div className="space-y-4">
-                                        <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1 flex items-center gap-2">
-                                            <Database className="h-3.5 w-3.5 text-cyan-500" />
-                                            THE AUDIT NODES
-                                        </Label>
-                                        <Textarea
-                                            name="auditNodes"
-                                            value={formData.auditNodes || ""}
-                                            onChange={handleChange}
-                                            placeholder="Bibliographic reference nodes..."
-                                            className="min-h-[150px] text-xs font-mono bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-600 rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
-                                        />
+                                <div className="space-y-8 pt-12 border-t border-border/50">
+                                    <div className="flex items-center gap-3 px-1">
+                                        <TrendingUp className="h-5 w-5 text-cyan-500" />
+                                        <h2 className="text-sm font-black uppercase italic tracking-widest text-[#F1F5F9]">Strategic Scenario Models</h2>
                                     </div>
-                                    <div className="space-y-4">
-                                        <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1 flex items-center gap-2">
-                                            <Shield className="h-3.5 w-3.5 text-red-500" />
-                                            COLLECTED RESEARCH ARCHIVE
-                                        </Label>
-                                        <Textarea
-                                            name="researchArchive"
-                                            value={formData.researchArchive || ""}
-                                            onChange={handleChange}
-                                            placeholder="Institutional research URL collection..."
-                                            className="min-h-[150px] text-xs font-mono bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-600 rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
-                                        />
+
+                                    <div className="grid grid-cols-1 gap-6">
+                                        {/* Best Case */}
+                                        <div className="p-6 rounded-2xl border border-emerald-500/10 bg-emerald-500/5 space-y-4 relative group transition-all hover:bg-emerald-500/10 hover:border-emerald-500/20">
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    <TrendingUp className="h-4 w-4 text-emerald-500" />
+                                                    <h3 className="text-[10px] font-black uppercase tracking-widest text-emerald-500">CONVERGENCE (BEST CASE)</h3>
+                                                </div>
+                                                <span className="text-[9px] font-mono text-emerald-500/40 uppercase tracking-tighter">outcome_fidelity: high</span>
+                                            </div>
+                                            <Input
+                                                value={formData.scenarios.best.title}
+                                                onChange={(e) => handleScenarioChange("best", "title", e.target.value)}
+                                                placeholder="SCENARIO HEADLINE..."
+                                                className="h-10 text-xs font-black uppercase tracking-wider bg-slate-950/50 border-emerald-500/20 text-[#F1F5F9] placeholder:text-slate-700 rounded-xl focus-visible:ring-emerald-500 transition-all"
+                                            />
+                                            <Textarea
+                                                value={formData.scenarios.best.description}
+                                                onChange={(e) => handleScenarioChange("best", "description", e.target.value)}
+                                                placeholder="ESTABLISH BEST-CASE PARAMETERS..."
+                                                className="min-h-[100px] text-xs font-mono bg-slate-950/50 border-emerald-500/20 text-[#F1F5F9] placeholder:text-slate-700 rounded-xl resize-none px-4 py-3 focus-visible:ring-emerald-500 transition-all"
+                                            />
+                                        </div>
+
+                                        {/* Likely Case */}
+                                        <div className="p-6 rounded-2xl border border-blue-500/10 bg-blue-500/5 space-y-4 relative group transition-all hover:bg-blue-500/10 hover:border-blue-500/20">
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    <Activity className="h-4 w-4 text-blue-500" />
+                                                    <h3 className="text-[10px] font-black uppercase tracking-widest text-blue-500">CONTINUITY (MOST LIKELY)</h3>
+                                                </div>
+                                                <span className="text-[9px] font-mono text-blue-500/40 uppercase tracking-tighter">outcome_fidelity: medium</span>
+                                            </div>
+                                            <Input
+                                                value={formData.scenarios.likely.title}
+                                                onChange={(e) => handleScenarioChange("likely", "title", e.target.value)}
+                                                placeholder="SCENARIO HEADLINE..."
+                                                className="h-10 text-xs font-black uppercase tracking-wider bg-slate-950/50 border-blue-500/20 text-[#F1F5F9] placeholder:text-slate-700 rounded-xl focus-visible:ring-blue-500 transition-all"
+                                            />
+                                            <Textarea
+                                                value={formData.scenarios.likely.description}
+                                                onChange={(e) => handleScenarioChange("likely", "description", e.target.value)}
+                                                placeholder="ESTABLISH MOST-LIKELY PARAMETERS..."
+                                                className="min-h-[100px] text-xs font-mono bg-slate-950/50 border-blue-500/20 text-[#F1F5F9] placeholder:text-slate-700 rounded-xl resize-none px-4 py-3 focus-visible:ring-blue-500 transition-all"
+                                            />
+                                        </div>
+
+                                        {/* Worst Case */}
+                                        <div className="p-6 rounded-2xl border border-red-500/10 bg-red-500/5 space-y-4 relative group transition-all hover:bg-red-500/10 hover:border-red-500/20">
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    <AlertCircle className="h-4 w-4 text-red-500" />
+                                                    <h3 className="text-[10px] font-black uppercase tracking-widest text-red-500">FRAGMENTATION (WORST CASE)</h3>
+                                                </div>
+                                                <span className="text-[9px] font-mono text-red-500/40 uppercase tracking-tighter">outcome_fidelity: critical</span>
+                                            </div>
+                                            <Input
+                                                value={formData.scenarios.worst.title}
+                                                onChange={(e) => handleScenarioChange("worst", "title", e.target.value)}
+                                                placeholder="SCENARIO HEADLINE..."
+                                                className="h-10 text-xs font-black uppercase tracking-wider bg-slate-950/50 border-red-500/20 text-[#F1F5F9] placeholder:text-slate-700 rounded-xl focus-visible:ring-red-500 transition-all"
+                                            />
+                                            <Textarea
+                                                value={formData.scenarios.worst.description}
+                                                onChange={(e) => handleScenarioChange("worst", "description", e.target.value)}
+                                                placeholder="ESTABLISH WORST-CASE PARAMETERS..."
+                                                className="min-h-[100px] text-xs font-mono bg-slate-950/50 border-red-500/20 text-[#F1F5F9] placeholder:text-slate-700 rounded-xl resize-none px-4 py-3 focus-visible:ring-red-500 transition-all"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )}
 
-                        {activeTab === "forecast" && (
-                            <div className="space-y-6">
-                                <div className="p-6 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 space-y-4">
-                                    <div className="flex items-center gap-2">
-                                        <TrendingUp className="h-4 w-4 text-emerald-500" />
-                                        <h3 className="text-xs font-black uppercase italic tracking-tighter text-emerald-600 dark:text-emerald-400">Strategic Convergence (Best Case)</h3>
+                                <div className="space-y-8 pt-12 border-t border-border/50">
+                                    <div className="flex items-center gap-3 px-1">
+                                        <Database className="h-5 w-5 text-[#22D3EE]" />
+                                        <h2 className="text-sm font-black uppercase italic tracking-widest text-[#F1F5F9]">Systemic Research Nodes</h2>
                                     </div>
-                                    <Input
-                                        value={formData.scenarios.best.title}
-                                        onChange={(e) => handleScenarioChange("best", "title", e.target.value)}
-                                        placeholder="SCENARIO TITLE..."
-                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 placeholder:text-slate-500 rounded-xl font-semibold uppercase text-[11px] focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE]"
-                                    />
-                                    <Textarea
-                                        value={formData.scenarios.best.description}
-                                        onChange={(e) => handleScenarioChange("best", "description", e.target.value)}
-                                        placeholder="ESTABLISH THE PARAMETERS..."
-                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 placeholder:text-slate-500 rounded-xl min-h-[100px] text-sm focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE]"
-                                    />
-                                </div>
-
-                                <div className="p-6 rounded-2xl border border-blue-500/20 bg-blue-500/5 space-y-4">
-                                    <div className="flex items-center gap-2">
-                                        <Activity className="h-4 w-4 text-blue-500" />
-                                        <h3 className="text-xs font-black uppercase italic tracking-tighter text-blue-600 dark:text-blue-400">Institutional Continuity (Most Likely)</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="space-y-4 p-6 rounded-2xl border border-[#1E293B] bg-slate-950/30">
+                                            <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1 flex items-center gap-2">
+                                                <Database className="h-3.5 w-3.5 text-cyan-500" />
+                                                THE AUDIT NODES
+                                            </Label>
+                                            <Textarea
+                                                name="auditNodes"
+                                                value={formData.auditNodes || ""}
+                                                onChange={handleChange}
+                                                placeholder="Bibliographic reference nodes..."
+                                                className="min-h-[150px] text-xs font-mono bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-600 rounded-xl resize-none px-4 py-3 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
+                                            />
+                                        </div>
+                                        <div className="space-y-4 p-6 rounded-2xl border border-[#1E293B] bg-slate-950/30">
+                                            <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1 flex items-center gap-2">
+                                                <Shield className="h-3.5 w-3.5 text-red-500" />
+                                                RESEARCH ARCHIVE
+                                            </Label>
+                                            <Textarea
+                                                name="researchArchive"
+                                                value={formData.researchArchive || ""}
+                                                onChange={handleChange}
+                                                placeholder="Institutional research URL collection..."
+                                                className="min-h-[150px] text-xs font-mono bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-600 rounded-xl resize-none px-4 py-3 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
+                                            />
+                                        </div>
                                     </div>
-                                    <Input
-                                        value={formData.scenarios.likely.title}
-                                        onChange={(e) => handleScenarioChange("likely", "title", e.target.value)}
-                                        placeholder="SCENARIO TITLE..."
-                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 placeholder:text-slate-500 rounded-xl font-semibold uppercase text-[11px]"
-                                    />
-                                    <Textarea
-                                        value={formData.scenarios.likely.description}
-                                        onChange={(e) => handleScenarioChange("likely", "description", e.target.value)}
-                                        placeholder="ESTABLISH THE PARAMETERS..."
-                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-950 dark:text-slate-100 placeholder:text-slate-500 rounded-xl min-h-[100px] text-sm"
-                                    />
-                                </div>
-
-                                <div className="p-6 rounded-2xl border border-red-500/20 bg-red-500/5 space-y-4">
-                                    <div className="flex items-center gap-2">
-                                        <AlertCircle className="h-4 w-4 text-red-500" />
-                                        <h3 className="text-xs font-black uppercase italic tracking-tighter text-red-600 dark:text-red-400">Systemic Fragmentation (Worst Case)</h3>
-                                    </div>
-                                    <Input
-                                        value={formData.scenarios.worst.title}
-                                        onChange={(e) => handleScenarioChange("worst", "title", e.target.value)}
-                                        placeholder="SCENARIO TITLE..."
-                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 placeholder:text-slate-500 rounded-xl font-semibold uppercase text-[11px]"
-                                    />
-                                    <Textarea
-                                        value={formData.scenarios.worst.description}
-                                        onChange={(e) => handleScenarioChange("worst", "description", e.target.value)}
-                                        placeholder="ESTABLISH THE PARAMETERS..."
-                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-950 dark:text-slate-100 placeholder:text-slate-500 rounded-xl min-h-[100px] text-sm"
-                                    />
                                 </div>
                             </div>
                         )}
