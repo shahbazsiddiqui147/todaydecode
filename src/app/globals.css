@@ -219,6 +219,24 @@ h3 {
   color: #F1F5F9 !important;
 }
 
+/* Dark Mode Contrast Hardening Guards */
+.dark .aeo-qa-section h2,
+.dark .aeo-qa-section h3 {
+  color: #FFFFFF !important;
+}
+
+.dark .aeo-qa-section p {
+  color: #F8FAFC !important;
+}
+
+.dark .key-takeaways-widget li {
+  color: #F8FAFC !important;
+}
+
+.dark .key-takeaways-widget h4 {
+  color: #FFFFFF !important;
+}
+
 /* Editor Toolbar Hardening */
 .editor-toolbar button:hover {
   background-color: #334155 !important;

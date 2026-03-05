@@ -19,7 +19,7 @@ export function RiskGauge({ score, label }: RiskGaugeProps) {
     return (
         <div className="space-y-4 rounded-xl border border-border-slate bg-primary/40 p-6">
             <div className="flex items-center justify-between">
-                <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                <h4 className="text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-widest">
                     Risk Power Index
                 </h4>
                 <span className={cn(
@@ -32,7 +32,7 @@ export function RiskGauge({ score, label }: RiskGaugeProps) {
 
             <div className="flex items-end justify-between">
                 <span className="text-4xl font-black text-white">{score}</span>
-                <span className="text-xs text-slate-500 font-medium mb-1">/ 100</span>
+                <span className="text-xs text-slate-500 dark:text-slate-300 font-medium mb-1">/ 100</span>
             </div>
 
             <div className="relative h-2 w-full bg-slate-800 rounded-full overflow-hidden">
@@ -42,7 +42,7 @@ export function RiskGauge({ score, label }: RiskGaugeProps) {
                 />
             </div>
 
-            <p className="text-[10px] text-slate-500 leading-relaxed italic">
+            <p className="text-[10px] text-slate-500 dark:text-slate-300 leading-relaxed italic">
                 * Based on current Conflict Intensity and Geographic Weighting.
             </p>
         </div>
@@ -51,7 +51,7 @@ export function RiskGauge({ score, label }: RiskGaugeProps) {
 
 export function KeyTakeaways({ points }: { points: string[] }) {
     return (
-        <div className="space-y-4 rounded-xl border border-border bg-secondary/20 dark:bg-card p-6">
+        <div className="key-takeaways-widget space-y-4 rounded-xl border border-border bg-secondary/20 dark:bg-card p-6">
             <h4 className="text-[10px] font-bold text-slate-900 dark:text-slate-50 uppercase tracking-widest">
                 Quick Summary
             </h4>
