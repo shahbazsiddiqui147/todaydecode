@@ -2,7 +2,7 @@
 
 import React from 'react';
 import parse, { domToReact, HTMLReactParserOptions, Element, Text } from 'html-react-parser';
-import { MermaidRenderer } from '@/components/intel/MermaidRenderer';
+import { DiagramRenderer } from '@/components/intel/DiagramRenderer';
 
 interface ContentRendererProps {
     content: string;
@@ -22,10 +22,16 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({ content }) => 
 
     const options: HTMLReactParserOptions = {
         replace: (domNode: any) => {
-            // Priority 1: Semantic code blocks from Tiptap
+            // Priority 1: Sovereign Diagram Block (Tiptap Custom Node)
+            if (domNode instanceof Element && domNode.name === 'div' && domNode.attribs['data-type'] === 'diagram-block') {
+                const code = domNode.attribs['data-code'] || "";
+                return <DiagramRenderer code={code} />;
+            }
+
+            // Legacy Support: Semantic code blocks from Tiptap
             if (domNode instanceof Element && domNode.name === 'pre' && (domNode.attribs.class?.includes('mermaid') || domNode.attribs['data-type'] === 'mermaid')) {
                 const code = extractText(domNode);
-                return <MermaidRenderer code={code} />;
+                return <DiagramRenderer code={code} />;
             }
 
             // Priority 2: Robust Regex Text Intercepts (Direct logic blocks)
@@ -36,7 +42,7 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({ content }) => 
                     text.startsWith('%%{init');
 
                 if (isMermaid) {
-                    return <MermaidRenderer code={text} />;
+                    return <DiagramRenderer code={text} />;
                 }
             }
 
@@ -51,7 +57,7 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({ content }) => 
                     combinedText.startsWith('%%{init');
 
                 if (isMermaidList) {
-                    return <MermaidRenderer code={combinedText} />;
+                    return <DiagramRenderer code={combinedText} />;
                 }
             }
         },

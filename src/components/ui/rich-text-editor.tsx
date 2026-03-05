@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import { Button } from "./button";
 import { cn } from "@/lib/utils";
-import { MermaidBlock } from "@/components/admin/Editor/extensions/MermaidNode";
+import { DiagramBlock } from "@/components/admin/Editor/extensions/DiagramBlock";
 
 interface RichTextEditorProps {
     value: string;
@@ -173,11 +173,12 @@ const Toolbar = ({ editor }: { editor: any }) => {
             </button>
             <button
                 type="button"
-                onClick={() => editor.chain().focus().insertContent({ type: 'mermaidBlock' }).run()}
-                className="h-8 w-8 flex items-center justify-center rounded-md text-[#0891B2] dark:text-[#22D3EE] hover:bg-slate-200 dark:hover:bg-slate-800 transition-all font-bold outline-none"
-                title="Structural Diagram (Mermaid)"
+                onClick={() => editor.chain().focus().insertContent({ type: 'diagramBlock' }).run()}
+                className="flex items-center gap-2 px-3 h-8 rounded-md text-[#22D3EE] hover:bg-[#22D3EE]/10 transition-all border border-[#22D3EE]/30"
+                title="Sovereign Structural Model"
             >
-                <Share2 className="h-4 w-4" />
+                <Share2 className="h-3.5 w-3.5" />
+                <span className="text-[9px] font-black uppercase tracking-widest hidden sm:inline">Add Strategic Diagram</span>
             </button>
 
             <div className="ml-auto flex items-center gap-1">
@@ -221,7 +222,7 @@ export function RichTextEditor({ value, onChange, placeholder = "Synthesize stra
             Placeholder.configure({
                 placeholder,
             }),
-            MermaidBlock,
+            DiagramBlock,
         ],
         content: value,
         onUpdate: ({ editor }) => {
