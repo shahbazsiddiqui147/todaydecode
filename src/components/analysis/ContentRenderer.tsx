@@ -33,6 +33,26 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({ content }) => 
                     return <MermaidRenderer code={text} />;
                 }
             }
+
+            // Priority 3: List-to-Mermaid Merging (For when users accidentally use bullet points)
+            if (domNode instanceof Element && (domNode.name === 'ul' || domNode.name === 'ol')) {
+                const combinedText = domNode.children
+                    .filter((child: any) => child.name === 'li')
+                    .map((li: any) => {
+                        return li.children.map((c: any) => {
+                            if (c.type === 'text') return c.data;
+                            if (c.name === 'br') return '\n';
+                            return '';
+                        }).join('');
+                    }).join('\n').trim();
+
+                const isMermaidList = /^(graph|flowchart|sequenceDiagram|gantt|classDiagram|stateDiagram|erDiagram|journey|pie|gitGraph|requirementDiagram)($|[\s\n;])/i.test(combinedText) ||
+                    combinedText.startsWith('%%{init');
+
+                if (isMermaidList) {
+                    return <MermaidRenderer code={combinedText} />;
+                }
+            }
         },
     };
 
