@@ -148,9 +148,9 @@ export default async function ArticlePage({
                                 </div>
                                 <div className="space-y-0.5">
                                     <Link href={`/author/${article.author.slug.replace(/^\/|\/$/g, '')}/`}>
-                                        <div className="text-xs font-black uppercase tracking-widest text-white hover:text-accent-red transition-colors cursor-pointer">{article.author.name}</div>
+                                        <div className="text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white hover:text-accent-red transition-colors cursor-pointer">{article.author.name}</div>
                                     </Link>
-                                    <div className="text-[9px] text-white/60 uppercase font-black tracking-widest">{article.author.role}</div>
+                                    <div className="text-[9px] text-slate-500 dark:text-white/60 uppercase font-black tracking-widest">{article.author.role}</div>
                                 </div>
                             </div>
                             <div className="flex items-center space-x-8 text-[9px] font-black text-slate-500 uppercase tracking-[0.2em]">
