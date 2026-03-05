@@ -37,8 +37,9 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ code }) => {
                     useMaxWidth: false,
                     htmlLabels: true,
                     curve: 'basis',
-                    nodeSpacing: 70,
-                    rankSpacing: 70,
+                    padding: 45,
+                    nodeSpacing: 100,
+                    rankSpacing: 80,
                 },
                 sequence: {
                     useMaxWidth: false,
@@ -69,6 +70,16 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ code }) => {
 
     return (
         <div className="my-16 relative group sovereign-diagram-container -mx-4 md:-mx-8 lg:-mx-12 xl:-mx-16">
+            <style dangerouslySetInnerHTML={{
+                __html: `
+                .label foreignObject { overflow: visible !important; }
+                .label div { white-space: nowrap !important; width: max-content !important; text-align: center; }
+                .node rect, .node circle, .node polygon { stroke-width: 2px !important; stroke: #22D3EE !important; }
+                .custom-scrollbar::-webkit-scrollbar { height: 4px; }
+                .custom-scrollbar::-webkit-scrollbar-track { background: #020617; }
+                .custom-scrollbar::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 10px; }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #22D3EE; }
+            `}} />
             {error ? (
                 <div className="flex flex-col items-center justify-center py-12 px-8 bg-[#0A0000] border-2 border-[#FF4B4B]/30 rounded-3xl text-center space-y-4 shadow-2xl mx-4 md:mx-0">
                     <div className="flex items-center gap-2">
@@ -86,9 +97,10 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ code }) => {
                     </div>
                     <div
                         ref={containerRef}
-                        className="diagram-wrapper w-full overflow-x-auto overflow-y-hidden py-10 px-8 bg-[#0A0F1E] rounded-[2.5rem] border-2 border-[#1E293B] shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_0_100px_rgba(0,0,0,0.3)] relative z-10 mx-auto transition-all duration-700 group-hover:border-[#22D3EE]/20"
-                        dangerouslySetInnerHTML={{ __html: svg }}
-                    />
+                        className="diagram-wrapper w-full overflow-x-auto overflow-y-hidden py-10 px-8 bg-[#0A0F1E] rounded-[2.5rem] border-2 border-[#1E293B] shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_0_100px_rgba(0,0,0,0.3)] relative z-10 mx-auto transition-all duration-700 group-hover:border-[#22D3EE]/20 custom-scrollbar"
+                    >
+                        <div className="min-w-[800px] flex justify-center" dangerouslySetInnerHTML={{ __html: svg }} />
+                    </div>
                     <div className="absolute -bottom-3 right-12 px-3 py-1 bg-[#020617] border border-[#1E293B] rounded-full z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0 shadow-lg">
                         <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest italic">Today Decode // Sovereign Visual Engine</span>
                     </div>
