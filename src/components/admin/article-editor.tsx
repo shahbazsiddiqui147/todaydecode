@@ -377,7 +377,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                             <span className="text-[9px] font-black text-cyan-500 uppercase tracking-widest italic animate-pulse">Mermaid.js Enabled</span>
                                             <button
                                                 type="button"
-                                                onClick={() => toast.info("To add a graph, use: graph TD; A-->B; inside a code block or direct text.")}
+                                                onClick={() => toast.info("To add a graph: Use Shift+Enter for new lines between nodes (e.g., graph TD [Shift+Enter] A-->B).")}
                                                 className="text-[9px] font-bold text-slate-500 hover:text-white underline underline-offset-2"
                                             >
                                                 Graph Guide

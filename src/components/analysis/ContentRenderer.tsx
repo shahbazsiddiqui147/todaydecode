@@ -19,9 +19,14 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({ content }) => 
 
             // Priority 2: Robust Regex Text Intercepts (Direct logic blocks)
             if (domNode instanceof Element && domNode.name === 'p') {
-                const text = domNode.children.map((c: any) => c.type === 'text' ? c.data : '').join('').trim();
+                const text = domNode.children.map((c: any) => {
+                    if (c.type === 'text') return c.data;
+                    if (c.name === 'br') return '\n';
+                    return '';
+                }).join('').trim();
 
-                const isMermaid = /^(graph|flowchart|sequenceDiagram|gantt|classDiagram|stateDiagram|erDiagram|journey|pie|gitGraph|requirementDiagram)\s/i.test(text) ||
+                // Detection: Keywords at start of text, case-insensitive, followed by mandatory break (space, newline, or separator)
+                const isMermaid = /^(graph|flowchart|sequenceDiagram|gantt|classDiagram|stateDiagram|erDiagram|journey|pie|gitGraph|requirementDiagram)($|[\s\n;])/i.test(text) ||
                     text.startsWith('%%{init');
 
                 if (isMermaid) {
