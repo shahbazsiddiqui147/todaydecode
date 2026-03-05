@@ -94,7 +94,7 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
                     >
                         <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                             <div className="space-y-4 max-w-xl">
-                                <h3 className={cn("text-2xl font-black tracking-tight text-white")}>
+                                <h3 className={cn("text-2xl font-black tracking-tight text-[#22D3EE]")}>
                                     {activeData.title}
                                 </h3>
                                 <p className="text-slate-300 text-base leading-relaxed">
@@ -133,7 +133,7 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
                         <div className="pt-6 border-t border-white/5">
                             <Link
                                 href={`/${category.toLowerCase()}/${slug.replace(/^\/|\/$/g, '')}/`}
-                                className="inline-flex items-center text-[10px] font-black text-white uppercase tracking-[0.2em] group bg-white/5 border border-white/10 px-6 py-4 rounded-lg hover:bg-white hover:text-black transition-all shadow-xl"
+                                className="inline-flex items-center text-[10px] font-black text-[#22D3EE] uppercase tracking-[0.2em] group bg-[#22D3EE]/5 border border-[#22D3EE]/20 px-6 py-4 rounded-lg hover:bg-[#22D3EE] hover:text-[#020617] transition-all shadow-xl"
                             >
                                 Assessment Finalized // Data Reconciled
                                 <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />

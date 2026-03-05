@@ -208,7 +208,10 @@ export default async function ArticlePage({
 
                 <aside className="lg:col-span-4 space-y-12">
                     <div className="sticky top-32 space-y-12">
-                        {/* Related Research - Priority Pos 1 */}
+                        {/* Promoted Advisory - Priority Pos 1 */}
+                        <AdContainer />
+
+                        {/* Related Research - Priority Pos 2 */}
                         <div className="p-8 bg-secondary/30 border border-[#E2E8F0] dark:border-[#1E293B] rounded-3xl space-y-8 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-accent-red/5 blur-[50px]" />
                             <div className="flex items-center justify-between border-b border-border/10 pb-4">
@@ -232,15 +235,6 @@ export default async function ArticlePage({
                                     slug={article.slug}
                                 />
                             </div>
-                        </div>
-
-                        {/* Risk Metrics - Pos 2 */}
-                        <RiskGauge score={article.riskScore} label={`${article.riskLevel} STRATEGIC RISK`} />
-
-                        {/* Promoted Advisory - Pos 3 */}
-                        <div className="space-y-4">
-                            <h4 className="text-[9px] font-black uppercase tracking-[0.25em] text-slate-500 pl-4">Promoted Advisory</h4>
-                            <AdContainer />
                         </div>
                     </div>
                 </aside>
