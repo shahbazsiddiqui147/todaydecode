@@ -25,6 +25,15 @@ export const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
 
             try {
                 setError(null);
+
+                // 1. STRATEGIC PRE-PARSING: Clean up quote strictness and whitespace
+                const cleanCode = code
+                    .replace(/%%{init:[\s\S]*?}%%/g, (match) => {
+                        return match.replace(/'/g, '"');
+                    })
+                    .trim()
+                    .replace(/\u00A0/g, ' '); // Strip non-breaking spaces
+
                 const isDark = theme === 'dark' || (theme === 'system' && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
                 mermaid.initialize({
@@ -34,13 +43,13 @@ export const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
                     fontFamily: 'Inter, sans-serif',
                     themeVariables: {
                         backgroundColor: 'transparent',
-                        primaryColor: isDark ? '#111827' : '#F1F5F9',
+                        primaryColor: '#22D3EE',
                         primaryBorderColor: isDark ? '#1E293B' : '#E2E8F0',
                         primaryTextColor: isDark ? '#F1F5F9' : '#0F172A',
                         lineColor: '#22D3EE',
                         secondaryColor: isDark ? '#0A0F1E' : '#FFFFFF',
                         tertiaryColor: isDark ? '#1e293b' : '#f8fafc',
-                        mainBkg: isDark ? '#111827' : '#F8FAFC',
+                        mainBkg: '#0A0F1E', // Enforced dark standard
                         nodeBorder: '#1E293B',
                         nodeTextColor: isDark ? '#F1F5F9' : '#0F172A',
                         fontSize: '14px',
@@ -48,11 +57,11 @@ export const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
                 });
 
                 const id = `mermaid-render-${Math.random().toString(36).substr(2, 9)}`;
-                const { svg: renderedSvg } = await mermaid.render(id, code);
+                const { svg: renderedSvg } = await mermaid.render(id, cleanCode);
                 setSvg(renderedSvg);
             } catch (err: any) {
                 console.error('Mermaid render failure:', err);
-                setError("Strategic Diagram Syntax Error. Please verify ASCII logic.");
+                setError("Strategic Diagram Syntax Error. Please verify ASCII logic (JSON quotes must be double-quotes).");
             }
         };
 
