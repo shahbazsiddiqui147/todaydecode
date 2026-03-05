@@ -94,29 +94,29 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
                     >
                         <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                             <div className="space-y-4 max-w-xl">
-                                <h3 className={cn("text-2xl font-black tracking-tight text-[#F1F5F9]")}>
+                                <h3 className={cn("text-2xl font-black tracking-tight text-white")}>
                                     {activeData.title}
                                 </h3>
-                                <p className="text-[#1E293B] dark:text-[#CBD5E1] text-base leading-relaxed">
+                                <p className="text-slate-300 text-base leading-relaxed">
                                     {activeData.desc}
                                 </p>
                             </div>
-                            <div className="bg-background/50 p-4 rounded-xl border border-[#1E293B] min-w-[120px] text-center">
-                                <div className="text-[10px] font-bold text-[#F1F5F9] uppercase tracking-widest mb-1">
+                            <div className="bg-background/50 p-4 rounded-xl border border-slate-800 min-w-[120px] text-center">
+                                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
                                     Impact Score
                                 </div>
-                                <div className={cn("text-4xl font-black tabular-nums", tabs.find(t => t.id === activeTab)?.color)}>
+                                <div className={cn("text-4xl font-black tabular-nums shadow-[0_0_20px_rgba(34,211,238,0.1)]", tabs.find(t => t.id === activeTab)?.color)}>
                                     {activeData.impact}%
                                 </div>
                             </div>
                         </div>
 
                         <div className="space-y-3">
-                            <div className="flex justify-between text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                            <div className="flex justify-between text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                                 <span>Outcome Severity</span>
                                 <span>{activeData.impact}% Scale</span>
                             </div>
-                            <div className="h-2 w-full bg-secondary rounded-full overflow-hidden p-[1px]">
+                            <div className="h-2 w-full bg-slate-900 rounded-full overflow-hidden p-[1px] border border-white/5">
                                 <motion.div
                                     initial={{ width: 0 }}
                                     animate={{ width: `${activeData.impact}%` }}
@@ -130,10 +130,10 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
                             </div>
                         </div>
 
-                        <div className="pt-6 border-t border-border/50">
+                        <div className="pt-6 border-t border-white/5">
                             <Link
                                 href={`/${category.toLowerCase()}/${slug.replace(/^\/|\/$/g, '')}/`}
-                                className="inline-flex items-center text-[10px] font-black text-[#0F172A] dark:text-[#F1F5F9] uppercase tracking-[0.2em] group bg-white/5 border border-[#E2E8F0] dark:border-[#1E293B] px-6 py-4 rounded-lg hover:bg-[#F1F5F9] hover:text-[#020617] dark:hover:text-[#020617] transition-all"
+                                className="inline-flex items-center text-[10px] font-black text-white uppercase tracking-[0.2em] group bg-white/5 border border-white/10 px-6 py-4 rounded-lg hover:bg-white hover:text-black transition-all shadow-xl"
                             >
                                 Assessment Finalized // Data Reconciled
                                 <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />

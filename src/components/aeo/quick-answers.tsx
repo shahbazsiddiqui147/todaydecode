@@ -24,13 +24,9 @@ export function QuickAnswers({ faqData }: QuickAnswersProps) {
                     <ShieldCheck className="h-6 w-6 text-accent-red" />
                 </div>
                 <div>
-                    <h2 className="text-md font-black text-slate-900 dark:text-white uppercase tracking-tighter">
+                    <h2 className="text-md font-black text-slate-900 dark:text-white uppercase tracking-tighter text-white">
                         Institutional Strategic Analysis Desk Q&A
                     </h2>
-                    <p className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] mt-1.5 flex items-center gap-2">
-                        <span className="inline-block w-1.5 h-1.5 rounded-full bg-accent-red animate-pulse" />
-                        AEO Optimized Assessment // Structural Discovery
-                    </p>
                 </div>
             </div>
 
