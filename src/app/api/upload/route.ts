@@ -21,9 +21,18 @@ export async function POST(request: Request): Promise<NextResponse> {
             return NextResponse.json({ error: 'No strategic data provided' }, { status: 400 });
         }
 
-        // Recovery Path: Local Fallback if Blob Token is missing
+        // Recovery Path Logic
         if (!process.env.BLOB_READ_WRITE_TOKEN) {
-            console.warn('[Strategic Warning]: BLOB_READ_WRITE_TOKEN is missing. Falling back to local filesystem.');
+            const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
+
+            if (isProduction) {
+                console.error('[Institutional Storage Failure]: BLOB_READ_WRITE_TOKEN is missing in Production environment.');
+                return NextResponse.json({
+                    error: 'Asset reconciliation failed: Production storage not configured. Please add BLOB_READ_WRITE_TOKEN to Vercel environment variables.'
+                }, { status: 500 });
+            }
+
+            console.warn('[Strategic Warning]: BLOB_READ_WRITE_TOKEN is missing. Falling back to local filesystem (Development only).');
 
             const buffer = Buffer.from(await request.arrayBuffer());
             const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
@@ -44,7 +53,7 @@ export async function POST(request: Request): Promise<NextResponse> {
             } catch (fsError: any) {
                 console.error('[Institutional Write Violation]:', fsError);
                 return NextResponse.json({
-                    error: `Asset reconciliation failed: Local storage unavailable (${fsError.message})`
+                    error: `Asset reconciliation failed: Local storage unavailable. Serverless environments require Vercel Blob configuration.`
                 }, { status: 500 });
             }
         }
