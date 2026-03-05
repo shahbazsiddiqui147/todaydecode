@@ -341,7 +341,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.title}
                                         onChange={handleChange}
                                         placeholder="ENTER HEADLINE..."
-                                        className="text-2xl font-black h-16 bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 placeholder:text-slate-500 rounded-2xl focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] px-6 uppercase tracking-tight italic shadow-sm"
+                                        className="text-2xl font-black h-16 bg-slate-950 border-[#1E293B] text-white placeholder:text-slate-600 rounded-2xl focus-visible:ring-[#22D3EE] px-6 uppercase tracking-tight italic shadow-sm shadow-cyan-500/5 transition-all"
                                     />
                                 </div>
 
@@ -355,7 +355,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.onPageLead}
                                         onChange={handleChange}
                                         placeholder="A high-end strategic hook for the live analysis..."
-                                        className="min-h-[100px] text-sm font-medium bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 placeholder:text-slate-500 rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
+                                        className="min-h-[100px] text-sm font-medium bg-slate-950 border-[#1E293B] text-white placeholder:text-slate-600 rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
                                     />
                                 </div>
 
@@ -366,13 +366,25 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         value={formData.summary}
                                         onChange={handleChange}
                                         placeholder="Institutional brief for the strategic silos..."
-                                        className="min-h-[120px] text-sm font-medium bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 placeholder:text-slate-500 rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
+                                        className="min-h-[120px] text-sm font-medium bg-slate-950 border-[#1E293B] text-white placeholder:text-slate-600 rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100 pl-1 mb-2 block">Full Strategic Analysis</Label>
-                                    <div className="rounded-2xl border border-[#CBD5E1] dark:border-[#1E293B] overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F1F5F9]">
+                                    <div className="flex items-center justify-between pl-1 mb-2">
+                                        <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">Full Strategic Analysis</Label>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-[9px] font-black text-cyan-500 uppercase tracking-widest italic animate-pulse">Mermaid.js Enabled</span>
+                                            <button
+                                                type="button"
+                                                onClick={() => toast.info("To add a graph, use: graph TD; A-->B; inside a code block or direct text.")}
+                                                className="text-[9px] font-bold text-slate-500 hover:text-white underline underline-offset-2"
+                                            >
+                                                Graph Guide
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="rounded-2xl border border-[#1E293B] overflow-hidden bg-slate-950 text-[#F1F5F9]">
                                         <RichTextEditor
                                             value={formData.content}
                                             onChange={(val) => setFormData(prev => ({ ...prev, content: val }))}
