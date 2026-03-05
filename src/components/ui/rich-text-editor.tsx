@@ -26,7 +26,7 @@ import { Button } from "./button";
 import { cn } from "@/lib/utils";
 import { DiagramBlock } from "@/components/admin/Editor/extensions/DiagramBlock";
 import { TextCase } from "@/components/admin/Editor/extensions/TextCase";
-import TextStyle from "@tiptap/extension-text-style";
+import { TextStyle } from "@tiptap/extension-text-style";
 import {
     Type,
     CaseSensitive,
