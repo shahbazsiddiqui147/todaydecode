@@ -36,8 +36,6 @@ export function Header({ navigationItems = [] }: { navigationItems?: any[] }) {
             </div>
 
             <div className="flex items-center space-x-2 sm:space-x-4 ml-4">
-                <ThemeToggle />
-
                 {session ? (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>

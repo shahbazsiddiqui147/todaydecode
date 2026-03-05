@@ -32,30 +32,30 @@
 }
 
 :root {
-  /* "Whitepaper" Light Mode - Sovereign refinement */
-  --background: #F8FAFC;
-  --foreground: #0F172A;
-  --primary: #0F172A;
-  --primary-foreground: #FFFFFF;
-  --sidebar: #FFFFFF;
-  --sidebar-foreground: #0A0F1E;
-  --secondary: #F1F5F9;
-  --secondary-foreground: #475569;
-  --muted: #F1F5F9;
-  --muted-foreground: #64748B;
+  /* Forced "Deep Navy" Baseline */
+  --background: #0A0F1E;
+  --foreground: #F1F5F9;
+  --primary: #F1F5F9;
+  --primary-foreground: #020617;
+  --sidebar: #0A0F1E;
+  --sidebar-foreground: #F1F5F9;
+  --secondary: #111827;
+  --secondary-foreground: #94A3B8;
+  --muted: #1E293B;
+  --muted-foreground: #94A3B8;
   --accent-red: #FF4B4B;
   --accent-green: #10B981;
-  --border: #E2E8F0;
-  --card: #FFFFFF;
-  --card-foreground: #0F172A;
-  --destructive: #BE123C;
-  --destructive-foreground: #FFFFFF;
-  --ring: #0F172A;
-  --muted-map: #E2E8F0;
+  --border: #1E293B;
+  --card: #111827;
+  --card-foreground: #F1F5F9;
+  --destructive: #EF4444;
+  --destructive-foreground: #0A0F1E;
+  --ring: #F1F5F9;
+  --muted-map: #1E293B;
 }
 
 .dark {
-  /* "Deep Navy" Dark Mode - Command Center refinement */
+  /* Legacy Class Compatibility */
   --background: #0A0F1E;
   --foreground: #F1F5F9;
   --primary: #F1F5F9;

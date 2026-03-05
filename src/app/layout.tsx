@@ -70,8 +70,7 @@ export default async function RootLayout({
         <AuthProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
-            enableSystem
+            forcedTheme="dark"
             disableTransitionOnChange
           >
             <Suspense fallback={
