@@ -26,13 +26,17 @@ export const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
             try {
                 setError(null);
 
-                // 1. STRATEGIC PRE-PARSING: Clean up quote strictness and whitespace
+                // 1. STRATEGIC PRE-PARSING: The 'Ghost Character' Purge & Quote Hardening
                 const cleanCode = code
+                    .replace(/\u00A0/g, ' ') // Replace non-breaking spaces
+                    .replace(/&nbsp;/g, ' ') // Handle HTML entities
                     .replace(/%%{init:[\s\S]*?}%%/g, (match) => {
-                        return match.replace(/'/g, '"');
+                        return match.replace(/'/g, '"'); // Force double quotes in init block
                     })
-                    .trim()
-                    .replace(/\u00A0/g, ' '); // Strip non-breaking spaces
+                    .split('\n')
+                    .map(line => line.trimEnd()) // Strip trailing whitespace
+                    .join('\n')
+                    .trim(); // Strip leading/trailing empty lines
 
                 const isDark = theme === 'dark' || (theme === 'system' && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
@@ -43,15 +47,15 @@ export const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
                     fontFamily: 'Inter, sans-serif',
                     themeVariables: {
                         backgroundColor: 'transparent',
-                        primaryColor: '#22D3EE',
-                        primaryBorderColor: isDark ? '#1E293B' : '#E2E8F0',
-                        primaryTextColor: isDark ? '#F1F5F9' : '#0F172A',
-                        lineColor: '#22D3EE',
-                        secondaryColor: isDark ? '#0A0F1E' : '#FFFFFF',
-                        tertiaryColor: isDark ? '#1e293b' : '#f8fafc',
-                        mainBkg: '#0A0F1E', // Enforced dark standard
+                        primaryColor: '#111827', // Institutional Grey
+                        primaryBorderColor: '#1E293B',
+                        primaryTextColor: '#F1F5F9',
+                        lineColor: '#22D3EE', // Sovereign Cyan
+                        secondaryColor: '#0A0F1E',
+                        tertiaryColor: '#1e293b',
+                        mainBkg: '#0A0F1E', // Enforced Global Dark Standard
                         nodeBorder: '#1E293B',
-                        nodeTextColor: isDark ? '#F1F5F9' : '#0F172A',
+                        nodeTextColor: '#F1F5F9',
                         fontSize: '14px',
                     }
                 });
@@ -61,7 +65,9 @@ export const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
                 setSvg(renderedSvg);
             } catch (err: any) {
                 console.error('Mermaid render failure:', err);
-                setError("Strategic Diagram Syntax Error. Please verify ASCII logic (JSON quotes must be double-quotes).");
+                // Extract precise line info if available
+                const errorMessage = err.message || err.str || "Unknown logic regression";
+                setError(errorMessage);
             }
         };
 
@@ -73,12 +79,25 @@ export const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
     return (
         <div className="my-12 relative">
             {error ? (
-                <div className="flex flex-col items-center justify-center py-12 px-6 bg-red-500/5 border border-red-500/20 rounded-3xl text-center space-y-3">
-                    <span className="text-[10px] font-black text-red-500 uppercase tracking-[0.2em] italic">Structural Logic Regression</span>
-                    <p className="text-xs text-red-400 font-medium">{error}</p>
-                    <div className="p-3 bg-red-950/20 font-mono text-[10px] text-red-300 w-full max-w-lg overflow-x-auto rounded-xl">
-                        {code}
+                <div className="flex flex-col items-center justify-center py-12 px-6 bg-[#111827] border-2 border-[#FF4B4B] rounded-3xl text-center space-y-4 shadow-2xl">
+                    <div className="flex items-center gap-2">
+                        <div className="h-2 w-2 rounded-full bg-[#FF4B4B] animate-pulse" />
+                        <span className="text-[10px] font-black text-[#FF4B4B] uppercase tracking-[0.3em] italic">Structural Logic Regression</span>
                     </div>
+                    <p className="text-xs text-slate-300 font-medium max-w-md leading-relaxed border-b border-white/5 pb-4">
+                        {error}
+                    </p>
+                    <div className="w-full max-w-lg bg-black/40 rounded-xl p-4 overflow-x-auto">
+                        <pre className="font-mono text-[10px] text-slate-400 text-left leading-tight">
+                            {code.split('\n').map((line, i) => (
+                                <div key={i} className="flex gap-4">
+                                    <span className="opacity-20 select-none w-4">{i + 1}</span>
+                                    <span>{line}</span>
+                                </div>
+                            ))}
+                        </pre>
+                    </div>
+                    <span className="text-[8px] font-bold text-slate-600 uppercase tracking-widest">Verify ASCII syntax and JSON quote formatting</span>
                 </div>
             ) : (
                 <div
