@@ -130,7 +130,7 @@ export async function upsertCategory(data: z.infer<typeof CategorySchema>) {
         if (error.code === 'P2002') {
             return { success: false, error: "URL path (slug) already exists." };
         }
-        return { success: false, error: "Institutional sync failed." };
+        return { success: false, error: "Institutional reconciliation failed." };
     }
 }
 
@@ -184,7 +184,7 @@ export async function upsertAuthor(data: z.infer<typeof AuthorSchema>) {
         if (error.code === 'P2002') {
             return { success: false, error: "Analyst ID (slug) must be unique." };
         }
-        return { success: false, error: "Analyst authorization failed." };
+        return { success: false, error: "Analyst reconciliation failed." };
     }
 }
 
@@ -294,7 +294,7 @@ export async function upsertArticle(data: z.infer<typeof ArticleSchema>) {
         if (error.code === 'P2002') {
             return { success: false, error: "Report path (slug) already exists." };
         }
-        return { success: false, error: "Analysis synchronization failed." };
+        return { success: false, error: "Analysis reconciliation failed." };
     }
 }
 
@@ -345,7 +345,7 @@ export async function upsertPage(data: z.infer<typeof PageSchema>) {
         if (error.code === 'P2002') {
             return { success: false, error: "Page path (slug) already exists." };
         }
-        return { success: false, error: "Institutional page synchronization failed." };
+        return { success: false, error: "Institutional page reconciliation failed." };
     }
 }
 
@@ -435,7 +435,7 @@ export async function upsertSiteSettings(data: z.infer<typeof SiteSettingsSchema
         revalidatePath("/");
         return { success: true, data: settings };
     } catch (error: any) {
-        return { success: false, error: "Settings sync failed." };
+        return { success: false, error: "Settings reconciliation failed." };
     }
 }
 
@@ -471,7 +471,7 @@ export async function upsertNavigationItem(data: z.infer<typeof NavigationItemSc
         revalidatePath("/");
         return { success: true, data: nav };
     } catch (error) {
-        return { success: false, error: "Navigation sync failed." };
+        return { success: false, error: "Navigation reconciliation failed." };
     }
 }
 

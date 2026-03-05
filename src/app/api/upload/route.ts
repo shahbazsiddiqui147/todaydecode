@@ -28,18 +28,25 @@ export async function POST(request: Request): Promise<NextResponse> {
             const buffer = Buffer.from(await request.arrayBuffer());
             const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
 
-            // Ensure directory exists
-            await mkdir(uploadsDir, { recursive: true });
+            try {
+                // Ensure directory exists
+                await mkdir(uploadsDir, { recursive: true });
 
-            const filePath = path.join(uploadsDir, filename);
-            await writeFile(filePath, buffer);
+                const filePath = path.join(uploadsDir, filename);
+                await writeFile(filePath, buffer);
 
-            return NextResponse.json({
-                url: `/uploads/${filename}`,
-                pathname: `uploads/${filename}`,
-                contentType: 'image/octet-stream',
-                contentDisposition: 'inline'
-            });
+                return NextResponse.json({
+                    url: `/uploads/${filename}`,
+                    pathname: `uploads/${filename}`,
+                    contentType: 'image/octet-stream',
+                    contentDisposition: 'inline'
+                });
+            } catch (fsError: any) {
+                console.error('[Institutional Write Violation]:', fsError);
+                return NextResponse.json({
+                    error: `Asset reconciliation failed: Local storage unavailable (${fsError.message})`
+                }, { status: 500 });
+            }
         }
 
         // Upload to Vercel Blob (Production)
@@ -48,8 +55,10 @@ export async function POST(request: Request): Promise<NextResponse> {
         });
 
         return NextResponse.json(blob);
-    } catch (error) {
+    } catch (error: any) {
         console.error('[Strategic Upload Failure]:', error);
-        return NextResponse.json({ error: 'Internal Analytical Error during upload' }, { status: 500 });
+        return NextResponse.json({
+            error: `Institutional analytical error: ${error.message || 'Asset reconciliation interrupted.'}`
+        }, { status: 500 });
     }
 }

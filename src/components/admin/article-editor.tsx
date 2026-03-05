@@ -153,14 +153,17 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                 }
             );
 
-            if (!response.ok) throw new Error('Upload failed');
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Upload failed');
+            }
 
             const blob = await response.json();
             setFormData(prev => ({ ...prev, featuredImage: blob.url }));
-            toast.success("Asset synchronized successfully.", { id: toastId });
-        } catch (error) {
-            console.error('Upload error:', error);
-            toast.error("Asset synchronization failed.", { id: toastId });
+            toast.success("Asset reconciled successfully.", { id: toastId });
+        } catch (error: any) {
+            console.error('[Institutional Upload Failure]:', error);
+            toast.error(error.message || "Asset reconciliation failed.", { id: toastId });
         } finally {
             setLoading(false);
         }
@@ -177,16 +180,16 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
         });
 
         toast.promise(promise, {
-            loading: "Syncing institutional report...",
+            loading: "Reconciling institutional report...",
             success: (res) => {
                 if (res.success) {
                     router.push("/admin/articles/");
                     router.refresh();
                     return article ? "Strategic report finalized." : "New analysis published.";
                 }
-                throw new Error(res.error || "Sync failed.");
+                throw new Error(res.error || "Reconciliation failed.");
             },
-            error: (err) => err.message || "Network interface error.",
+            error: (err) => err.message || "Institutional network error.",
         });
 
         try {
