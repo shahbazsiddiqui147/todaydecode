@@ -4,8 +4,10 @@
 To provide high-fidelity, institutional-grade strategic intelligence through a minimalist and authoritative interface.
 
 ### 1.1 Institutional Identity & Linguistics
+- **Forbidden Legacy Terms:** "Operational Update", "Operational Metrics", "System Integrity Map", "Nodal Initialization".
+- **Authorized Institutional Terms:** "Strategic Dispatch", "Analytical Benchmarks", "Geospatial Risk Model", "Research Authorization".
 - **Forbidden Tactical Jargon:** "Intelligence," "War," "War Room," "Mission Control," "Tactical," "Intel," "Protocol," "Nodal," "Unit," "Dispatch," "Manifest," "Visibility Center," "Protocol Ready," "System Synchronized."
-- **Authorized Institutional Terms:** "Strategic Analysis," "Geopolitical Conflict," "Research Terminal," "Strategic Oversight," "Institutional," "Analytical," "Assessment," "Insight," "Methodology," "Framework," "Structural," "Analyst," "Department," "Brief," "Report," "Portfolio," "Research Desk," "Executive Oversight," "Optimization," "Authority Hub," "Assessment Finalized," "Data Reconciled."
+- **Authorized Institutional Terms (Legacy):** "Strategic Analysis," "Geopolitical Conflict," "Research Terminal," "Strategic Oversight," "Institutional," "Analytical," "Assessment," "Insight," "Methodology," "Framework," "Structural," "Analyst," "Department," "Brief," "Report," "Portfolio," "Research Desk," "Executive Oversight," "Optimization," "Authority Hub," "Assessment Finalized," "Data Reconciled."
 - **Core Metric Identity:** The central gauge is the 'Global Strategic Risk Index.' Its purpose is macro-level risk aggregation for executive decision-making.
 
 ## 2. DESIGN STANDARDS

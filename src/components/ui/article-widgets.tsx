@@ -20,7 +20,7 @@ export function RiskGauge({ score, label }: RiskGaugeProps) {
         <div className="space-y-4 rounded-xl border border-border-slate bg-primary/40 p-6">
             <div className="flex items-center justify-between">
                 <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                    Risk Power Index
+                    Aggregate Risk Rating
                 </h4>
                 <span className={cn(
                     "px-2 py-0.5 rounded text-[10px] font-bold uppercase border",

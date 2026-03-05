@@ -212,9 +212,9 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                     <div>
                         <div className="flex items-center gap-2 mb-1">
                             <Badge className="bg-cyan-500/10 text-[#0891B2] dark:text-[#22D3EE] border-cyan-500/20 text-[10px] font-black uppercase tracking-widest px-2 py-0">
-                                {article ? "Operational Update" : "Nodal Initialization"}
+                                {article ? "Strategic Dispatch" : "Research Authorization"}
                             </Badge>
-                            <span className="text-[10px] text-slate-600 dark:text-slate-300 font-black uppercase tracking-widest opacity-40 italic">#StrategicOversight</span>
+                            <span className="text-[10px] text-slate-300 font-black uppercase tracking-widest opacity-40 italic">#StrategicOversight</span>
                         </div>
                         <h1 className="text-2xl font-black uppercase italic tracking-tighter text-[#0F172A] dark:text-[#F1F5F9] leading-none">
                             {formData.title || "PROPOSED_STRATEGIC_ANALYSIS"}
@@ -335,38 +335,38 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100 pl-1">Primary Strategic Headline</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Primary Strategic Headline</Label>
                                     <Input
                                         name="title"
                                         value={formData.title}
                                         onChange={handleChange}
                                         placeholder="ENTER HEADLINE..."
-                                        className="text-2xl font-black h-16 bg-slate-950 border-[#1E293B] text-white placeholder:text-slate-600 rounded-2xl focus-visible:ring-[#22D3EE] px-6 uppercase tracking-tight italic shadow-sm shadow-cyan-500/5 transition-all"
+                                        className="text-2xl font-black h-16 bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-600 rounded-2xl focus-visible:ring-[#22D3EE] px-6 uppercase tracking-tight italic shadow-sm shadow-cyan-500/5 transition-all"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100 pl-1 flex justify-between">
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1 flex justify-between">
                                         <span>On-Page Executive Summary</span>
-                                        <span className="opacity-40 lowercase italic font-normal text-slate-500 dark:text-slate-400">Institutional Intro</span>
+                                        <span className="opacity-40 lowercase italic font-normal text-slate-400">Institutional Intro</span>
                                     </Label>
                                     <Textarea
                                         name="onPageLead"
                                         value={formData.onPageLead}
                                         onChange={handleChange}
                                         placeholder="A high-end strategic hook for the live analysis..."
-                                        className="min-h-[100px] text-sm font-medium bg-slate-950 border-[#1E293B] text-white placeholder:text-slate-600 rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
+                                        className="min-h-[100px] text-sm font-medium bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-600 rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100 pl-1">Institutional Brief (Strategic Feed)</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Institutional Brief (Strategic Feed)</Label>
                                     <Textarea
                                         name="summary"
                                         value={formData.summary}
                                         onChange={handleChange}
                                         placeholder="Institutional brief for the strategic silos..."
-                                        className="min-h-[120px] text-sm font-medium bg-slate-950 border-[#1E293B] text-white placeholder:text-slate-600 rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
+                                        className="min-h-[120px] text-sm font-medium bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-600 rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
                                     />
                                 </div>
 
@@ -579,11 +579,11 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             <div className="space-y-2">
                                 <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Strategic Analyst</Label>
                                 <Select value={formData.authorId} onValueChange={(v) => handleSelectChange("authorId", v)}>
-                                    <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9]">
+                                    <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9] focus:ring-[#22D3EE] transition-all">
                                         <SelectValue placeholder="FETCH ANALYST" />
                                     </SelectTrigger>
-                                    <SelectContent className="w-full rounded-xl bg-[#020617] border-[#1E293B] text-[11px] font-black uppercase text-[#F1F5F9]">
-                                        {initialAuthors.map(a => <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>)}
+                                    <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-xl bg-[#020617] border-[#1E293B] text-[11px] font-black uppercase text-[#F1F5F9] p-1">
+                                        {initialAuthors.map(a => <SelectItem key={a.id} value={a.id} className="rounded-lg hover:bg-white/5 cursor-pointer">{a.name}</SelectItem>)}
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -591,11 +591,11 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                             <div className="space-y-2">
                                 <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Strategic Sector</Label>
                                 <Select value={formData.categoryId} onValueChange={(v) => handleSelectChange("categoryId", v)}>
-                                    <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9]">
+                                    <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9] focus:ring-[#22D3EE] transition-all">
                                         <SelectValue placeholder="SELECT SECTOR" />
                                     </SelectTrigger>
-                                    <SelectContent className="w-full rounded-xl bg-[#020617] border-[#1E293B] text-[11px] font-black uppercase text-[#F1F5F9]">
-                                        {initialCategories.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
+                                    <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-xl bg-[#020617] border-[#1E293B] text-[11px] font-black uppercase text-[#F1F5F9] p-1">
+                                        {initialCategories.map(c => <SelectItem key={c.id} value={c.id} className="rounded-lg hover:bg-white/5 cursor-pointer">{c.name}</SelectItem>)}
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -631,7 +631,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 via-orange-500 to-red-500 opacity-50" />
                         <div className="flex items-center gap-2 border-b border-white/10 pb-4 text-[#F1F5F9]">
                             <Activity className="h-4 w-4 text-[#22D3EE]" />
-                            <h2 className="text-[11px] font-black uppercase tracking-widest italic text-[#0F172A] dark:text-[#22D3EE]">Operational Metrics</h2>
+                            <h2 className="text-[11px] font-black uppercase tracking-widest italic text-[#22D3EE]">Analytical Benchmarks</h2>
                         </div>
 
                         <div className="space-y-8 relative z-10">
@@ -711,8 +711,8 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                     {/* System Integrity */}
                     <div className="p-6 border-2 border-dashed border-border rounded-3xl bg-muted/5">
                         <div className="flex items-center gap-2 mb-4">
-                            <Database className="h-3.5 w-3.5 opacity-40" />
-                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 italic">System Integrity Map</span>
+                            <Database className="h-3.5 w-3.5 opacity-40 text-cyan-500" />
+                            <span className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] italic">Geospatial Risk Model</span>
                         </div>
                         <div className="space-y-2 font-mono text-[9px] text-slate-500 dark:text-slate-400 leading-tight">
                             <p>Node_ID: <span className="text-slate-800 dark:text-slate-100">{article?.id || "INITIALIZING..."}</span></p>

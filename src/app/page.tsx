@@ -79,8 +79,8 @@ export default async function Page() {
 
           <div className="flex items-center space-x-12">
             <div className="flex flex-col">
-              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Global Risk Index</span>
-              <span className="text-sm font-black text-foreground italic tracking-tighter">{avgRisk < 0 ? '' : '+'}{avgRisk}%</span>
+              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Aggregate Risk Rating</span>
+              <span className="text-sm font-black text-[#F1F5F9] italic tracking-tighter">{avgRisk < 0 ? '' : '+'}{avgRisk}%</span>
             </div>
             <div className="flex flex-col border-l border-border pl-12">
               <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Brent Crude Output</span>

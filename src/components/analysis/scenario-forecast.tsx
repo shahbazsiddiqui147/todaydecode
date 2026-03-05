@@ -133,10 +133,10 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
                         <div className="pt-6 border-t border-white/5">
                             <Link
                                 href={`/${category.toLowerCase()}/${slug.replace(/^\/|\/$/g, '')}/`}
-                                className="inline-flex items-center text-[10px] font-black text-[#22D3EE] uppercase tracking-[0.2em] group bg-[#22D3EE]/5 border border-[#22D3EE]/20 px-6 py-4 rounded-lg hover:bg-[#22D3EE] hover:text-[#020617] transition-all shadow-xl"
+                                className="inline-flex items-center text-[11px] font-black text-[#22D3EE] uppercase tracking-[0.25em] group bg-[#22D3EE]/10 border-2 border-[#22D3EE]/30 px-8 py-5 rounded-xl hover:bg-[#22D3EE] hover:text-[#020617] transition-all shadow-lg shadow-cyan-500/10 active:scale-95"
                             >
-                                Assessment Finalized // Data Reconciled
-                                <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                <span className="drop-shadow-sm">Assessment Finalized // Data Reconciled</span>
+                                <ChevronRight className="ml-3 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </div>
                     </motion.div>
