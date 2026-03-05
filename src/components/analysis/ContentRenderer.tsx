@@ -9,23 +9,29 @@ interface ContentRendererProps {
 }
 
 export const ContentRenderer: React.FC<ContentRendererProps> = ({ content }) => {
+    // Recursive text extractor for TipTap nodes
+    const extractText = (node: any): string => {
+        if (!node) return '';
+        if (node.type === 'text') return node.data || '';
+        if (node.name === 'br') return '\n';
+        if (Array.isArray(node.children)) {
+            return node.children.map(extractText).join('');
+        }
+        return '';
+    };
+
     const options: HTMLReactParserOptions = {
         replace: (domNode: any) => {
             // Priority 1: Semantic code blocks from Tiptap
             if (domNode instanceof Element && domNode.name === 'pre' && (domNode.attribs.class?.includes('mermaid') || domNode.attribs['data-type'] === 'mermaid')) {
-                const code = (domNode.children[0] as Text)?.data || domNode.children.map((c: any) => c.data).join('') || '';
+                const code = extractText(domNode);
                 return <MermaidRenderer code={code} />;
             }
 
             // Priority 2: Robust Regex Text Intercepts (Direct logic blocks)
             if (domNode instanceof Element && domNode.name === 'p') {
-                const text = domNode.children.map((c: any) => {
-                    if (c.type === 'text') return c.data;
-                    if (c.name === 'br') return '\n';
-                    return '';
-                }).join('').trim();
+                const text = extractText(domNode).trim();
 
-                // Detection: Keywords at start of text, case-insensitive, followed by mandatory break (space, newline, or separator)
                 const isMermaid = /^(graph|flowchart|sequenceDiagram|gantt|classDiagram|stateDiagram|erDiagram|journey|pie|gitGraph|requirementDiagram)($|[\s\n;])/i.test(text) ||
                     text.startsWith('%%{init');
 
@@ -38,13 +44,8 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({ content }) => 
             if (domNode instanceof Element && (domNode.name === 'ul' || domNode.name === 'ol')) {
                 const combinedText = domNode.children
                     .filter((child: any) => child.name === 'li')
-                    .map((li: any) => {
-                        return li.children.map((c: any) => {
-                            if (c.type === 'text') return c.data;
-                            if (c.name === 'br') return '\n';
-                            return '';
-                        }).join('');
-                    }).join('\n').trim();
+                    .map((li: any) => extractText(li))
+                    .join('\n').trim();
 
                 const isMermaidList = /^(graph|flowchart|sequenceDiagram|gantt|classDiagram|stateDiagram|erDiagram|journey|pie|gitGraph|requirementDiagram)($|[\s\n;])/i.test(combinedText) ||
                     combinedText.startsWith('%%{init');
