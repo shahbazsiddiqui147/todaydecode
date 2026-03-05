@@ -39,7 +39,7 @@ export function UploadNode({ label, currentUrl, onUploadComplete }: UploadNodePr
                 setPreview(currentUrl || "");
             }
         } catch (error) {
-            toast.error("Network synchronization failure.");
+            toast.error("Network reconciliation failure.");
             setPreview(currentUrl || "");
         } finally {
             setIsUploading(false);
