@@ -26,13 +26,26 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ code }) => {
                 .replace(/&nbsp;/g, ' ')
                 .trim();
 
-            const fullCode = `%%{init: {"theme": "base", "themeVariables": { "primaryColor": "#111827", "mainBkg": "#0A0F1E", "textColor": "#F1F5F9", "lineColor": "#22D3EE", "nodeBorder": "#1E293B" }}}%%\n${sanitizedCode}`;
+            const fullCode = `%%{init: {"theme": "base", "themeVariables": { "primaryColor": "#111827", "primaryBorderColor": "#22D3EE", "primaryTextColor": "#F1F5F9", "lineColor": "#22D3EE", "mainBkg": "#0A0F1E", "nodeBorder": "#22D3EE" }}}%%\n${sanitizedCode}`;
 
             mermaid.initialize({
                 startOnLoad: false,
                 theme: 'base',
                 securityLevel: 'loose',
                 fontFamily: 'Inter, sans-serif',
+                flowchart: {
+                    useMaxWidth: false,
+                    htmlLabels: true,
+                    curve: 'basis',
+                    nodeSpacing: 70,
+                    rankSpacing: 70,
+                },
+                sequence: {
+                    useMaxWidth: false,
+                },
+                gantt: {
+                    useMaxWidth: false,
+                }
             });
 
             const id = `diagram-${Math.random().toString(36).substr(2, 9)}`;
@@ -55,39 +68,29 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ code }) => {
     if (!mounted) return null;
 
     return (
-        <div className="my-16 relative group">
+        <div className="my-16 relative group sovereign-diagram-container -mx-4 md:-mx-8 lg:-mx-12 xl:-mx-16">
             {error ? (
-                <div className="flex flex-col items-center justify-center py-12 px-8 bg-[#0A0000] border-2 border-[#FF4B4B]/30 rounded-3xl text-center space-y-4 shadow-2xl">
+                <div className="flex flex-col items-center justify-center py-12 px-8 bg-[#0A0000] border-2 border-[#FF4B4B]/30 rounded-3xl text-center space-y-4 shadow-2xl mx-4 md:mx-0">
                     <div className="flex items-center gap-2">
                         <AlertCircle className="h-5 w-5 text-[#FF4B4B] animate-pulse" />
-                        <span className="text-[10px] font-black text-[#FF4B4B] uppercase tracking-[0.3em] italic">Structural Logic Regression</span>
+                        <span className="text-[10px] font-black text-[#FF4B4B] uppercase tracking-[0.3em] italic">Structural Logic Model Regression</span>
                     </div>
                     <p className="text-xs text-slate-400 font-medium max-w-md leading-relaxed">
                         {error}
                     </p>
-                    <div className="w-full max-w-xl bg-black/40 rounded-xl p-6 overflow-x-auto border border-white/5">
-                        <pre className="font-mono text-[10px] text-slate-500 text-left leading-tight">
-                            {code.split('\n').map((line, i) => (
-                                <div key={i} className="flex gap-4">
-                                    <span className="opacity-20 select-none w-4">{i + 1}</span>
-                                    <span>{line}</span>
-                                </div>
-                            ))}
-                        </pre>
-                    </div>
                 </div>
             ) : (
                 <div className="relative">
-                    <div className="absolute -top-4 left-8 px-4 py-1 bg-[#22D3EE] rounded-full z-20 shadow-[0_0_20px_rgba(34,211,238,0.3)]">
-                        <span className="text-[9px] font-black uppercase tracking-widest text-[#020617] italic">Structural Logic Model</span>
+                    <div className="absolute -top-4 left-12 px-4 py-1.5 bg-[#111827] border border-[#22D3EE]/30 rounded-full z-20 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+                        <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#22D3EE] italic">Structural Logic Model</span>
                     </div>
                     <div
                         ref={containerRef}
-                        className="diagram-wrapper w-full flex justify-center py-16 bg-[#0A0F1E] rounded-[2.5rem] border border-[#1E293B] overflow-hidden shadow-[inset_0_0_100px_rgba(0,0,0,0.5)] relative z-10"
+                        className="diagram-wrapper w-full overflow-x-auto overflow-y-hidden py-10 px-8 bg-[#0A0F1E] rounded-[2.5rem] border-2 border-[#1E293B] shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_0_100px_rgba(0,0,0,0.3)] relative z-10 mx-auto transition-all duration-700 group-hover:border-[#22D3EE]/20"
                         dangerouslySetInnerHTML={{ __html: svg }}
                     />
-                    <div className="absolute -bottom-3 right-12 px-3 py-0.5 bg-[#111827] border border-[#1E293B] rounded-full z-20 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <span className="text-[8px] font-bold text-slate-500 uppercase tracking-tighter">Powered by Sovereign Visual Engine</span>
+                    <div className="absolute -bottom-3 right-12 px-3 py-1 bg-[#020617] border border-[#1E293B] rounded-full z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0 shadow-lg">
+                        <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest italic">Today Decode // Sovereign Visual Engine</span>
                     </div>
                 </div>
             )}
