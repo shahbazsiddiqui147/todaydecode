@@ -120,7 +120,7 @@ function CategoryDesk({ silo }: { silo: any }) {
                             title={article.title}
                             category={silo.name}
                             slug={article.slug}
-                            image="/images/intel-1.jpg"
+                            image={article.featuredImage || "/images/intel-1.jpg"}
                             riskLevel={article.riskLevel}
                             riskScore={article.riskScore}
                         />

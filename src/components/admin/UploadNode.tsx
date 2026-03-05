@@ -57,7 +57,7 @@ export function UploadNode({ label, currentUrl, onUploadComplete }: UploadNodePr
                         {isUploading ? (
                             <div className="flex flex-col items-center gap-2">
                                 <Loader2 className="h-6 w-6 text-[#22D3EE] animate-spin" />
-                                <span className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] animate-pulse">Uploading Nodes...</span>
+                                <span className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] animate-pulse">Reconciling Nodes...</span>
                             </div>
                         ) : (
                             <label className="cursor-pointer flex flex-col items-center gap-2 w-full h-full justify-center">
