@@ -52,12 +52,12 @@ export function RiskGauge({ score, label }: RiskGaugeProps) {
 export function KeyTakeaways({ points }: { points: string[] }) {
     return (
         <div className="space-y-4 rounded-xl border border-border bg-secondary/20 dark:bg-card p-6">
-            <h4 className="text-[10px] font-bold text-slate-900 dark:text-slate-200 uppercase tracking-widest">
+            <h4 className="text-[10px] font-bold text-slate-900 dark:text-slate-50 uppercase tracking-widest">
                 Quick Summary
             </h4>
             <ul className="space-y-3">
                 {points.map((point, i) => (
-                    <li key={i} className="flex items-start space-x-3 text-sm text-slate-700 dark:text-slate-200">
+                    <li key={i} className="flex items-start space-x-3 text-sm text-slate-700 dark:text-slate-50">
                         <div className="h-1 w-1 mt-2 shrink-0 rounded-full bg-accent-red" />
                         <span>{point}</span>
                     </li>

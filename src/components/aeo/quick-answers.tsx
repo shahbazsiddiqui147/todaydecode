@@ -56,7 +56,7 @@ export function QuickAnswers({ faqData }: QuickAnswersProps) {
                         >
                             <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-[#22D3EE] to-transparent" />
                             <p
-                                className="text-slate-800 dark:text-[#F1F5F9] text-[15px] font-medium leading-[1.75] max-w-2xl"
+                                className="text-slate-800 dark:text-slate-50 text-[15px] font-medium leading-[1.75] max-w-2xl"
                                 itemProp="text"
                             >
                                 {item.answer}
