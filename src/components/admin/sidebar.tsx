@@ -62,8 +62,76 @@ const GROUPS = [
     }
 ];
 
+import { useSession } from "next-auth/react";
+
 export function Sidebar() {
     const pathname = usePathname();
+    const { data: session } = useSession();
+    const role = session?.user?.role || "GUEST";
+
+    const getGroups = () => {
+        const groups: any[] = [];
+
+        // 1. Oversight Group
+        groups.push({
+            name: "Oversight",
+            items: [
+                { name: "Strategic Overview", icon: LayoutDashboard, href: "/admin/" },
+            ]
+        });
+
+        // 2. Content / Research Group
+        const contentItems = [];
+        if (role === "AUTHOR") {
+            contentItems.push({ name: "My Reports", icon: FileText, href: "/admin/articles/" });
+        } else if (role === "EDITOR" || role === "ADMIN") {
+            contentItems.push({ name: "Research Desk", icon: FileText, href: "/admin/articles/" });
+            contentItems.push({ name: "Draft Archive", icon: FileEdit, href: "/admin/drafts/" });
+        }
+
+        if (contentItems.length > 0) {
+            groups.push({ name: "Analysis", items: contentItems });
+        }
+
+        // 3. Structure / Strategic Silos
+        if (role === "EDITOR" || role === "ADMIN") {
+            groups.push({
+                name: "Architecture",
+                items: [
+                    { name: "Strategic Silos", icon: Map, href: "/admin/categories/" },
+                    { name: "Institutional Pages", icon: Layers, href: "/admin/pages/" },
+                    { name: "Sovereign Map", icon: Database, href: "/admin/map-data/" },
+                ]
+            });
+        }
+
+        // 4. Intelligence Profiles
+        if (role === "EDITOR" || role === "ADMIN") {
+            groups.push({
+                name: "Intelligence",
+                items: [
+                    { name: "Analyst Profiles", icon: Users, href: "/admin/authors/" },
+                    { name: "Access Requests", icon: UserCheck, href: "/admin/contributors/" },
+                ]
+            });
+        }
+
+        // 5. System Parameters (Master Admin Only)
+        if (role === "ADMIN") {
+            groups.push({
+                name: "Institutional Parameters",
+                items: [
+                    { name: "Institutional Access Registry", icon: Users, href: "/admin/users/" },
+                    { name: "Audit Logs", icon: History, href: "/admin/logs/" },
+                    { name: "Platform Parameters", icon: Settings, href: "/admin/settings/" },
+                ]
+            });
+        }
+
+        return groups;
+    };
+
+    const activeGroups = getGroups();
 
     return (
         <aside className="w-64 h-screen sticky top-0 bg-sidebar border-r border-border flex flex-col transition-colors duration-300 overflow-y-auto">
@@ -81,12 +149,12 @@ export function Sidebar() {
             </div>
 
             <nav className="flex-1 px-4 pb-6 space-y-8">
-                {GROUPS.map((group) => (
+                {activeGroups.map((group) => (
                     <div key={group.name} className="space-y-1">
                         <h3 className="px-2 mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-[#1E293B] dark:text-[#94A3B8]">
                             {group.name}
                         </h3>
-                        {group.items.map((item) => {
+                        {group.items.map((item: any) => {
                             const isActive = pathname === item.href;
                             return (
                                 <Link

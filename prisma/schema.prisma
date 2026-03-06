@@ -100,9 +100,10 @@ model Author {
 // --- Identity & Access (NextAuth) ---
 
 enum UserRole {
-  ADMIN
-  ANALYST
   GUEST
+  AUTHOR
+  EDITOR
+  ADMIN
 }
 
 model User {

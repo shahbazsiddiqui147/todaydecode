@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { slugify } from "@/lib/slugify";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 // --- Validation Schemas ---
 
@@ -216,7 +218,20 @@ export async function deleteAuthor(id: string) {
 
 export async function upsertArticle(data: z.infer<typeof ArticleSchema>) {
     try {
+        const session = await getServerSession(authOptions);
+        if (!session || !session.user || !["ADMIN", "EDITOR", "AUTHOR"].includes(session.user.role)) {
+            return { success: false, error: "Unauthorized access: Insufficient clearance." };
+        }
+
         const validated = ArticleSchema.parse(data);
+
+        // AUTHOR PROTECTION: Verify ownership
+        if (session.user.role === "AUTHOR" && validated.id) {
+            const article = await prisma.article.findUnique({ where: { id: validated.id } });
+            if (article && article.authorId !== session.user.id) {
+                return { success: false, error: "Access Denied: Data sovereignty protocol breach." };
+            }
+        }
 
         let slug = slugify(validated.slug || validated.title);
 
@@ -431,6 +446,10 @@ export async function getSiteSettings() {
 
 export async function upsertSiteSettings(data: z.infer<typeof SiteSettingsSchema>) {
     try {
+        const session = await getServerSession(authOptions);
+        if (!session || session.user.role !== "ADMIN") {
+            return { success: false, error: "Unauthorized access: Master Admin clearance required." };
+        }
         const validated = SiteSettingsSchema.parse(data);
         const settings = await prisma.siteSettings.upsert({
             where: { id: "1" },
@@ -516,7 +535,7 @@ export async function approveAnalyst(userId: string) {
     try {
         await prisma.user.update({
             where: { id: userId },
-            data: { role: "ANALYST" }
+            data: { role: "AUTHOR" }
         });
         revalidatePath("/admin/contributors/");
         return { success: true };
@@ -551,5 +570,35 @@ export async function getAdminDashboardStats() {
             success: false,
             error: error.message || "Archive linkage failed."
         };
+    }
+}
+// --- User Management (Personnel Registry) ---
+
+export async function getAdminUsers() {
+    const session = await getServerSession(authOptions);
+    if (!session || session.user.role !== "ADMIN") {
+        throw new Error("Master Admin clearance required.");
+    }
+    return await prisma.user.findMany({
+        orderBy: { email: "asc" }
+    });
+}
+
+export async function updateUserRole(userId: string, role: "GUEST" | "AUTHOR" | "EDITOR" | "ADMIN") {
+    try {
+        const session = await getServerSession(authOptions);
+        if (!session || session.user.role !== "ADMIN") {
+            return { success: false, error: "Master Admin clearance required." };
+        }
+
+        await prisma.user.update({
+            where: { id: userId },
+            data: { role }
+        });
+
+        revalidatePath("/admin/users/");
+        return { success: true };
+    } catch (error) {
+        return { success: false, error: "Role calibration failed." };
     }
 }
