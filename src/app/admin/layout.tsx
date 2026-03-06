@@ -4,8 +4,8 @@ import { Toaster } from "sonner";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const metadata = constructMetadata({
-    title: "Admin Command Center",
-    description: "Administrative sovereignty layer for geopolitical strategic management.",
+    title: "Admin Research Desk",
+    description: "Institutional oversight layer for geopolitical strategic management.",
     path: "/admin/",
     noIndex: true,
 });

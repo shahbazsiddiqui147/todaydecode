@@ -114,7 +114,7 @@ function SignInContent() {
 
                 {/* Strategic Footer */}
                 <p className="text-center text-[9px] text-slate-800 dark:text-slate-500 font-black uppercase tracking-[0.2em] leading-relaxed max-w-xs mx-auto">
-                    For Authorized Institutional Use Only — <br /> Systemic Integrity Protocol Active
+                    For Authorized Institutional Use Only — <br /> Systemic Integrity Framework Active
                 </p>
             </div>
 

@@ -37,7 +37,7 @@ export default async function PersonnelRegistry() {
                         Institutional <span className="text-[#22D3EE] text-shadow-institutional">Access Registry</span>
                     </h1>
                     <p className="text-slate-500 dark:text-slate-400 text-sm max-w-2xl font-medium tracking-tight">
-                        Sovereign oversight of all registered personnel. Authorize strategic analyst status and calibrate editorial oversight clearance.
+                        Institutional oversight of all registered personnel. Authorize strategic analyst status and calibrate editorial oversight clearance.
                     </p>
                 </div>
 
@@ -60,8 +60,8 @@ export default async function PersonnelRegistry() {
                         <thead>
                             <tr className="bg-slate-50 dark:bg-[#020617] border-b border-slate-200 dark:border-[#1E293B]">
                                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Identity / Email</th>
-                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Sovereign Role</th>
-                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Security Clearance</th>
+                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Institutional Role</th>
+                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Clearance Level</th>
                                 <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Personnel Actions</th>
                             </tr>
                         </thead>
@@ -86,7 +86,7 @@ export default async function PersonnelRegistry() {
                                         <div className="flex items-center space-x-2">
                                             <div className={`h-1.5 w-1.5 rounded-full ${user.role === 'ADMIN' ? 'bg-[#22D3EE] shadow-[0_0_8px_#22D3EE]' : 'bg-slate-300 dark:bg-slate-600'}`} />
                                             <span className="text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-400">
-                                                {user.role === 'ADMIN' ? 'Sovereign' : user.role === 'EDITOR' ? 'Elevated' : 'Standard'}
+                                                {(user.role as string) === 'ADMIN' ? 'Strategic' : (user.role as string) === 'EDITOR' ? 'Elevated' : 'Standard'}
                                             </span>
                                         </div>
                                     </td>
@@ -100,10 +100,10 @@ export default async function PersonnelRegistry() {
                 </div>
             </div>
 
-            {/* Operational Footer */}
+            {/* Institutional Footer */}
             <div className="flex items-center justify-between px-2">
                 <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-600 leading-relaxed">
-                    Institutional Integrity Protocol Active — <br /> All personnel calibration is logged for audit purposes.
+                    Institutional Integrity Framework Active — <br /> All personnel calibration is logged for audit purposes.
                 </p>
                 <div className="flex items-center space-x-2 text-[#22D3EE]">
                     <span className="text-[9px] font-black uppercase tracking-widest">System Health: 100%</span>

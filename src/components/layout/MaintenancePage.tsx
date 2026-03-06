@@ -75,7 +75,7 @@ export function MaintenancePage() {
             </div>
             <div className="absolute bottom-12 right-12 p-4 border-r border-b border-white/5 opacity-20 text-right">
                 <span className="text-[9px] font-mono text-slate-500 uppercase tracking-tighter block">Framework: V2.4-Institutional</span>
-                <span className="text-[9px] font-mono text-slate-500 uppercase tracking-tighter block mt-1">© {new Date().getFullYear()} TD_Sovereign</span>
+                <span className="text-[9px] font-mono text-slate-500 uppercase tracking-tighter block mt-1">© {new Date().getFullYear()} TD_Institutional</span>
             </div>
         </div>
     );

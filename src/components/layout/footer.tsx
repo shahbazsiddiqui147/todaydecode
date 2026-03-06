@@ -39,7 +39,7 @@ export async function Footer() {
                         Today Decode
                     </Link>
                     <p className="text-xs font-medium text-muted-foreground uppercase tracking-tight leading-relaxed max-w-xs">
-                        A sovereign strategic advisory providing high-fidelity strategic analysis and risk assessment for institutional decision-makers.
+                        A proprietary strategic advisory providing high-fidelity strategic analysis and risk assessment for institutional decision-makers.
                     </p>
                     <div className="flex items-center gap-3">
                         {hasActiveLinks ? (
@@ -116,10 +116,10 @@ export async function Footer() {
                 <div className="md:col-span-1 p-6 bg-card border border-border rounded-2xl space-y-4">
                     <div className="flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full bg-accent-green animate-pulse" />
-                        <span className="text-[9px] font-black uppercase tracking-[0.25em] text-accent-green">Operational Matrix</span>
+                        <span className="text-[9px] font-black uppercase tracking-[0.25em] text-accent-green">Strategic Matrix</span>
                     </div>
                     <p className="text-[10px] font-medium text-muted-foreground leading-relaxed">
-                        The Strategic Archive is monitored by institutional AI. All data manifests are encrypted with sovereign-grade protocols.
+                        The Strategic Archive is monitored by institutional AI. All data manifests are encrypted with proprietary-grade frameworks.
                     </p>
                     <div className="pt-2 flex items-center justify-between border-t border-border/10">
                         <span className="text-[8px] font-black text-muted-foreground/60 uppercase">Latency: 24ms</span>

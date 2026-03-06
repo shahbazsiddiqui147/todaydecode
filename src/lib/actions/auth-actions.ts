@@ -7,7 +7,7 @@ import { z } from "zod";
 const signUpSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters."),
     email: z.string().email("Invalid institutional email format."),
-    password: z.string().min(8, "Security protocol requires at least 8 characters."),
+    password: z.string().min(8, "Security framework requires at least 8 characters."),
 });
 
 export async function signUp(formData: FormData) {
@@ -24,7 +24,7 @@ export async function signUp(formData: FormData) {
             return { error: "Identity already exists in the Strategic Archive." };
         }
 
-        // Hash institutional access protocol
+        // Hash institutional access framework
         const hashedPassword = await bcrypt.hash(validated.password, 12);
 
         // Create user entity
@@ -33,7 +33,8 @@ export async function signUp(formData: FormData) {
                 name: validated.name,
                 email: validated.email,
                 password: hashedPassword,
-                role: "AUTHOR", // Default role for new personnel
+                role: "AUTHOR" as any,
+                // Default role for new personnel
             },
         });
 

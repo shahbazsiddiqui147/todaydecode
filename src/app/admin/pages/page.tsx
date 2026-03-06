@@ -205,7 +205,7 @@ export default function PagesManager() {
                                 <h2 className="text-2xl font-black uppercase tracking-tighter text-[#0F172A] dark:text-white">
                                     {editingPage ? "Refine Institutional Page" : "Initialize Strategic Document"}
                                 </h2>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Sovereign Documentation Protocol</p>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Institutional Integrity Documentation Framework</p>
                             </div>
                             <button onClick={() => setIsModalOpen(false)} className="p-2 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-white transition-colors">
                                 <X className="h-4 w-4" />
@@ -231,7 +231,7 @@ export default function PagesManager() {
                                     />
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8]">Protocol Slug</label>
+                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8]">Structural Slug</label>
                                     <Input
                                         required
                                         className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold font-mono placeholder:text-[#64748B]"

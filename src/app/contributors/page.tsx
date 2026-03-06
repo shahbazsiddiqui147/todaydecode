@@ -57,11 +57,11 @@ export default function ContributorsPublicPage() {
                     </div>
 
                     <article className="prose prose-slate max-w-none">
-                        <h3 className="text-2xl font-black uppercase italic tracking-tight mb-8 pb-4 border-b-4 border-slate-900 inline-block">Contributor Protocols</h3>
+                        <h3 className="text-2xl font-black uppercase italic tracking-tight mb-8 pb-4 border-b-4 border-slate-900 inline-block">Contributor Framework</h3>
 
                         <div className="space-y-8 font-medium leading-relaxed">
                             <section className="space-y-4">
-                                <h4 className="font-black uppercase text-sm tracking-widest text-[#22D3EE]">01. Intellectual Sovereignty</h4>
+                                <h4 className="font-black uppercase text-sm tracking-widest text-[#22D3EE]">01. Intellectual Integrity</h4>
                                 <p>Analysts retain intellectual credit for their reports but grant Today Decode exclusive distribution rights within our premium strategic silos. All contributors are vetted for academic and professional credentials prior to authorization.</p>
                             </section>
 

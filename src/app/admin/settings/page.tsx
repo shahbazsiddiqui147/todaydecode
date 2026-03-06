@@ -107,7 +107,7 @@ export default function SettingsPage() {
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#1E293B] dark:border-[#1E293B]">
                 <div className="space-y-1">
                     <h1 className="text-3xl font-black uppercase tracking-tighter text-[#22D3EE] dark:text-[#22D3EE] italic pb-1">Platform <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Parameters</span></h1>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Configure global institutional sovereignty settings.</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Configure global institutional advisory settings.</p>
                 </div>
                 <Button
                     onClick={handleSave}
@@ -145,7 +145,7 @@ export default function SettingsPage() {
                             />
 
                             <UploadNode
-                                label="Favicon Protocol Asset"
+                                label="Favicon Framework Asset"
                                 currentUrl={formData.faviconUrl}
                                 onUploadComplete={(url: string) => setFormData({ ...formData, faviconUrl: url })}
                             />
@@ -213,7 +213,7 @@ export default function SettingsPage() {
                     </div>
                 </div>
 
-                {/* Status & Protocol */}
+                {/* Status & Framework */}
                 <div className="lg:col-span-4 space-y-8">
                     <div className="bg-[#111827] border border-[#1E293B] p-8 rounded-[2rem] shadow-sm space-y-8">
                         <div className="flex items-center gap-3 border-b border-[#1E293B] pb-6">
@@ -237,7 +237,7 @@ export default function SettingsPage() {
                         <div className="p-6 border-2 border-dashed border-[#1E293B] rounded-2xl bg-muted/5 font-mono text-[9px] text-muted-foreground/60 space-y-2">
                             <div className="flex items-center gap-2 mb-2">
                                 <Shield className="h-3.5 w-3.5 opacity-40" />
-                                <span className="uppercase tracking-widest italic">Aesthetic Protocol</span>
+                                <span className="uppercase tracking-widest italic">Aesthetic Framework</span>
                             </div>
                             <p>// Trailing Slash Enforcement: <span className="text-[#22D3EE]">ACTIVE</span></p>
                             <p>// Institutional Border Hardening: <span className="text-[#22D3EE]">ACTIVE</span></p>
@@ -249,7 +249,7 @@ export default function SettingsPage() {
                         <SettingsIcon className="h-12 w-12 text-muted-foreground opacity-20" />
                         <div className="space-y-1">
                             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic">System Standby</p>
-                            <p className="text-[9px] text-muted-foreground/40 font-mono">Verifying institutional sovereignty...</p>
+                            <p className="text-[9px] text-muted-foreground/40 font-mono">Verifying institutional framework...</p>
                         </div>
                     </div>
                 </div>

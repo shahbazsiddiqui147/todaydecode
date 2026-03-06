@@ -4,10 +4,15 @@
 To provide high-fidelity, institutional-grade strategic intelligence through a minimalist and authoritative interface.
 
 ### 1.1 Institutional Identity & Linguistics
-- **Forbidden Legacy Terms:** "Operational Update", "Operational Metrics", "System Integrity Map", "Nodal Initialization".
-- **Authorized Institutional Terms:** "Strategic Dispatch", "Analytical Benchmarks", "Geospatial Risk Model", "Research Authorization".
-- **Forbidden Tactical Jargon:** "Intelligence," "War," "War Room," "Mission Control," "Tactical," "Intel," "Protocol," "Nodal," "Unit," "Dispatch," "Manifest," "Visibility Center," "Protocol Ready," "System Synchronized."
-- **Authorized Institutional Terms (Legacy):** "Strategic Analysis," "Geopolitical Conflict," "Research Terminal," "Strategic Oversight," "Institutional," "Analytical," "Assessment," "Insight," "Methodology," "Framework," "Structural," "Analyst," "Department," "Brief," "Report," "Portfolio," "Research Desk," "Executive Oversight," "Optimization," "Authority Hub," "Assessment Finalized," "Data Reconciled."
+- **Forbidden Legacy Terms:** "Intelligence", "Operational", "Sovereign", "Nodal", "Protocol", "Intelligence Update", "System Integrity Map".
+- **Authorized Institutional Terms:** "Strategic Analysis", "Analytical", "Proprietary", "Institutional", "Framework", "Strategic Dispatch", "Analytical Benchmarks", "Geospatial Risk Model", "Research Authorization".
+- **Forbidden Tactical Jargon:** "War," "War Room," "Mission Control," "Tactical," "Intel," "Unit," "Dispatch," "Manifest," "Visibility Center," "Protocol Ready," "System Synchronized."
+- **Authorized Institutional Terms (Legacy):** "Strategic Analysis," "Geopolitical Conflict," "Research Terminal," "Strategic Oversight," "Assessment," "Insight," "Methodology," "Structural," "Analyst," "Department," "Brief," "Report," "Portfolio," "Research Desk," "Executive Oversight," "Optimization," "Authority Hub," "Assessment Finalized," "Data Reconciled."
+- **Role Hierarchy (Preserved):** 
+  - Master Administrator (ADMIN)
+  - Senior Editor (EDITOR)
+  - Strategic Analyst (AUTHOR)
+- **Geospatial Rules:** Use 'Global Actor' for geographic entities and 'Strategic Assessment Map' for the geospatial visual.
 - **Core Metric Identity:** The central gauge is the 'Global Strategic Risk Index.' Its purpose is macro-level risk aggregation for executive decision-making.
 
 ## 2. DESIGN STANDARDS

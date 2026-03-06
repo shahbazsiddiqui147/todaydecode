@@ -73,7 +73,7 @@ export default async function ArticlePage({
         },
         worst: {
             title: rawScenarios.worst?.title || "Systemic Fragmentation",
-            description: rawScenarios.worst?.description || "Critical system failure or breakdown of institutional protocols.",
+            description: rawScenarios.worst?.description || "Critical system failure or breakdown of institutional frameworks.",
             impact: rawScenarios.worst?.impact ?? 90
         }
     };

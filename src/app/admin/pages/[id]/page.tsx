@@ -145,7 +145,7 @@ export default function PageEditor() {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Protocol Path (Slug)</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Structural Path (Slug)</label>
                             <Input
                                 value={formData.slug}
                                 onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
@@ -155,7 +155,7 @@ export default function PageEditor() {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Nodal Content (HTML/Markdown)</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Structural Content (HTML/Markdown)</label>
                             <Textarea
                                 value={formData.content}
                                 onChange={(e) => setFormData({ ...formData, content: e.target.value })}
@@ -198,7 +198,7 @@ export default function PageEditor() {
                             <Shield className="h-3.5 w-3.5 opacity-40" />
                             <span className="uppercase tracking-widest italic">Institutional Sovereignty</span>
                         </div>
-                        <p>Status: <span className="text-foreground">OPERATIONAL</span></p>
+                        <p>Status: <span className="text-foreground">ACTIVE</span></p>
                         <p>Constraint: <span className="text-foreground">GLOBAL_SITEMAP_INCLUSION</span></p>
                     </div>
                 </div>

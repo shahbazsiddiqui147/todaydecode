@@ -19,7 +19,7 @@ export default function MediaLibraryPage() {
                     <ImageIcon className="h-12 w-12 text-muted-foreground" />
                 </div>
                 <h3 className="text-lg font-black uppercase text-foreground italic">Asset Manager Offline</h3>
-                <p className="text-sm text-muted-foreground font-black uppercase tracking-widest mt-2">Nodal Initialization Required for Media Storage.</p>
+                <p className="text-sm text-muted-foreground font-black uppercase tracking-widest mt-2">Structural Initialization Required for Media Storage.</p>
             </div>
         </div>
     );

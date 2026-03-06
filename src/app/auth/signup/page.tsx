@@ -79,7 +79,7 @@ export default function SignUpPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Access Protocol (Password)</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Secure Access Key</label>
                             <div className="relative">
                                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                                 <Input

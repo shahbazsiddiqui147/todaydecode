@@ -85,7 +85,7 @@ export default function ContributorsAdminPage() {
                 </div>
             </header>
 
-            {/* Search Protocol */}
+            {/* Search Framework */}
             <div className="flex items-center space-x-4 bg-white dark:bg-[#020617] p-3 rounded-2xl border border-[#1E293B] shadow-sm relative overflow-hidden group focus-within:ring-2 focus-within:ring-[#22D3EE] transition-all">
                 <div className="absolute top-0 left-0 w-1 h-full bg-[#1E293B] group-focus-within:bg-[#22D3EE] transition-all" />
                 <div className="relative flex-1 flex items-center pl-6">
@@ -169,7 +169,7 @@ export default function ContributorsAdminPage() {
                     <p className="text-[9px] text-muted-foreground/40 uppercase font-mono pl-5 italic">All guest accounts are flagged for institutional review within 24 hours.</p>
                 </div>
                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#22D3EE]">Sovereign UI Standard</span>
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#22D3EE]">Institutional UI Standard</span>
                 </div>
             </div>
         </div>

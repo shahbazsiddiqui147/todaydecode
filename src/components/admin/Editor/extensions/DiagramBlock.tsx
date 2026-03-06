@@ -101,7 +101,7 @@ const DiagramComponent = ({ node, updateAttributes }: NodeViewProps) => {
                 </div>
 
                 <div className="px-6 py-2 bg-black/20 border-t border-white/5 flex justify-between items-center">
-                    <span className="text-[8px] font-bold text-slate-700 uppercase tracking-widest">Sovereign Visual Engine v2.0</span>
+                    <span className="text-[8px] font-bold text-slate-700 uppercase tracking-widest">Institutional Visual Engine v2.0</span>
                     <span className="text-[8px] font-medium text-slate-800 italic">Confidential Institutional Output</span>
                 </div>
             </div>

@@ -144,8 +144,8 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
             {/* Command Header */}
             {!isBackdrop && (
                 <div className="p-6 md:absolute md:top-6 md:left-6 z-10 bg-card/50 backdrop-blur-md md:rounded-2xl md:border md:border-white/5">
-                    <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight uppercase leading-none italic">
-                        Global Risk <span className="text-accent-red">Command</span>
+                    <h2 className="text-xl md:text-2xl font-black text-[#22D3EE] tracking-tight uppercase leading-none italic">
+                        Global Risk <span className="text-[#F1F5F9] not-italic font-medium">Assessment</span>
                     </h2>
                     <div className="flex items-center space-x-2 mt-2">
                         <span className="h-1.5 w-1.5 rounded-full bg-accent-red animate-pulse" />
@@ -287,7 +287,7 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                             <div className="flex items-center justify-between border-b border-border/10 pb-4">
                                 <div className="space-y-1">
                                     <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
-                                        Sovereign Entity // {tooltip.data.id}
+                                        Global Actor // {tooltip.data.id}
                                     </span>
                                     <h3 className="text-[#F1F5F9] font-black text-2xl tracking-tighter leading-none italic uppercase">
                                         {tooltip.data.name}
@@ -304,7 +304,7 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
 
                             <div className="space-y-4">
                                 <h4 className="text-[10px] font-black text-accent-red uppercase tracking-[0.2em]">
-                                    {loadingReports ? "Synchronizing Strategic Assets..." : "Sovereign Strategic Metrics"}
+                                    {loadingReports ? "Synchronizing Strategic Assets..." : "Institutional Risk Data"}
                                 </h4>
 
                                 {loadingReports ? (

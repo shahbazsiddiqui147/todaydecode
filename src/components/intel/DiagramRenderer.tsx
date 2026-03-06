@@ -53,7 +53,7 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ code }) => {
             const { svg: renderedSvg } = await mermaid.render(id, fullCode);
             setSvg(renderedSvg);
         } catch (err: any) {
-            console.error('Sovereign Diagram failure:', err);
+            console.error('Institutional Diagram failure:', err);
             setError(err.message || "Structural Logic Regression detected.");
         }
     };
@@ -69,7 +69,7 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ code }) => {
     if (!mounted) return null;
 
     return (
-        <div className="my-16 relative group sovereign-diagram-container -mx-4 md:-mx-8 lg:-mx-12 xl:-mx-16">
+        <div className="my-16 relative group institutional-diagram-container -mx-4 md:-mx-8 lg:-mx-12 xl:-mx-16">
             <style dangerouslySetInnerHTML={{
                 __html: `
                 .label foreignObject { overflow: visible !important; }
@@ -102,7 +102,7 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ code }) => {
                         <div className="min-w-[800px] flex justify-center" dangerouslySetInnerHTML={{ __html: svg }} />
                     </div>
                     <div className="absolute -bottom-3 right-12 px-3 py-1 bg-[#020617] border border-[#1E293B] rounded-full z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0 shadow-lg">
-                        <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest italic">Today Decode // Sovereign Visual Engine</span>
+                        <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest italic">Today Decode // Institutional Visual Engine</span>
                     </div>
                 </div>
             )}

@@ -221,7 +221,7 @@ const Toolbar = ({ editor }: { editor: any }) => {
                 type="button"
                 onClick={() => editor.chain().focus().insertContent({ type: 'diagramBlock' }).run()}
                 className="flex items-center gap-2 px-3 h-8 rounded-md text-[#22D3EE] hover:bg-[#22D3EE]/10 transition-all border border-[#22D3EE]/30"
-                title="Sovereign Structural Model"
+                title="Institutional Structural Model"
             >
                 <Share2 className="h-3.5 w-3.5" />
                 <span className="text-[9px] font-black uppercase tracking-widest hidden sm:inline">Add Strategic Diagram</span>

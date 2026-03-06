@@ -120,7 +120,7 @@ export default function ArticlesPage() {
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#1E293B]">
                 <div>
-                    <h1 className="text-3xl font-black tracking-tight text-[#22D3EE] dark:text-[#22D3EE] uppercase italic pb-1">Strategic <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Hub</span></h1>
+                    <h1 className="text-3xl font-black tracking-tight text-[#22D3EE] dark:text-[#22D3EE] uppercase italic pb-1">Strategic <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic font-medium">Hub</span></h1>
                     <p className="text-[#64748B] dark:text-[#94A3B8] text-xs font-black uppercase tracking-widest">Manage geopolitical reports and scenarios.</p>
                 </div>
                 <Link href="/admin/articles/new/">
@@ -149,7 +149,7 @@ export default function ArticlesPage() {
                             <TableRow className="border-b border-[#E2E8F0] dark:border-[#1E293B] hover:bg-transparent">
                                 <TableHead className="text-[10px] uppercase font-black text-[#64748B] dark:text-[#94A3B8] tracking-widest py-4">Status & Title</TableHead>
                                 <TableHead className="text-[10px] uppercase font-black text-[#64748B] dark:text-[#94A3B8] tracking-widest">Metadata</TableHead>
-                                <TableHead className="text-[10px] uppercase font-black text-[#64748B] dark:text-[#94A3B8] tracking-widest text-right">Operational Scale</TableHead>
+                                <TableHead className="text-[10px] uppercase font-black text-[#64748B] dark:text-[#94A3B8] tracking-widest text-right">Strategic Scale</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>

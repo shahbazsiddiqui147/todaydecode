@@ -333,7 +333,7 @@ export default function AuthorsPage() {
 
                             <div className="space-y-3">
                                 <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
-                                    <FileText className="h-3 w-3 mr-2 text-cyan-500" /> Operational Bio
+                                    <FileText className="h-3 w-3 mr-2 text-cyan-500" /> Institutional Bio
                                 </label>
                                 <textarea
                                     required

@@ -52,7 +52,7 @@ export default async function Page() {
 
   // Default values for Scenario Forecast if no featured scenario exists
   const defaultScenarios = {
-    best: { title: "Optimal Resolution", description: "Stabilization through diplomatic protocols and economic incentives.", impact: 22 },
+    best: { title: "Optimal Resolution", description: "Stabilization through diplomatic frameworks and economic incentives.", impact: 22 },
     likely: { title: "Regulated Tension", description: "Sustained competition within established international frameworks.", impact: 58 },
     worst: { title: "Institutional Fracture", description: "Complete breakdown of security architecture and supply chain decoupling.", impact: 92 }
   };

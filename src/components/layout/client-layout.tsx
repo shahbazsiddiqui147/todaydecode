@@ -40,9 +40,9 @@ export function ClientLayout({
     // 2. Admin pages (Management Workspace)
     const shouldHideStandardLayout = isAuthPath || isAdminPath;
 
-    // MAINTENANCE PROTOCOL
+    // MAINTENANCE FRAMEWORK
     // If enabled, restrict all public ingress routes.
-    // Admin and Auth paths remain accessible for operational recovery.
+    // Admin and Auth paths remain accessible for institutional recovery.
     if (isMaintenanceMode && !shouldHideStandardLayout) {
         return (
             <AnalyticsProvider>
@@ -71,6 +71,7 @@ export function ClientLayout({
                     initialMetrics={initialMetrics}
                     navigationItems={sideNavigation}
                 />
+                <span className="text-[9px] font-black uppercase tracking-[0.25em] text-accent-green">Strategic Matrix</span>
                 <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
                     <BreakingAlert initialAlert={initialAlert} />
                     <Header navigationItems={headerNavigation} />

@@ -87,7 +87,7 @@ export default function MapDataPage() {
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-3xl font-black uppercase tracking-tighter italic text-foreground">
-                        Sovereign Map Data
+                        Assessment Map Data
                     </h1>
                     <p className="text-muted-foreground text-sm font-medium uppercase tracking-widest mt-1">
                         Manual Metric Injection Layer
@@ -103,7 +103,7 @@ export default function MapDataPage() {
                     <div className="p-6 rounded-3xl bg-card border border-border space-y-4">
                         <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
                             <Search className="h-3 w-3" />
-                            Select Sovereign Entity
+                            Select Global Actor
                         </div>
                         <div className="space-y-1 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin">
                             {COUNTRIES.map(c => (
@@ -111,8 +111,8 @@ export default function MapDataPage() {
                                     key={c.code}
                                     onClick={() => setSelectedCode(c.code)}
                                     className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-all ${selectedCode === c.code
-                                            ? "bg-accent-red text-white shadow-lg"
-                                            : "hover:bg-secondary text-muted-foreground hover:text-foreground"
+                                        ? "bg-accent-red text-white shadow-lg"
+                                        : "hover:bg-secondary text-muted-foreground hover:text-foreground"
                                         }`}
                                 >
                                     <div className="flex items-center justify-between">

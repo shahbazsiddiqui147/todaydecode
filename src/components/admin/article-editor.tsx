@@ -342,7 +342,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 <div className="space-y-2">
                                     <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1 flex justify-between">
                                         <span>On-Page Executive Summary</span>
-                                        <span className="opacity-40 lowercase italic font-normal text-slate-400">Institutional Intro</span>
+                                        <span className="opacity-40 lowercase italic font-normal text-slate-400">Lead Overview</span>
                                     </Label>
                                     <Textarea
                                         name="onPageLead"
@@ -651,7 +651,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         name="metaDescription"
                                         value={formData.metaDescription}
                                         onChange={handleChange}
-                                        placeholder="Silo summary for outside indexers..."
+                                        placeholder="Institutional summary for outside indexers..."
                                         className="min-h-[120px] bg-white dark:bg-card border-border rounded-xl resize-none font-medium text-xs px-6 py-4 text-slate-900 dark:text-slate-100"
                                     />
                                 </div>

@@ -22,7 +22,7 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({ content }) => 
 
     const options: HTMLReactParserOptions = {
         replace: (domNode: any) => {
-            // Priority 1: Sovereign Diagram Block (Tiptap Custom Node)
+            // Priority 1: Institutional Diagram Block (Tiptap Custom Node)
             if (domNode instanceof Element && domNode.name === 'div' && domNode.attribs['data-type'] === 'diagram-block') {
                 const code = domNode.attribs['data-code'] || "";
                 return <DiagramRenderer code={code} />;

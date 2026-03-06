@@ -100,7 +100,7 @@ export const MermaidBlock = Node.create({
     addAttributes() {
         return {
             code: {
-                default: "graph TD\n    A[2024: Unipolar Legacy] --> B{The Pivot}\n    B --> C[Silo A: Western Tech-Fiscal Bloc]\n    B --> D[Silo B: BRICS+ Resource-Settlement Bloc]\n    B --> E[Silo C: Non-Aligned Tech Hubs - UAE/India]\n    C --> F[2027: Sovereign AI Integration]\n    D --> F\n    E --> F\n    F --> G[2030: Multipolar Systemic Integrity]\n    style B fill:#111827,stroke:#22D3EE,stroke-width:2px,color:#F1F5F9\n    style G fill:#10B981,stroke:#333,stroke-width:2px,color:#000",
+                default: "graph TD\n    A[2024: Unipolar Legacy] --> B{The Pivot}\n    B --> C[Silo A: Western Tech-Fiscal Bloc]\n    B --> D[Silo B: BRICS+ Resource-Settlement Bloc]\n    B --> E[Silo C: Non-Aligned Tech Hubs - UAE/India]\n    C --> F[2027: Institutional AI Integration]\n    D --> F\n    E --> F\n    F --> G[2030: Multipolar Systemic Integrity]\n    style B fill:#111827,stroke:#22D3EE,stroke-width:2px,color:#F1F5F9\n    style G fill:#10B981,stroke:#333,stroke-width:2px,color:#000",
             },
         };
     },

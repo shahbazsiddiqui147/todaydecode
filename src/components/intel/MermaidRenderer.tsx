@@ -50,7 +50,7 @@ export const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
                         primaryColor: '#111827', // Institutional Grey
                         primaryBorderColor: '#1E293B',
                         primaryTextColor: '#F1F5F9',
-                        lineColor: '#22D3EE', // Sovereign Cyan
+                        lineColor: '#22D3EE', // Institutional Cyan
                         secondaryColor: '#0A0F1E',
                         tertiaryColor: '#1e293b',
                         mainBkg: '#0A0F1E', // Enforced Global Dark Standard

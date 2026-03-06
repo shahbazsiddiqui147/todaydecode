@@ -144,7 +144,7 @@ export default function CategoriesPage() {
                         <TableRow className="border-b border-[#1E293B] hover:bg-transparent">
                             <TableHead className="w-16 text-center text-[#1E293B] dark:text-[#CBD5E1] font-black uppercase text-[10px] tracking-widest">Priority</TableHead>
                             <TableHead className="py-5 pl-8 text-[#1E293B] dark:text-[#CBD5E1] font-black uppercase text-[10px] tracking-widest">Strategic Silo</TableHead>
-                            <TableHead className="text-[#1E293B] dark:text-[#CBD5E1] font-black uppercase text-[10px] tracking-widest">Protocol Path (Slug)</TableHead>
+                            <TableHead className="text-[#1E293B] dark:text-[#CBD5E1] font-black uppercase text-[10px] tracking-widest">Structural Path (Slug)</TableHead>
                             <TableHead className="text-[#1E293B] dark:text-[#CBD5E1] font-black uppercase text-[10px] tracking-widest">State</TableHead>
                             <TableHead className="text-right pr-8 text-[#1E293B] dark:text-[#CBD5E1] font-black uppercase text-[10px] tracking-widest">Operations</TableHead>
                         </TableRow>
@@ -259,7 +259,7 @@ export default function CategoriesPage() {
                                 </div>
                                 <div className="space-y-3">
                                     <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
-                                        <Globe className="h-3 w-3 mr-2 text-cyan-500" /> Protocol Slug
+                                        <Globe className="h-3 w-3 mr-2 text-cyan-500" /> Structural Slug
                                     </label>
                                     <Input
                                         required

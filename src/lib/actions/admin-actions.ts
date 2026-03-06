@@ -229,7 +229,7 @@ export async function upsertArticle(data: z.infer<typeof ArticleSchema>) {
         if (session.user.role === "AUTHOR" && validated.id) {
             const article = await prisma.article.findUnique({ where: { id: validated.id } });
             if (article && article.authorId !== session.user.id) {
-                return { success: false, error: "Access Denied: Data sovereignty protocol breach." };
+                return { success: false, error: "Access Denied: Institutional access integrity breach." };
             }
         }
 
@@ -593,7 +593,7 @@ export async function updateUserRole(userId: string, role: "GUEST" | "AUTHOR" | 
 
         await prisma.user.update({
             where: { id: userId },
-            data: { role }
+            data: { role: role as any }
         });
 
         revalidatePath("/admin/users/");

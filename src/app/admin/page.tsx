@@ -35,9 +35,9 @@ export default async function AdminDashboard() {
                 <div className="space-y-1">
                     <div className="flex items-center space-x-2 text-[#64748B] dark:text-[#94A3B8] text-[10px] font-black uppercase tracking-[0.3em] mb-2">
                         <Activity className={cn("h-3 w-3", res.success ? "text-cyan-500" : "text-accent-red")} />
-                        <span>Institutional Status: {res.success ? "Operational" : "Degraded Linkage"}</span>
+                        <span>Institutional Status: {res.success ? "Active" : "Degraded Linkage"}</span>
                     </div>
-                    <h1 className="text-4xl font-black tracking-tight text-[#22D3EE] dark:text-[#22D3EE] uppercase italic">Strategic <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Oversight</span></h1>
+                    <h1 className="text-4xl font-black tracking-tight text-[#22D3EE] dark:text-[#22D3EE] uppercase italic">Strategic <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic font-medium">Oversight</span></h1>
                     <p className="text-[#64748B] dark:text-[#94A3B8] font-medium border-l-2 border-[#CBD5E1] dark:border-[#1E293B] pl-4 py-1">Institutional management of global risk analysis and strategic repositories.</p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -115,11 +115,11 @@ export default async function AdminDashboard() {
                                 </div>
                                 <div className="space-y-2">
                                     <p className="text-sm font-black text-slate-900 dark:text-slate-100 uppercase tracking-tight">
-                                        {res.success ? "Strategic Synchronization Level: High" : "Security Protocol Breach"}
+                                        {res.success ? "Strategic Synchronization Level: High" : "Security Framework Breach"}
                                     </p>
                                     <p className="text-xs text-[#64748B] dark:text-[#94A3B8] leading-relaxed max-w-xs mx-auto font-black uppercase tracking-widest">
                                         {res.success
-                                            ? "Research portfolios are synchronized with the Sovereign Research Reservoir."
+                                            ? "Research portfolios are synchronized with the Institutional Research Reservoir."
                                             : "System link failure. Archive data unreachable. Maintenance required."}
                                     </p>
                                 </div>
@@ -134,11 +134,11 @@ export default async function AdminDashboard() {
                     <div className="bg-slate-900 dark:bg-black border border-slate-800 rounded-[2rem] p-8 text-white">
                         <div className="space-y-8">
                             <div className="space-y-3">
-                                <div className="text-2xl font-black tracking-tight uppercase leading-none italic text-white">Institutional <span className="text-slate-500">Protocols {res.success ? "Active" : "Compromised"}</span></div>
+                                <div className="text-2xl font-black tracking-tight uppercase leading-none italic text-white">Institutional <span className="text-slate-500">Frameworks {res.success ? "Active" : "Compromised"}</span></div>
                                 <div className="text-[10px] text-slate-500 leading-relaxed font-bold uppercase tracking-widest">
                                     {res.success
                                         ? "Strategic management controls initialized for institutional advisory use."
-                                        : "Protocol integrity check failed. Data linkage unavailable."}
+                                        : "Framework integrity check failed. Data linkage unavailable."}
                                 </div>
                             </div>
 

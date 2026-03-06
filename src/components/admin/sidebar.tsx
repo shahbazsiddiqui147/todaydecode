@@ -49,7 +49,7 @@ const GROUPS = [
         items: [
             { name: "Categories", icon: Map, href: "/admin/categories/" },
             { name: "Pages", icon: Layers, href: "/admin/pages/" },
-            { name: "Sovereign Map", icon: Database, href: "/admin/map-data/" },
+            { name: "Strategic Assessment Map", icon: Database, href: "/admin/map-data/" },
         ]
     },
     {
@@ -100,15 +100,15 @@ export function Sidebar() {
                 items: [
                     { name: "Strategic Silos", icon: Map, href: "/admin/categories/" },
                     { name: "Institutional Pages", icon: Layers, href: "/admin/pages/" },
-                    { name: "Sovereign Map", icon: Database, href: "/admin/map-data/" },
+                    { name: "Strategic Assessment Map", icon: Database, href: "/admin/map-data/" },
                 ]
             });
         }
 
-        // 4. Intelligence Profiles
+        // 4. Analysis Profiles
         if (role === "EDITOR" || role === "ADMIN") {
             groups.push({
-                name: "Intelligence",
+                name: "Analysis",
                 items: [
                     { name: "Analyst Profiles", icon: Users, href: "/admin/authors/" },
                     { name: "Access Requests", icon: UserCheck, href: "/admin/contributors/" },
