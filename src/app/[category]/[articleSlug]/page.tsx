@@ -63,18 +63,18 @@ export default async function ArticlePage({
     const processedScenarios = {
         best: {
             title: rawScenarios.best?.title || "Strategic Convergence",
-            desc: rawScenarios.best?.description || "No specific data provided for this scenario outcome.",
-            impact: 10
+            description: rawScenarios.best?.description || "No specific data provided for this scenario outcome.",
+            impact: rawScenarios.best?.impact ?? 10
         },
         likely: {
             title: rawScenarios.likely?.title || "Linear Tension",
-            desc: rawScenarios.likely?.description || "Baseline trajectory based on current analytical indicators.",
-            impact: article.impactScore
+            description: rawScenarios.likely?.description || "Baseline trajectory based on current analytical indicators.",
+            impact: rawScenarios.likely?.impact ?? article.impactScore
         },
         worst: {
             title: rawScenarios.worst?.title || "Systemic Fragmentation",
-            desc: rawScenarios.worst?.description || "Critical system failure or breakdown of institutional protocols.",
-            impact: 90
+            description: rawScenarios.worst?.description || "Critical system failure or breakdown of institutional protocols.",
+            impact: rawScenarios.worst?.impact ?? 90
         }
     };
 

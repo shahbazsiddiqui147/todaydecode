@@ -9,7 +9,7 @@ import { useAnalytics } from '@/components/providers/analytics-provider';
 
 interface Scenario {
     title: string;
-    desc: string;
+    description: string;
     impact: number;
 }
 
@@ -98,7 +98,7 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
                                     {activeData.title}
                                 </h3>
                                 <p className="text-slate-300 text-base leading-relaxed">
-                                    {activeData.desc}
+                                    {activeData.description}
                                 </p>
                             </div>
                             <div className="bg-background/50 p-4 rounded-xl border border-slate-800 min-w-[120px] text-center">

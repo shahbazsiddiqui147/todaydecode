@@ -44,9 +44,21 @@ const ArticleSchema = z.object({
     riskScore: z.number().int().min(0).max(100).default(50),
     impactScore: z.number().int().min(0).max(100).default(50),
     scenarios: z.object({
-        best: z.object({ title: z.string().default("Best Case"), description: z.string().default("") }),
-        likely: z.object({ title: z.string().default("Most Likely"), description: z.string().default("") }),
-        worst: z.object({ title: z.string().default("Worst Case"), description: z.string().default("") }),
+        best: z.object({
+            title: z.string().default("Best Case"),
+            description: z.string().default(""),
+            impact: z.number().int().min(0).max(100).default(10)
+        }),
+        likely: z.object({
+            title: z.string().default("Most Likely"),
+            description: z.string().default(""),
+            impact: z.number().int().min(0).max(100).default(50)
+        }),
+        worst: z.object({
+            title: z.string().default("Worst Case"),
+            description: z.string().default(""),
+            impact: z.number().int().min(0).max(100).default(90)
+        }),
     }).optional().nullable(),
     faqData: z.array(z.object({
         question: z.string(),
@@ -76,7 +88,7 @@ const SiteSettingsSchema = z.object({
     siteName: z.string().min(2, "Site name required."),
     logoUrl: z.string().optional().nullable(),
     faviconUrl: z.string().optional().nullable(),
-    socialLinks: z.record(z.any()).optional().nullable(), // Store as flexible Json
+    socialLinks: z.record(z.string(), z.any()).optional().nullable(), // Store as flexible Json
     maintenanceMode: z.boolean().default(false),
 });
 

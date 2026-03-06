@@ -2,9 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import {
-    upsertArticle,
-} from "@/lib/actions/admin-actions";
+import { upsertArticle } from "@/lib/actions/admin-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -56,7 +54,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
     const [loading, setLoading] = useState(false);
     const [isSlugLocked, setIsSlugLocked] = useState(true);
     const [isFoundryOpen, setIsFoundryOpen] = useState(false);
-    const [activeTab, setActiveTab] = useState<"content" | "forecast" | "aeo" | "meta">("content");
+    const [activeTab, setActiveTab] = useState<"content" | "aeo" | "meta">("content");
 
     const [formData, setFormData] = useState({
         title: article?.title || "",
@@ -78,9 +76,9 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
         metaDescription: article?.metaDescription || "",
         featuredImage: article?.featuredImage || "",
         scenarios: article?.scenarios || {
-            best: { title: "Strategic Convergence", description: "" },
-            likely: { title: "Linear Tension", description: "" },
-            worst: { title: "Systemic Fragmentation", description: "" },
+            best: { title: "Strategic Convergence", description: "", impact: 10 },
+            likely: { title: "Linear Tension", description: "", impact: 50 },
+            worst: { title: "Systemic Fragmentation", description: "", impact: 90 },
         },
         faqData: Array.isArray(article?.faqData) ? article.faqData : [
             { question: "What is the primary driver of this conflict?", answer: "" },
@@ -89,7 +87,6 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
         researchArchive: article?.researchArchive || "",
     });
 
-    // Real-time Slug Sync logic
     useEffect(() => {
         if (isSlugLocked && formData.title) {
             setFormData(prev => ({ ...prev, slug: slugify(prev.title) }));
@@ -109,7 +106,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
         setFormData(prev => ({ ...prev, [name]: checked }));
     };
 
-    const handleScenarioChange = (type: "best" | "likely" | "worst", field: "title" | "description", value: string) => {
+    const handleScenarioChange = (type: "best" | "likely" | "worst", field: "title" | "description" | "impact", value: string | number) => {
         setFormData((prev: any) => ({
             ...prev,
             scenarios: {
@@ -203,7 +200,6 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Command Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-border">
                 <div className="flex items-center gap-4">
                     <Link href="/admin/articles/">
@@ -258,9 +254,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
             <PromptLibrary isOpen={isFoundryOpen} onClose={() => setIsFoundryOpen(false)} />
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                {/* Left Column: Analysis Cockpit */}
                 <div className="lg:col-span-8 space-y-6">
-                    {/* Navigation Tabs (Strategic Selection) */}
                     <div className="flex items-center gap-1 p-1 bg-muted/30 rounded-2xl border border-border/50">
                         {[
                             { id: "content", label: "Analysis Desk", icon: FileText },
@@ -284,7 +278,6 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                         ))}
                     </div>
 
-                    {/* Tab Panes */}
                     <div className="min-h-[600px] animate-in fade-in slide-in-from-bottom-2 duration-500">
                         {activeTab === "content" && (
                             <div className="space-y-6">
@@ -408,7 +401,10 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                                     <TrendingUp className="h-4 w-4 text-emerald-500" />
                                                     <h3 className="text-[10px] font-black uppercase tracking-widest text-emerald-500">CONVERGENCE (BEST CASE)</h3>
                                                 </div>
-                                                <span className="text-[9px] font-mono text-emerald-500/40 uppercase tracking-tighter">outcome_fidelity: high</span>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-[9px] font-black text-emerald-500 uppercase tracking-widest">Impact: {formData.scenarios.best?.impact || 10}%</span>
+                                                    <span className="text-[9px] font-mono text-emerald-500/40 uppercase tracking-tighter">outcome_fidelity: high</span>
+                                                </div>
                                             </div>
                                             <Input
                                                 value={formData.scenarios.best.title}
@@ -416,6 +412,19 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                                 placeholder="SCENARIO HEADLINE..."
                                                 className="h-10 text-xs font-black uppercase tracking-wider bg-slate-950/50 border-emerald-500/20 text-[#F1F5F9] placeholder:text-slate-700 rounded-xl focus-visible:ring-emerald-500 transition-all"
                                             />
+                                            <div className="space-y-3 pb-2">
+                                                <div className="flex justify-between items-center px-1">
+                                                    <Label className="text-[9px] font-black uppercase tracking-widest text-emerald-500/60">Outcome Weight</Label>
+                                                    <span className="text-[10px] font-mono text-emerald-500 font-bold">{formData.scenarios.best?.impact || 10}%</span>
+                                                </div>
+                                                <input
+                                                    type="range"
+                                                    min="0" max="100"
+                                                    value={formData.scenarios.best?.impact || 10}
+                                                    onChange={(e) => handleScenarioChange("best", "impact", parseInt(e.target.value))}
+                                                    className="w-full h-1 bg-emerald-500/10 rounded-full accent-emerald-500 cursor-pointer"
+                                                />
+                                            </div>
                                             <Textarea
                                                 value={formData.scenarios.best.description}
                                                 onChange={(e) => handleScenarioChange("best", "description", e.target.value)}
@@ -431,7 +440,10 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                                     <Activity className="h-4 w-4 text-blue-500" />
                                                     <h3 className="text-[10px] font-black uppercase tracking-widest text-blue-500">CONTINUITY (MOST LIKELY)</h3>
                                                 </div>
-                                                <span className="text-[9px] font-mono text-blue-500/40 uppercase tracking-tighter">outcome_fidelity: medium</span>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-[9px] font-black text-blue-500 uppercase tracking-widest">Impact: {formData.scenarios.likely?.impact || 50}%</span>
+                                                    <span className="text-[9px] font-mono text-blue-500/40 uppercase tracking-tighter">outcome_fidelity: medium</span>
+                                                </div>
                                             </div>
                                             <Input
                                                 value={formData.scenarios.likely.title}
@@ -439,6 +451,19 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                                 placeholder="SCENARIO HEADLINE..."
                                                 className="h-10 text-xs font-black uppercase tracking-wider bg-slate-950/50 border-blue-500/20 text-[#F1F5F9] placeholder:text-slate-700 rounded-xl focus-visible:ring-blue-500 transition-all"
                                             />
+                                            <div className="space-y-3 pb-2">
+                                                <div className="flex justify-between items-center px-1">
+                                                    <Label className="text-[9px] font-black uppercase tracking-widest text-blue-500/60">Outcome Weight</Label>
+                                                    <span className="text-[10px] font-mono text-blue-500 font-bold">{formData.scenarios.likely?.impact || 50}%</span>
+                                                </div>
+                                                <input
+                                                    type="range"
+                                                    min="0" max="100"
+                                                    value={formData.scenarios.likely?.impact || 50}
+                                                    onChange={(e) => handleScenarioChange("likely", "impact", parseInt(e.target.value))}
+                                                    className="w-full h-1 bg-blue-500/10 rounded-full accent-blue-500 cursor-pointer"
+                                                />
+                                            </div>
                                             <Textarea
                                                 value={formData.scenarios.likely.description}
                                                 onChange={(e) => handleScenarioChange("likely", "description", e.target.value)}
@@ -454,7 +479,10 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                                     <AlertCircle className="h-4 w-4 text-red-500" />
                                                     <h3 className="text-[10px] font-black uppercase tracking-widest text-red-500">FRAGMENTATION (WORST CASE)</h3>
                                                 </div>
-                                                <span className="text-[9px] font-mono text-red-500/40 uppercase tracking-tighter">outcome_fidelity: critical</span>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-[9px] font-black text-red-500 uppercase tracking-widest">Impact: {formData.scenarios.worst?.impact || 90}%</span>
+                                                    <span className="text-[9px] font-mono text-red-500/40 uppercase tracking-tighter">outcome_fidelity: critical</span>
+                                                </div>
                                             </div>
                                             <Input
                                                 value={formData.scenarios.worst.title}
@@ -462,6 +490,19 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                                 placeholder="SCENARIO HEADLINE..."
                                                 className="h-10 text-xs font-black uppercase tracking-wider bg-slate-950/50 border-red-500/20 text-[#F1F5F9] placeholder:text-slate-700 rounded-xl focus-visible:ring-red-500 transition-all"
                                             />
+                                            <div className="space-y-3 pb-2">
+                                                <div className="flex justify-between items-center px-1">
+                                                    <Label className="text-[9px] font-black uppercase tracking-widest text-red-500/60">Outcome Weight</Label>
+                                                    <span className="text-[10px] font-mono text-red-500 font-bold">{formData.scenarios.worst?.impact || 90}%</span>
+                                                </div>
+                                                <input
+                                                    type="range"
+                                                    min="0" max="100"
+                                                    value={formData.scenarios.worst?.impact || 90}
+                                                    onChange={(e) => handleScenarioChange("worst", "impact", parseInt(e.target.value))}
+                                                    className="w-full h-1 bg-red-500/10 rounded-full accent-red-500 cursor-pointer"
+                                                />
+                                            </div>
                                             <Textarea
                                                 value={formData.scenarios.worst.description}
                                                 onChange={(e) => handleScenarioChange("worst", "description", e.target.value)}
@@ -470,311 +511,306 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                             />
                                         </div>
                                     </div>
-                                </div>
 
-                                <div className="space-y-8 pt-12 border-t border-border/50">
-                                    <div className="flex items-center gap-3 px-1">
-                                        <Database className="h-5 w-5 text-[#22D3EE]" />
-                                        <h2 className="text-sm font-black uppercase italic tracking-widest text-[#F1F5F9]">Systemic Research Nodes</h2>
-                                    </div>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div className="space-y-4 p-6 rounded-2xl border border-[#1E293B] bg-slate-950/30">
-                                            <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1 flex items-center gap-2">
-                                                <Database className="h-3.5 w-3.5 text-cyan-500" />
-                                                THE AUDIT NODES
-                                            </Label>
-                                            <Textarea
-                                                name="auditNodes"
-                                                value={formData.auditNodes || ""}
-                                                onChange={handleChange}
-                                                placeholder="Bibliographic reference nodes..."
-                                                className="min-h-[150px] text-xs font-mono bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-600 rounded-xl resize-none px-4 py-3 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
-                                            />
+                                    <div className="space-y-8 pt-12 border-t border-border/50">
+                                        <div className="flex items-center gap-3 px-1">
+                                            <Database className="h-5 w-5 text-[#22D3EE]" />
+                                            <h2 className="text-sm font-black uppercase italic tracking-widest text-[#F1F5F9]">Systemic Research Nodes</h2>
                                         </div>
-                                        <div className="space-y-4 p-6 rounded-2xl border border-[#1E293B] bg-slate-950/30">
-                                            <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1 flex items-center gap-2">
-                                                <Shield className="h-3.5 w-3.5 text-red-500" />
-                                                RESEARCH ARCHIVE
-                                            </Label>
-                                            <Textarea
-                                                name="researchArchive"
-                                                value={formData.researchArchive || ""}
-                                                onChange={handleChange}
-                                                placeholder="Institutional research URL collection..."
-                                                className="min-h-[150px] text-xs font-mono bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-600 rounded-xl resize-none px-4 py-3 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
-                                            />
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="space-y-4 p-6 rounded-2xl border border-[#1E293B] bg-slate-950/30">
+                                                <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1 flex items-center gap-2">
+                                                    <Database className="h-3.5 w-3.5 text-cyan-500" />
+                                                    THE AUDIT NODES
+                                                </Label>
+                                                <Textarea
+                                                    name="auditNodes"
+                                                    value={formData.auditNodes || ""}
+                                                    onChange={handleChange}
+                                                    placeholder="Bibliographic reference nodes..."
+                                                    className="min-h-[150px] text-xs font-mono bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-600 rounded-xl resize-none px-4 py-3 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
+                                                />
+                                            </div>
+                                            <div className="space-y-4 p-6 rounded-2xl border border-[#1E293B] bg-slate-950/30">
+                                                <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1 flex items-center gap-2">
+                                                    <Shield className="h-3.5 w-3.5 text-red-500" />
+                                                    RESEARCH ARCHIVE
+                                                </Label>
+                                                <Textarea
+                                                    name="researchArchive"
+                                                    value={formData.researchArchive || ""}
+                                                    onChange={handleChange}
+                                                    placeholder="Institutional research URL collection..."
+                                                    className="min-h-[150px] text-xs font-mono bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-600 rounded-xl resize-none px-4 py-3 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         )}
 
-                        {activeTab === "aeo" && (
-                            <div className="space-y-6">
-                                <div className="p-8 rounded-3xl bg-slate-950 text-white space-y-8 shadow-2xl border border-white/5 relative overflow-hidden">
-                                    <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 blur-[100px]" />
-                                    <div className="relative z-10 flex items-center justify-between">
-                                        <div className="flex items-center gap-2">
-                                            <Zap className="h-5 w-5 text-[#22D3EE]" />
-                                            <h2 className="text-md font-black uppercase italic tracking-tighter">
-                                                <span className="text-[#22D3EE]">SEARCH & AI</span> <span className="text-[#F1F5F9]">AUTHORITY HUB</span>
-                                            </h2>
-                                        </div>
-                                        <Badge className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 py-0.5 rounded-full text-[9px] font-black tracking-widest uppercase">OPTIMIZATION_READY</Badge>
-                                    </div>
-
-                                    <div className="space-y-6 relative z-10">
-                                        <div className="flex items-center justify-between">
-                                            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-800 dark:text-slate-100">SEMANTIC DISCOVERY DATA (FAQ)</h3>
-                                            <Button type="button" variant="outline" size="sm" onClick={addFaq} className="h-8 text-[9px] border-white/10 hover:bg-white/10 text-white rounded-xl font-black uppercase tracking-widest">
-                                                <Plus className="h-3.5 w-3.5 mr-1" /> Add Semantic Node
-                                            </Button>
-                                        </div>
-
-                                        <div className="space-y-4">
-                                            {formData.faqData.map((faq: any, idx: number) => (
-                                                <div key={idx} className="group relative bg-white/5 border border-white/10 p-5 rounded-2xl space-y-4 transition-all hover:bg-white/[0.08]">
-                                                    <Button
-                                                        type="button"
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        onClick={() => removeFaq(idx)}
-                                                        className="absolute top-3 right-3 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity text-slate-500 hover:text-red-400"
-                                                    >
-                                                        <Trash2 className="h-3.5 w-3.5" />
-                                                    </Button>
-                                                    <Input
-                                                        value={faq.question}
-                                                        onChange={(e) => handleFaqChange(idx, "question", e.target.value)}
-                                                        placeholder="Semantic Inquiry..."
-                                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 font-semibold h-10 rounded-xl focus-visible:ring-[#22D3EE]"
-                                                    />
-                                                    <Textarea
-                                                        value={faq.answer}
-                                                        onChange={(e) => handleFaqChange(idx, "answer", e.target.value)}
-                                                        placeholder="Institutional Authority Response..."
-                                                        className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-700 dark:text-slate-200 h-24 resize-none text-[13px] rounded-xl focus-visible:ring-[#22D3EE] leading-relaxed"
-                                                    />
+                                {activeTab === "aeo" && (
+                                    <div className="space-y-6">
+                                        <div className="p-8 rounded-3xl bg-slate-950 text-white space-y-8 shadow-2xl border border-white/5 relative overflow-hidden">
+                                            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 blur-[100px]" />
+                                            <div className="relative z-10 flex items-center justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    <Zap className="h-5 w-5 text-[#22D3EE]" />
+                                                    <h2 className="text-md font-black uppercase italic tracking-tighter">
+                                                        <span className="text-[#22D3EE]">SEARCH & AI</span> <span className="text-[#F1F5F9]">AUTHORITY HUB</span>
+                                                    </h2>
                                                 </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
+                                                <Badge className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 py-0.5 rounded-full text-[9px] font-black tracking-widest uppercase">OPTIMIZATION_READY</Badge>
+                                            </div>
 
-                        {activeTab === "meta" && (
-                            <div className="space-y-6 bg-muted/20 p-8 rounded-3xl border border-border">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <div className="flex items-center justify-between pl-1">
-                                            <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9]">Structural Path (Slug Override)</Label>
-                                            <button
-                                                type="button"
-                                                onClick={() => setIsSlugLocked(!isSlugLocked)}
-                                                className="text-[9px] font-black uppercase tracking-widest flex items-center gap-1 hover:text-cyan-400 transition-colors"
-                                            >
-                                                {isSlugLocked ? (
-                                                    <><Lock className="h-3 w-3" /> Locked</>
-                                                ) : (
-                                                    <><Unlock className="h-3 w-3" /> Unlocked</>
-                                                )}
-                                            </button>
+                                            <div className="space-y-6 relative z-10">
+                                                <div className="flex items-center justify-between">
+                                                    <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-800 dark:text-slate-100">SEMANTIC DISCOVERY DATA (FAQ)</h3>
+                                                    <Button type="button" variant="outline" size="sm" onClick={addFaq} className="h-8 text-[9px] border-white/10 hover:bg-white/10 text-white rounded-xl font-black uppercase tracking-widest">
+                                                        <Plus className="h-3.5 w-3.5 mr-1" /> Add Semantic Node
+                                                    </Button>
+                                                </div>
+
+                                                <div className="space-y-4">
+                                                    {formData.faqData.map((faq: any, idx: number) => (
+                                                        <div key={idx} className="group relative bg-white/5 border border-white/10 p-5 rounded-2xl space-y-4 transition-all hover:bg-white/[0.08]">
+                                                            <Button
+                                                                type="button"
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                onClick={() => removeFaq(idx)}
+                                                                className="absolute top-3 right-3 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity text-slate-500 hover:text-red-400"
+                                                            >
+                                                                <Trash2 className="h-3.5 w-3.5" />
+                                                            </Button>
+                                                            <Input
+                                                                value={faq.question}
+                                                                onChange={(e) => handleFaqChange(idx, "question", e.target.value)}
+                                                                placeholder="Semantic Inquiry..."
+                                                                className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 font-semibold h-10 rounded-xl focus-visible:ring-[#22D3EE]"
+                                                            />
+                                                            <Textarea
+                                                                value={faq.answer}
+                                                                onChange={(e) => handleFaqChange(idx, "answer", e.target.value)}
+                                                                placeholder="Institutional Authority Response..."
+                                                                className="bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-700 dark:text-slate-200 h-24 resize-none text-[13px] rounded-xl focus-visible:ring-[#22D3EE] leading-relaxed"
+                                                            />
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
                                         </div>
-                                        <Input
-                                            name="slug"
-                                            value={formData.slug}
-                                            onChange={handleChange}
-                                            disabled={isSlugLocked}
-                                            placeholder="manual-hard-path/"
-                                            className={cn(
-                                                "h-12 bg-card border-border rounded-xl font-mono text-xs lowercase",
-                                                isSlugLocked && "opacity-60 cursor-not-allowed"
-                                            )}
-                                        />
                                     </div>
-                                    <div className="space-y-2">
-                                        <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100 pl-1">Institutional Meta Title</Label>
-                                        <Input
-                                            name="metaTitle"
-                                            value={formData.metaTitle}
-                                            onChange={handleChange}
-                                            placeholder="SEO Headline..."
-                                            className="h-12 bg-white dark:bg-card border-border rounded-xl font-bold text-xs text-slate-900 dark:text-slate-100"
-                                        />
+                                )}
+
+                                {activeTab === "meta" && (
+                                    <div className="space-y-6 bg-muted/20 p-8 rounded-3xl border border-border">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="space-y-2">
+                                                <div className="flex items-center justify-between pl-1">
+                                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9]">Structural Path (Slug Override)</Label>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setIsSlugLocked(!isSlugLocked)}
+                                                        className="text-[9px] font-black uppercase tracking-widest flex items-center gap-1 hover:text-cyan-400 transition-colors"
+                                                    >
+                                                        {isSlugLocked ? (
+                                                            <><Lock className="h-3 w-3" /> Locked</>
+                                                        ) : (
+                                                            <><Unlock className="h-3 w-3" /> Unlocked</>
+                                                        )}
+                                                    </button>
+                                                </div>
+                                                <Input
+                                                    name="slug"
+                                                    value={formData.slug}
+                                                    onChange={handleChange}
+                                                    disabled={isSlugLocked}
+                                                    placeholder="manual-hard-path/"
+                                                    className={cn(
+                                                        "h-12 bg-card border-border rounded-xl font-mono text-xs lowercase",
+                                                        isSlugLocked && "opacity-60 cursor-not-allowed"
+                                                    )}
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100 pl-1">Institutional Meta Title</Label>
+                                                <Input
+                                                    name="metaTitle"
+                                                    value={formData.metaTitle}
+                                                    onChange={handleChange}
+                                                    placeholder="SEO Headline..."
+                                                    className="h-12 bg-white dark:bg-card border-border rounded-xl font-bold text-xs text-slate-900 dark:text-slate-100"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100 pl-1">Institutional Meta Description</Label>
+                                            <Textarea
+                                                name="metaDescription"
+                                                value={formData.metaDescription}
+                                                onChange={handleChange}
+                                                placeholder="Silo summary for outside indexers..."
+                                                className="min-h-[120px] bg-white dark:bg-card border-border rounded-xl resize-none font-medium text-xs px-6 py-4 text-slate-900 dark:text-slate-100"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100 pl-1">Institutional Meta Description</Label>
-                                    <Textarea
-                                        name="metaDescription"
-                                        value={formData.metaDescription}
-                                        onChange={handleChange}
-                                        placeholder="Silo summary for outside indexers..."
-                                        className="min-h-[120px] bg-white dark:bg-card border-border rounded-xl resize-none font-medium text-xs px-6 py-4 text-slate-900 dark:text-slate-100"
-                                    />
-                                </div>
+                                )}
                             </div>
-                        )}
-                    </div>
                 </div>
 
-                {/* Right Column: Analytical Sidebar */}
-                <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
-                    {/* Analyst Profile */}
-                    <div className="bg-[#111827] dark:bg-[#111827] border border-[#1E293B] dark:border-[#1E293B] rounded-3xl p-6 shadow-sm space-y-6">
-                        <div className="flex items-center gap-2 border-b border-[#1E293B] pb-4 text-[#F1F5F9]">
-                            <Shield className="h-4 w-4 text-[#22D3EE]" />
-                            <h2 className="text-[11px] font-black uppercase tracking-widest italic text-[#0F172A] dark:text-[#22D3EE]">Institutional Attribution</h2>
-                        </div>
-
-                        <div className="space-y-4">
-                            <div className="space-y-2">
-                                <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Strategic Analyst</Label>
-                                <Select value={formData.authorId} onValueChange={(v) => handleSelectChange("authorId", v)}>
-                                    <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9] focus:ring-[#22D3EE] transition-all">
-                                        <SelectValue placeholder="FETCH ANALYST" />
-                                    </SelectTrigger>
-                                    <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-xl bg-[#020617] border-[#1E293B] text-[11px] font-black uppercase text-[#F1F5F9] p-1">
-                                        {initialAuthors.map(a => <SelectItem key={a.id} value={a.id} className="rounded-lg hover:bg-white/5 cursor-pointer">{a.name}</SelectItem>)}
-                                    </SelectContent>
-                                </Select>
-                            </div>
-
-                            <div className="space-y-2">
-                                <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Strategic Sector</Label>
-                                <Select value={formData.categoryId} onValueChange={(v) => handleSelectChange("categoryId", v)}>
-                                    <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9] focus:ring-[#22D3EE] transition-all">
-                                        <SelectValue placeholder="SELECT SECTOR" />
-                                    </SelectTrigger>
-                                    <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-xl bg-[#020617] border-[#1E293B] text-[11px] font-black uppercase text-[#F1F5F9] p-1">
-                                        {initialCategories.map(c => <SelectItem key={c.id} value={c.id} className="rounded-lg hover:bg-white/5 cursor-pointer">{c.name}</SelectItem>)}
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col gap-3 pt-2">
-                            <div className="flex items-center justify-between p-3 bg-muted/20 rounded-2xl border border-border/50">
-                                <div className="space-y-0.5">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">Premium Status</Label>
-                                    <p className="text-[8px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-tighter italic">Institutional Restricted</p>
-                                </div>
-                                <Switch checked={formData.isPremium} onCheckedChange={(c) => handleSwitchChange("isPremium", c)} />
-                            </div>
-                            <div className="flex items-center justify-between p-3 bg-muted/20 rounded-2xl border border-border/50">
-                                <div className="space-y-0.5">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">Featured Node</Label>
-                                    <p className="text-[8px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-tighter italic">Research Desk Spotlight</p>
-                                </div>
-                                <Switch checked={formData.isFeatured} onCheckedChange={(c) => handleSwitchChange("isFeatured", c)} className="data-[state=checked]:bg-[#22D3EE] focus-visible:ring-[#22D3EE]/50" />
-                            </div>
-                            <div className="flex items-center justify-between p-3 bg-white/5 rounded-2xl border border-white/10">
-                                <div className="space-y-0.5">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9]">Scenario Showcase</Label>
-                                    <p className="text-[8px] text-slate-400 font-bold uppercase tracking-tighter italic">Featured Homepage Analysis</p>
-                                </div>
-                                <Switch checked={formData.isFeaturedScenario} onCheckedChange={(c) => handleSwitchChange("isFeaturedScenario", c)} className="data-[state=checked]:bg-[#22D3EE] focus-visible:ring-[#22D3EE]/50" />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Analytical Volatility (Sliders) */}
-                    <div className="bg-slate-900 dark:bg-slate-950 text-white rounded-3xl p-6 shadow-2xl border border-white/5 space-y-8 relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 via-orange-500 to-red-500 opacity-50" />
-                        <div className="flex items-center gap-2 border-b border-white/10 pb-4 text-[#F1F5F9]">
-                            <Activity className="h-4 w-4 text-[#22D3EE]" />
-                            <h2 className="text-[11px] font-black uppercase tracking-widest italic text-[#22D3EE]">Analytical Benchmarks</h2>
-                        </div>
-
-                        <div className="space-y-8 relative z-10">
-                            <div className="space-y-3">
-                                <div className="flex items-center justify-between">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">Operation Region</Label>
-                                    <Globe className="h-3.5 w-3.5 opacity-40" />
-                                </div>
-                                <Select value={formData.region} onValueChange={(v) => handleSelectChange("region", v)}>
-                                    <SelectTrigger className="bg-white/5 border-white/10 rounded-xl h-10 text-[10px] font-black uppercase tracking-widest">
-                                        <SelectValue placeholder="GLOBAL" />
-                                    </SelectTrigger>
-                                    <SelectContent className="bg-slate-900 border-white/10 text-[10px] font-black uppercase text-white rounded-xl">
-                                        {["GLOBAL", "MENA", "APAC", "EUROPE", "AMERICAS", "AFRICA"].map(r => (
-                                            <SelectItem key={r} value={r}>{r}</SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            </div>
-
-                            <div className="space-y-3">
-                                <div className="flex items-center justify-between">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">Calculated Risk Index</Label>
-                                    <span className={cn(
-                                        "text-[10px] font-black px-2 py-0.5 rounded-full border",
-                                        formData.riskLevel === "CRITICAL" ? "bg-red-500/20 text-red-400 border-red-500/30" :
-                                            formData.riskLevel === "HIGH" ? "bg-orange-500/20 text-orange-400 border-orange-500/30" :
-                                                "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
-                                    )}>
-                                        {formData.riskLevel}
-                                    </span>
-                                </div>
-                                <Select value={formData.riskLevel} onValueChange={(v) => handleSelectChange("riskLevel", v)}>
-                                    <SelectTrigger className="bg-white/5 border-white/10 rounded-xl h-10 text-[10px] font-black uppercase tracking-widest">
-                                        <SelectValue placeholder="RISK LEVEL" />
-                                    </SelectTrigger>
-                                    <SelectContent className="bg-slate-900 border-white/10 text-[10px] font-black uppercase text-white rounded-xl">
-                                        {["LOW", "MEDIUM", "HIGH", "CRITICAL"].map(l => (
-                                            <SelectItem key={l} value={l}>{l}</SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                    <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
+                        <div className="bg-[#111827] dark:bg-[#111827] border border-[#1E293B] dark:border-[#1E293B] rounded-3xl p-6 shadow-sm space-y-6">
+                            <div className="flex items-center gap-2 border-b border-[#1E293B] pb-4 text-[#F1F5F9]">
+                                <Shield className="h-4 w-4 text-[#22D3EE]" />
+                                <h2 className="text-[11px] font-black uppercase tracking-widest italic text-[#0F172A] dark:text-[#22D3EE]">Institutional Attribution</h2>
                             </div>
 
                             <div className="space-y-4">
-                                <div className="space-y-3">
-                                    <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
-                                        <span className="text-slate-800 dark:text-slate-100 font-black tracking-widest uppercase">Risk Intensity</span>
-                                        <span className="text-emerald-500">{formData.riskScore}%</span>
-                                    </div>
-                                    <input
-                                        type="range"
-                                        min="0" max="100"
-                                        value={formData.riskScore}
-                                        onChange={(e) => handleSelectChange("riskScore", e.target.value)}
-                                        className="w-full accent-emerald-500 h-1 bg-white/10 rounded-full cursor-pointer"
-                                    />
+                                <div className="space-y-2">
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Strategic Analyst</Label>
+                                    <Select value={formData.authorId} onValueChange={(v) => handleSelectChange("authorId", v)}>
+                                        <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9] focus:ring-[#22D3EE] transition-all">
+                                            <SelectValue placeholder="FETCH ANALYST" />
+                                        </SelectTrigger>
+                                        <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-xl bg-[#020617] border-[#1E293B] text-[11px] font-black uppercase text-[#F1F5F9] p-1">
+                                            {initialAuthors.map(a => <SelectItem key={a.id} value={a.id} className="rounded-lg hover:bg-white/5 cursor-pointer">{a.name}</SelectItem>)}
+                                        </SelectContent>
+                                    </Select>
                                 </div>
 
-                                <div className="space-y-3">
-                                    <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
-                                        <span className="text-slate-800 dark:text-slate-100 font-black tracking-widest uppercase">Strategic Impact</span>
-                                        <span className="text-blue-500">{formData.impactScore}%</span>
+                                <div className="space-y-2">
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Strategic Sector</Label>
+                                    <Select value={formData.categoryId} onValueChange={(v) => handleSelectChange("categoryId", v)}>
+                                        <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9] focus:ring-[#22D3EE] transition-all">
+                                            <SelectValue placeholder="SELECT SECTOR" />
+                                        </SelectTrigger>
+                                        <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-xl bg-[#020617] border-[#1E293B] text-[11px] font-black uppercase text-[#F1F5F9] p-1">
+                                            {initialCategories.map(c => <SelectItem key={c.id} value={c.id} className="rounded-lg hover:bg-white/5 cursor-pointer">{c.name}</SelectItem>)}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col gap-3 pt-2">
+                                <div className="flex items-center justify-between p-3 bg-muted/20 rounded-2xl border border-border/50">
+                                    <div className="space-y-0.5">
+                                        <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">Premium Status</Label>
+                                        <p className="text-[8px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-tighter italic">Institutional Restricted</p>
                                     </div>
-                                    <input
-                                        type="range"
-                                        min="0" max="100"
-                                        value={formData.impactScore}
-                                        onChange={(e) => handleSelectChange("impactScore", e.target.value)}
-                                        className="w-full accent-blue-500 h-1 bg-white/10 rounded-full cursor-pointer"
-                                    />
+                                    <Switch checked={formData.isPremium} onCheckedChange={(c) => handleSwitchChange("isPremium", c)} />
+                                </div>
+                                <div className="flex items-center justify-between p-3 bg-muted/20 rounded-2xl border border-border/50">
+                                    <div className="space-y-0.5">
+                                        <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">Featured Node</Label>
+                                        <p className="text-[8px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-tighter italic">Research Desk Spotlight</p>
+                                    </div>
+                                    <Switch checked={formData.isFeatured} onCheckedChange={(c) => handleSwitchChange("isFeatured", c)} className="data-[state=checked]:bg-[#22D3EE] focus-visible:ring-[#22D3EE]/50" />
+                                </div>
+                                <div className="flex items-center justify-between p-3 bg-white/5 rounded-2xl border border-white/10">
+                                    <div className="space-y-0.5">
+                                        <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9]">Scenario Showcase</Label>
+                                        <p className="text-[8px] text-slate-400 font-bold uppercase tracking-tighter italic">Featured Homepage Analysis</p>
+                                    </div>
+                                    <Switch checked={formData.isFeaturedScenario} onCheckedChange={(c) => handleSwitchChange("isFeaturedScenario", c)} className="data-[state=checked]:bg-[#22D3EE] focus-visible:ring-[#22D3EE]/50" />
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* System Integrity */}
-                    <div className="p-6 border-2 border-dashed border-border rounded-3xl bg-muted/5">
-                        <div className="flex items-center gap-2 mb-4">
-                            <Database className="h-3.5 w-3.5 opacity-40 text-cyan-500" />
-                            <span className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] italic">Geospatial Risk Model</span>
+                        <div className="bg-slate-900 dark:bg-slate-950 text-white rounded-3xl p-6 shadow-2xl border border-white/5 space-y-8 relative overflow-hidden">
+                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 via-orange-500 to-red-500 opacity-50" />
+                            <div className="flex items-center gap-2 border-b border-white/10 pb-4 text-[#F1F5F9]">
+                                <Activity className="h-4 w-4 text-[#22D3EE]" />
+                                <h2 className="text-[11px] font-black uppercase tracking-widest italic text-[#22D3EE]">Analytical Benchmarks</h2>
+                            </div>
+
+                            <div className="space-y-8 relative z-10">
+                                <div className="space-y-3">
+                                    <div className="flex items-center justify-between">
+                                        <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">Operation Region</Label>
+                                        <Globe className="h-3.5 w-3.5 opacity-40" />
+                                    </div>
+                                    <Select value={formData.region} onValueChange={(v) => handleSelectChange("region", v)}>
+                                        <SelectTrigger className="bg-white/5 border-white/10 rounded-xl h-10 text-[10px] font-black uppercase tracking-widest">
+                                            <SelectValue placeholder="GLOBAL" />
+                                        </SelectTrigger>
+                                        <SelectContent className="bg-slate-900 border-white/10 text-[10px] font-black uppercase text-white rounded-xl">
+                                            {["GLOBAL", "MENA", "APAC", "EUROPE", "AMERICAS", "AFRICA"].map(r => (
+                                                <SelectItem key={r} value={r}>{r}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+
+                                <div className="space-y-3">
+                                    <div className="flex items-center justify-between">
+                                        <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">Calculated Risk Index</Label>
+                                        <span className={cn(
+                                            "text-[10px] font-black px-2 py-0.5 rounded-full border",
+                                            formData.riskLevel === "CRITICAL" ? "bg-red-500/20 text-red-400 border-red-500/30" :
+                                                formData.riskLevel === "HIGH" ? "bg-orange-500/20 text-orange-400 border-orange-500/30" :
+                                                    "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                                        )}>
+                                            {formData.riskLevel}
+                                        </span>
+                                    </div>
+                                    <Select value={formData.riskLevel} onValueChange={(v) => handleSelectChange("riskLevel", v)}>
+                                        <SelectTrigger className="bg-white/5 border-white/10 rounded-xl h-10 text-[10px] font-black uppercase tracking-widest">
+                                            <SelectValue placeholder="RISK LEVEL" />
+                                        </SelectTrigger>
+                                        <SelectContent className="bg-slate-900 border-white/10 text-[10px] font-black uppercase text-white rounded-xl">
+                                            {["LOW", "MEDIUM", "HIGH", "CRITICAL"].map(l => (
+                                                <SelectItem key={l} value={l}>{l}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <div className="space-y-3">
+                                        <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
+                                            <span className="text-white font-black tracking-widest uppercase">Risk Intensity</span>
+                                            <span className="text-emerald-500">{formData.riskScore}%</span>
+                                        </div>
+                                        <input
+                                            type="range"
+                                            min="0" max="100"
+                                            value={formData.riskScore}
+                                            onChange={(e) => handleSelectChange("riskScore", e.target.value)}
+                                            className="w-full accent-emerald-500 h-1 bg-white/10 rounded-full cursor-pointer"
+                                        />
+                                    </div>
+
+                                    <div className="space-y-3">
+                                        <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
+                                            <span className="text-white font-black tracking-widest uppercase">Strategic Impact</span>
+                                            <span className="text-blue-500">{formData.impactScore}%</span>
+                                        </div>
+                                        <input
+                                            type="range"
+                                            min="0" max="100"
+                                            value={formData.impactScore}
+                                            onChange={(e) => handleSelectChange("impactScore", e.target.value)}
+                                            className="w-full accent-blue-500 h-1 bg-white/10 rounded-full cursor-pointer"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div className="space-y-2 font-mono text-[9px] text-slate-500 dark:text-slate-400 leading-tight">
-                            <p>Node_ID: <span className="text-slate-800 dark:text-slate-100">{article?.id || "INITIALIZING..."}</span></p>
-                            <p>Vector: <span className="text-slate-800 dark:text-slate-100">{formData.slug || "AUTO_GEN"}</span></p>
-                            <p>Clock: <span className="text-slate-800 dark:text-slate-100">{article?.publishedAt ? new Date(article.publishedAt).toLocaleString() : "NEW_CYCLE"}</span></p>
+
+                        <div className="p-6 border-2 border-dashed border-border rounded-3xl bg-muted/5">
+                            <div className="flex items-center gap-2 mb-4">
+                                <Database className="h-3.5 w-3.5 opacity-40 text-cyan-500" />
+                                <span className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] italic">Geospatial Risk Model</span>
+                            </div>
+                            <div className="space-y-2 font-mono text-[9px] text-slate-500 dark:text-slate-400 leading-tight">
+                                <p>Node_ID: <span className="text-slate-800 dark:text-slate-100">{article?.id || "INITIALIZING..."}</span></p>
+                                <p>Vector: <span className="text-slate-800 dark:text-slate-100">{formData.slug || "AUTO_GEN"}</span></p>
+                                <p>Clock: <span className="text-slate-800 dark:text-slate-100">{article?.publishedAt ? new Date(article.publishedAt).toLocaleString() : "NEW_CYCLE"}</span></p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </form>
     );
 }
