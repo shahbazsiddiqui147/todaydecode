@@ -47,10 +47,10 @@ function SignInContent() {
                         <ShieldCheck className="h-8 w-8 text-white dark:text-[#0F172A]" />
                     </div>
                     <div className="space-y-1">
-                        <h1 className="text-3xl font-black uppercase tracking-tighter text-[#0F172A] dark:text-white leading-none">
+                        <h1 className="text-3xl font-black uppercase tracking-tighter text-[#081226] dark:text-white leading-none">
                             Research <span className="text-[#22D3EE] dark:text-[#22D3EE] text-shadow-institutional">Portal</span>
                         </h1>
-                        <p className="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-[0.4em] italic">Institutional Credentials Required</p>
+                        <p className="text-slate-700 dark:text-slate-400 text-[10px] font-black uppercase tracking-[0.4em] italic">Institutional Credentials Required</p>
                     </div>
                 </div>
 
@@ -61,30 +61,30 @@ function SignInContent() {
                     <form onSubmit={handleSubmit} className="space-y-6 relative">
                         {/* Professional Email */}
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-[#1E293B] dark:text-[#F1F5F9] ml-1">Professional Email</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-[#F1F5F9] ml-1">Professional Email</label>
                             <div className="relative">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B] dark:text-[#94A3B8]" />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-600 dark:text-[#94A3B8]" />
                                 <Input
                                     name="email"
                                     type="email"
                                     required
                                     placeholder="analyst@todaydecode.com"
-                                    className="pl-11 h-12 bg-slate-50 dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-slate-400 dark:placeholder:text-slate-600 rounded-xl focus-visible:ring-[#22D3EE] transition-all"
+                                    className="pl-11 h-12 bg-slate-50 dark:bg-[#020617] border-slate-300 dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-slate-500 dark:placeholder:text-slate-600 rounded-xl focus-visible:ring-[#22D3EE] transition-all"
                                 />
                             </div>
                         </div>
 
                         {/* Secure Access Key */}
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-[#1E293B] dark:text-[#F1F5F9] ml-1">Secure Access Key</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-[#F1F5F9] ml-1">Secure Access Key</label>
                             <div className="relative">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B] dark:text-[#94A3B8]" />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-600 dark:text-[#94A3B8]" />
                                 <Input
                                     name="password"
                                     type="password"
                                     required
                                     placeholder="••••••••"
-                                    className="pl-11 h-12 bg-slate-50 dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-slate-400 dark:placeholder:text-slate-600 rounded-xl focus-visible:ring-[#22D3EE] transition-all"
+                                    className="pl-11 h-12 bg-slate-50 dark:bg-[#020617] border-slate-300 dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-slate-500 dark:placeholder:text-slate-600 rounded-xl focus-visible:ring-[#22D3EE] transition-all"
                                 />
                             </div>
                         </div>
@@ -113,7 +113,7 @@ function SignInContent() {
                 </div>
 
                 {/* Strategic Footer */}
-                <p className="text-center text-[9px] text-[#64748B] dark:text-slate-500 font-black uppercase tracking-[0.2em] leading-relaxed max-w-xs mx-auto">
+                <p className="text-center text-[9px] text-slate-800 dark:text-slate-500 font-black uppercase tracking-[0.2em] leading-relaxed max-w-xs mx-auto">
                     For Authorized Institutional Use Only — <br /> Systemic Integrity Protocol Active
                 </p>
             </div>
