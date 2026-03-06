@@ -1,4 +1,4 @@
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { getAdminUsers, updateUserRole } from "@/lib/actions/admin-actions";
 import { redirect } from "next/navigation";
