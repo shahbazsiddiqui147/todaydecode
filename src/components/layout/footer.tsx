@@ -2,15 +2,33 @@
 
 import Link from "next/link";
 import { getAdminPages } from "@/lib/actions/admin-actions";
-import { Shield, Globe, Lock, FileText, ChevronRight } from "lucide-react";
+import { fetchSiteSettings } from "@/lib/fetchers";
+import {
+    Shield,
+    Globe,
+    Lock,
+    ChevronRight,
+    Twitter,
+    Linkedin,
+    Facebook,
+    Instagram,
+    PlusSquare as Pinterest
+} from "lucide-react";
 
 export async function Footer() {
     let pages = [];
+    let settings: any = null;
     try {
-        pages = await getAdminPages() as any[];
+        [pages, settings] = await Promise.all([
+            getAdminPages(),
+            fetchSiteSettings()
+        ]);
     } catch (error) {
         console.error("Institutional Footer Sync Failed:", error);
     }
+
+    const socialLinks = settings?.socialLinks || {};
+    const hasActiveLinks = Object.values(socialLinks).some((l: any) => l.url && l.enabled);
 
     return (
         <footer className="w-full bg-background border-t border-border pt-20 pb-10 px-6 mt-20 transition-colors duration-300">
@@ -23,16 +41,43 @@ export async function Footer() {
                     <p className="text-xs font-medium text-muted-foreground uppercase tracking-tight leading-relaxed max-w-xs">
                         A sovereign strategic advisory providing high-fidelity strategic analysis and risk assessment for institutional decision-makers.
                     </p>
-                    <div className="flex items-center gap-4">
-                        <div className="h-8 w-8 rounded-lg bg-secondary border border-border flex items-center justify-center">
-                            <Shield className="h-4 w-4 text-accent-red" />
-                        </div>
-                        <div className="h-8 w-8 rounded-lg bg-secondary border border-border flex items-center justify-center">
-                            <Globe className="h-4 w-4 text-accent-green" />
-                        </div>
-                        <div className="h-8 w-8 rounded-lg bg-secondary border border-border flex items-center justify-center">
-                            <Lock className="h-4 w-4 text-yellow-500" />
-                        </div>
+                    <div className="flex items-center gap-3">
+                        {hasActiveLinks ? (
+                            Object.entries(socialLinks).map(([id, link]: [string, any]) => {
+                                if (!link.url || !link.enabled) return null;
+                                let Icon = Globe;
+                                if (id === 'x') Icon = Twitter;
+                                if (id === 'linkedin') Icon = Linkedin;
+                                if (id === 'facebook') Icon = Facebook;
+                                if (id === 'instagram') Icon = Instagram;
+                                if (id === 'pinterest') Icon = Pinterest;
+
+                                return (
+                                    <a
+                                        key={id}
+                                        href={link.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="h-8 w-8 rounded-lg bg-secondary border border-border flex items-center justify-center hover:border-accent-red hover:bg-accent-red/5 transition-all group"
+                                        title={`${id.toUpperCase()} Terminal`}
+                                    >
+                                        <Icon className="h-4 w-4 text-muted-foreground group-hover:text-accent-red" />
+                                    </a>
+                                );
+                            })
+                        ) : (
+                            <>
+                                <div className="h-8 w-8 rounded-lg bg-secondary border border-border flex items-center justify-center">
+                                    <Shield className="h-4 w-4 text-accent-red" />
+                                </div>
+                                <div className="h-8 w-8 rounded-lg bg-secondary border border-border flex items-center justify-center">
+                                    <Globe className="h-4 w-4 text-accent-green" />
+                                </div>
+                                <div className="h-8 w-8 rounded-lg bg-secondary border border-border flex items-center justify-center">
+                                    <Lock className="h-4 w-4 text-yellow-500" />
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
 

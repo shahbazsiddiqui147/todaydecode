@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { getSiteSettings, upsertSiteSettings } from "@/lib/actions/admin-actions";
 import { UploadNode } from "@/components/admin/UploadNode";
+import { cn } from "@/lib/utils";
 
 export default function SettingsPage() {
     const [loading, setLoading] = useState(true);
@@ -24,10 +25,12 @@ export default function SettingsPage() {
         logoUrl: "",
         faviconUrl: "",
         socialLinks: {
-            x: "",
-            linkedin: "",
-            facebook: ""
-        },
+            x: { url: "", enabled: true },
+            linkedin: { url: "", enabled: true },
+            facebook: { url: "", enabled: true },
+            pinterest: { url: "", enabled: true },
+            instagram: { url: "", enabled: true }
+        } as Record<string, { url: string; enabled: boolean }>,
         maintenanceMode: false
     });
 
@@ -38,11 +41,34 @@ export default function SettingsPage() {
     const loadSettings = async () => {
         try {
             const data = await getSiteSettings();
+
+            // Normalize social links to handle legacy strings or missing keys
+            const rawLinks = (data.socialLinks as any) || {};
+            const normalizedLinks: Record<string, { url: string; enabled: boolean }> = {
+                x: { url: "", enabled: true },
+                linkedin: { url: "", enabled: true },
+                facebook: { url: "", enabled: true },
+                pinterest: { url: "", enabled: true },
+                instagram: { url: "", enabled: true }
+            };
+
+            Object.keys(normalizedLinks).forEach(key => {
+                const val = rawLinks[key];
+                if (typeof val === 'string') {
+                    normalizedLinks[key] = { url: val, enabled: true };
+                } else if (val && typeof val === 'object') {
+                    normalizedLinks[key] = {
+                        url: val.url || "",
+                        enabled: typeof val.enabled === 'boolean' ? val.enabled : true
+                    };
+                }
+            });
+
             setFormData({
                 siteName: data.siteName,
                 logoUrl: data.logoUrl || "",
                 faviconUrl: data.faviconUrl || "",
-                socialLinks: (data.socialLinks as any) || { x: "", linkedin: "", facebook: "" },
+                socialLinks: normalizedLinks,
                 maintenanceMode: data.maintenanceMode
             });
         } catch (err) {
@@ -129,26 +155,60 @@ export default function SettingsPage() {
                     <div className="bg-card border border-[#1E293B] p-10 rounded-[2.5rem] shadow-sm space-y-10">
                         <div className="flex items-center gap-4 border-b border-[#1E293B] pb-6">
                             <Share2 className="h-5 w-5 text-[#22D3EE]" />
-                            <h2 className="text-xs font-black uppercase tracking-widest italic text-foreground">Strategic Linkages</h2>
+                            <h2 className="text-xs font-black uppercase tracking-widest italic text-foreground">Social Media Links</h2>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                            <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[#1E293B] dark:text-[#F1F5F9] pl-1">X (Twitter) Terminal</label>
-                                <Input
-                                    value={formData.socialLinks.x}
-                                    onChange={(e) => setFormData({ ...formData, socialLinks: { ...formData.socialLinks, x: e.target.value } })}
-                                    className="h-14 font-mono text-xs bg-white dark:bg-[#020617] border-[#1E293B] rounded-2xl focus:ring-[#22D3EE]"
-                                />
-                            </div>
-                            <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[#1E293B] dark:text-[#F1F5F9] pl-1">LinkedIn Dossier</label>
-                                <Input
-                                    value={formData.socialLinks.linkedin}
-                                    onChange={(e) => setFormData({ ...formData, socialLinks: { ...formData.socialLinks, linkedin: e.target.value } })}
-                                    className="h-14 font-mono text-xs bg-white dark:bg-[#020617] border-[#1E293B] rounded-2xl focus:ring-[#22D3EE]"
-                                />
-                            </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {[
+                                { id: "x", label: "X (Twitter) Terminal", placeholder: "https://x.com/username" },
+                                { id: "linkedin", label: "LinkedIn Dossier", placeholder: "https://linkedin.com/in/username" },
+                                { id: "facebook", label: "Facebook Node", placeholder: "https://facebook.com/username" },
+                                { id: "instagram", label: "Instagram Node", placeholder: "https://instagram.com/username" },
+                                { id: "pinterest", label: "Pinterest Node", placeholder: "https://pinterest.com/username" },
+                            ].map((platform) => (
+                                <div key={platform.id} className="space-y-4 p-6 rounded-3xl bg-slate-900/10 border border-[#1E293B]/50 transition-all hover:border-[#22D3EE]/30 group">
+                                    <div className="flex items-center justify-between">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#1E293B] dark:text-[#F1F5F9] pl-1">{platform.label}</label>
+                                        <button
+                                            type="button"
+                                            onClick={() => setFormData({
+                                                ...formData,
+                                                socialLinks: {
+                                                    ...formData.socialLinks,
+                                                    [platform.id]: {
+                                                        ...formData.socialLinks[platform.id],
+                                                        enabled: !formData.socialLinks[platform.id].enabled
+                                                    }
+                                                }
+                                            })}
+                                            className={cn(
+                                                "h-5 w-9 rounded-full p-1 transition-colors duration-200",
+                                                formData.socialLinks[platform.id].enabled ? 'bg-[#22D3EE]' : 'bg-slate-700'
+                                            )}
+                                        >
+                                            <div className={cn(
+                                                "h-3 w-3 rounded-full bg-white transition-transform duration-200",
+                                                formData.socialLinks[platform.id].enabled ? 'translate-x-4' : 'translate-x-0'
+                                            )} />
+                                        </button>
+                                    </div>
+                                    <Input
+                                        value={formData.socialLinks[platform.id].url}
+                                        onChange={(e) => setFormData({
+                                            ...formData,
+                                            socialLinks: {
+                                                ...formData.socialLinks,
+                                                [platform.id]: {
+                                                    ...formData.socialLinks[platform.id],
+                                                    url: e.target.value
+                                                }
+                                            }
+                                        })}
+                                        placeholder={platform.placeholder}
+                                        className="h-12 font-mono text-[10px] bg-white dark:bg-[#020617] border-[#1E293B] rounded-xl focus:ring-[#22D3EE] opacity-90 group-hover:opacity-100 transition-opacity"
+                                    />
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>

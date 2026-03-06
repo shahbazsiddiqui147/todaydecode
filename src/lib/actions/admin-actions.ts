@@ -76,7 +76,7 @@ const SiteSettingsSchema = z.object({
     siteName: z.string().min(2, "Site name required."),
     logoUrl: z.string().optional().nullable(),
     faviconUrl: z.string().optional().nullable(),
-    socialLinks: z.record(z.string(), z.string().url().or(z.literal(""))).optional().nullable(),
+    socialLinks: z.record(z.any()).optional().nullable(), // Store as flexible Json
     maintenanceMode: z.boolean().default(false),
 });
 

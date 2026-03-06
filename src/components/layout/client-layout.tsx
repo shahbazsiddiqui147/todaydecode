@@ -6,6 +6,8 @@ import { Header } from "@/components/layout/header";
 import { BreakingAlert } from "@/components/ui/breaking-alert";
 import { AnalyticsProvider } from "@/components/providers/analytics-provider";
 import { ReactNode } from "react";
+import { MaintenancePage } from "@/components/layout/MaintenancePage";
+
 interface ClientLayoutProps {
     children: ReactNode;
     footer: ReactNode;
@@ -37,6 +39,17 @@ export function ClientLayout({
     // 1. Auth pages (Signin/Signup)
     // 2. Admin pages (Management Workspace)
     const shouldHideStandardLayout = isAuthPath || isAdminPath;
+
+    // MAINTENANCE PROTOCOL
+    // If enabled, restrict all public ingress routes.
+    // Admin and Auth paths remain accessible for operational recovery.
+    if (isMaintenanceMode && !shouldHideStandardLayout) {
+        return (
+            <AnalyticsProvider>
+                <MaintenancePage />
+            </AnalyticsProvider>
+        );
+    }
 
     if (shouldHideStandardLayout) {
         return (
