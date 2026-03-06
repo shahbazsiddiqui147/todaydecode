@@ -33,7 +33,7 @@ export async function signUp(formData: FormData) {
                 name: validated.name,
                 email: validated.email,
                 password: hashedPassword,
-                role: "ANALYST", // Default role for new personnel
+                role: "AUTHOR", // Default role for new personnel
             },
         });
 

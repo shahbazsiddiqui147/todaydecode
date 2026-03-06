@@ -60,7 +60,6 @@ export default async function DashboardPage() {
     });
 
     // 4. Aggregate data for the map (only followed regions if any, otherwise global)
-    // For now, we reuse the global data but the component could be filtered
     const regionData: Record<string, number> = {};
     const aggregations = await prisma.article.groupBy({
         by: ["region"],
@@ -84,7 +83,7 @@ export default async function DashboardPage() {
                         Research <span className="text-[#22D3EE]">Desk</span>
                     </h1>
                     <p className="text-muted-foreground text-sm font-medium">
-                        Strategic Monitoring for <span className="text-foreground font-bold">{user.name || "Field Analyst"}</span> // {user.role || "ANALYST"}
+                        Strategic Monitoring for <span className="text-foreground font-bold">{user.name || "Field Analyst"}</span> // {user.role === 'AUTHOR' ? 'Strategic Analyst' : user.role === 'EDITOR' ? 'Senior Editor' : user.role === 'ADMIN' ? 'Master Administrator' : 'Institutional Guest'}
                     </p>
                 </div>
 

@@ -17,9 +17,9 @@ export function PaywallGate({ children, isPremium = false }: PaywallGateProps) {
     const { data: session, status } = useSession();
     const { trackEvent } = useAnalytics();
 
-    // Hardened Role Logic: Only ANALYST or ADMIN tiers can pass
+    // Hardened Role Logic: Clear elevated tiers for premium research
     const userRole = (session?.user as any)?.role;
-    const hasAccess = status === 'authenticated' && (userRole === 'ANALYST' || userRole === 'ADMIN');
+    const hasAccess = status === 'authenticated' && ['AUTHOR', 'EDITOR', 'ADMIN'].includes(userRole);
 
     useEffect(() => {
         if (isPremium && !hasAccess) {
@@ -62,7 +62,7 @@ export function PaywallGate({ children, isPremium = false }: PaywallGateProps) {
                         </h3>
                         <p className="text-sm text-slate-400 leading-relaxed font-medium max-w-sm mx-auto">
                             This strategic analysis is reserved for authorized advisors and institutional partners.
-                            Upgrade to <span className="text-white font-bold italic">ANALYST TIER</span> to unlock full geopolitical insights.
+                            Upgrade to <span className="text-white font-bold italic">STRATEGIC ANALYST TIER</span> to unlock full geopolitical insights.
                         </p>
                     </div>
 

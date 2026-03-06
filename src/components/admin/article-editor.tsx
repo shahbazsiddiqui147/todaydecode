@@ -672,7 +672,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Strategic Analyst</Label>
                                 <Select value={formData.authorId} onValueChange={(v) => handleSelectChange("authorId", v)}>
                                     <SelectTrigger className="w-full rounded-xl bg-[#020617] border-[#1E293B] h-11 text-[11px] font-black uppercase text-[#F1F5F9] focus:ring-[#22D3EE] transition-all">
-                                        <SelectValue placeholder="FETCH ANALYST" />
+                                        <SelectValue placeholder="FETCH STRATEGIC ANALYST" />
                                     </SelectTrigger>
                                     <SelectContent className="w-[var(--radix-select-trigger-width)] rounded-xl bg-[#020617] border-[#1E293B] text-[11px] font-black uppercase text-[#F1F5F9] p-1">
                                         {initialAuthors.map(a => <SelectItem key={a.id} value={a.id} className="rounded-lg hover:bg-white/5 cursor-pointer">{a.name}</SelectItem>)}
