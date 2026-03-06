@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 
 export async function Footer() {
-    let pages = [];
+    let pages: any[] = [];
     let settings: any = null;
     try {
         [pages, settings] = await Promise.all([
