@@ -161,17 +161,17 @@ export default async function Page() {
           </section>
 
           {/* Institutional Blocks */}
-          <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-slate-100 dark:bg-[#111827] p-12 rounded-[2.5rem] border border-[#1E293B] shadow-2xl relative overflow-hidden group">
+          <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-slate-100 dark:bg-[#111827] p-8 sm:p-12 rounded-[2.5rem] border border-[#1E293B] shadow-2xl relative overflow-hidden group">
             <div className="lg:col-span-5 space-y-8">
               <div className="space-y-4">
                 <div className="p-3 bg-accent-red/10 border border-accent-red/20 rounded-2xl w-fit">
                   <Zap className="h-6 w-6 text-accent-red" />
                 </div>
                 <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-[#F1F5F9] uppercase tracking-tighter leading-[0.9] italic">
-                  Strategic <br />Scenario <br />Modeling
+                  Strategic <br />Scenario <br />Forecasting
                 </h2>
               </div>
-              <p className="text-slate-600 dark:text-[#94A3B8] font-medium text-lg max-w-sm uppercase tracking-tight leading-relaxed">
+              <p className="text-slate-600 dark:text-[#94A3B8] font-medium text-lg max-w-sm tracking-tight leading-relaxed">
                 Access our proprietary quantitative forecasting engine. Predict institutional impact across multiple geopolitical timelines.
               </p>
             </div>

@@ -82,7 +82,7 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
                 ))}
             </div>
 
-            <div className="p-8">
+            <div className="p-6 sm:p-8">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={activeTab}
@@ -97,7 +97,7 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
                                 <h3 className={cn("text-2xl font-black tracking-tight text-[#22D3EE]")}>
                                     {activeData.title}
                                 </h3>
-                                <p className="text-slate-300 text-base leading-relaxed">
+                                <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
                                     {activeData.description}
                                 </p>
                             </div>
@@ -130,13 +130,17 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
                             </div>
                         </div>
 
-                        <div className="pt-6 border-t border-white/5">
+                        <div className="pt-8 border-t border-white/5 flex items-center justify-between">
+                            <div className="flex items-center space-x-3 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">
+                                <div className="h-2 w-2 rounded-full bg-accent-cyan animate-pulse" />
+                                <span>Assessment Finalized // Data Reconciled</span>
+                            </div>
                             <Link
                                 href={`/${category.toLowerCase()}/${slug.replace(/^\/|\/$/g, '')}/`}
-                                className="inline-flex items-center text-[11px] font-black text-[#22D3EE] uppercase tracking-[0.25em] group bg-[#22D3EE]/10 border-2 border-[#22D3EE]/30 px-8 py-5 rounded-xl hover:bg-[#22D3EE] hover:text-[#020617] transition-all shadow-lg shadow-cyan-500/10 active:scale-95"
+                                className="flex items-center text-[10px] font-black text-[#22D3EE] uppercase tracking-[0.2em] hover:text-white transition-colors group"
                             >
-                                <span className="drop-shadow-sm">Assessment Finalized // Data Reconciled</span>
-                                <ChevronRight className="ml-3 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                <span>View Deep Briefing</span>
+                                <ChevronRight className="ml-2 h-3 w-3 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </div>
                     </motion.div>
