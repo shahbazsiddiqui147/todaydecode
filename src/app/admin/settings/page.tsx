@@ -107,7 +107,7 @@ export default function SettingsPage() {
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#1E293B] dark:border-[#1E293B]">
                 <div className="space-y-1">
                     <h1 className="text-3xl font-black uppercase tracking-tighter text-[#22D3EE] dark:text-[#22D3EE] italic pb-1">Platform <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Parameters</span></h1>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Configure global institutional advisory settings.</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#94A3B8] dark:text-[#94A3B8]">Configure global institutional advisory settings.</p>
                 </div>
                 <Button
                     onClick={handleSave}
@@ -130,19 +130,28 @@ export default function SettingsPage() {
 
                         <div className="space-y-10">
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[#1E293B] dark:text-[#F1F5F9] pl-1">Institutional Name</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] dark:text-[#94A3B8] pl-1">Institutional Name</label>
                                 <Input
                                     value={formData.siteName}
                                     onChange={(e) => setFormData({ ...formData, siteName: e.target.value })}
-                                    className="h-14 font-black uppercase tracking-tight bg-white dark:bg-[#020617] border-[#1E293B] rounded-2xl focus:ring-[#22D3EE]"
+                                    className="h-14 font-black uppercase tracking-tight bg-[#020617] text-[#F1F5F9] border-[#1E293B] rounded-2xl focus:ring-[#22D3EE] focus:border-[#22D3EE]"
                                 />
                             </div>
 
-                            <UploadNode
-                                label="Primary Logo Asset"
-                                currentUrl={formData.logoUrl}
-                                onUploadComplete={(url: string) => setFormData({ ...formData, logoUrl: url })}
-                            />
+                            <div className="flex items-center gap-6">
+                                <div className="flex-1">
+                                    <UploadNode
+                                        label="Primary Logo Asset"
+                                        currentUrl={formData.logoUrl}
+                                        onUploadComplete={(url: string) => setFormData({ ...formData, logoUrl: url })}
+                                    />
+                                </div>
+                                {formData.logoUrl && (
+                                    <div className="h-24 w-24 rounded-2xl border border-[#1E293B] bg-[#020617] p-2 flex items-center justify-center shrink-0">
+                                        <img src={formData.logoUrl} alt="Logo Preview" className="max-h-full max-w-full object-contain" />
+                                    </div>
+                                )}
+                            </div>
 
                             <UploadNode
                                 label="Favicon Framework Asset"
@@ -166,9 +175,9 @@ export default function SettingsPage() {
                                 { id: "instagram", label: "Instagram Node", placeholder: "https://instagram.com/username" },
                                 { id: "pinterest", label: "Pinterest Node", placeholder: "https://pinterest.com/username" },
                             ].map((platform) => (
-                                <div key={platform.id} className="space-y-4 p-6 rounded-3xl bg-slate-900/10 border border-[#1E293B]/50 transition-all hover:border-[#22D3EE]/30 group">
+                                <div key={platform.id} className="space-y-4 p-6 rounded-3xl bg-[#020617]/50 border border-[#1E293B] transition-all hover:border-[#22D3EE]/30 group">
                                     <div className="flex items-center justify-between">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#1E293B] dark:text-[#F1F5F9] pl-1">{platform.label}</label>
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] pl-1">{platform.label}</label>
                                         <button
                                             type="button"
                                             onClick={() => setFormData({
@@ -205,7 +214,7 @@ export default function SettingsPage() {
                                             }
                                         })}
                                         placeholder={platform.placeholder}
-                                        className="h-12 font-mono text-[10px] bg-white dark:bg-[#020617] border-[#1E293B] rounded-xl focus:ring-[#22D3EE] opacity-90 group-hover:opacity-100 transition-opacity"
+                                        className="h-12 font-mono text-[10px] bg-[#020617] text-[#F1F5F9] border-[#1E293B] rounded-xl focus:ring-[#22D3EE] focus:border-[#22D3EE] opacity-90 group-hover:opacity-100 transition-opacity"
                                     />
                                 </div>
                             ))}

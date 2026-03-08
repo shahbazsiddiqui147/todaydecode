@@ -53,3 +53,5 @@ To provide high-fidelity, institutional-grade strategic intelligence through a m
 - **Visual Logic Protocol:** The 'VISUAL LOGIC' section in any report must be rendered as a high-fidelity SVG using Mermaid.js. Raw ASCII code is a protocol violation.
 - **Sidebar Hierarchy:** 1. Related Research, 2. Institutional Citation Tool, 3. Promoted Advisory.
 - **Labeling Protocol:** Use 'Analysis Desk' and 'Strategic Archive' in all headers. Purge 'Intelligence' from research labels.
+- **Institutional Override (Maintenance):** When Maintenance Mode is active, the platform must allow 'ADMIN' and 'EDITOR' roles to access the frontend for verification. Unauthenticated users and 'GUEST' roles remain redirected to the '/coming-soon/' node.
+- **Admin Visibility:** All Admin Workspace input fields must use #020617 (Deepest Navy) backgrounds with #F1F5F9 (Slate-100) text to prevent 'Ghost UI' invisibility.

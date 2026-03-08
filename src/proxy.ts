@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getToken } from "next-auth/jwt";
+import { getSiteSettings } from "@/lib/actions/admin-actions";
 
 export async function proxy(request: NextRequest) {
     const { pathname, searchParams } = request.nextUrl;
@@ -46,7 +47,23 @@ export async function proxy(request: NextRequest) {
         return NextResponse.next();
     }
 
-    // 3. TRAILING SLASH ENFORCEMENT (Strategic Directive compliance)
+    // 3. MAINTENANCE MODE OVERRIDE (Institutional Bypass)
+    const settings = await getSiteSettings();
+    if (settings?.maintenanceMode) {
+        const token = await getToken({
+            req: request,
+            secret: process.env.NEXTAUTH_SECRET
+        });
+
+        // Allow ADMIN and EDITOR to bypass
+        const canBypass = token && (token.role === 'ADMIN' || token.role === 'EDITOR' || token.role === 'AUTHOR');
+
+        if (!canBypass && pathname !== '/coming-soon/') {
+            return NextResponse.redirect(new URL('/coming-soon/', request.url));
+        }
+    }
+
+    // 4. TRAILING SLASH ENFORCEMENT (Strategic Directive compliance)
     if (pathname !== '/' && !pathname.endsWith('/') && !pathname.includes('.')) {
         const redirectUrl = new URL(pathname + '/', request.url);
         searchParams.forEach((value, key) => redirectUrl.searchParams.set(key, value));
