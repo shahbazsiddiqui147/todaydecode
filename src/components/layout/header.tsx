@@ -1,8 +1,8 @@
 "use client";
 
-import { CommandK } from "../search/command-k";
+import { Search } from "./Search";
 import { User, LayoutDashboard, LogOut, ShieldCheck, Menu } from "lucide-react";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import {
@@ -26,7 +26,7 @@ export function Header({
     return (
         <header className="sticky top-0 z-40 flex h-14 sm:h-16 shrink-0 items-center justify-between border-b border-border-slate bg-background/80 backdrop-blur-md px-4 lg:px-6">
             <div className="flex flex-1 items-center gap-4 sm:gap-8 overflow-hidden">
-                <CommandK />
+                <Search />
 
                 <nav className="hidden lg:flex items-center gap-6">
                     {navigationItems.map((item) => (

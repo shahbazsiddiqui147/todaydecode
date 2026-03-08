@@ -7,17 +7,20 @@ import Link from "next/link";
 import { ContentRenderer } from "@/components/analysis/ContentRenderer";
 import { QuickAnswers } from "@/components/aeo/quick-answers";
 import { PaywallGate } from "@/components/monetization/paywall-gate";
+import { CitationTool } from "@/components/intel/citation-tool";
 
 interface CommentaryTemplateProps {
     article: any;
     formattedDate: string;
     readingTime: string;
+    fullSiloPath?: string;
 }
 
 export const CommentaryTemplate: React.FC<CommentaryTemplateProps> = ({
     article,
     formattedDate,
-    readingTime
+    readingTime,
+    fullSiloPath
 }) => {
     return (
         <div className="commentary-template max-w-4xl mx-auto py-20 px-6">
@@ -68,6 +71,16 @@ export const CommentaryTemplate: React.FC<CommentaryTemplateProps> = ({
                 </div>
 
                 <QuickAnswers faqData={(article.faqData as any) || []} />
+
+                <div className="pt-12 border-t border-slate-100 dark:border-white/5 opacity-50 hover:opacity-100 transition-opacity">
+                    <CitationTool
+                        title={article.title}
+                        author={article.author.name}
+                        publishedDate={formattedDate}
+                        category={fullSiloPath || article.category.name}
+                        slug={article.slug}
+                    />
+                </div>
             </div>
         </div>
     );

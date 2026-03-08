@@ -16,13 +16,15 @@ interface StrategicReportTemplateProps {
     formattedDate: string;
     readingTime: string;
     processedScenarios: any;
+    fullSiloPath?: string;
 }
 
 export const StrategicReportTemplate: React.FC<StrategicReportTemplateProps> = ({
     article,
     formattedDate,
     readingTime,
-    processedScenarios
+    processedScenarios,
+    fullSiloPath
 }) => {
     const structuredData = (article.structuredData as any) || {};
 
@@ -174,7 +176,7 @@ export const StrategicReportTemplate: React.FC<StrategicReportTemplateProps> = (
                                 title={article.title}
                                 author={article.author.name}
                                 publishedDate={formattedDate}
-                                category={article.category.name}
+                                category={fullSiloPath || article.category.name}
                                 slug={article.slug}
                             />
                         </div>

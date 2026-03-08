@@ -13,12 +13,14 @@ interface PolicyToolkitTemplateProps {
     article: any;
     formattedDate: string;
     readingTime: string;
+    fullSiloPath?: string;
 }
 
 export const PolicyToolkitTemplate: React.FC<PolicyToolkitTemplateProps> = ({
     article,
     formattedDate,
-    readingTime
+    readingTime,
+    fullSiloPath
 }) => {
     const structuredData = (article.structuredData as any) || {};
     const implementationSteps = Array.isArray(structuredData.implementationStrategy) ? structuredData.implementationStrategy : [];
@@ -147,7 +149,7 @@ export const PolicyToolkitTemplate: React.FC<PolicyToolkitTemplateProps> = ({
                                 title={article.title}
                                 author={article.author.name}
                                 publishedDate={formattedDate}
-                                category={article.category.name}
+                                category={fullSiloPath || article.category.name}
                                 slug={article.slug}
                             />
                         </div>

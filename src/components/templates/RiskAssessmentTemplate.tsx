@@ -13,12 +13,14 @@ interface RiskAssessmentTemplateProps {
     article: any;
     formattedDate: string;
     readingTime: string;
+    fullSiloPath?: string;
 }
 
 export const RiskAssessmentTemplate: React.FC<RiskAssessmentTemplateProps> = ({
     article,
     formattedDate,
-    readingTime
+    readingTime,
+    fullSiloPath
 }) => {
     const structuredData = (article.structuredData as any) || {};
     const volatilityDrivers = Array.isArray(structuredData.volatilityDrivers)
@@ -142,7 +144,7 @@ export const RiskAssessmentTemplate: React.FC<RiskAssessmentTemplateProps> = ({
                                 title={article.title}
                                 author={article.author.name}
                                 publishedDate={formattedDate}
-                                category={article.category.name}
+                                category={fullSiloPath || article.category.name}
                                 slug={article.slug}
                             />
                         </div>

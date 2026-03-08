@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,150 +8,97 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-enum RiskLevel { 
-  LOW
-  MEDIUM
-  HIGH
-  CRITICAL 
-}
-
-enum Region { 
-  GLOBAL
-  MENA
-  APAC
-  EUROPE
-  AMERICAS
-  AFRICA 
-}
-
-enum ArticleStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
-
-enum PublicationFormat {
-  POLICY_BRIEF
-  STRATEGIC_REPORT
-  COMMENTARY
-  SCENARIO_ANALYSIS
-  RISK_ASSESSMENT
-  DATA_INSIGHT
-  ANNUAL_OUTLOOK
-  POLICY_TOOLKIT
-}
-
 model Article {
-  id              String    @id @default(cuid())
-  title           String
-  slug            String    @unique
-  onPageLead      String?   @db.Text // Distinct from SEO metaDescription
-  summary         String    @db.Text
-  content         String    @db.Text
-  status          ArticleStatus @default(DRAFT)
-  format          PublicationFormat @default(STRATEGIC_REPORT)
-  isFeatured      Boolean   @default(false)
-  isFeaturedScenario Boolean   @default(false)
-  featuredImage   String?
-  
-  // Data-Driven Attributes
-  region          Region    @default(GLOBAL)
-  riskLevel       RiskLevel @default(MEDIUM)
-  riskScore       Int       // 1-100 gauge
-  impactScore     Int       // 1-100 strategic weight
-  
-  // Scenario Forecast (Best/Most Likely/Worst)
-  scenarios       Json?     
-  
-  // SEO, AEO & Academic Archival
-  structuredData  Json?     // format-specific components
-  directAnswer    String?   @db.Text // For AEO Snippets
-  faqData         Json?     // For Google SGE/AI citation
-  auditNodes      String?   @db.Text
-  researchArchive String?   @db.Text
-  metaTitle       String?
-  metaDescription String?
-  
-  publishedAt     DateTime  @default(now())
-  authorId        String
-  author          Author    @relation(fields: [authorId], references: [id])
-  categoryId      String
-  category        Category  @relation(fields: [categoryId], references: [id])
-  savedBy         SavedAnalysis[]
-  isPremium       Boolean   @default(false)
+  id                 String            @id @default(cuid())
+  title              String
+  slug               String            @unique
+  onPageLead         String?
+  summary            String
+  content            String
+  status             ArticleStatus     @default(DRAFT)
+  format             PublicationFormat @default(STRATEGIC_REPORT)
+  isFeatured         Boolean           @default(false)
+  isFeaturedScenario Boolean           @default(false)
+  featuredImage      String?
+  region             Region            @default(GLOBAL)
+  riskLevel          RiskLevel         @default(MEDIUM)
+  riskScore          Int
+  impactScore        Int
+  scenarios          Json?
+  structuredData     Json?
+  directAnswer       String?
+  faqData            Json?
+  auditNodes         String?
+  researchArchive    String?
+  metaTitle          String?
+  metaDescription    String?
+  publishedAt        DateTime          @default(now())
+  authorId           String
+  categoryId         String
+  isPremium          Boolean           @default(false)
+  author             Author            @relation(fields: [authorId], references: [id])
+  category           Category          @relation(fields: [categoryId], references: [id])
+  savedBy            SavedAnalysis[]
 }
 
 model Category {
-  id          String   @id @default(cuid())
-  name        String   @unique // Geopolitics, Economy, etc.
-  slug        String   @unique // e.g., "geopolitics/"
-  description String?  @db.Text
-  leadAnalyst String?  @default("Strategic Oversight Group")
-  order       Int      @default(0)
-  isVisible   Boolean  @default(true)
-  icon        String?  // Lucide icon name or SVG path
-
+  id          String      @id @default(cuid())
+  name        String      @unique
+  slug        String      @unique
+  description String?
+  leadAnalyst String?     @default("Strategic Oversight Group")
+  order       Int         @default(0)
+  isVisible   Boolean     @default(true)
+  icon        String?
+  parentId    String?
   articles    Article[]
+  parent      Category?   @relation("SubCategories", fields: [parentId], references: [id])
+  children    Category[]  @relation("SubCategories")
   watchlists  Watchlist[]
 }
 
 model Author {
-  id           String   @id @default(cuid())
-  name         String
-  slug         String   @unique
-  image        String?
-  role         String
-  bio          String   @db.Text
-  expertise    String[] // Analyst Expertise (e.g., ["Cyber", "MENA"])
-  socialLinks  Json?    // { twitter, linkedin, website }
-  
-  articles     Article[]
-}
-
-// --- Identity & Access (NextAuth) ---
-
-enum UserRole {
-  GUEST
-  AUTHOR
-  EDITOR
-  ADMIN
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  image       String?
+  role        String
+  bio         String
+  expertise   String[]
+  socialLinks Json?
+  articles    Article[]
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  role          UserRole  @default(GUEST)
-  accounts      Account[]
-  sessions      Session[]
-  
-  // Stripe Integration
-  stripeCustomerId       String?   @unique
-  stripeSubscriptionId   String?   @unique
-  
-  // Intelligence Personalization
-  watchlists    Watchlist[]
-  savedAnalyses SavedAnalysis[]
+  id                   String          @id @default(cuid())
+  name                 String?
+  email                String?         @unique
+  emailVerified        DateTime?
+  image                String?
+  password             String?
+  role                 UserRole        @default(GUEST)
+  stripeCustomerId     String?         @unique
+  stripeSubscriptionId String?         @unique
+  accounts             Account[]
+  savedAnalyses        SavedAnalysis[]
+  sessions             Session[]
+  watchlists           Watchlist[]
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -175,16 +119,14 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-// --- Intelligence Personalization ---
-
 model Watchlist {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  categoryId  String?
-  category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  region      Region?  // Can follow a region directly
-  createdAt   DateTime @default(now())
+  id         String    @id @default(cuid())
+  userId     String
+  categoryId String?
+  region     Region?
+  createdAt  DateTime  @default(now())
+  category   Category? @relation(fields: [categoryId], references: [id])
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, categoryId, region])
 }
@@ -192,22 +134,19 @@ model Watchlist {
 model SavedAnalysis {
   id        String   @id @default(cuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   articleId String
-  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, articleId])
 }
 
-// Add relation back to Article
-// (Note: In a real app, you'd add this to the Article model above)
-// Already have: articles SavedAnalysis[] indirectly? No, let's update Article.
 model Page {
   id              String   @id @default(cuid())
   title           String
   slug            String   @unique
-  content         String   @db.Text
+  content         String
   metaTitle       String?
   metaDescription String?
   createdAt       DateTime @default(now())
@@ -215,13 +154,13 @@ model Page {
 }
 
 model SiteSettings {
-  id               String   @id @default("1")
-  siteName         String   @default("Today Decode")
-  logoUrl          String?
-  faviconUrl       String?
-  socialLinks      Json?    // { x, linkedin, facebook }
-  maintenanceMode  Boolean  @default(false)
-  updatedAt        DateTime @updatedAt
+  id              String   @id @default("1")
+  siteName        String   @default("Today Decode")
+  logoUrl         String?
+  faviconUrl      String?
+  socialLinks     Json?
+  maintenanceMode Boolean  @default(false)
+  updatedAt       DateTime @updatedAt
 }
 
 model NavigationItem {
@@ -229,18 +168,58 @@ model NavigationItem {
   label     String
   href      String
   order     Int      @default(0)
-  type      String   @default("HEADER") // HEADER, SIDEBAR, FOOTER
+  type      String   @default("HEADER")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model CountryMetric {
   id          String   @id @default(cuid())
-  countryCode String   @unique // ISO-A3
+  countryCode String   @unique
   countryName String
-  literacy    String?  // e.g. "98%"
-  economy     String?  // e.g. "GDP $2.5T / +1.2%"
-  energy      String?  // e.g. "72% Nuclear / 28% Fossil"
-  army        String?  // e.g. "Active: 1.2M / Reserve: 2M"
+  literacy    String?
+  economy     String?
+  energy      String?
+  army        String?
   updatedAt   DateTime @updatedAt
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum Region {
+  GLOBAL
+  MENA
+  APAC
+  EUROPE
+  AMERICAS
+  AFRICA
+}
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum PublicationFormat {
+  POLICY_BRIEF
+  STRATEGIC_REPORT
+  COMMENTARY
+  SCENARIO_ANALYSIS
+  RISK_ASSESSMENT
+  DATA_INSIGHT
+  ANNUAL_OUTLOOK
+  POLICY_TOOLKIT
+}
+
+enum UserRole {
+  GUEST
+  AUTHOR
+  EDITOR
+  ADMIN
 }

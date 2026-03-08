@@ -8,6 +8,7 @@ export function constructMetadata({
     type = "website",
     riskScore,
     impactScore,
+    articleFormat,
     noIndex = false
 }: {
     title?: string;
@@ -17,17 +18,33 @@ export function constructMetadata({
     type?: "website" | "article" | "profile";
     riskScore?: number;
     impactScore?: number;
+    articleFormat?: string;
     noIndex?: boolean;
 } = {}) {
     // Ensure path is cleaned and has a trailing slash for absolute canonical consistency
-    // This adheres to the STRATEGIC_DIRECTIVE for Institutional Authority
     const cleanPath = path.startsWith('/') ? path : `/${path}`;
     const url = `${SITE_URL}${cleanPath.endsWith('/') ? cleanPath : cleanPath + '/'}`;
 
     // Dynamic Institutional Descriptions for Social Dominance
     let dynamicDescription = description;
+
+    if (articleFormat) {
+        const formatLabels: Record<string, string> = {
+            'POLICY_BRIEF': 'Institutional Policy Brief',
+            'STRATEGIC_REPORT': 'Executive Strategic Report',
+            'RISK_ASSESSMENT': 'Global Risk Assessment',
+            'SCENARIO_ANALYSIS': 'Strategic Scenario Forecast',
+            'COMMENTARY': 'Strategic Commentary',
+            'DATA_INSIGHT': 'Technical Data Insight',
+            'ANNUAL_OUTLOOK': 'Annual Strategic Outlook',
+            'POLICY_TOOLKIT': 'Operational Policy Toolkit'
+        };
+        const label = formatLabels[articleFormat] || 'Strategic Analysis';
+        dynamicDescription = `[${label}] ${description}`;
+    }
+
     if (riskScore !== undefined) {
-        dynamicDescription = `[RISK: ${riskScore}/100] // ${description}`;
+        dynamicDescription = `[RISK: ${riskScore}/100] // ${dynamicDescription}`;
     }
 
     return {

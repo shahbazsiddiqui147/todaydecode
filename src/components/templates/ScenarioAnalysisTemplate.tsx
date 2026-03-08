@@ -8,19 +8,22 @@ import { QuickAnswers } from "@/components/aeo/quick-answers";
 import { MethodologyBadge } from "@/components/intel/methodology-badge";
 import { ScenarioForecast } from "@/components/analysis/scenario-forecast";
 import { PaywallGate } from "@/components/monetization/paywall-gate";
+import { CitationTool } from "@/components/intel/citation-tool";
 
 interface ScenarioAnalysisTemplateProps {
     article: any;
     formattedDate: string;
     readingTime: string;
     processedScenarios: any;
+    fullSiloPath?: string;
 }
 
 export const ScenarioAnalysisTemplate: React.FC<ScenarioAnalysisTemplateProps> = ({
     article,
     formattedDate,
     readingTime,
-    processedScenarios
+    processedScenarios,
+    fullSiloPath
 }) => {
     const structuredData = (article.structuredData as any) || {};
     const signals = Array.isArray(structuredData.signalsToWatch)
@@ -151,6 +154,16 @@ export const ScenarioAnalysisTemplate: React.FC<ScenarioAnalysisTemplateProps> =
                                     <div className="h-full bg-[#22D3EE]" style={{ width: '100%' }} />
                                 </div>
                             </div>
+                        </div>
+
+                        <div className="p-8 bg-black/20 border border-white/5 rounded-3xl opacity-60 hover:opacity-100 transition-opacity">
+                            <CitationTool
+                                title={article.title}
+                                author={article.author.name}
+                                publishedDate={formattedDate}
+                                category={fullSiloPath || article.category.name}
+                                slug={article.slug}
+                            />
                         </div>
                     </div>
                 </aside>

@@ -4,6 +4,12 @@ export async function fetchShellCategories() {
     try {
         return await prisma.category.findMany({
             where: { isVisible: true },
+            include: {
+                children: {
+                    where: { isVisible: true },
+                    orderBy: { order: 'asc' }
+                }
+            },
             orderBy: { order: 'asc' as any }
         });
     } catch (error) {

@@ -65,39 +65,69 @@ export function Sidebar({
 
             <div className="flex flex-1 flex-col px-4 py-6 space-y-8">
                 {/* Navigation */}
-                <nav className="space-y-1">
+                <nav className="flex-1 space-y-1">
                     <div className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] px-2 mb-3">
-                        {curatedNav.length > 0 ? "Strategic Navigation" : "Strategic Archive"}
+                        Strategic Archive
                     </div>
-                    {categories.map((item) => {
-                        const label = item.name;
-                        const slug = item.slug.replace(/^\/|\/$/g, '');
-                        const href = `/${slug}/`;
-
-                        const isActive = pathname === href || (href !== '/' && pathname.startsWith(href));
-                        // Lookup icon or fallback to Globe
-                        const Icon = ICON_MAP[label.toLowerCase()] || ICON_MAP[slug] || Globe;
+                    {categories.filter(c => !c.parentId).map((silo) => {
+                        const siloSlug = silo.slug.replace(/^\/|\/$/g, '');
+                        const siloHref = `/${siloSlug}/`;
+                        const isSiloActive = pathname.startsWith(siloHref);
+                        const SiloIcon = ICON_MAP[silo.name.toLowerCase()] || ICON_MAP[siloSlug] || Globe;
 
                         return (
-                            <Link
-                                key={item.id || item.slug}
-                                href={href}
-                                className={cn(
-                                    "group flex items-center px-2 py-2.5 text-sm font-medium rounded-md transition-all",
-                                    isActive
-                                        ? "bg-secondary text-foreground shadow-lg shadow-black/5 dark:shadow-black/40"
-                                        : "text-muted-foreground hover:bg-secondary/50 hover:text-foreground"
+                            <div key={silo.id} className="space-y-1">
+                                <div
+                                    className={cn(
+                                        "group flex items-center justify-between px-2 py-2.5 text-sm font-semibold rounded-md transition-all cursor-pointer",
+                                        isSiloActive
+                                            ? "bg-secondary/30 text-[#22D3EE]"
+                                            : "text-muted-foreground hover:bg-secondary/50 hover:text-foreground"
+                                    )}
+                                >
+                                    <Link href={siloHref} className="flex items-center flex-1">
+                                        <SiloIcon className={cn(
+                                            "mr-3 h-5 w-5 shrink-0 transition-colors",
+                                            isSiloActive ? "text-[#22D3EE]" : "group-hover:text-[#22D3EE]"
+                                        )} />
+                                        {silo.name}
+                                    </Link>
+                                    {silo.children && silo.children.length > 0 && (
+                                        <ChevronDown className={cn(
+                                            "h-4 w-4 transition-transform",
+                                            isSiloActive ? "rotate-0 text-[#22D3EE]" : "-rotate-90 opacity-50"
+                                        )} />
+                                    )}
+                                </div>
+
+                                {isSiloActive && silo.children && silo.children.length > 0 && (
+                                    <div className="ml-8 space-y-1 border-l border-border-slate/50 pl-2 mt-1">
+                                        {silo.children.map((desk: any) => {
+                                            const deskSlug = desk.slug.replace(/^\/|\/$/g, '');
+                                            const deskHref = `/${siloSlug}/${deskSlug}/`;
+                                            const isDeskActive = pathname === deskHref;
+
+                                            return (
+                                                <Link
+                                                    key={desk.id}
+                                                    href={deskHref}
+                                                    className={cn(
+                                                        "flex items-center px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-sm transition-colors",
+                                                        isDeskActive
+                                                            ? "bg-[#22D3EE]/10 text-slate-100"
+                                                            : "text-slate-400 hover:bg-secondary/30 hover:text-slate-200"
+                                                    )}
+                                                >
+                                                    {desk.name}
+                                                </Link>
+                                            );
+                                        })}
+                                    </div>
                                 )}
-                            >
-                                <Icon className={cn(
-                                    "mr-3 h-5 w-5 shrink-0 transition-colors",
-                                    isActive ? "text-[#22D3EE]" : "group-hover:text-[#22D3EE]"
-                                )} />
-                                {label}
-                            </Link>
+                            </div>
                         );
                     })}
-                    {curatedNav.length === 0 && categories.length === 0 && (
+                    {categories.length === 0 && (
                         <div className="px-2 py-4 text-[10px] font-bold text-slate-600 uppercase italic tracking-widest">
                             Mapping Strategic Silos...
                         </div>

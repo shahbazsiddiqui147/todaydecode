@@ -177,8 +177,9 @@ export const getPublicAuthorBySlug = cache(async (slug: string) => {
  */
 export const getCategoryBySlug = cache(async (slug: string) => {
     try {
+        const normalizedSlug = `/${slug.replace(/^\/|\/$/g, '')}/`;
         const category = await prisma.category.findUnique({
-            where: { slug },
+            where: { slug: normalizedSlug },
             include: {
                 articles: {
                     where: { status: "PUBLISHED" as any },
@@ -211,8 +212,9 @@ export const getCategoryBySlug = cache(async (slug: string) => {
  */
 export const getArticlesByCategory = cache(async (categorySlug: string, limit = 10) => {
     try {
+        const normalizedSlug = `/${categorySlug.replace(/^\/|\/$/g, '')}/`;
         const category = await prisma.category.findUnique({
-            where: { slug: categorySlug }
+            where: { slug: normalizedSlug }
         });
 
         if (!category) return [];
@@ -240,8 +242,9 @@ export const getArticlesByCategory = cache(async (categorySlug: string, limit = 
  */
 export const getPageBySlug = cache(async (slug: string) => {
     try {
+        const normalizedSlug = `/${slug.replace(/^\/|\/$/g, '')}/`;
         return await prisma.page.findUnique({
-            where: { slug }
+            where: { slug: normalizedSlug }
         });
     } catch (error) {
         console.error("Critical fetching error [Institutional Page]:", error);
@@ -285,3 +288,107 @@ export const getCountryMetric = cache(async (countryCode: string) => {
         return null;
     }
 });
+/**
+ * Performs a high-density global search across articles, categories, and authors.
+ * Resolves full hierarchical paths for the new catch-all routing system.
+ */
+export async function globalSearch(query: string) {
+    if (!query || query.length < 2) return { articles: [], categories: [], authors: [] };
+
+    try {
+        const [articles, categories, authors] = await Promise.all([
+            prisma.article.findMany({
+                where: {
+                    status: "PUBLISHED" as any,
+                    OR: [
+                        { title: { contains: query, mode: 'insensitive' } },
+                        { summary: { contains: query, mode: 'insensitive' } },
+                        { content: { contains: query, mode: 'insensitive' } },
+                        { directAnswer: { contains: query, mode: 'insensitive' } },
+                    ]
+                } as any,
+                include: {
+                    category: {
+                        include: { parent: true }
+                    }
+                },
+                take: 8
+            }),
+            prisma.category.findMany({
+                where: {
+                    isVisible: true,
+                    OR: [
+                        { name: { contains: query, mode: 'insensitive' } },
+                        { description: { contains: query, mode: 'insensitive' } },
+                    ]
+                },
+                include: { parent: true },
+                take: 5
+            }),
+            prisma.author.findMany({
+                where: {
+                    OR: [
+                        { name: { contains: query, mode: 'insensitive' } },
+                        { role: { contains: query, mode: 'insensitive' } },
+                    ]
+                },
+                take: 5
+            })
+        ]);
+
+        return {
+            articles: articles.map((a: any) => {
+                const category = a.category;
+                let fullPath = "/";
+
+                if (category.parent) {
+                    // It's a Desk (Child): /silo/desk/slug/
+                    const siloSlug = category.parent.slug.replace(/^\/|\/$/g, '');
+                    const deskSlug = category.slug.replace(/^\/|\/$/g, '');
+                    const articleSlug = a.slug.replace(/^\/|\/$/g, '');
+                    fullPath = `/${siloSlug}/${deskSlug}/${articleSlug}/`;
+                } else {
+                    // It's a top-level Silo (shouldn't happen for articles usually but for safety): /silo/article/ (fallback)
+                    const siloSlug = category.slug.replace(/^\/|\/$/g, '');
+                    const articleSlug = a.slug.replace(/^\/|\/$/g, '');
+                    fullPath = `/${siloSlug}/${articleSlug}/`;
+                }
+
+                return {
+                    id: a.id,
+                    title: a.title,
+                    fullPath,
+                    riskScore: a.riskScore,
+                    format: a.format
+                };
+            }),
+            categories: categories.map((c: any) => {
+                let fullPath = "/";
+                const slug = c.slug.replace(/^\/|\/$/g, '');
+
+                if (c.parent) {
+                    const parentSlug = c.parent.slug.replace(/^\/|\/$/g, '');
+                    fullPath = `/${parentSlug}/${slug}/`;
+                } else {
+                    fullPath = `/${slug}/`;
+                }
+
+                return {
+                    id: c.id,
+                    name: c.name,
+                    fullPath,
+                    isSilo: !c.parentId
+                };
+            }),
+            authors: authors.map((au: any) => ({
+                id: au.id,
+                name: au.name,
+                role: au.role,
+                fullPath: `/author/${au.slug.replace(/^\/|\/$/g, '')}/`
+            }))
+        };
+    } catch (error) {
+        console.error("Critical error during [Global Search]:", error);
+        return { articles: [], categories: [], authors: [] };
+    }
+}

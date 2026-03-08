@@ -13,12 +13,14 @@ interface AnnualOutlookTemplateProps {
     article: any;
     formattedDate: string;
     readingTime: string;
+    fullSiloPath?: string;
 }
 
 export const AnnualOutlookTemplate: React.FC<AnnualOutlookTemplateProps> = ({
     article,
     formattedDate,
-    readingTime
+    readingTime,
+    fullSiloPath
 }) => {
     const structuredData = (article.structuredData as any) || {};
     const strategicThemes = Array.isArray(structuredData.strategicThemes) ? structuredData.strategicThemes : [];
@@ -105,7 +107,7 @@ export const AnnualOutlookTemplate: React.FC<AnnualOutlookTemplateProps> = ({
             <div className="max-w-7xl mx-auto px-6 py-32 space-y-12">
                 <div className="flex flex-col items-center space-y-4">
                     <Badge className="bg-slate-100 text-slate-400 dark:bg-white/5 dark:text-slate-500 rounded-none px-4 py-1 text-[10px] font-black uppercase tracking-[0.2em]">
-                        Global Intelligence Node
+                        Global Strategic Node
                     </Badge>
                     <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter dark:text-white italic text-center">Regional Volatility Matrix</h2>
                 </div>
@@ -145,7 +147,7 @@ export const AnnualOutlookTemplate: React.FC<AnnualOutlookTemplateProps> = ({
                         title={article.title}
                         author={article.author.name}
                         publishedDate={formattedDate}
-                        category={article.category.name}
+                        category={fullSiloPath || article.category.name}
                         slug={article.slug}
                     />
                     <div className="space-y-4 text-center md:text-right grayscale opacity-50">
