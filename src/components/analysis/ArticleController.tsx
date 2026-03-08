@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import { RiskGauge, KeyTakeaways } from "@/components/ui/article-widgets";
 import { ReadingProgressBar } from "@/components/ui/reading-progress-bar";
 import { JsonLd } from "@/components/seo/json-ld";
-import { cookies } from "next/headers";
 import { PolicyBriefTemplate } from "@/components/templates/PolicyBriefTemplate";
 import { StrategicReportTemplate } from "@/components/templates/StrategicReportTemplate";
 import { CommentaryTemplate } from "@/components/templates/CommentaryTemplate";

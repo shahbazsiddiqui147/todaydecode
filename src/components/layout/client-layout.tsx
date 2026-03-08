@@ -6,8 +6,9 @@ import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { BreakingAlert } from "@/components/ui/breaking-alert";
-import { AnalyticsProvider } from "@/components/providers/analytics-provider";
+import { useSession } from "next-auth/react";
 import { ReactNode } from "react";
+import { AnalyticsProvider } from "@/components/providers/analytics-provider";
 import { MaintenancePage } from "@/components/layout/MaintenancePage";
 
 interface ClientLayoutProps {
@@ -32,6 +33,7 @@ export function ClientLayout({
     sideNavigation = []
 }: ClientLayoutProps) {
     const pathname = usePathname();
+    const { data: session } = useSession();
     const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
     const isAuthPath = pathname === '/auth' || pathname.startsWith('/auth/');
@@ -43,10 +45,14 @@ export function ClientLayout({
     // 2. Admin pages (Management Workspace)
     const shouldHideStandardLayout = isAuthPath || isAdminPath;
 
+    // INSTITUTIONAL OVERRIDE (Maintenance Bypass)
+    // Allow ADMIN, EDITOR, and AUTHOR to bypass the maintenance screen.
+    const userRole = session?.user?.role;
+    const canBypassMaintenance = userRole === 'ADMIN' || userRole === 'EDITOR' || userRole === 'AUTHOR';
+
     // MAINTENANCE FRAMEWORK
-    // If enabled, restrict all public ingress routes.
-    // Admin and Auth paths remain accessible for institutional recovery.
-    if (isMaintenanceMode && !shouldHideStandardLayout) {
+    // If enabled, restrict all public ingress routes unless overridden by institutional role.
+    if (isMaintenanceMode && !shouldHideStandardLayout && !canBypassMaintenance) {
         return (
             <AnalyticsProvider>
                 <MaintenancePage />

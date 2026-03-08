@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 import { getToken } from "next-auth/jwt";
 import { getSiteSettings } from "@/lib/actions/admin-actions";
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
     const { pathname, searchParams } = request.nextUrl;
 
     // 1. ADMIN PROTECTION

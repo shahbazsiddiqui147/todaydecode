@@ -138,19 +138,12 @@ export default function SettingsPage() {
                                 />
                             </div>
 
-                            <div className="flex items-center gap-6">
-                                <div className="flex-1">
-                                    <UploadNode
-                                        label="Primary Logo Asset"
-                                        currentUrl={formData.logoUrl}
-                                        onUploadComplete={(url: string) => setFormData({ ...formData, logoUrl: url })}
-                                    />
-                                </div>
-                                {formData.logoUrl && (
-                                    <div className="h-24 w-24 rounded-2xl border border-[#1E293B] bg-[#020617] p-2 flex items-center justify-center shrink-0">
-                                        <img src={formData.logoUrl} alt="Logo Preview" className="max-h-full max-w-full object-contain" />
-                                    </div>
-                                )}
+                            <div className="space-y-6">
+                                <UploadNode
+                                    label="Primary Logo Asset"
+                                    currentUrl={formData.logoUrl}
+                                    onUploadComplete={(url: string) => setFormData({ ...formData, logoUrl: url })}
+                                />
                             </div>
 
                             <UploadNode

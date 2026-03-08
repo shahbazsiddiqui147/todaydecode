@@ -77,7 +77,7 @@ export function UploadNode({ label, currentUrl, onUploadComplete }: UploadNodePr
 
                 {/* Preview Pane */}
                 <div className="md:col-span-4">
-                    <div className="h-32 border border-[#1E293B] rounded-2xl bg-[#111827] flex items-center justify-center relative overflow-hidden group">
+                    <div className="h-32 border border-[#1E293B] rounded-2xl bg-[#020617] flex items-center justify-center relative overflow-hidden group">
                         {preview ? (
                             <>
                                 <img src={preview} alt="Branding Preview" className="max-h-24 max-w-[80%] object-contain" />
