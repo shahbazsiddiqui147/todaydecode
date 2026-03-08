@@ -33,6 +33,17 @@ enum ArticleStatus {
   ARCHIVED
 }
 
+enum PublicationFormat {
+  POLICY_BRIEF
+  STRATEGIC_REPORT
+  COMMENTARY
+  SCENARIO_ANALYSIS
+  RISK_ASSESSMENT
+  DATA_INSIGHT
+  ANNUAL_OUTLOOK
+  POLICY_TOOLKIT
+}
+
 model Article {
   id              String    @id @default(cuid())
   title           String
@@ -41,6 +52,7 @@ model Article {
   summary         String    @db.Text
   content         String    @db.Text
   status          ArticleStatus @default(DRAFT)
+  format          PublicationFormat @default(STRATEGIC_REPORT)
   isFeatured      Boolean   @default(false)
   isFeaturedScenario Boolean   @default(false)
   featuredImage   String?
@@ -55,6 +67,8 @@ model Article {
   scenarios       Json?     
   
   // SEO, AEO & Academic Archival
+  structuredData  Json?     // format-specific components
+  directAnswer    String?   @db.Text // For AEO Snippets
   faqData         Json?     // For Google SGE/AI citation
   auditNodes      String?   @db.Text
   researchArchive String?   @db.Text

@@ -1,17 +1,17 @@
 import { SITE_URL } from "@/lib/seo";
 
 interface JsonLdProps {
-    type: "Article" | "FAQ";
+    type: "Article" | "FAQ" | "Report" | "ScholarlyArticle" | "OpinionNewsArticle" | "AnalysisNewsArticle" | "TechArticle" | "Guide";
     data: any;
 }
 
 export function JsonLd({ type, data }: JsonLdProps) {
     let schema: any = {};
 
-    if (type === "Article") {
+    if (type === "Article" || type === "Report" || type === "ScholarlyArticle" || type === "OpinionNewsArticle" || type === "AnalysisNewsArticle" || type === "TechArticle" || type === "Guide") {
         schema = {
             "@context": "https://schema.org",
-            "@type": "Report",
+            "@type": type === "Article" ? "Report" : type,
             "headline": data.title,
             "description": data.summary,
             "image": [data.image],

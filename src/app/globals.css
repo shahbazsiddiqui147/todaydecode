@@ -241,3 +241,100 @@ h3 {
 .editor-toolbar button:hover {
   background-color: #334155 !important;
 }
+
+/* Executive Print Layer - Institutional Standards */
+@media print {
+  @page {
+    margin: 2cm;
+    size: A4;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  /* Hide Non-Institutional Elements */
+  nav,
+  header,
+  footer,
+  aside,
+  button,
+  .no-print,
+  .breaking-alert,
+  .ad-container,
+  .reading-progress-bar,
+  .cookie-banner,
+  .share-sidebar,
+  [data-radix-portal] {
+    display: none !important;
+  }
+
+  /* Force content visibility */
+  main,
+  .article-content,
+  .template-container {
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Branding Injection */
+  .policy-brief-container::before,
+  .strategic-report-container::before {
+    content: "TODAY DECODE - INSTITUTIONAL ARCHIVE (HTTPS://WWW.TODAYDECODE.COM)";
+    display: block;
+    text-align: center;
+    font-size: 8pt;
+    font-weight: 900;
+    margin-bottom: 2rem;
+    color: #64748b;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 1rem;
+  }
+
+  /* Aesthetic Resets */
+  .bg-primary,
+  .bg-secondary,
+  .bg-slate-900 {
+    background-color: #f1f5f9 !important;
+    color: #000000 !important;
+    border: 1px solid #e2e8f0 !important;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .text-white,
+  .text-accent-red,
+  .text-slate-400 {
+    color: #000000 !important;
+  }
+
+  .border-accent-red {
+    border-color: #000000 !important;
+    border-width: 1pt !important;
+  }
+
+  img {
+    filter: grayscale(100%) brightness(1.2);
+    max-width: 10cm !important;
+    height: auto !important;
+  }
+
+  a {
+    text-decoration: underline;
+    color: #000000 !important;
+  }
+
+  /* Force page breaks */
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+
+  .scenario-forecast,
+  .quick-answers {
+    page-break-inside: avoid;
+  }
+}

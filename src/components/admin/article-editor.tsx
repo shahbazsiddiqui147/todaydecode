@@ -42,6 +42,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
 import { PromptLibrary } from "@/components/admin/prompt-library";
+import { ProtocolSelectionPortal, PublicationFormat } from "@/components/admin/protocol-selection-portal";
 
 interface ArticleEditorProps {
     article?: any;
@@ -55,6 +56,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
     const [isSlugLocked, setIsSlugLocked] = useState(true);
     const [isFoundryOpen, setIsFoundryOpen] = useState(false);
     const [activeTab, setActiveTab] = useState<"content" | "aeo" | "meta">("content");
+    const [isProtocolPortalOpen, setIsProtocolPortalOpen] = useState(!article);
 
     const [formData, setFormData] = useState({
         title: article?.title || "",
@@ -63,6 +65,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
         summary: article?.summary || "",
         content: article?.content || "",
         status: article?.status || "DRAFT",
+        format: article?.format || "STRATEGIC_REPORT",
         isFeatured: article?.isFeatured || false,
         isFeaturedScenario: article?.isFeaturedScenario || false,
         isPremium: article?.isPremium || false,
@@ -85,6 +88,8 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
         ],
         auditNodes: article?.auditNodes || "",
         researchArchive: article?.researchArchive || "",
+        directAnswer: article?.directAnswer || "",
+        structuredData: article?.structuredData || {},
     });
 
     useEffect(() => {
@@ -134,6 +139,16 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
             ...prev,
             faqData: prev.faqData.filter((_: any, i: number) => i !== index)
         }));
+    };
+
+    const handleProtocolSelect = (format: PublicationFormat) => {
+        setFormData(prev => ({
+            ...prev,
+            format,
+            structuredData: {} // Reset structured data when protocol changes
+        }));
+        setIsProtocolPortalOpen(false);
+        toast.success(`Protocol ${format} Initialized.`);
     };
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -252,6 +267,10 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
             </div>
 
             <PromptLibrary isOpen={isFoundryOpen} onClose={() => setIsFoundryOpen(false)} />
+            <ProtocolSelectionPortal
+                isOpen={isProtocolPortalOpen}
+                onSelect={handleProtocolSelect}
+            />
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <div className="lg:col-span-8 space-y-6">
@@ -388,7 +407,190 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 </div>
 
                                 <div className="space-y-8 pt-12 border-t border-border/50">
-                                    <div className="flex items-center gap-3 px-1">
+                                    <div className="flex items-center justify-between px-1">
+                                        <div className="flex items-center gap-3">
+                                            <Shield className="h-5 w-5 text-cyan-500" />
+                                            <h2 className="text-sm font-black uppercase italic tracking-widest text-[#F1F5F9]">
+                                                {formData.format.replace(/_/g, ' ')} Protocol Variables
+                                            </h2>
+                                        </div>
+                                        <Button
+                                            type="button"
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => setIsProtocolPortalOpen(true)}
+                                            className="h-8 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:text-cyan-500 border border-white/5 hover:border-cyan-500/20 rounded-xl"
+                                        >
+                                            Switch Protocol
+                                        </Button>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 gap-6 bg-slate-950/20 p-6 rounded-3xl border border-white/5">
+                                        {formData.format === "POLICY_BRIEF" && (
+                                            <>
+                                                <div className="space-y-2">
+                                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Problem Definition</Label>
+                                                    <Textarea
+                                                        value={formData.structuredData?.problemDefinition || ""}
+                                                        onChange={(e) => setFormData(prev => ({
+                                                            ...prev,
+                                                            structuredData: { ...prev.structuredData, problemDefinition: e.target.value }
+                                                        }))}
+                                                        placeholder="Define the primary strategic challenge..."
+                                                        className="min-h-[100px] bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-700 rounded-xl resize-none px-4 py-3 focus-visible:ring-cyan-500 transition-all font-medium"
+                                                    />
+                                                </div>
+                                                <div className="space-y-4">
+                                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Institutional Recommendations</Label>
+                                                    {(formData.structuredData?.recommendations || [""]).map((rec: string, i: number) => (
+                                                        <div key={i} className="flex gap-2 group/rec animate-in fade-in slide-in-from-left-2 duration-300">
+                                                            <Input
+                                                                value={rec}
+                                                                onChange={(e) => {
+                                                                    const newRecs = [...(formData.structuredData?.recommendations || [""])];
+                                                                    newRecs[i] = e.target.value;
+                                                                    setFormData(prev => ({
+                                                                        ...prev,
+                                                                        structuredData: { ...prev.structuredData, recommendations: newRecs }
+                                                                    }));
+                                                                }}
+                                                                placeholder={`Alpha Recommendation #${i + 1}...`}
+                                                                className="h-11 bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-700 rounded-xl focus-visible:ring-cyan-500"
+                                                            />
+                                                            <Button
+                                                                type="button"
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                onClick={() => {
+                                                                    const newRecs = (formData.structuredData?.recommendations || [""]).filter((_: any, idx: number) => idx !== i);
+                                                                    setFormData(prev => ({
+                                                                        ...prev,
+                                                                        structuredData: { ...prev.structuredData, recommendations: newRecs.length ? newRecs : [""] }
+                                                                    }));
+                                                                }}
+                                                                className="h-11 w-11 rounded-xl hover:bg-red-500/10 hover:text-red-500"
+                                                            >
+                                                                <Trash2 className="h-4 w-4" />
+                                                            </Button>
+                                                        </div>
+                                                    ))}
+                                                    <Button
+                                                        type="button"
+                                                        variant="outline"
+                                                        size="sm"
+                                                        className="h-10 text-[9px] font-black uppercase tracking-widest border-white/10 hover:bg-white/5 text-white rounded-xl"
+                                                        onClick={() => {
+                                                            const newRecs = [...(formData.structuredData?.recommendations || [""]), ""];
+                                                            setFormData(prev => ({
+                                                                ...prev,
+                                                                structuredData: { ...prev.structuredData, recommendations: newRecs }
+                                                            }));
+                                                        }}
+                                                    >
+                                                        <Plus className="h-3.5 w-3.5 mr-2 text-cyan-500" /> Integrate Additional Directive
+                                                    </Button>
+                                                </div>
+                                            </>
+                                        )}
+
+                                        {formData.format === "STRATEGIC_REPORT" && (
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div className="space-y-2">
+                                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Research Methodology</Label>
+                                                    <Textarea
+                                                        value={formData.structuredData?.methodology || ""}
+                                                        onChange={(e) => setFormData(prev => ({
+                                                            ...prev,
+                                                            structuredData: { ...prev.structuredData, methodology: e.target.value }
+                                                        }))}
+                                                        placeholder="Describe forensic approach..."
+                                                        className="min-h-[150px] bg-slate-950 border-[#1E293B] text-[#F1F5F9] rounded-xl text-xs font-mono"
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Empirical Evidence Core</Label>
+                                                    <Textarea
+                                                        value={formData.structuredData?.evidence || ""}
+                                                        onChange={(e) => setFormData(prev => ({
+                                                            ...prev,
+                                                            structuredData: { ...prev.structuredData, evidence: e.target.value }
+                                                        }))}
+                                                        placeholder="Primary data points and evidence..."
+                                                        className="min-h-[150px] bg-slate-950 border-[#1E293B] text-[#F1F5F9] rounded-xl text-xs font-mono"
+                                                    />
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {formData.format === "SCENARIO_ANALYSIS" && (
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div className="space-y-2">
+                                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Primary Signals to Watch</Label>
+                                                    <Textarea
+                                                        value={formData.structuredData?.signals || ""}
+                                                        onChange={(e) => setFormData(prev => ({
+                                                            ...prev,
+                                                            structuredData: { ...prev.structuredData, signals: e.target.value }
+                                                        }))}
+                                                        placeholder="List critical indicators (one per line)..."
+                                                        className="min-h-[150px] bg-slate-950 border-[#1E293B] text-[#F1F5F9] rounded-xl text-xs font-mono"
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Outcome Divergence Logic</Label>
+                                                    <Textarea
+                                                        value={formData.structuredData?.divergence || ""}
+                                                        onChange={(e) => setFormData(prev => ({
+                                                            ...prev,
+                                                            structuredData: { ...prev.structuredData, divergence: e.target.value }
+                                                        }))}
+                                                        placeholder="Explain the pivot points..."
+                                                        className="min-h-[150px] bg-slate-950 border-[#1E293B] text-[#F1F5F9] rounded-xl text-xs font-mono"
+                                                    />
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {formData.format === "RISK_ASSESSMENT" && (
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div className="space-y-2">
+                                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Core Volatility Drivers</Label>
+                                                    <Textarea
+                                                        value={formData.structuredData?.drivers || ""}
+                                                        onChange={(e) => setFormData(prev => ({
+                                                            ...prev,
+                                                            structuredData: { ...prev.structuredData, drivers: e.target.value }
+                                                        }))}
+                                                        placeholder="Primary sources of risk..."
+                                                        className="min-h-[150px] bg-slate-950 border-[#1E293B] text-[#F1F5F9] rounded-xl text-xs font-mono"
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Primary Affected Sectors</Label>
+                                                    <Textarea
+                                                        value={formData.structuredData?.sectors || ""}
+                                                        onChange={(e) => setFormData(prev => ({
+                                                            ...prev,
+                                                            structuredData: { ...prev.structuredData, sectors: e.target.value }
+                                                        }))}
+                                                        placeholder="Sectors under high-impact weight..."
+                                                        className="min-h-[150px] bg-slate-950 border-[#1E293B] text-[#F1F5F9] rounded-xl text-xs font-mono"
+                                                    />
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {!["POLICY_BRIEF", "STRATEGIC_REPORT", "SCENARIO_ANALYSIS", "RISK_ASSESSMENT"].includes(formData.format) && (
+                                            <div className="flex flex-col items-center justify-center py-12 text-center space-y-4">
+                                                <Database className="h-10 w-10 text-slate-800 animate-pulse" />
+                                                <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 italic max-w-xs">
+                                                    Standard institutional metadata active. Protocol-specific specialized fields for {formData.format} are coming in the next Foundry update.
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="flex items-center gap-3 px-1 pt-6">
                                         <TrendingUp className="h-5 w-5 text-cyan-500" />
                                         <h2 className="text-sm font-black uppercase italic tracking-widest text-[#F1F5F9]">Strategic Scenario Models</h2>
                                     </div>
@@ -565,7 +767,19 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                     </div>
 
                                     <div className="space-y-6 relative z-10">
-                                        <div className="flex items-center justify-between">
+                                        <div className="space-y-4">
+                                            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-500">DIRECT ANSWER SNIPPET (Decision-Maker Focus)</h3>
+                                            <Textarea
+                                                name="directAnswer"
+                                                value={formData.directAnswer}
+                                                onChange={handleChange}
+                                                placeholder="What does this mean for decision-makers? (Concise, citation-ready forensic answer)"
+                                                className="min-h-[120px] bg-slate-900 border-white/10 text-slate-200 resize-none text-[13px] rounded-2xl focus-visible:ring-cyan-500 leading-relaxed px-6 py-4"
+                                            />
+                                            <p className="text-[9px] font-bold text-slate-500 italic uppercase tracking-widest pl-1">Target: Google SGE / Perplexity / Decision Briefs</p>
+                                        </div>
+
+                                        <div className="flex items-center justify-between pt-4 border-t border-white/5">
                                             <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#F1F5F9]">SEMANTIC DISCOVERY DATA (FAQ)</h3>
                                             <Button type="button" variant="outline" size="sm" onClick={addFaq} className="h-8 text-[9px] border-white/10 hover:bg-white/10 text-white rounded-xl font-black uppercase tracking-widest">
                                                 <Plus className="h-3.5 w-3.5 mr-1" /> Add Semantic Node
@@ -660,6 +874,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                     </div>
                 </div>
 
+                {/* Sidebar (Right Column) */}
                 <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
                     <div className="bg-[#111827] dark:bg-[#111827] border border-[#1E293B] dark:border-[#1E293B] rounded-3xl p-6 shadow-sm space-y-6">
                         <div className="flex items-center gap-2 border-b border-[#1E293B] pb-4 text-[#F1F5F9]">
