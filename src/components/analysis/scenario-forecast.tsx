@@ -63,15 +63,15 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
                         key={tab.id}
                         onClick={() => handleTabChange(tab.id)}
                         className={cn(
-                            "flex-1 flex items-center justify-center space-x-2 py-4 text-[10px] font-black uppercase tracking-widest transition-all relative",
+                            "flex-1 flex items-center justify-center space-x-2 h-14 sm:h-16 text-[10px] font-black uppercase tracking-widest transition-all relative",
                             activeTab === tab.id
                                 ? "text-[#22D3EE] bg-secondary/50"
                                 : "text-slate-500 hover:text-[#22D3EE] hover:bg-secondary/30"
                         )}
                     >
-                        <tab.icon className={cn("h-4 w-4", activeTab === tab.id ? "text-[#22D3EE]" : "text-slate-400")} />
+                        <tab.icon className={cn("h-5 w-5", activeTab === tab.id ? "text-[#22D3EE]" : "text-slate-400")} />
                         <span className="md:inline hidden">{tab.label}</span>
-                        <span className="md:hidden inline">{tab.id.charAt(0).toUpperCase()}</span>
+                        <span className="md:hidden inline">{tab.id.toUpperCase()}</span>
                         {activeTab === tab.id && (
                             <motion.div
                                 layoutId="activeTabIndicator"

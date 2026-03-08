@@ -1,7 +1,7 @@
 "use client";
 
 import { CommandK } from "../search/command-k";
-import { User, LayoutDashboard, LogOut, ShieldCheck } from "lucide-react";
+import { User, LayoutDashboard, LogOut, ShieldCheck, Menu } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
@@ -14,11 +14,17 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function Header({ navigationItems = [] }: { navigationItems?: any[] }) {
+export function Header({
+    navigationItems = [],
+    onMenuClick
+}: {
+    navigationItems?: any[],
+    onMenuClick?: () => void
+}) {
     const { data: session } = useSession();
 
     return (
-        <header className="sticky top-0 z-30 flex h-14 sm:h-16 shrink-0 items-center justify-between border-b border-border-slate bg-background/80 backdrop-blur-md px-4 lg:px-6">
+        <header className="sticky top-0 z-40 flex h-14 sm:h-16 shrink-0 items-center justify-between border-b border-border-slate bg-background/80 backdrop-blur-md px-4 lg:px-6">
             <div className="flex flex-1 items-center gap-4 sm:gap-8 overflow-hidden">
                 <CommandK />
 
@@ -88,11 +94,20 @@ export function Header({ navigationItems = [] }: { navigationItems?: any[] }) {
                                 <User className="sm:hidden h-5 w-5" />
                             </button>
                         </Link>
-                        <Link href="/auth/signup/">
+                        <Link href="/auth/signup/" className="hidden sm:block">
                             <button className="bg-white text-[#0A0F1E] text-[10px] font-black uppercase tracking-widest px-4 sm:px-6 h-9 sm:h-10 rounded-xl hover:bg-slate-200 transition-all shadow-lg whitespace-nowrap flex items-center justify-center">
                                 Join Archive
                             </button>
                         </Link>
+
+                        {/* Mobile Navigator Trigger */}
+                        <button
+                            onClick={onMenuClick}
+                            className="sm:hidden flex items-center gap-2 px-3 h-10 border border-[#F1F5F9]/20 rounded-xl bg-white/5 active:scale-95 transition-all"
+                        >
+                            <span className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9]">Silos</span>
+                            <Menu className="h-4 w-4 text-[#F1F5F9]" />
+                        </button>
                     </div>
                 )}
             </div>

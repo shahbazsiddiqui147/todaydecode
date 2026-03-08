@@ -1,8 +1,10 @@
 "use client";
 
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { useState } from "react";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
+import { MobileNav } from "@/components/layout/MobileNav";
 import { BreakingAlert } from "@/components/ui/breaking-alert";
 import { AnalyticsProvider } from "@/components/providers/analytics-provider";
 import { ReactNode } from "react";
@@ -30,6 +32,7 @@ export function ClientLayout({
     sideNavigation = []
 }: ClientLayoutProps) {
     const pathname = usePathname();
+    const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
     const isAuthPath = pathname === '/auth' || pathname.startsWith('/auth/');
     const isAdminPath = pathname === '/admin' || pathname.startsWith('/admin/');
@@ -73,7 +76,15 @@ export function ClientLayout({
                 />
                 <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
                     <BreakingAlert initialAlert={initialAlert} />
-                    <Header navigationItems={headerNavigation} />
+                    <Header
+                        navigationItems={headerNavigation}
+                        onMenuClick={() => setIsMobileNavOpen(true)}
+                    />
+                    <MobileNav
+                        isOpen={isMobileNavOpen}
+                        onClose={() => setIsMobileNavOpen(false)}
+                        categories={initialCategories}
+                    />
                     <main className="flex-1">
                         {children}
                     </main>

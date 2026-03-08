@@ -47,8 +47,8 @@ export function PaywallGate({ children, isPremium = false }: PaywallGateProps) {
             </div>
 
             {/* Paywall Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center p-6 -mt-20">
-                <div className="max-w-xl w-full bg-secondary/80 border border-white/10 rounded-[2.5rem] p-10 backdrop-blur-3xl shadow-[0_0_100px_rgba(0,0,0,0.5)] text-center space-y-8 relative overflow-hidden">
+            <div className="absolute inset-0 flex items-center justify-center p-6 sm:p-12 -mt-20">
+                <div className="max-w-xl w-full mx-4 sm:mx-auto bg-secondary/80 border border-white/10 rounded-[2.5rem] p-8 sm:p-12 backdrop-blur-3xl shadow-[0_0_100px_rgba(0,0,0,0.5)] text-center space-y-8 relative overflow-hidden">
                     {/* Urgency background element */}
                     <div className="absolute -top-24 -right-24 w-48 h-48 bg-accent-red/10 blur-[60px] rounded-full" />
 

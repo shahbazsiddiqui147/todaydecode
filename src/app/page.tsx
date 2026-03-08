@@ -77,18 +77,18 @@ export default async function Page() {
             <span className="text-[9px] font-black uppercase tracking-[0.3em] text-muted-foreground/40">Assessment Refresh: {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()} // 04:00 UTC</span>
           </div>
 
-          <div className="flex items-center space-x-12">
-            <div className="flex flex-col">
-              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Aggregate Risk Rating</span>
-              <span className="text-sm font-black text-[#F1F5F9] italic tracking-tighter">{avgRisk < 0 ? '' : '+'}{avgRisk}%</span>
+          <div className="flex flex-wrap md:flex-row items-center justify-center md:justify-end gap-x-12 gap-y-6 flex-1 md:flex-initial">
+            <div className="flex flex-col min-w-[120px]">
+              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest text-center md:text-left">Aggregate Risk Rating</span>
+              <span className="text-sm font-black text-[#F1F5F9] italic tracking-tighter text-center md:text-left">{avgRisk < 0 ? '' : '+'}{avgRisk}%</span>
             </div>
-            <div className="flex flex-col border-l border-border pl-12">
-              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Brent Crude Output</span>
-              <span className="text-sm font-black text-foreground italic tracking-tighter">${metrics.oil.value}</span>
+            <div className="flex flex-col border-l border-border pl-12 min-w-[120px]">
+              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest text-center md:text-left">Brent Crude Output</span>
+              <span className="text-sm font-black text-foreground italic tracking-tighter text-center md:text-left">${metrics.oil.value}</span>
             </div>
-            <div className="flex flex-col border-l border-border pl-12">
-              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Reports Published</span>
-              <span className="text-sm font-black text-foreground italic tracking-tighter">{fetchedStats.reportsCount || 0}</span>
+            <div className="flex flex-col border-l border-border pl-12 min-w-[120px]">
+              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest text-center md:text-left">Reports Published</span>
+              <span className="text-sm font-black text-foreground italic tracking-tighter text-center md:text-left">{fetchedStats.reportsCount || 0}</span>
             </div>
           </div>
 
