@@ -18,7 +18,7 @@ export function Header({ navigationItems = [] }: { navigationItems?: any[] }) {
     const { data: session } = useSession();
 
     return (
-        <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center justify-between border-b border-border-slate bg-background/80 backdrop-blur-md px-4 sm:px-6">
+        <header className="sticky top-0 z-30 flex h-14 sm:h-16 shrink-0 items-center justify-between border-b border-border-slate bg-background/80 backdrop-blur-md px-4 lg:px-6">
             <div className="flex flex-1 items-center gap-4 sm:gap-8 overflow-hidden">
                 <CommandK />
 
@@ -39,7 +39,7 @@ export function Header({ navigationItems = [] }: { navigationItems?: any[] }) {
                 {session ? (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <button className="flex items-center justify-center rounded-full w-9 h-9 border border-border-slate bg-transparent text-foreground hover:bg-secondary transition-colors relative overflow-hidden group">
+                            <button className="flex items-center justify-center rounded-full w-11 h-11 sm:w-9 sm:h-9 border border-border-slate bg-transparent text-foreground hover:bg-secondary transition-colors relative overflow-hidden group">
                                 {session.user?.image ? (
                                     <img src={session.user.image} alt="User" className="h-full w-full object-cover" />
                                 ) : (
@@ -83,13 +83,13 @@ export function Header({ navigationItems = [] }: { navigationItems?: any[] }) {
                 ) : (
                     <div className="flex items-center gap-1 sm:gap-3">
                         <Link href="/auth/signin/">
-                            <button className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] hover:text-white transition-colors px-2 sm:px-4 py-2">
+                            <button className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] hover:text-white transition-colors w-11 h-11 sm:w-auto flex items-center justify-center px-2 sm:px-4">
                                 <span className="hidden sm:inline">Sign In</span>
-                                <User className="sm:hidden h-4 w-4" />
+                                <User className="sm:hidden h-5 w-5" />
                             </button>
                         </Link>
                         <Link href="/auth/signup/">
-                            <button className="bg-white text-[#0A0F1E] text-[10px] font-black uppercase tracking-widest px-3 sm:px-6 py-2 rounded-xl hover:bg-slate-200 transition-all shadow-lg whitespace-nowrap">
+                            <button className="bg-white text-[#0A0F1E] text-[10px] font-black uppercase tracking-widest px-4 sm:px-6 h-9 sm:h-10 rounded-xl hover:bg-slate-200 transition-all shadow-lg whitespace-nowrap flex items-center justify-center">
                                 Join Archive
                             </button>
                         </Link>

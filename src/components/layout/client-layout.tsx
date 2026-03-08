@@ -71,7 +71,6 @@ export function ClientLayout({
                     initialMetrics={initialMetrics}
                     navigationItems={sideNavigation}
                 />
-                <span className="text-[9px] font-black uppercase tracking-[0.25em] text-accent-green">Strategic Matrix</span>
                 <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
                     <BreakingAlert initialAlert={initialAlert} />
                     <Header navigationItems={headerNavigation} />

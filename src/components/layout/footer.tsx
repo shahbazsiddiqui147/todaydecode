@@ -32,7 +32,7 @@ export async function Footer() {
 
     return (
         <footer className="w-full bg-background border-t border-border pt-20 pb-10 px-6 mt-20 transition-colors duration-300">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-border pb-16">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 sm:gap-8 border-b border-border pb-16">
                 {/* Brand Identity */}
                 <div className="md:col-span-1 space-y-6">
                     <Link href="/" className="text-2xl font-black tracking-tighter text-foreground uppercase italic dark:text-white">

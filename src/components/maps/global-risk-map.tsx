@@ -157,36 +157,39 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
             )}
 
             {/* Mobile Regional List Fallback */}
-            {!isBackdrop && (
-                <div className="lg:hidden p-6 pt-0 space-y-4">
-                    <div className="grid grid-cols-1 gap-3">
-                        {Object.keys(REGION_ISO_MAP).filter(r => r !== "GLOBAL").map(region => {
-                            const score = regionData[region] || 10;
-                            return (
-                                <Link
-                                    key={region}
-                                    href={`/${region.toLowerCase()}/`}
-                                    className="flex items-center justify-between p-4 bg-secondary border border-border rounded-2xl active:scale-95 transition-all"
-                                >
-                                    <div className="space-y-1">
-                                        <h3 className="text-xs font-black uppercase tracking-widest text-foreground">{region} Silo</h3>
-                                        <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">Strategic Sector Index</p>
-                                    </div>
-                                    <div className={cn(
-                                        "flex flex-col items-center justify-center h-10 w-12 rounded-xl border border-border",
-                                        score > 70 ? "bg-accent-red/20 text-accent-red border-accent-red/30" :
-                                            score > 40 ? "bg-yellow-500/20 text-yellow-500 border-yellow-500/30" :
-                                                "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
-                                    )}>
-                                        <span className="text-xs font-black tracking-tighter">{score}</span>
-                                        <span className="text-[6px] font-black uppercase tracking-widest opacity-60">RISK</span>
-                                    </div>
-                                </Link>
-                            );
-                        })}
-                    </div>
+            <div className="lg:hidden p-6 pt-0 space-y-4">
+                <div className="bg-accent-red/10 border border-accent-red/20 p-3 rounded-xl mb-4">
+                    <p className="text-[10px] font-black text-accent-red uppercase tracking-widest text-center">
+                        Geospatial Interface Restricted // Global Actor Fallback Active
+                    </p>
                 </div>
-            )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-8">
+                    {Object.keys(REGION_ISO_MAP).filter(r => r !== "GLOBAL").map(region => {
+                        const score = regionData[region] || 10;
+                        return (
+                            <Link
+                                key={region}
+                                href={`/${region.toLowerCase()}/`}
+                                className="flex items-center justify-between p-5 bg-card border border-[#1E293B] rounded-2xl active:scale-95 transition-all shadow-lg"
+                            >
+                                <div className="space-y-1">
+                                    <h3 className="text-[11px] font-black uppercase tracking-widest text-foreground italic">{region} SILO</h3>
+                                    <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">Aggregate Assessment</p>
+                                </div>
+                                <div className={cn(
+                                    "flex flex-col items-center justify-center h-12 w-14 rounded-xl border",
+                                    score > 70 ? "bg-accent-red/20 text-accent-red border-accent-red/30" :
+                                        score > 40 ? "bg-yellow-500/20 text-yellow-500 border-yellow-500/30" :
+                                            "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                                )}>
+                                    <span className="text-sm font-black italic">{score}</span>
+                                    <span className="text-[7px] font-bold uppercase tracking-widest opacity-60">SCORE</span>
+                                </div>
+                            </Link>
+                        );
+                    })}
+                </div>
+            </div>
 
             {/* Map Visualization (Hidden on small mobile, shown on tablet/desktop) */}
             <div
@@ -197,8 +200,8 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                     }
                 }}
                 className={cn(
-                    "relative aspect-[21/9] lg:aspect-[3/1] w-full border border-border/50 rounded-2xl overflow-hidden bg-secondary/5",
-                    (isMobile && !isBackdrop) ? "hidden lg:block opacity-40" : "block"
+                    "relative aspect-video lg:aspect-[3/1] w-full border border-border/50 rounded-2xl overflow-hidden bg-[#0A0F1E]",
+                    (isMobile && !isBackdrop) ? "hidden lg:block opacity-40 shadow-2xl" : "block"
                 )}
             >
                 <ComposableMap

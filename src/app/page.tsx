@@ -72,7 +72,7 @@ export default async function Page() {
 
       {/* Strategic Metrics Ribbon */}
       <div className="border-y border-[#1E293B] bg-secondary/80 backdrop-blur-md sticky top-[64px] z-20 w-full">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex flex-cols md:flex-row items-center justify-between gap-8">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex flex-wrap md:flex-row items-center justify-between gap-6 md:gap-8">
           <div className="flex items-center space-x-2">
             <span className="text-[9px] font-black uppercase tracking-[0.3em] text-muted-foreground/40">Assessment Refresh: {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()} // 04:00 UTC</span>
           </div>

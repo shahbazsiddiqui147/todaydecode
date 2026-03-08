@@ -9,7 +9,7 @@ interface LandingHeroProps {
 
 export function LandingHero({ regionData = {} }: LandingHeroProps) {
     return (
-        <section className="relative min-h-[70vh] flex flex-col items-center justify-center pt-16 pb-10 overflow-hidden bg-background">
+        <section className="relative min-h-[60vh] md:min-h-[70vh] flex flex-col items-center justify-center pt-8 md:pt-16 pb-10 overflow-hidden bg-background">
             {/* Background Effects */}
             <div className="absolute inset-0 z-0">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(220,38,38,0.08)_0%,transparent_50%)]" />
@@ -18,12 +18,12 @@ export function LandingHero({ regionData = {} }: LandingHeroProps) {
 
             <div className="relative z-10 w-full flex flex-col items-center justify-center space-y-12 text-center">
                 {/* Top Section: Heading */}
-                <div className="flex flex-col space-y-6 animate-in fade-in slide-in-from-top-8 duration-1000 z-20 w-full px-4 border-b border-border/20 pb-12">
-                    <div className="space-y-4">
-                        <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black text-foreground uppercase tracking-[0.05em] leading-none italic max-w-[95vw] mx-auto">
+                <div className="flex flex-col space-y-4 md:space-y-6 animate-in fade-in slide-in-from-top-8 duration-1000 z-20 w-full px-6 border-b border-border/10 pb-8 md:pb-12">
+                    <div className="space-y-2 md:space-y-4">
+                        <h1 className="text-3xl md:text-5xl lg:text-5xl font-black text-foreground uppercase tracking-tight md:tracking-[0.05em] leading-[0.9] md:leading-none italic max-w-[95vw] mx-auto">
                             Decoding Global <span className="text-[#22D3EE]">Friction</span>.
                         </h1>
-                        <p className="text-foreground text-lg md:text-2xl font-black uppercase tracking-[0.4em] leading-relaxed opacity-70">
+                        <p className="text-foreground text-sm md:text-2xl font-black uppercase tracking-[0.2em] md:tracking-[0.4em] leading-relaxed opacity-70">
                             Institutional Risk Research
                         </p>
                     </div>

@@ -41,6 +41,12 @@ To provide high-fidelity, institutional-grade strategic intelligence through a m
 
 - Diagrams must scale to viewport width without loss of fidelity.
 
+### 2.5. EXECUTIVE MOBILE STANDARDS (HARDENED)
+- **Banner Compression:** On viewports < 768px, the 'Breaking Alert' must be height-optimized (max-h-12) with scrolling text if necessary to preserve fold visibility.
+- **Fluid Typography:** H1 headlines must downscale to 'text-3xl' on mobile to prevent awkward line breaks.
+- **Geospatial Mobile Logic:** The Global Risk Map must maintain a 16:9 aspect ratio on mobile. If the SVG becomes unclickable, provide a high-contrast 'Strategic List' fallback immediately below it.
+- **Edge Security:** Maintain a minimum 1.5rem (px-6) horizontal padding for all containers to prevent text from touching screen edges.
+
 ## 5. TECHNICAL STANDARDS
 
 ### 5.1 Protocol Standards
