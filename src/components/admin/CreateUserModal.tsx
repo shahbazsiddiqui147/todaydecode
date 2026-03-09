@@ -63,7 +63,7 @@ export default function CreateUserModal() {
                     <div className="relative w-full max-w-[425px] bg-white dark:bg-[#0D1425] border border-slate-200 dark:border-[#1E293B] rounded-[2rem] p-8 shadow-2xl animate-in zoom-in-95 duration-300">
                         <button
                             onClick={() => setOpen(false)}
-                            className="absolute right-6 top-6 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors"
+                            className="absolute right-6 top-6 text-[#64748B] hover:text-[#0F172A] dark:hover:text-white transition-colors"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
                         </button>
@@ -75,61 +75,61 @@ export default function CreateUserModal() {
                             <h2 className="text-2xl font-black uppercase tracking-tighter italic text-[#0F172A] dark:text-white">
                                 Induct <span className="text-[#22D3EE] not-italic">Identity</span>
                             </h2>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-[#475569] dark:text-[#94A3B8]">
                                 Manually authorize institutional access.
                             </p>
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="space-y-2 text-left">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-[#F1F5F9] ml-1">Full Name</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[#0F172A] dark:text-[#F1F5F9] ml-1">Full Name</label>
                                 <div className="relative">
-                                    <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                                    <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#475569]" />
                                     <Input
                                         name="name"
                                         required
                                         placeholder="Analyst Name"
-                                        className="pl-11 h-12 bg-slate-50 dark:bg-[#020617] border-slate-200 dark:border-[#1E293B] text-[#0F172A] dark:text-white rounded-xl focus-visible:ring-[#22D3EE] transition-all"
+                                        className="pl-11 h-12 bg-[#F8FAFC] dark:bg-[#020617] border border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-white rounded-xl focus-visible:ring-[#22D3EE] placeholder:text-[#64748B] outline-none transition-all"
                                     />
                                 </div>
                             </div>
 
                             <div className="space-y-2 text-left">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-[#F1F5F9] ml-1">Institutional Email</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[#0F172A] dark:text-[#F1F5F9] ml-1">Institutional Email</label>
                                 <div className="relative">
-                                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#475569]" />
                                     <Input
                                         name="email"
                                         type="email"
                                         required
                                         placeholder="analyst@example.com"
-                                        className="pl-11 h-12 bg-slate-50 dark:bg-[#020617] border-slate-200 dark:border-[#1E293B] text-[#0F172A] dark:text-white rounded-xl focus-visible:ring-[#22D3EE] transition-all"
+                                        className="pl-11 h-12 bg-[#F8FAFC] dark:bg-[#020617] border border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-white rounded-xl focus-visible:ring-[#22D3EE] placeholder:text-[#64748B] outline-none transition-all"
                                     />
                                 </div>
                             </div>
 
                             <div className="space-y-2 text-left">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-[#F1F5F9] ml-1">Temporary Access Key</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[#0F172A] dark:text-[#F1F5F9] ml-1">Temporary Access Key</label>
                                 <div className="relative">
-                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#475569]" />
                                     <Input
                                         name="password"
                                         type="password"
                                         required
                                         placeholder="••••••••"
                                         minLength={8}
-                                        className="pl-11 h-12 bg-slate-50 dark:bg-[#020617] border-slate-200 dark:border-[#1E293B] text-[#0F172A] dark:text-white rounded-xl focus-visible:ring-[#22D3EE] transition-all"
+                                        className="pl-11 h-12 bg-[#F8FAFC] dark:bg-[#020617] border border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-white rounded-xl focus-visible:ring-[#22D3EE] placeholder:text-[#64748B] outline-none transition-all"
                                     />
                                 </div>
                             </div>
 
                             <div className="space-y-2 text-left">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-[#F1F5F9] ml-1">Clearance Level</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[#0F172A] dark:text-[#F1F5F9] ml-1">Clearance Level</label>
                                 <div className="relative">
                                     <select
                                         name="role"
                                         defaultValue="AUTHOR"
-                                        className="w-full h-12 pl-4 pr-10 bg-slate-50 dark:bg-[#020617] border border-slate-200 dark:border-[#1E293B] focus:border-[#22D3EE] text-[#0F172A] dark:text-white text-xs font-bold uppercase rounded-xl appearance-none outline-none transition-all"
+                                        className="w-full h-12 pl-4 pr-10 bg-[#F8FAFC] dark:bg-[#020617] border border-[#CBD5E1] dark:border-[#1E293B] focus:border-[#22D3EE] text-[#0F172A] dark:text-white text-xs font-bold uppercase rounded-xl appearance-none outline-none transition-all"
                                     >
                                         <option value="AUTHOR">Strategic Analyst / Fellow</option>
                                         <option value="EDITOR">Senior Editor</option>

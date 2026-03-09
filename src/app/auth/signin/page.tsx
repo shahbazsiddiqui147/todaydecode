@@ -61,30 +61,30 @@ function SignInContent() {
                     <form onSubmit={handleSubmit} className="space-y-6 relative">
                         {/* Professional Email */}
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-[#F1F5F9] ml-1">Professional Email</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-[#0F172A] dark:text-[#F1F5F9] ml-1">Professional Email</label>
                             <div className="relative">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-600 dark:text-[#94A3B8]" />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#475569] dark:text-[#94A3B8]" />
                                 <Input
                                     name="email"
                                     type="email"
                                     required
                                     placeholder="analyst@todaydecode.com"
-                                    className="pl-11 h-12 bg-slate-50 dark:bg-[#020617] border border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-slate-500 dark:placeholder:text-slate-600 rounded-xl focus-visible:ring-[#22D3EE] outline-none transition-all"
+                                    className="pl-11 h-12 bg-[#F8FAFC] dark:bg-[#020617] border border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] dark:placeholder:text-[#475569] rounded-xl focus-visible:ring-[#22D3EE] outline-none transition-all"
                                 />
                             </div>
                         </div>
 
                         {/* Secure Access Key */}
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-[#F1F5F9] ml-1">Secure Access Key</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-[#0F172A] dark:text-[#F1F5F9] ml-1">Secure Access Key</label>
                             <div className="relative">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-600 dark:text-[#94A3B8]" />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#475569] dark:text-[#94A3B8]" />
                                 <Input
                                     name="password"
                                     type="password"
                                     required
                                     placeholder="••••••••"
-                                    className="pl-11 h-12 bg-slate-50 dark:bg-[#020617] border border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-slate-500 dark:placeholder:text-slate-600 rounded-xl focus-visible:ring-[#22D3EE] outline-none transition-all"
+                                    className="pl-11 h-12 bg-[#F8FAFC] dark:bg-[#020617] border border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] dark:placeholder:text-[#475569] rounded-xl focus-visible:ring-[#22D3EE] outline-none transition-all"
                                 />
                             </div>
                         </div>
