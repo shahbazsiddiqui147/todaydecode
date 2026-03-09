@@ -43,48 +43,48 @@ function SignInContent() {
             <div className="w-full max-w-md space-y-8 animate-in fade-in zoom-in duration-700">
                 {/* Institutional Header */}
                 <div className="text-center space-y-4">
-                    <div className="inline-flex items-center justify-center p-4 rounded-2xl bg-[#0F172A] dark:bg-white shadow-2xl mb-4 group transition-transform hover:scale-105">
-                        <ShieldCheck className="h-8 w-8 text-white dark:text-[#0F172A]" />
+                    <div className="inline-flex items-center justify-center p-4 rounded-2xl bg-[#020617] text-[#22D3EE] shadow-[0_0_30px_rgba(34,211,238,0.1)] mb-4 group transition-transform hover:scale-105 border border-[#1E293B]">
+                        <ShieldCheck className="h-8 w-8" />
                     </div>
                     <div className="space-y-1">
-                        <h1 className="text-3xl font-black uppercase tracking-tighter leading-none">
-                            <span className="text-[#0F172A] dark:text-[#22D3EE] dark:text-shadow-institutional">Research</span> <span className="text-[#0F172A] dark:text-[#F1F5F9]">Portal</span>
+                        <h1 className="text-3xl font-black uppercase tracking-tighter leading-none text-shadow-institutional">
+                            <span className="text-[#22D3EE]">Research</span> <span className="text-[#F1F5F9]">Portal</span>
                         </h1>
-                        <p className="text-slate-700 dark:text-slate-400 text-[10px] font-black uppercase tracking-[0.4em] italic">Institutional Credentials Required</p>
+                        <p className="text-[#94A3B8] text-[10px] font-black uppercase tracking-[0.4em] italic">Institutional Credentials Required</p>
                     </div>
                 </div>
 
                 {/* Secure Entry Card */}
-                <div className="bg-white dark:bg-[#0D1425] border border-slate-200 dark:border-[#1E293B] p-10 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden">
+                <div className="bg-[#0D1425] border border-[#1E293B] p-10 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#22D3EE] to-transparent opacity-50" />
 
                     <form onSubmit={handleSubmit} className="space-y-6 relative">
                         {/* Professional Email */}
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-[#0F172A] dark:text-[#F1F5F9] ml-1">Professional Email</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">Professional Email</label>
                             <div className="relative">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#475569] dark:text-[#94A3B8]" />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
                                 <Input
                                     name="email"
                                     type="email"
                                     required
                                     placeholder="analyst@todaydecode.com"
-                                    className="pl-11 h-12 bg-[#F8FAFC] dark:bg-[#020617] border border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] dark:placeholder:text-[#475569] rounded-xl focus-visible:ring-[#22D3EE] outline-none transition-all"
+                                    className="pl-11 h-12 bg-[#020617] border border-[#1E293B] text-[#F1F5F9] placeholder:text-[#475569] rounded-xl focus-visible:ring-[#22D3EE] outline-none transition-all"
                                 />
                             </div>
                         </div>
 
                         {/* Secure Access Key */}
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-[#0F172A] dark:text-[#F1F5F9] ml-1">Secure Access Key</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">Secure Access Key</label>
                             <div className="relative">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#475569] dark:text-[#94A3B8]" />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
                                 <Input
                                     name="password"
                                     type="password"
                                     required
                                     placeholder="••••••••"
-                                    className="pl-11 h-12 bg-[#F8FAFC] dark:bg-[#020617] border border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] dark:placeholder:text-[#475569] rounded-xl focus-visible:ring-[#22D3EE] outline-none transition-all"
+                                    className="pl-11 h-12 bg-[#020617] border border-[#1E293B] text-[#F1F5F9] placeholder:text-[#475569] rounded-xl focus-visible:ring-[#22D3EE] outline-none transition-all"
                                 />
                             </div>
                         </div>
@@ -99,7 +99,7 @@ function SignInContent() {
                         {/* Authorize Session Button */}
                         <Button
                             type="submit"
-                            className="w-full h-14 text-[11px] font-black uppercase tracking-[0.3em] bg-[#0F172A] text-white hover:bg-black dark:bg-white dark:text-[#0F172A] dark:hover:bg-slate-100 transition-all rounded-2xl group shadow-lg flex items-center justify-center gap-2"
+                            className="w-full h-14 text-[11px] font-black uppercase tracking-[0.3em] bg-[#22D3EE] text-[#0F172A] hover:bg-[#06B6D4] transition-all rounded-2xl group shadow-[0_0_20px_rgba(34,211,238,0.2)] flex items-center justify-center gap-2"
                             disabled={loading}
                         >
                             {loading ? "Reconciling..." : (

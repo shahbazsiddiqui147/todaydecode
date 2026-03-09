@@ -174,11 +174,11 @@ export default function AuthorsPage() {
                 <Table className="border-collapse">
                     <TableHeader className="bg-slate-50 dark:bg-white/5">
                         <TableRow className="border-b border-[#1E293B] hover:bg-transparent">
-                            <TableHead className="w-16 text-center text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest py-4">Access</TableHead>
-                            <TableHead className="py-5 pl-8 text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Analyst Designation</TableHead>
-                            <TableHead className="text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Institutional Rank</TableHead>
-                            <TableHead className="text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Strategic Silos</TableHead>
-                            <TableHead className="text-right pr-8 text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Operations</TableHead>
+                            <TableHead className="w-16 text-center text-[#94A3B8] font-black uppercase text-[10px] tracking-widest py-4">Access</TableHead>
+                            <TableHead className="py-5 pl-8 text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Analyst Designation</TableHead>
+                            <TableHead className="text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Institutional Rank</TableHead>
+                            <TableHead className="text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Strategic Silos</TableHead>
+                            <TableHead className="text-right pr-8 text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Operations</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -206,22 +206,22 @@ export default function AuthorsPage() {
                                             {author.image ? <img src={author.image} alt="" className="h-full w-full object-cover" /> : <span className="text-white font-black italic uppercase text-xs">{(author.name || "A").charAt(0)}</span>}
                                         </div>
                                         <div className="space-y-0.5">
-                                            <div className="text-sm font-black text-[#0F172A] dark:text-[#F1F5F9] uppercase tracking-tight">{author.name}</div>
-                                            <div className="text-[10px] font-mono text-[#64748B] dark:text-[#94A3B8]/60 lowercase">{author.slug}</div>
+                                            <div className="text-sm font-black text-[#F1F5F9] uppercase tracking-tight">{author.name}</div>
+                                            <div className="text-[10px] font-mono text-[#94A3B8]/60 lowercase">{author.slug}</div>
                                         </div>
                                     </div>
                                 </TableCell>
                                 <TableCell>
-                                    <span className="text-[11px] font-black text-[#0F172A] dark:text-[#94A3B8] uppercase tracking-widest px-3 py-1 rounded-lg bg-[#020617]/50 border border-[#1E293B]">{author.role}</span>
+                                    <span className="text-[11px] font-black text-[#94A3B8] uppercase tracking-widest px-3 py-1 rounded-lg bg-[#020617]/50 border border-[#1E293B]">{author.role}</span>
                                 </TableCell>
                                 <TableCell>
                                     <div className="flex flex-wrap gap-1.5 max-w-xs">
                                         {author.expertise.slice(0, 3).map((e, i) => (
-                                            <span key={i} className="text-[9px] font-black uppercase text-[#64748B] dark:text-[#94A3B8]/60 flex items-center">
+                                            <span key={i} className="text-[9px] font-black uppercase text-[#94A3B8]/60 flex items-center">
                                                 <Tag className="h-2 w-2 mr-1" /> {e}
                                             </span>
                                         ))}
-                                        {author.expertise.length > 3 && <span className="text-[9px] font-black text-[#64748B] dark:text-[#94A3B8]/40">+{author.expertise.length - 3} More</span>}
+                                        {author.expertise.length > 3 && <span className="text-[9px] font-black text-[#94A3B8]/40">+{author.expertise.length - 3} More</span>}
                                     </div>
                                 </TableCell>
                                 <TableCell className="text-right pr-8">
