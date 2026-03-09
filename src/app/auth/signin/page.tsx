@@ -39,7 +39,7 @@ function SignInContent() {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-[#0A0F1E] flex items-center justify-center p-6 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-slate-200 dark:from-slate-900/20 via-transparent to-transparent">
+        <div className="min-h-screen bg-[#0A0F1E] flex items-center justify-center p-6 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-slate-900/40 via-transparent to-transparent">
             <div className="w-full max-w-md space-y-8 animate-in fade-in zoom-in duration-700">
                 {/* Institutional Header */}
                 <div className="text-center space-y-4">
@@ -113,7 +113,7 @@ function SignInContent() {
                 </div>
 
                 {/* Strategic Footer */}
-                <p className="text-center text-[9px] text-slate-800 dark:text-slate-500 font-black uppercase tracking-[0.2em] leading-relaxed max-w-xs mx-auto">
+                <p className="text-center text-[9px] text-slate-500 font-black uppercase tracking-[0.2em] leading-relaxed max-w-xs mx-auto opacity-50 relative z-10 p-4">
                     For Authorized Institutional Use Only — <br /> Systemic Integrity Framework Active
                 </p>
             </div>

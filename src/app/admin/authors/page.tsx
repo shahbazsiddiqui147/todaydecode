@@ -150,9 +150,9 @@ export default function AuthorsPage() {
                     <h1 className="text-3xl font-black uppercase tracking-tighter italic pb-1">
                         <span className="text-[#22D3EE]">Analyst</span> <span className="text-[#F1F5F9]">Roster</span>
                     </h1>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Managing institutional advisor profiles and strategic expertise.</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#94A3B8]">Managing institutional advisor profiles and strategic expertise.</p>
                 </div>
-                <Button onClick={() => { setEditingAuthor(null); setFormData({ name: "", slug: "", role: "", bio: "", image: "", expertise: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-xl bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] border-none hover:bg-black dark:hover:bg-white/90">
+                <Button onClick={() => { setEditingAuthor(null); setFormData({ name: "", slug: "", role: "", bio: "", image: "", expertise: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-xl bg-white text-[#0F172A] border-none hover:bg-white/90">
                     <UserPlus className="mr-2 h-4 w-4" /> Authorize Analyst
                 </Button>
             </header>
@@ -170,9 +170,9 @@ export default function AuthorsPage() {
                 </div>
             </div>
 
-            <div className="bg-card border border-[#1E293B] rounded-3xl overflow-hidden shadow-sm shadow-black/5 dark:shadow-none transition-colors">
+            <div className="bg-[#020617] border border-[#1E293B] rounded-3xl overflow-hidden transition-colors">
                 <Table className="border-collapse">
-                    <TableHeader className="bg-slate-50 dark:bg-white/5">
+                    <TableHeader className="bg-white/5">
                         <TableRow className="border-b border-[#1E293B] hover:bg-transparent">
                             <TableHead className="w-16 text-center text-[#94A3B8] font-black uppercase text-[10px] tracking-widest py-4">Access</TableHead>
                             <TableHead className="py-5 pl-8 text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Analyst Designation</TableHead>
