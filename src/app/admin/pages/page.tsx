@@ -126,12 +126,12 @@ export default function PagesManager() {
 
             <div className="bg-card border border-border rounded-3xl overflow-hidden">
                 <Table>
-                    <TableHeader className="bg-muted/50">
-                        <TableRow className="border-b border-border hover:bg-transparent">
-                            <TableHead className="py-5 pl-8 text-[#1E293B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Document Title</TableHead>
-                            <TableHead className="text-[#1E293B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Access Path (Slug)</TableHead>
-                            <TableHead className="text-[#1E293B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Last Modified</TableHead>
-                            <TableHead className="text-right pr-8 text-[#1E293B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Operations</TableHead>
+                    <TableHeader className="bg-[#020617]/50">
+                        <TableRow className="border-b border-[#1E293B] hover:bg-transparent">
+                            <TableHead className="py-5 pl-8 text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Document Title</TableHead>
+                            <TableHead className="text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Access Path (Slug)</TableHead>
+                            <TableHead className="text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Last Modified</TableHead>
+                            <TableHead className="text-right pr-8 text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Operations</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -149,7 +149,7 @@ export default function PagesManager() {
                                 <TableCell colSpan={4} className="h-64 text-center text-[#64748B] font-bold uppercase tracking-widest text-[10px] italic">No institutional pages found in system matrix.</TableCell>
                             </TableRow>
                         ) : pages.map((page) => (
-                            <TableRow key={page.id} className="group border-b border-border/50 hover:bg-muted/30 transition-colors cursor-default">
+                            <TableRow key={page.id} className="group border-b border-[#1E293B] hover:bg-[#020617]/50 transition-colors cursor-default">
                                 <TableCell className="pl-8">
                                     <div className="flex items-center space-x-4">
                                         <div className="h-10 w-10 rounded-xl bg-muted/50 border border-border flex items-center justify-center shrink-0">
@@ -158,7 +158,7 @@ export default function PagesManager() {
                                         <div className="text-sm font-black text-foreground uppercase tracking-tight">{page.title}</div>
                                     </div>
                                 </TableCell>
-                                <TableCell className="font-mono text-[10px] text-muted-foreground/60">{page.slug}</TableCell>
+                                <TableCell className="font-mono text-[10px] text-[#64748B] dark:text-[#94A3B8]/60">{page.slug}</TableCell>
                                 <TableCell>
                                     <div className="flex items-center text-[10px] font-black text-slate-500 uppercase tracking-widest gap-2">
                                         <Clock className="h-3 w-3" />
@@ -198,9 +198,9 @@ export default function PagesManager() {
             {/* Institutional Page Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-6 animate-in fade-in duration-500">
-                    <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-md" onClick={() => setIsModalOpen(false)} />
-                    <div className="relative bg-white dark:bg-[#0D1425] w-full max-w-5xl rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
-                        <div className="p-10 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-white/5">
+                    <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-xl" onClick={() => setIsModalOpen(false)} />
+                    <div className="relative bg-[#020617] w-full max-w-5xl rounded-[2.5rem] border border-[#1E293B] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+                        <div className="p-10 border-b border-[#1E293B] flex justify-between items-center bg-[#020617]/50">
                             <div className="space-y-1">
                                 <h2 className="text-2xl font-black uppercase tracking-tighter text-[#0F172A] dark:text-white">
                                     {editingPage ? "Refine Institutional Page" : "Initialize Strategic Document"}
@@ -212,13 +212,13 @@ export default function PagesManager() {
                             </button>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="p-10 space-y-8 max-h-[75vh] overflow-y-auto bg-white dark:bg-[#0D1425]">
+                        <form onSubmit={handleSubmit} className="p-10 space-y-8 max-h-[75vh] overflow-y-auto bg-[#020617]">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-3">
                                     <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8]">Document Title</label>
                                     <Input
                                         required
-                                        className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold placeholder:text-[#64748B]"
+                                        className="h-12 rounded-xl bg-[#020617] border-[#1E293B] text-[#F1F5F9] text-sm font-bold placeholder:text-[#475569] focus:ring-2 focus:ring-[#22D3EE] outline-none transition-all"
                                         placeholder="e.g. About Us"
                                         value={formData.title}
                                         onChange={(e) => {
@@ -234,7 +234,7 @@ export default function PagesManager() {
                                     <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8]">Structural Slug</label>
                                     <Input
                                         required
-                                        className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold font-mono placeholder:text-[#64748B]"
+                                        className="h-12 rounded-xl bg-[#020617] border-[#1E293B] text-[#F1F5F9] text-sm font-bold font-mono placeholder:text-[#475569] focus:ring-2 focus:ring-[#22D3EE] outline-none transition-all"
                                         placeholder="about-us/"
                                         value={formData.slug}
                                         onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
@@ -246,27 +246,27 @@ export default function PagesManager() {
                                 <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8]">Institutional Content (HTML Supported)</label>
                                 <textarea
                                     required
-                                    className="w-full h-80 rounded-2xl border border-[#CBD5E1] dark:border-[#1E293B] bg-white dark:bg-[#020617] p-8 text-sm font-medium text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] focus-visible:outline-none focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] outline-none resize-none leading-relaxed"
+                                    className="w-full h-80 rounded-2xl border border-[#1E293B] bg-[#020617] p-8 text-sm font-bold text-[#F1F5F9] placeholder:text-[#475569] focus-visible:outline-none focus:ring-2 focus:ring-[#22D3EE] outline-none resize-none leading-relaxed"
                                     placeholder="Enter institutional analysis or document content here..."
                                     value={formData.content}
                                     onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                                 />
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 bg-slate-50 dark:bg-white/5 rounded-[2rem] border border-slate-200 dark:border-slate-800">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 bg-[#020617]/50 rounded-[2rem] border border-[#1E293B]">
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8]">SEO Headline</label>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">SEO Headline</label>
                                     <Input
-                                        className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold"
+                                        className="h-12 rounded-xl bg-[#020617] border-[#1E293B] text-[#F1F5F9] text-sm font-bold placeholder:text-[#475569] focus:ring-2 focus:ring-[#22D3EE] outline-none transition-all"
                                         placeholder="Institutional Meta Title"
                                         value={formData.metaTitle}
                                         onChange={(e) => setFormData({ ...formData, metaTitle: e.target.value })}
                                     />
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8]">SEO Brief</label>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">SEO Brief</label>
                                     <Input
-                                        className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold"
+                                        className="h-12 rounded-xl bg-[#020617] border-[#1E293B] text-[#F1F5F9] text-sm font-bold placeholder:text-[#475569] focus:ring-2 focus:ring-[#22D3EE] outline-none transition-all"
                                         placeholder="Institutional Meta Description"
                                         value={formData.metaDescription}
                                         onChange={(e) => setFormData({ ...formData, metaDescription: e.target.value })}

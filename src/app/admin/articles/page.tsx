@@ -131,12 +131,12 @@ export default function ArticlesPage() {
             </div>
 
             <div className="bg-card border border-[#1E293B] shadow-sm overflow-hidden rounded-3xl transition-colors">
-                <div className="p-4 border-b border-[#E2E8F0] dark:border-[#1E293B] flex items-center gap-4 bg-slate-50 dark:bg-white/5">
+                <div className="p-4 border-b border-[#1E293B] flex items-center gap-4 bg-[#020617]/50">
                     <div className="relative flex-1 max-w-sm">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/40" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]/40" />
                         <Input
                             placeholder="SEARCH REPORTS..."
-                            className="pl-10 bg-background border-[#CBD5E1] dark:border-[#1E293B] rounded-xl h-10 text-[10px] uppercase font-black tracking-widest focus-visible:ring-[#22D3EE]"
+                            className="pl-10 bg-[#020617] border-[#1E293B] rounded-xl h-10 text-[10px] uppercase font-black tracking-widest focus-visible:ring-[#22D3EE] text-[#F1F5F9] placeholder:text-[#475569]"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
@@ -145,8 +145,8 @@ export default function ArticlesPage() {
 
                 <div className="overflow-x-auto">
                     <Table>
-                        <TableHeader className="bg-slate-50 dark:bg-white/5">
-                            <TableRow className="border-b border-[#E2E8F0] dark:border-[#1E293B] hover:bg-transparent">
+                        <TableHeader className="bg-[#020617]/50">
+                            <TableRow className="border-b border-[#1E293B] hover:bg-transparent">
                                 <TableHead className="text-[10px] uppercase font-black text-[#64748B] dark:text-[#94A3B8] tracking-widest py-4">Status & Title</TableHead>
                                 <TableHead className="text-[10px] uppercase font-black text-[#64748B] dark:text-[#94A3B8] tracking-widest">Metadata</TableHead>
                                 <TableHead className="text-[10px] uppercase font-black text-[#64748B] dark:text-[#94A3B8] tracking-widest text-right">Strategic Scale</TableHead>
@@ -170,7 +170,7 @@ export default function ArticlesPage() {
                                 </TableRow>
                             ) : (
                                 filteredArticles.map((article) => (
-                                    <TableRow key={article.id} className="group hover:bg-muted/30 border-b border-[#E2E8F0] dark:border-[#1E293B] transition-colors">
+                                    <TableRow key={article.id} className="group hover:bg-[#020617]/50 border-b border-[#1E293B] transition-colors">
                                         <TableCell className="py-4 pl-4">
                                             <div className="flex items-start gap-4">
                                                 <div className="mt-1">
@@ -180,7 +180,7 @@ export default function ArticlesPage() {
                                                     <h3 className="text-sm font-black text-[#F1F5F9] dark:text-[#F1F5F9] leading-none tracking-tight hover:text-primary transition-colors cursor-pointer uppercase font-medium">
                                                         <Link href={`/admin/articles/${article.id}/`}>{article.title}</Link>
                                                     </h3>
-                                                    <div className="flex items-center gap-2 text-[10px] text-muted-foreground/60 font-black uppercase tracking-widest">
+                                                    <div className="flex items-center gap-2 text-[10px] text-[#64748B] dark:text-[#94A3B8]/60 font-black uppercase tracking-widest">
                                                         <span className="flex items-center gap-1">
                                                             <FileText className="h-3 w-3" /> {article.category.name}
                                                         </span>
@@ -196,7 +196,7 @@ export default function ArticlesPage() {
                                                     <span className="w-1 h-3 bg-primary" />
                                                     {article.author.name}
                                                 </div>
-                                                <div className="text-[10px] text-muted-foreground/60 font-black uppercase tracking-widest">
+                                                <div className="text-[10px] text-[#64748B] dark:text-[#94A3B8]/60 font-black uppercase tracking-widest">
                                                     {new Date(article.publishedAt).toLocaleDateString()}
                                                 </div>
                                             </div>

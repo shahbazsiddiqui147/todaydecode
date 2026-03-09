@@ -134,8 +134,8 @@ export default function AuthorsPage() {
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#1E293B]">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#22D3EE] dark:text-[#22D3EE] italic">
-                        Analyst <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Roster</span>
+                    <h1 className="text-3xl font-black uppercase tracking-tighter italic pb-1">
+                        <span className="text-[#22D3EE]">Analyst</span> <span className="text-[#F1F5F9]">Roster</span>
                     </h1>
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Managing institutional advisor profiles and strategic expertise.</p>
                 </div>
@@ -144,13 +144,13 @@ export default function AuthorsPage() {
                 </Button>
             </header>
 
-            <div className="flex items-center space-x-4 bg-white dark:bg-[#020617] p-3 rounded-2xl border border-[#CBD5E1] dark:border-[#1E293B] shadow-sm relative overflow-hidden group focus-within:ring-2 focus-within:ring-[#0F172A] dark:focus-within:ring-[#22D3EE] transition-all">
-                <div className="absolute top-0 left-0 w-1 h-full bg-[#CBD5E1] dark:bg-[#1E293B] group-focus-within:bg-[#0F172A] dark:group-focus-within:bg-[#22D3EE] transition-all" />
+            <div className="flex items-center space-x-4 bg-[#020617] p-3 rounded-2xl border border-[#1E293B] shadow-sm relative overflow-hidden group focus-within:ring-2 focus-within:ring-[#22D3EE] transition-all">
+                <div className="absolute top-0 left-0 w-1 h-full bg-[#1E293B] group-focus-within:bg-[#22D3EE] transition-all" />
                 <div className="relative flex-1 flex items-center pl-6">
-                    <Search className="h-4 w-4 text-[#64748B] mr-4" />
+                    <Search className="h-4 w-4 text-[#475569] mr-4" />
                     <input
                         placeholder="Search analysts by name or designation..."
-                        className="w-full bg-transparent border-none outline-none text-sm font-bold placeholder:text-[#64748B] text-[#0F172A] dark:text-[#F1F5F9]"
+                        className="w-full bg-transparent border-none outline-none text-sm font-bold placeholder:text-[#475569] text-[#F1F5F9]"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
@@ -161,11 +161,11 @@ export default function AuthorsPage() {
                 <Table className="border-collapse">
                     <TableHeader className="bg-slate-50 dark:bg-white/5">
                         <TableRow className="border-b border-[#1E293B] hover:bg-transparent">
-                            <TableHead className="w-16 text-center text-[#1E293B] dark:text-[#CBD5E1] font-black uppercase text-[10px] tracking-widest">Access</TableHead>
-                            <TableHead className="py-5 pl-8 text-[#1E293B] dark:text-[#CBD5E1] font-black uppercase text-[10px] tracking-widest">Analyst Designation</TableHead>
-                            <TableHead className="text-[#1E293B] dark:text-[#CBD5E1] font-black uppercase text-[10px] tracking-widest">Institutional Rank</TableHead>
-                            <TableHead className="text-[#1E293B] dark:text-[#CBD5E1] font-black uppercase text-[10px] tracking-widest">Strategic Silos</TableHead>
-                            <TableHead className="text-right pr-8 text-[#1E293B] dark:text-[#CBD5E1] font-black uppercase text-[10px] tracking-widest">Operations</TableHead>
+                            <TableHead className="w-16 text-center text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest py-4">Access</TableHead>
+                            <TableHead className="py-5 pl-8 text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Analyst Designation</TableHead>
+                            <TableHead className="text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Institutional Rank</TableHead>
+                            <TableHead className="text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Strategic Silos</TableHead>
+                            <TableHead className="text-right pr-8 text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Operations</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -183,7 +183,7 @@ export default function AuthorsPage() {
                                 <TableCell colSpan={5} className="h-64 text-center text-[#64748B] font-bold uppercase tracking-widest text-[10px] italic">No analysts found in current roster.</TableCell>
                             </TableRow>
                         ) : filteredAuthors.map((author) => (
-                            <TableRow key={author.id} className="group border-b border-[#1E293B] hover:bg-muted/30 transition-colors">
+                            <TableRow key={author.id} className="group border-b border-[#1E293B] hover:bg-[#020617]/50 transition-colors">
                                 <TableCell className="text-center">
                                     <ShieldCheck className="h-4 w-4 mx-auto text-muted-foreground/30 group-hover:text-primary transition-colors" />
                                 </TableCell>
@@ -193,22 +193,22 @@ export default function AuthorsPage() {
                                             {author.image ? <img src={author.image} alt="" className="h-full w-full object-cover" /> : <span className="text-white font-black italic uppercase text-xs">{(author.name || "A").charAt(0)}</span>}
                                         </div>
                                         <div className="space-y-0.5">
-                                            <div className="text-sm font-black text-[#0F172A] dark:text-[#F1F5F9] uppercase tracking-tight font-medium">{author.name}</div>
-                                            <div className="text-[10px] font-mono text-muted-foreground/60 lowercase">{author.slug}</div>
+                                            <div className="text-sm font-black text-[#0F172A] dark:text-[#F1F5F9] uppercase tracking-tight">{author.name}</div>
+                                            <div className="text-[10px] font-mono text-[#64748B] dark:text-[#94A3B8]/60 lowercase">{author.slug}</div>
                                         </div>
                                     </div>
                                 </TableCell>
                                 <TableCell>
-                                    <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest px-3 py-1 rounded-lg bg-muted border border-border">{author.role}</span>
+                                    <span className="text-[11px] font-black text-[#0F172A] dark:text-[#94A3B8] uppercase tracking-widest px-3 py-1 rounded-lg bg-[#020617]/50 border border-[#1E293B]">{author.role}</span>
                                 </TableCell>
                                 <TableCell>
                                     <div className="flex flex-wrap gap-1.5 max-w-xs">
                                         {author.expertise.slice(0, 3).map((e, i) => (
-                                            <span key={i} className="text-[9px] font-black uppercase text-muted-foreground/60 flex items-center">
+                                            <span key={i} className="text-[9px] font-black uppercase text-[#64748B] dark:text-[#94A3B8]/60 flex items-center">
                                                 <Tag className="h-2 w-2 mr-1" /> {e}
                                             </span>
                                         ))}
-                                        {author.expertise.length > 3 && <span className="text-[9px] font-black text-muted-foreground/40">+{author.expertise.length - 3} More</span>}
+                                        {author.expertise.length > 3 && <span className="text-[9px] font-black text-[#64748B] dark:text-[#94A3B8]/40">+{author.expertise.length - 3} More</span>}
                                     </div>
                                 </TableCell>
                                 <TableCell className="text-right pr-8">

@@ -218,7 +218,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-border">
                 <div className="flex items-center gap-4">
                     <Link href="/admin/articles/">
-                        <Button variant="outline" size="icon" className="h-10 w-10 rounded-xl border-border hover:bg-muted/50">
+                        <Button variant="outline" size="icon" className="h-10 w-10 rounded-xl border-[#1E293B] bg-[#020617] hover:bg-[#1E293B] text-[#F1F5F9]">
                             <ChevronLeft className="h-5 w-5" />
                         </Button>
                     </Link>
@@ -287,8 +287,8 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 className={cn(
                                     "flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border-b-2",
                                     activeTab === tab.id
-                                        ? "bg-white dark:bg-[#020617] text-[#0891B2] dark:text-[#22D3EE] border-[#0891B2] dark:border-[#22D3EE] shadow-sm"
-                                        : "text-[#64748B] dark:text-[#94A3B8] border-transparent hover:text-foreground hover:bg-muted/50"
+                                        ? "bg-[#020617] text-[#22D3EE] border-[#22D3EE] shadow-sm"
+                                        : "text-[#64748B] dark:text-[#94A3B8] border-transparent hover:text-foreground hover:bg-[#020617]/50"
                                 )}
                             >
                                 <tab.icon className="h-3.5 w-3.5" />
@@ -425,7 +425,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                         </Button>
                                     </div>
 
-                                    <div className="grid grid-cols-1 gap-6 bg-slate-950/20 p-6 rounded-3xl border border-white/5">
+                                    <div className="grid grid-cols-1 gap-6 bg-[#020617]/50 p-6 rounded-3xl border border-[#1E293B]">
                                         {formData.format === "POLICY_BRIEF" && (
                                             <>
                                                 <div className="space-y-2">
@@ -437,7 +437,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                                             structuredData: { ...prev.structuredData, problemDefinition: e.target.value }
                                                         }))}
                                                         placeholder="Define the primary strategic challenge..."
-                                                        className="min-h-[100px] bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-700 rounded-xl resize-none px-4 py-3 focus-visible:ring-cyan-500 transition-all font-medium"
+                                                        className="min-h-[100px] bg-[#020617] border-[#1E293B] text-[#F1F5F9] placeholder:text-[#475569] rounded-xl resize-none px-4 py-3 focus-visible:ring-cyan-500 transition-all font-medium"
                                                     />
                                                 </div>
                                                 <div className="space-y-4">
@@ -455,7 +455,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                                                     }));
                                                                 }}
                                                                 placeholder={`Alpha Recommendation #${i + 1}...`}
-                                                                className="h-11 bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-700 rounded-xl focus-visible:ring-cyan-500"
+                                                                className="h-11 bg-[#020617] border-[#1E293B] text-[#F1F5F9] placeholder:text-[#475569] rounded-xl focus-visible:ring-cyan-500"
                                                             />
                                                             <Button
                                                                 type="button"

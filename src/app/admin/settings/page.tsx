@@ -1,13 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import {
     Settings as SettingsIcon,
     Save,
     Globe,
     Shield,
     Share2,
-    Image as ImageIcon,
+    ImageIcon,
     RefreshCw
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -18,6 +20,7 @@ import { UploadNode } from "@/components/admin/UploadNode";
 import { cn } from "@/lib/utils";
 
 export default function SettingsPage() {
+    const { data: session, status: authStatus } = useSession();
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [formData, setFormData] = useState({
@@ -35,8 +38,11 @@ export default function SettingsPage() {
     });
 
     useEffect(() => {
+        if (authStatus === "authenticated" && session?.user?.role !== "ADMIN") {
+            redirect("/admin/");
+        }
         loadSettings();
-    }, []);
+    }, [session, authStatus]);
 
     const loadSettings = async () => {
         try {
@@ -122,7 +128,7 @@ export default function SettingsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 {/* Identity & Aesthetics */}
                 <div className="lg:col-span-8 space-y-8">
-                    <div className="bg-card border border-[#1E293B] p-10 rounded-[2.5rem] shadow-sm space-y-10">
+                    <div className="bg-[#020617] border border-[#1E293B] p-10 rounded-[2.5rem] shadow-2xl space-y-10">
                         <div className="flex items-center gap-4 border-b border-[#1E293B] pb-6">
                             <ImageIcon className="h-5 w-5 text-[#22D3EE]" />
                             <h2 className="text-xs font-black uppercase tracking-widest italic text-foreground">Visual Identity Nodes</h2>
@@ -154,7 +160,7 @@ export default function SettingsPage() {
                         </div>
                     </div>
 
-                    <div className="bg-card border border-[#1E293B] p-10 rounded-[2.5rem] shadow-sm space-y-10">
+                    <div className="bg-[#020617] border border-[#1E293B] p-10 rounded-[2.5rem] shadow-2xl space-y-10">
                         <div className="flex items-center gap-4 border-b border-[#1E293B] pb-6">
                             <Share2 className="h-5 w-5 text-[#22D3EE]" />
                             <h2 className="text-xs font-black uppercase tracking-widest italic text-foreground">Social Media Links</h2>
@@ -217,7 +223,7 @@ export default function SettingsPage() {
 
                 {/* Status & Framework */}
                 <div className="lg:col-span-4 space-y-8">
-                    <div className="bg-[#111827] border border-[#1E293B] p-8 rounded-[2rem] shadow-sm space-y-8">
+                    <div className="bg-[#020617] border border-[#1E293B] p-8 rounded-[2rem] shadow-2xl space-y-8">
                         <div className="flex items-center gap-3 border-b border-[#1E293B] pb-6">
                             <Globe className="h-4 w-4 text-[#22D3EE]" />
                             <h2 className="text-xs font-black uppercase tracking-widest italic text-[#F1F5F9] font-medium">Interface State</h2>
@@ -247,11 +253,11 @@ export default function SettingsPage() {
                         </div>
                     </div>
 
-                    <div className="p-10 border border-[#1E293B] rounded-[2rem] bg-card flex flex-col items-center justify-center text-center space-y-4">
-                        <SettingsIcon className="h-12 w-12 text-muted-foreground opacity-20" />
+                    <div className="p-10 border border-[#1E293B] rounded-[2rem] bg-[#020617] flex flex-col items-center justify-center text-center space-y-4 shadow-xl">
+                        <SettingsIcon className="h-12 w-12 text-[#64748B] opacity-20" />
                         <div className="space-y-1">
-                            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground italic">System Standby</p>
-                            <p className="text-[9px] text-muted-foreground/40 font-mono">Verifying institutional framework...</p>
+                            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#64748B] italic">System Standby</p>
+                            <p className="text-[9px] text-[#64748B]/40 font-mono">Verifying institutional framework...</p>
                         </div>
                     </div>
                 </div>

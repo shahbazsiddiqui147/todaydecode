@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { saveCountryMetric } from "@/lib/actions/user-actions";
 import { getCountryMetric } from "@/lib/actions/public-actions";
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import { Globe, Save, Search, Database } from "lucide-react";
 
 const COUNTRIES = [
@@ -27,6 +29,7 @@ const COUNTRIES = [
 ];
 
 export default function MapDataPage() {
+    const { data: session, status: authStatus } = useSession();
     const [selectedCode, setSelectedCode] = useState(COUNTRIES[0].code);
     const [loading, setLoading] = useState(false);
     const [saving, setSaving] = useState(false);
@@ -38,6 +41,12 @@ export default function MapDataPage() {
         energy: "",
         army: ""
     });
+
+    useEffect(() => {
+        if (authStatus === "authenticated" && session?.user?.role !== "ADMIN") {
+            redirect("/admin/");
+        }
+    }, [session, authStatus]);
 
     useEffect(() => {
         const loadMetric = async () => {
@@ -100,8 +109,8 @@ export default function MapDataPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
                 <div className="lg:col-span-4 space-y-4">
-                    <div className="p-6 rounded-3xl bg-card border border-border space-y-4">
-                        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                    <div className="p-6 rounded-3xl bg-[#020617] border border-[#1E293B] shadow-xl space-y-4">
+                        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">
                             <Search className="h-3 w-3" />
                             Select Global Actor
                         </div>
@@ -111,8 +120,8 @@ export default function MapDataPage() {
                                     key={c.code}
                                     onClick={() => setSelectedCode(c.code)}
                                     className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-all ${selectedCode === c.code
-                                        ? "bg-accent-red text-white shadow-lg"
-                                        : "hover:bg-secondary text-muted-foreground hover:text-foreground"
+                                        ? "bg-[#22D3EE] text-[#020617] shadow-lg"
+                                        : "hover:bg-[#020617]/50 text-[#64748B] dark:text-[#94A3B8] hover:text-[#F1F5F9]"
                                         }`}
                                 >
                                     <div className="flex items-center justify-between">
@@ -126,22 +135,22 @@ export default function MapDataPage() {
                 </div>
 
                 <div className="lg:col-span-8">
-                    <form onSubmit={handleSave} className="p-10 rounded-[2.5rem] bg-card border border-border shadow-2xl space-y-8 relative overflow-hidden">
+                    <form onSubmit={handleSave} className="p-10 rounded-[2.5rem] bg-[#020617] border border-[#1E293B] shadow-2xl space-y-8 relative overflow-hidden">
                         {loading && (
-                            <div className="absolute inset-0 bg-card/50 backdrop-blur-sm z-10 flex items-center justify-center">
-                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent-red" />
+                            <div className="absolute inset-0 bg-[#020617]/50 backdrop-blur-sm z-10 flex items-center justify-center">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#22D3EE]" />
                             </div>
                         )}
 
                         <div className="flex items-center gap-4">
-                            <div className="p-3 bg-secondary rounded-2xl">
-                                <Globe className="h-6 w-6 text-accent-red" />
+                            <div className="p-3 bg-[#020617]/50 rounded-2xl border border-[#1E293B]">
+                                <Globe className="h-6 w-6 text-[#22D3EE]" />
                             </div>
                             <div>
-                                <h2 className="text-xl font-black uppercase tracking-tight italic">
+                                <h2 className="text-xl font-black uppercase tracking-tight italic text-[#F1F5F9]">
                                     Strategic Profile: {formData.countryName}
                                 </h2>
-                                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                                <p className="text-[10px] font-black text-[#64748B] dark:text-[#94A3B8] uppercase tracking-widest">
                                     Entity ID: {selectedCode} // Authorization Level 4
                                 </p>
                             </div>
@@ -149,38 +158,38 @@ export default function MapDataPage() {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest px-1">LITERACY RATE</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest px-1 text-[#94A3B8]">LITERACY RATE</label>
                                 <input
                                     value={formData.literacy}
                                     onChange={e => setFormData({ ...formData, literacy: e.target.value })}
-                                    className="w-full bg-secondary border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 ring-accent-red/20 outline-none"
+                                    className="w-full bg-[#020617] border border-[#1E293B] rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 ring-[#22D3EE]/20 outline-none text-[#F1F5F9] placeholder:text-[#475569]"
                                     placeholder="e.g. 98% (Adult Universal)"
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest px-1">ECONOMY STATUS</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest px-1 text-[#94A3B8]">ECONOMY STATUS</label>
                                 <input
                                     value={formData.economy}
                                     onChange={e => setFormData({ ...formData, economy: e.target.value })}
-                                    className="w-full bg-secondary border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 ring-accent-red/20 outline-none"
+                                    className="w-full bg-[#020617] border border-[#1E293B] rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 ring-[#22D3EE]/20 outline-none text-[#F1F5F9] placeholder:text-[#475569]"
                                     placeholder="e.g. GDP $2.5T / +1.2% Growth"
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest px-1">ENERGY INDEX</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest px-1 text-[#94A3B8]">ENERGY INDEX</label>
                                 <input
                                     value={formData.energy}
                                     onChange={e => setFormData({ ...formData, energy: e.target.value })}
-                                    className="w-full bg-secondary border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 ring-accent-red/20 outline-none"
+                                    className="w-full bg-[#020617] border border-[#1E293B] rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 ring-[#22D3EE]/20 outline-none text-[#F1F5F9] placeholder:text-[#475569]"
                                     placeholder="e.g. 72% Nuclear / 20% Renewables"
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest px-1">ARMY STRENGTH</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest px-1 text-[#94A3B8]">ARMY STRENGTH</label>
                                 <input
                                     value={formData.army}
                                     onChange={e => setFormData({ ...formData, army: e.target.value })}
-                                    className="w-full bg-secondary border-none rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 ring-accent-red/20 outline-none"
+                                    className="w-full bg-[#020617] border border-[#1E293B] rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 ring-[#22D3EE]/20 outline-none text-[#F1F5F9] placeholder:text-[#475569]"
                                     placeholder="e.g. Active: 1.2M / Budget: $80B"
                                 />
                             </div>
@@ -190,7 +199,7 @@ export default function MapDataPage() {
                             <button
                                 type="submit"
                                 disabled={saving}
-                                className="flex items-center gap-2 bg-foreground text-background px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl disabled:opacity-50"
+                                className="flex items-center gap-2 bg-[#F1F5F9] text-[#020617] px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl disabled:opacity-50"
                             >
                                 <Save className="h-4 w-4" />
                                 {saving ? "Synchronizing..." : "Inject Metrics"}

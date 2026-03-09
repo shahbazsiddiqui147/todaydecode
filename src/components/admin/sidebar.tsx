@@ -72,56 +72,59 @@ export function Sidebar() {
     const getGroups = () => {
         const groups: any[] = [];
 
-        // 1. Oversight Group
+        // 1. Oversight Group (Global Context)
         groups.push({
-            name: "Oversight",
+            name: "Global Context",
             items: [
                 { name: "Strategic Overview", icon: LayoutDashboard, href: "/admin/" },
             ]
         });
 
-        // 2. Content / Research Group
-        const contentItems = [];
-        if (role === "AUTHOR") {
-            contentItems.push({ name: "My Reports", icon: FileText, href: "/admin/articles/" });
-        } else if (role === "EDITOR" || role === "ADMIN") {
-            contentItems.push({ name: "Research Desk", icon: FileText, href: "/admin/articles/" });
-            contentItems.push({ name: "Draft Archive", icon: FileEdit, href: "/admin/drafts/" });
+        // 2. Analysis / Research Desk (The Engine)
+        const researchItems = [];
+
+        // Research Desk (Articles)
+        if (role === "ADMIN" || role === "EDITOR") {
+            researchItems.push({ name: "Research Desk", icon: FileText, href: "/admin/articles/" });
+        } else if (role === "AUTHOR") {
+            researchItems.push({ name: "My Reports", icon: FileText, href: "/admin/articles/" });
         }
 
-        if (contentItems.length > 0) {
-            groups.push({ name: "Analysis", items: contentItems });
+        // Draft Archive
+        if (role === "ADMIN" || role === "EDITOR" || role === "AUTHOR") {
+            researchItems.push({ name: "Draft Archive", icon: FileEdit, href: "/admin/drafts/" });
         }
 
-        // 3. Structure / Strategic Silos
-        if (role === "EDITOR" || role === "ADMIN") {
+        if (researchItems.length > 0) {
+            groups.push({ name: "Research Desk", items: researchItems });
+        }
+
+        // 3. Architecture & Identity (Executive Director Only)
+        if (role === "ADMIN") {
             groups.push({
-                name: "Architecture",
+                name: "Platform Architecture",
                 items: [
                     { name: "Strategic Silos", icon: Map, href: "/admin/categories/" },
                     { name: "Institutional Pages", icon: Layers, href: "/admin/pages/" },
                     { name: "Strategic Assessment Map", icon: Database, href: "/admin/map-data/" },
                 ]
             });
-        }
 
-        // 4. Analysis Profiles
-        if (role === "EDITOR" || role === "ADMIN") {
             groups.push({
-                name: "Analysis",
+                name: "Sovereign Identity",
                 items: [
-                    { name: "Analyst Profiles", icon: Users, href: "/admin/authors/" },
-                    { name: "Access Requests", icon: UserCheck, href: "/admin/contributors/" },
+                    { name: "Analyst Roster", icon: Users, href: "/admin/authors/" },
+                    { name: "Access Registry", icon: UserCheck, href: "/admin/contributors/" },
                 ]
             });
         }
 
-        // 5. System Parameters (Master Admin Only)
+        // 4. Institutional Parameters (Executive Director Only)
         if (role === "ADMIN") {
             groups.push({
                 name: "Institutional Parameters",
                 items: [
-                    { name: "Institutional Access Registry", icon: Users, href: "/admin/users/" },
+                    { name: "Access Registry", icon: Users, href: "/admin/users/" },
                     { name: "Audit Logs", icon: History, href: "/admin/logs/" },
                     { name: "Platform Parameters", icon: Settings, href: "/admin/settings/" },
                 ]

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import {
     Plus,
     Search,
@@ -46,6 +48,7 @@ interface Category {
 }
 
 export default function CategoriesPage() {
+    const { data: session, status: authStatus } = useSession();
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,6 +64,12 @@ export default function CategoriesPage() {
         icon: "",
         leadAnalyst: ""
     });
+
+    useEffect(() => {
+        if (authStatus === "authenticated" && session?.user?.role !== "ADMIN") {
+            redirect("/admin/");
+        }
+    }, [session, authStatus]);
 
     useEffect(() => {
         loadCategories();
@@ -130,23 +139,23 @@ export default function CategoriesPage() {
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#1E293B]">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#22D3EE] dark:text-[#22D3EE] italic">Strategic <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Silos</span></h1>
+                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#22D3EE] dark:text-[#22D3EE] italic pb-1">Strategic <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Silos</span></h1>
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Institutional parameters for global risk analysis and analysis desks.</p>
                 </div>
-                <Button onClick={() => { setEditingCategory(null); setFormData({ name: "", slug: "", description: "", order: "0", isVisible: true, icon: "", leadAnalyst: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-none hover:bg-black dark:hover:bg-white/90">
+                <Button onClick={() => { setEditingCategory(null); setFormData({ name: "", slug: "", description: "", order: "0", isVisible: true, icon: "", leadAnalyst: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-xl bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] border-none hover:bg-black dark:hover:bg-white/90">
                     <Plus className="mr-2 h-4 w-4" /> Create Strategic Silo
                 </Button>
             </header>
 
-            <div className="bg-card border border-[#1E293B] rounded-3xl overflow-hidden shadow-sm shadow-black/5 dark:shadow-none transition-colors">
+            <div className="bg-[#020617] border border-[#1E293B] rounded-3xl overflow-hidden shadow-2xl">
                 <Table className="border-collapse">
-                    <TableHeader className="bg-slate-50 dark:bg-white/5">
+                    <TableHeader className="bg-[#020617]/50">
                         <TableRow className="border-b border-[#1E293B] hover:bg-transparent">
-                            <TableHead className="w-16 text-center text-[#1E293B] dark:text-[#CBD5E1] font-black uppercase text-[10px] tracking-widest">Priority</TableHead>
-                            <TableHead className="py-5 pl-8 text-[#1E293B] dark:text-[#CBD5E1] font-black uppercase text-[10px] tracking-widest">Strategic Silo</TableHead>
-                            <TableHead className="text-[#1E293B] dark:text-[#CBD5E1] font-black uppercase text-[10px] tracking-widest">Structural Path (Slug)</TableHead>
-                            <TableHead className="text-[#1E293B] dark:text-[#CBD5E1] font-black uppercase text-[10px] tracking-widest">State</TableHead>
-                            <TableHead className="text-right pr-8 text-[#1E293B] dark:text-[#CBD5E1] font-black uppercase text-[10px] tracking-widest">Operations</TableHead>
+                            <TableHead className="w-16 text-center text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Priority</TableHead>
+                            <TableHead className="py-5 pl-8 text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Strategic Silo</TableHead>
+                            <TableHead className="text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Structural Path (Slug)</TableHead>
+                            <TableHead className="text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">State</TableHead>
+                            <TableHead className="text-right pr-8 text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Operations</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -164,19 +173,19 @@ export default function CategoriesPage() {
                                 <TableCell colSpan={5} className="h-64 text-center text-[#64748B] font-bold uppercase tracking-widest text-[10px] italic">No silos found in system interface.</TableCell>
                             </TableRow>
                         ) : categories.map((cat) => (
-                            <TableRow key={cat.id} className="group border-b border-[#1E293B] hover:bg-muted/30 transition-colors">
-                                <TableCell className="text-center font-mono font-black text-xs text-muted-foreground/60">
+                            <TableRow key={cat.id} className="group border-b border-[#1E293B] hover:bg-[#020617]/50 transition-colors">
+                                <TableCell className="text-center font-mono font-black text-xs text-[#64748B] dark:text-[#94A3B8]/60">
                                     {cat.order}
                                 </TableCell>
                                 <TableCell className="pl-8">
                                     <div className="flex items-center space-x-4">
-                                        <div className="h-10 w-10 rounded-xl bg-muted/50 border border-border flex items-center justify-center shrink-0">
-                                            <Map className="h-5 w-5 text-[#94A3B8] group-hover:text-[#22D3EE] transition-colors" />
+                                        <div className="h-10 w-10 rounded-xl bg-[#020617]/50 border border-[#1E293B] flex items-center justify-center shrink-0">
+                                            <Map className="h-5 w-5 text-[#64748B] group-hover:text-[#22D3EE] transition-colors" />
                                         </div>
-                                        <div className="text-sm font-black text-[#F1F5F9] dark:text-[#F1F5F9] uppercase tracking-tight font-medium">{cat.name}</div>
+                                        <div className="text-sm font-black text-[#F1F5F9] dark:text-[#F1F5F9] uppercase tracking-tight">{cat.name}</div>
                                     </div>
                                 </TableCell>
-                                <TableCell className="font-mono text-[10px] text-muted-foreground/60">{cat.slug}</TableCell>
+                                <TableCell className="font-mono text-[10px] text-[#64748B] dark:text-[#94A3B8]/60">{cat.slug}</TableCell>
                                 <TableCell>
                                     {cat.isVisible ? (
                                         <span className="flex items-center text-[10px] font-black uppercase text-brand-stability bg-brand-stability/10 px-3 py-1 rounded-full border border-brand-stability/20">

@@ -1,6 +1,14 @@
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import { BarChart3, TrendingUp, Users, Eye } from "lucide-react";
 
 export default function AnalyticsPage() {
+    const { data: session, status } = useSession();
+
+    if (status === "loading") return null;
+    if (!session || session.user.role !== "ADMIN") {
+        redirect("/admin/");
+    }
     return (
         <div className="space-y-12">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#1E293B] dark:border-[#1E293B]">
@@ -16,10 +24,10 @@ export default function AnalyticsPage() {
                     { label: "Engagement Rate", value: "0%", icon: TrendingUp },
                     { label: "Node Views", value: "0", icon: Eye },
                 ].map((stat, i) => (
-                    <div key={i} className="bg-card border border-[#1E293B] p-8 rounded-3xl">
-                        <stat.icon className="h-6 w-6 text-muted-foreground mb-4" />
-                        <div className="text-4xl font-black text-foreground mb-1">{stat.value}</div>
-                        <div className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{stat.label}</div>
+                    <div key={i} className="bg-[#020617] border border-[#1E293B] p-8 rounded-3xl shadow-xl">
+                        <stat.icon className="h-6 w-6 text-[#22D3EE] mb-4" />
+                        <div className="text-4xl font-black text-[#F1F5F9] mb-1">{stat.value}</div>
+                        <div className="text-[10px] font-black text-[#64748B] dark:text-[#94A3B8] uppercase tracking-widest">{stat.label}</div>
                     </div>
                 ))}
             </div>

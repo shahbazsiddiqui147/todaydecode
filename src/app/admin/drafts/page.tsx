@@ -57,13 +57,13 @@ export default function DraftsPage() {
                 </div>
             </div>
 
-            <div className="bg-card border border-[#E2E8F0] dark:border-[#1E293B] shadow-sm overflow-hidden rounded-3xl transition-colors">
-                <div className="p-4 border-b border-[#E2E8F0] dark:border-[#1E293B] flex items-center gap-4 bg-slate-50 dark:bg-white/5">
+            <div className="bg-[#020617] border border-[#1E293B] shadow-2xl overflow-hidden rounded-3xl transition-colors">
+                <div className="p-4 border-b border-[#1E293B] flex items-center gap-4 bg-[#020617]/50">
                     <div className="relative flex-1 max-w-sm">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/40" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#475569]" />
                         <Input
                             placeholder="SEARCH DRAFTS..."
-                            className="pl-10 bg-background border-border rounded-xl h-10 text-[10px] uppercase font-black tracking-widest focus-visible:ring-primary"
+                            className="pl-10 bg-[#020617] border-[#1E293B] rounded-xl h-10 text-[10px] uppercase font-black tracking-widest text-[#F1F5F9] placeholder:text-[#475569] focus-visible:ring-[#22D3EE]"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
@@ -72,8 +72,8 @@ export default function DraftsPage() {
 
                 <div className="overflow-x-auto">
                     <Table>
-                        <TableHeader className="bg-slate-50 dark:bg-white/5">
-                            <TableRow className="border-b border-[#E2E8F0] dark:border-[#1E293B] hover:bg-transparent">
+                        <TableHeader className="bg-[#020617]/50">
+                            <TableRow className="border-b border-[#1E293B] hover:bg-transparent">
                                 <TableHead className="text-[10px] uppercase font-black text-[#64748B] dark:text-[#94A3B8] tracking-widest py-4">Status & Title</TableHead>
                                 <TableHead className="text-[10px] uppercase font-black text-[#64748B] dark:text-[#94A3B8] tracking-widest">Sector</TableHead>
                                 <TableHead className="text-[10px] uppercase font-black text-[#64748B] dark:text-[#94A3B8] tracking-widest text-right">Actions</TableHead>
@@ -97,7 +97,7 @@ export default function DraftsPage() {
                                 </TableRow>
                             ) : (
                                 filteredArticles.map((article) => (
-                                    <TableRow key={article.id} className="group hover:bg-muted/30 border-b border-[#E2E8F0] dark:border-[#1E293B] transition-colors">
+                                    <TableRow key={article.id} className="group hover:bg-[#020617]/50 border-b border-[#1E293B] transition-colors">
                                         <TableCell className="py-4 pl-4">
                                             <div className="flex items-start gap-4">
                                                 <Badge variant="outline" className="text-muted-foreground/60 gap-1"><Clock className="h-3 w-3" /> Draft</Badge>
@@ -107,7 +107,7 @@ export default function DraftsPage() {
                                             </div>
                                         </TableCell>
                                         <TableCell>
-                                            <div className="text-[10px] font-black text-foreground uppercase tracking-tight">
+                                            <div className="text-[10px] font-black text-[#F1F5F9] uppercase tracking-tight">
                                                 {article.category.name}
                                             </div>
                                         </TableCell>

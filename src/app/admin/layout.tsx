@@ -16,13 +16,13 @@ export default function AdminLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="flex min-h-screen bg-background text-foreground transition-colors duration-300">
+        <div className="flex min-h-screen bg-[#020617] text-[#F1F5F9] transition-colors duration-300">
             <Sidebar />
             <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
-                <header className="h-16 shrink-0 border-b border-border bg-background/80 backdrop-blur-md flex items-center justify-end px-10">
+                <header className="h-16 shrink-0 border-b border-[#1E293B] bg-[#020617]/80 backdrop-blur-md flex items-center justify-end px-10">
                     <ThemeToggle />
                 </header>
-                <main className="flex-1 overflow-y-auto bg-muted/30">
+                <main className="flex-1 overflow-y-auto bg-[#020617]">
                     <div className="p-10 max-w-7xl mx-auto space-y-10">
                         {children}
                     </div>

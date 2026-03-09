@@ -86,13 +86,13 @@ export default function ContributorsAdminPage() {
             </header>
 
             {/* Search Framework */}
-            <div className="flex items-center space-x-4 bg-white dark:bg-[#020617] p-3 rounded-2xl border border-[#1E293B] shadow-sm relative overflow-hidden group focus-within:ring-2 focus-within:ring-[#22D3EE] transition-all">
+            <div className="flex items-center space-x-4 bg-[#020617] p-3 rounded-2xl border border-[#1E293B] shadow-sm relative overflow-hidden group focus-within:ring-2 focus-within:ring-[#22D3EE] transition-all">
                 <div className="absolute top-0 left-0 w-1 h-full bg-[#1E293B] group-focus-within:bg-[#22D3EE] transition-all" />
                 <div className="relative flex-1 flex items-center pl-6">
-                    <Search className="h-4 w-4 text-[#64748B] mr-4" />
+                    <Search className="h-4 w-4 text-[#475569] mr-4" />
                     <input
                         placeholder="Scan for applicants by email or name..."
-                        className="w-full bg-transparent border-none outline-none text-sm font-bold placeholder:text-[#64748B] text-[#0F172A] dark:text-[#F1F5F9]"
+                        className="w-full bg-transparent border-none outline-none text-sm font-bold placeholder:text-[#475569] text-[#F1F5F9]"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
@@ -102,12 +102,12 @@ export default function ContributorsAdminPage() {
             {/* Pending Table */}
             <div className="bg-card border border-[#1E293B] rounded-3xl overflow-hidden shadow-sm">
                 <Table>
-                    <TableHeader className="bg-slate-50 dark:bg-white/5">
+                    <TableHeader className="bg-[#020617]/50">
                         <TableRow className="border-b border-[#1E293B] hover:bg-transparent">
-                            <TableHead className="py-5 pl-8 text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Applicant Signature</TableHead>
-                            <TableHead className="text-[#94A3B8] font-black uppercase text-[10px] tracking-widest text-center">Current Role</TableHead>
-                            <TableHead className="text-[#94A3B8] font-black uppercase text-[10px] tracking-widest text-center">Verification</TableHead>
-                            <TableHead className="text-right pr-8 text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Authorization</TableHead>
+                            <TableHead className="py-5 pl-8 text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Applicant Signature</TableHead>
+                            <TableHead className="text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest text-center">Current Role</TableHead>
+                            <TableHead className="text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest text-center">Verification</TableHead>
+                            <TableHead className="text-right pr-8 text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Authorization</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -130,8 +130,8 @@ export default function ContributorsAdminPage() {
                                                 {user.image ? <img src={user.image} className="h-full w-full object-cover rounded-xl" /> : (user.name || user.email || "?").charAt(0)}
                                             </div>
                                             <div className="space-y-0.5">
-                                                <p className="text-sm font-black uppercase tracking-tight text-[#0F172A] dark:text-[#F1F5F9] font-medium">{user.name || "Unidentified Applicant"}</p>
-                                                <p className="text-[10px] font-mono text-muted-foreground/60 flex items-center gap-1.5"><Mail className="h-3 w-3" /> {user.email}</p>
+                                                <p className="text-sm font-black uppercase tracking-tight text-[#0F172A] dark:text-[#F1F5F9]">{user.name || "Unidentified Applicant"}</p>
+                                                <p className="text-[10px] font-mono text-[#64748B] dark:text-[#94A3B8]/60 flex items-center gap-1.5"><Mail className="h-3 w-3" /> {user.email}</p>
                                             </div>
                                         </div>
                                     </TableCell>

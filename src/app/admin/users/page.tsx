@@ -33,7 +33,7 @@ export default async function PersonnelRegistry() {
                         <ShieldAlert className="h-5 w-5" />
                         <span className="text-[10px] font-black uppercase tracking-[0.3em]">Master Administrator Control</span>
                     </div>
-                    <h1 className="text-4xl font-black uppercase tracking-tighter text-slate-900 dark:text-white">
+                    <h1 className="text-4xl font-black uppercase tracking-tighter text-[#F1F5F9]">
                         Institutional <span className="text-[#22D3EE] text-shadow-institutional">Access Registry</span>
                     </h1>
                     <p className="text-slate-500 dark:text-slate-400 text-sm max-w-2xl font-medium tracking-tight">
@@ -43,39 +43,39 @@ export default async function PersonnelRegistry() {
 
                 <div className="flex items-center space-x-3">
                     <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#475569]" />
                         <input
                             type="text"
                             placeholder="Search Personnel Email..."
-                            className="pl-10 pr-4 h-11 w-64 bg-white dark:bg-[#0D1425] border border-slate-200 dark:border-[#1E293B] rounded-xl text-xs font-semibold focus:ring-2 focus:ring-[#22D3EE] transition-all outline-none"
+                            className="pl-10 pr-4 h-11 w-64 bg-[#020617] border border-[#1E293B] rounded-xl text-xs font-bold focus:ring-2 focus:ring-[#22D3EE] transition-all outline-none text-[#F1F5F9] placeholder:text-[#475569]"
                         />
                     </div>
                 </div>
             </div>
 
             {/* Personnel Table */}
-            <div className="bg-white dark:bg-[#0D1425] border border-slate-200 dark:border-[#1E293B] rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.2)]">
+            <div className="bg-[#020617] border border-[#1E293B] rounded-[2rem] overflow-hidden shadow-2xl">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="bg-slate-50 dark:bg-[#020617] border-b border-slate-200 dark:border-[#1E293B]">
-                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Identity / Email</th>
-                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Institutional Role</th>
-                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Clearance Level</th>
-                                <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Personnel Actions</th>
+                            <tr className="bg-[#020617]/50 border-b border-[#1E293B]">
+                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8]">Identity / Email</th>
+                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8]">Institutional Role</th>
+                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8]">Clearance Level</th>
+                                <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8]">Personnel Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 dark:divide-[#1E293B]">
                             {users.map((user) => (
-                                <tr key={user.id} className="group hover:bg-slate-50/50 dark:hover:bg-white/[0.02] transition-colors">
+                                <tr key={user.id} className="group hover:bg-[#020617]/80 transition-colors border-b border-[#1E293B]">
                                     <td className="px-8 py-6">
                                         <div className="flex items-center space-x-4">
                                             <div className="h-10 w-10 rounded-full bg-slate-100 dark:bg-[#1E293B] flex items-center justify-center font-bold text-slate-400 text-xs border border-slate-200 dark:border-[#334155]">
                                                 {user.email?.substring(0, 1).toUpperCase()}
                                             </div>
                                             <div className="flex flex-col">
-                                                <span className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight">{user.name || "Anonymous Analyst"}</span>
-                                                <span className="text-xs font-medium text-slate-500 dark:text-slate-500">{user.email}</span>
+                                                <span className="text-sm font-black text-[#F1F5F9] uppercase tracking-tight">{user.name || "Anonymous Analyst"}</span>
+                                                <span className="text-xs font-medium text-[#64748B] dark:text-[#94A3B8]/60">{user.email}</span>
                                             </div>
                                         </div>
                                     </td>
@@ -84,8 +84,8 @@ export default async function PersonnelRegistry() {
                                     </td>
                                     <td className="px-8 py-6">
                                         <div className="flex items-center space-x-2">
-                                            <div className={`h-1.5 w-1.5 rounded-full ${user.role === 'ADMIN' ? 'bg-[#22D3EE] shadow-[0_0_8px_#22D3EE]' : 'bg-slate-300 dark:bg-slate-600'}`} />
-                                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-400">
+                                            <div className={`h-1.5 w-1.5 rounded-full ${user.role === 'ADMIN' ? 'bg-[#22D3EE] shadow-[0_0_8px_#22D3EE]' : 'bg-[#1E293B]'}`} />
+                                            <span className="text-[10px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8]">
                                                 {(user.role as string) === 'ADMIN' ? 'Strategic' : (user.role as string) === 'EDITOR' ? 'Elevated' : 'Standard'}
                                             </span>
                                         </div>
