@@ -30,7 +30,7 @@ export default function UserRoleActions({ userId, currentRole }: UserRoleActions
     const roles = [
         { id: "ADMIN", label: "Master Administrator", icon: ShieldAlert },
         { id: "EDITOR", label: "Senior Editor", icon: UserCheck },
-        { id: "AUTHOR", label: "Strategic Analyst", icon: UserPlus },
+        { id: "AUTHOR", label: "Strategic Analyst / Fellow", icon: UserPlus },
         { id: "GUEST", label: "Institutional Guest", icon: UserMinus },
     ];
 

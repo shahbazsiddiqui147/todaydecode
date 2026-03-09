@@ -33,8 +33,8 @@ export default async function PersonnelRegistry() {
                         <ShieldAlert className="h-5 w-5" />
                         <span className="text-[10px] font-black uppercase tracking-[0.3em]">Master Administrator Control</span>
                     </div>
-                    <h1 className="text-4xl font-black uppercase tracking-tighter text-[#22D3EE]">
-                        Institutional <span className="text-[#F1F5F9] text-shadow-institutional">Access Registry</span>
+                    <h1 className="text-4xl font-black uppercase tracking-tighter italic pb-1">
+                        <span className="text-[#22D3EE]">Institutional</span> <span className="text-[#F1F5F9]">Access Registry</span>
                     </h1>
                     <p className="text-slate-500 dark:text-slate-400 text-sm max-w-2xl font-medium tracking-tight">
                         Institutional oversight of all registered personnel. Authorize strategic analyst status and calibrate editorial oversight clearance.

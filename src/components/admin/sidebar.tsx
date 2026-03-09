@@ -72,7 +72,7 @@ export function Sidebar() {
     const getGroups = () => {
         const groups: any[] = [];
 
-        // 1. Global Context (Dashboard/Analytics)
+        // 1. Global Context
         groups.push({
             name: "Global Context",
             items: [
@@ -90,18 +90,22 @@ export function Sidebar() {
                 href: "/admin/articles/"
             });
             researchItems.push({ name: "Draft Archive", icon: FileEdit, href: "/admin/drafts/" });
-            researchItems.push({ name: "Media Library", icon: ImageIcon, href: "/admin/media/" });
+
+            // AUTHOR: Hide Media Library
+            if (role !== "AUTHOR") {
+                researchItems.push({ name: "Media Library", icon: ImageIcon, href: "/admin/media/" });
+            }
         }
 
         if (researchItems.length > 0) {
             groups.push({ name: "Research Desk", items: researchItems });
         }
 
-        // 3. Platform Architecture (Admin/Editor)
+        // 3. Institutional Control (Admin/Editor)
         if (role === "ADMIN" || role === "EDITOR") {
             const architecturalItems = [];
 
-            // Editors can manage Authors but not Silos/Pages
+            // Editors can manage Authors but not Silos/Pages/Registry
             architecturalItems.push({ name: "Analyst Roster", icon: Users, href: "/admin/authors/" });
 
             if (role === "ADMIN") {

@@ -423,7 +423,18 @@ export async function getAdminAuthors() {
 }
 
 export async function getAdminArticles() {
+    const session = await getServerSession(authOptions);
+    if (!session || !session.user) {
+        throw new Error("Unauthorized access.");
+    }
+
+    const where: any = {};
+    if (session.user.role === "AUTHOR") {
+        where.authorId = session.user.id;
+    }
+
     return await prisma.article.findMany({
+        where,
         include: {
             author: { select: { name: true } },
             category: { select: { name: true, slug: true } }
