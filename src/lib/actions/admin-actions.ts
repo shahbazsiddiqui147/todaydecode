@@ -238,7 +238,7 @@ export async function upsertArticle(data: z.infer<typeof ArticleSchema>) {
         const validated = ArticleSchema.parse(data);
 
         // AUTHOR PROTECTION: Verify ownership
-        if (session.user.role === "AUTHOR" && validated.id) {
+        if (session.user.role === "AUTHOR" && validated.id && validated.id !== "new-article") {
             const article = await prisma.article.findUnique({ where: { id: validated.id } });
             if (article && article.authorId !== session.user.id) {
                 return { success: false, error: "Access Denied: Institutional access integrity breach." };

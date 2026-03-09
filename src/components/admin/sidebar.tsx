@@ -72,7 +72,7 @@ export function Sidebar() {
     const getGroups = () => {
         const groups: any[] = [];
 
-        // 1. Oversight Group (Global Context)
+        // 1. Global Context (Dashboard/Analytics)
         groups.push({
             name: "Global Context",
             items: [
@@ -80,51 +80,49 @@ export function Sidebar() {
             ]
         });
 
-        // 2. Analysis / Research Desk (The Engine)
+        // 2. Research Desk (The Engine)
         const researchItems = [];
 
-        // Research Desk (Articles)
-        if (role === "ADMIN" || role === "EDITOR") {
-            researchItems.push({ name: "Research Desk", icon: FileText, href: "/admin/articles/" });
-        } else if (role === "AUTHOR") {
-            researchItems.push({ name: "My Reports", icon: FileText, href: "/admin/articles/" });
-        }
-
-        // Draft Archive
         if (role === "ADMIN" || role === "EDITOR" || role === "AUTHOR") {
+            researchItems.push({
+                name: role === "AUTHOR" ? "My Reports" : "Research Desk",
+                icon: FileText,
+                href: "/admin/articles/"
+            });
             researchItems.push({ name: "Draft Archive", icon: FileEdit, href: "/admin/drafts/" });
+            researchItems.push({ name: "Media Library", icon: ImageIcon, href: "/admin/media/" });
         }
 
         if (researchItems.length > 0) {
             groups.push({ name: "Research Desk", items: researchItems });
         }
 
-        // 3. Architecture & Identity (Executive Director Only)
-        if (role === "ADMIN") {
-            groups.push({
-                name: "Platform Architecture",
-                items: [
-                    { name: "Strategic Silos", icon: Map, href: "/admin/categories/" },
-                    { name: "Institutional Pages", icon: Layers, href: "/admin/pages/" },
-                    { name: "Strategic Assessment Map", icon: Database, href: "/admin/map-data/" },
-                ]
-            });
+        // 3. Platform Architecture (Admin/Editor)
+        if (role === "ADMIN" || role === "EDITOR") {
+            const architecturalItems = [];
+
+            // Editors can manage Authors but not Silos/Pages
+            architecturalItems.push({ name: "Analyst Roster", icon: Users, href: "/admin/authors/" });
+
+            if (role === "ADMIN") {
+                architecturalItems.push({ name: "Strategic Silos", icon: Map, href: "/admin/categories/" });
+                architecturalItems.push({ name: "Institutional Pages", icon: Layers, href: "/admin/pages/" });
+                architecturalItems.push({ name: "Strategic Assessment Map", icon: Database, href: "/admin/map-data/" });
+                architecturalItems.push({ name: "Access Registry", icon: UserCheck, href: "/admin/users/" });
+            }
 
             groups.push({
-                name: "Sovereign Identity",
-                items: [
-                    { name: "Analyst Roster", icon: Users, href: "/admin/authors/" },
-                    { name: "Access Registry", icon: UserCheck, href: "/admin/contributors/" },
-                ]
+                name: "Institutional Control",
+                items: architecturalItems
             });
         }
 
-        // 4. Institutional Parameters (Executive Director Only)
+        // 4. System Parameters (Admin Only)
         if (role === "ADMIN") {
             groups.push({
-                name: "Institutional Parameters",
+                name: "System Parameters",
                 items: [
-                    { name: "Access Registry", icon: Users, href: "/admin/users/" },
+                    { name: "Analytics", icon: BarChart3, href: "/admin/analytics/" },
                     { name: "Audit Logs", icon: History, href: "/admin/logs/" },
                     { name: "Platform Parameters", icon: Settings, href: "/admin/settings/" },
                 ]

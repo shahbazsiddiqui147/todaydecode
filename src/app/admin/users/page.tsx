@@ -33,8 +33,8 @@ export default async function PersonnelRegistry() {
                         <ShieldAlert className="h-5 w-5" />
                         <span className="text-[10px] font-black uppercase tracking-[0.3em]">Master Administrator Control</span>
                     </div>
-                    <h1 className="text-4xl font-black uppercase tracking-tighter text-[#F1F5F9]">
-                        Institutional <span className="text-[#22D3EE] text-shadow-institutional">Access Registry</span>
+                    <h1 className="text-4xl font-black uppercase tracking-tighter text-[#22D3EE]">
+                        Institutional <span className="text-[#F1F5F9] text-shadow-institutional">Access Registry</span>
                     </h1>
                     <p className="text-slate-500 dark:text-slate-400 text-sm max-w-2xl font-medium tracking-tight">
                         Institutional oversight of all registered personnel. Authorize strategic analyst status and calibrate editorial oversight clearance.
@@ -60,9 +60,9 @@ export default async function PersonnelRegistry() {
                         <thead>
                             <tr className="bg-[#020617]/50 border-b border-[#1E293B]">
                                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8]">Identity / Email</th>
-                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8]">Institutional Role</th>
-                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8]">Clearance Level</th>
-                                <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8]">Personnel Actions</th>
+                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">Institutional Role</th>
+                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">Clearance Level</th>
+                                <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">Personnel Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 dark:divide-[#1E293B]">
