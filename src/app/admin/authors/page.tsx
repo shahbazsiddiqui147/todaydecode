@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import {
     Search,
     Edit2,
@@ -46,6 +48,7 @@ interface Author {
 }
 
 export default function AuthorsPage() {
+    const { data: session, status } = useSession();
     const [authors, setAuthors] = useState<Author[]>([]);
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
@@ -63,8 +66,18 @@ export default function AuthorsPage() {
     });
 
     useEffect(() => {
-        loadAuthors();
-    }, []);
+        if (status === "authenticated" && (!session || session.user.role !== "ADMIN")) {
+            redirect("/admin/");
+        }
+    }, [session, status]);
+
+    useEffect(() => {
+        if (status === "authenticated" && session?.user.role === "ADMIN") {
+            loadAuthors();
+        }
+    }, [status, session]);
+
+    if (status === "loading") return null;
 
     const loadAuthors = async () => {
         try {

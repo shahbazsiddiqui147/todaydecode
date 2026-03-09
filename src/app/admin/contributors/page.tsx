@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import {
     Users,
     CheckCircle2,
@@ -23,13 +25,24 @@ import { toast } from "sonner";
 import { getPendingAnalysts, approveAnalyst } from "@/lib/actions/admin-actions";
 
 export default function ContributorsAdminPage() {
+    const { data: session, status } = useSession();
     const [loading, setLoading] = useState(true);
     const [pendingUsers, setPendingUsers] = useState<any[]>([]);
     const [search, setSearch] = useState("");
 
     useEffect(() => {
-        loadPending();
-    }, []);
+        if (status === "authenticated" && (!session || session.user.role !== "ADMIN")) {
+            redirect("/admin/");
+        }
+    }, [session, status]);
+
+    useEffect(() => {
+        if (status === "authenticated" && session?.user.role === "ADMIN") {
+            loadPending();
+        }
+    }, [status, session]);
+
+    if (status === "loading") return null;
 
     const loadPending = async () => {
         try {

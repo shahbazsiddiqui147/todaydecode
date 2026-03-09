@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import {
     getAdminArticles,
     deleteArticle,
@@ -47,13 +49,24 @@ interface Article {
 }
 
 export default function ArticlesPage() {
+    const { data: session, status } = useSession();
     const [articles, setArticles] = useState<Article[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
 
     useEffect(() => {
-        loadArticles();
-    }, []);
+        if (status === "authenticated" && (!session || (session.user.role !== "ADMIN" && session.user.role !== "EDITOR" && session.user.role !== "AUTHOR"))) {
+            redirect("/admin/");
+        }
+    }, [session, status]);
+
+    useEffect(() => {
+        if (status === "authenticated") {
+            loadArticles();
+        }
+    }, [status]);
+
+    if (status === "loading") return null;
 
     const loadArticles = async () => {
         try {

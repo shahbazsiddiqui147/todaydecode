@@ -66,14 +66,18 @@ export default function CategoriesPage() {
     });
 
     useEffect(() => {
-        if (authStatus === "authenticated" && session?.user?.role !== "ADMIN") {
+        if (authStatus === "authenticated" && (!session || session.user.role !== "ADMIN")) {
             redirect("/admin/");
         }
     }, [session, authStatus]);
 
     useEffect(() => {
-        loadCategories();
-    }, []);
+        if (authStatus === "authenticated" && session?.user.role === "ADMIN") {
+            loadCategories();
+        }
+    }, [authStatus, session]);
+
+    if (authStatus === "loading") return null;
 
     const loadCategories = async () => {
         try {

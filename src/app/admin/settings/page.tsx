@@ -38,11 +38,18 @@ export default function SettingsPage() {
     });
 
     useEffect(() => {
-        if (authStatus === "authenticated" && session?.user?.role !== "ADMIN") {
+        if (authStatus === "authenticated" && (!session || session.user.role !== "ADMIN")) {
             redirect("/admin/");
         }
-        loadSettings();
     }, [session, authStatus]);
+
+    useEffect(() => {
+        if (authStatus === "authenticated" && session?.user.role === "ADMIN") {
+            loadSettings();
+        }
+    }, [session, authStatus]);
+
+    if (authStatus === "loading") return null;
 
     const loadSettings = async () => {
         try {

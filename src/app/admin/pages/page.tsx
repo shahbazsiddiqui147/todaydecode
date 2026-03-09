@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import {
     Plus,
     FileText,
@@ -44,6 +46,7 @@ interface Page {
 }
 
 export default function PagesManager() {
+    const { data: session, status } = useSession();
     const [pages, setPages] = useState<Page[]>([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -59,8 +62,18 @@ export default function PagesManager() {
     });
 
     useEffect(() => {
-        loadPages();
-    }, []);
+        if (status === "authenticated" && (!session || session.user.role !== "ADMIN")) {
+            redirect("/admin/");
+        }
+    }, [session, status]);
+
+    useEffect(() => {
+        if (status === "authenticated" && session?.user.role === "ADMIN") {
+            loadPages();
+        }
+    }, [status, session]);
+
+    if (status === "loading") return null;
 
     const loadPages = async () => {
         try {

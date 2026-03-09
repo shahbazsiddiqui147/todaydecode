@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import { getAdminArticles } from "@/lib/actions/admin-actions";
 import {
     Table,
@@ -24,13 +26,24 @@ import Link from "next/link";
 import { toast } from "sonner";
 
 export default function DraftsPage() {
+    const { data: session, status } = useSession();
     const [articles, setArticles] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
 
     useEffect(() => {
-        loadDrafts();
-    }, []);
+        if (status === "authenticated" && (!session || (session.user.role !== "ADMIN" && session.user.role !== "EDITOR" && session.user.role !== "AUTHOR"))) {
+            redirect("/admin/");
+        }
+    }, [session, status]);
+
+    useEffect(() => {
+        if (status === "authenticated") {
+            loadDrafts();
+        }
+    }, [status]);
+
+    if (status === "loading") return null;
 
     const loadDrafts = async () => {
         try {

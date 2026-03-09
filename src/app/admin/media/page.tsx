@@ -1,7 +1,17 @@
+"use client";
+
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import { ImageIcon, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function MediaLibraryPage() {
+    const { data: session, status } = useSession();
+
+    if (status === "loading") return null;
+    if (!session || (session.user.role !== "ADMIN" && session.user.role !== "EDITOR" && session.user.role !== "AUTHOR")) {
+        redirect("/admin/");
+    }
     return (
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#1E293B] dark:border-[#1E293B]">
