@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import RoleBadge from "@/components/admin/RoleBadge";
 import UserRoleActions from "@/components/admin/UserRoleActions";
+import { cn } from "@/lib/utils";
+import CreateUserModal from "@/components/admin/CreateUserModal";
 
 export default async function PersonnelRegistry() {
     const session = await getServerSession(authOptions);
@@ -42,7 +44,7 @@ export default async function PersonnelRegistry() {
                 </div>
 
                 <div className="flex items-center space-x-3">
-                    <div className="relative">
+                    <div className="relative hidden md:block">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#475569]" />
                         <input
                             type="text"
@@ -50,6 +52,7 @@ export default async function PersonnelRegistry() {
                             className="pl-10 pr-4 h-11 w-64 bg-[#020617] border border-[#1E293B] rounded-xl text-xs font-bold focus:ring-2 focus:ring-[#22D3EE] transition-all outline-none text-[#F1F5F9] placeholder:text-[#475569]"
                         />
                     </div>
+                    <CreateUserModal />
                 </div>
             </div>
 
@@ -59,9 +62,8 @@ export default async function PersonnelRegistry() {
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="bg-[#020617]/50 border-b border-[#1E293B]">
-                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8]">Identity / Email</th>
                                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">Institutional Role</th>
-                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">Clearance Level</th>
+                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">Clearance Status</th>
                                 <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">Personnel Actions</th>
                             </tr>
                         </thead>
@@ -84,14 +86,17 @@ export default async function PersonnelRegistry() {
                                     </td>
                                     <td className="px-8 py-6">
                                         <div className="flex items-center space-x-2">
-                                            <div className={`h-1.5 w-1.5 rounded-full ${user.role === 'ADMIN' ? 'bg-[#22D3EE] shadow-[0_0_8px_#22D3EE]' : 'bg-[#1E293B]'}`} />
-                                            <span className="text-[10px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8]">
-                                                {(user.role as string) === 'ADMIN' ? 'Strategic' : (user.role as string) === 'EDITOR' ? 'Elevated' : 'Standard'}
+                                            <div className={`h-1.5 w-1.5 rounded-full ${(user as any).isApproved ? 'bg-[#22D3EE] shadow-[0_0_8px_#22D3EE]' : 'bg-red-500 shadow-[0_0_8px_red]'}`} />
+                                            <span className={cn(
+                                                "text-[10px] font-black uppercase tracking-widest",
+                                                (user as any).isApproved ? "text-[#22D3EE]" : "text-red-500"
+                                            )}>
+                                                {(user as any).isApproved ? 'AUTHORIZED' : 'PENDING'}
                                             </span>
                                         </div>
                                     </td>
                                     <td className="px-8 py-6 text-right">
-                                        <UserRoleActions userId={user.id} currentRole={user.role} />
+                                        <UserRoleActions userId={user.id} currentRole={user.role} isApproved={(user as any).isApproved} />
                                     </td>
                                 </tr>
                             ))}

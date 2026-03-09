@@ -631,3 +631,81 @@ export async function updateUserRole(userId: string, role: "GUEST" | "AUTHOR" | 
         return { success: false, error: "Role calibration failed." };
     }
 }
+
+export async function approveUser(userId: string) {
+    try {
+        const session = await getServerSession(authOptions);
+        if (!session || session.user.role !== "ADMIN") {
+            return { success: false, error: "Master Admin clearance required." };
+        }
+
+        await prisma.user.update({
+            where: { id: userId },
+            data: { isApproved: true }
+        });
+
+        revalidatePath("/admin/users/");
+        return { success: true };
+    } catch (error) {
+        return { success: false, error: "Identity authorization failed." };
+    }
+}
+
+export async function deleteUser(userId: string) {
+    try {
+        const session = await getServerSession(authOptions);
+        if (!session || session.user.role !== "ADMIN") {
+            return { success: false, error: "Master Admin clearance required." };
+        }
+
+        await prisma.user.delete({
+            where: { id: userId }
+        });
+
+        revalidatePath("/admin/users/");
+        return { success: true };
+    } catch (error) {
+        return { success: false, error: "Personnel purging failed." };
+    }
+}
+
+const CreateUserSchema = z.object({
+    name: z.string().min(2),
+    email: z.string().email(),
+    password: z.string().min(8),
+    role: z.enum(["GUEST", "AUTHOR", "EDITOR", "ADMIN"]),
+});
+
+export async function createUser(data: z.infer<typeof CreateUserSchema>) {
+    try {
+        const session = await getServerSession(authOptions);
+        if (!session || session.user.role !== "ADMIN") {
+            return { success: false, error: "Master Admin clearance required." };
+        }
+
+        const validated = CreateUserSchema.parse(data);
+        const hashedPassword = await bcrypt.hash(validated.password, 12);
+
+        await prisma.user.create({
+            data: {
+                name: validated.name,
+                email: validated.email,
+                password: hashedPassword,
+                role: validated.role,
+                isApproved: true, // Manually created users are pre-approved
+            }
+        });
+
+        revalidatePath("/admin/users/");
+        return { success: true };
+    } catch (error: any) {
+        if (error instanceof z.ZodError) {
+            return { success: false, error: error.issues[0].message };
+        }
+        if (error.code === 'P2002') {
+            return { success: false, error: "Identity already exists in Registry." };
+        }
+        return { success: false, error: "Personnel induction failed." };
+    }
+}
+import bcrypt from "bcryptjs";

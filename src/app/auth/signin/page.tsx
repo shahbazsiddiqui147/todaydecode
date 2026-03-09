@@ -47,8 +47,8 @@ function SignInContent() {
                         <ShieldCheck className="h-8 w-8 text-white dark:text-[#0F172A]" />
                     </div>
                     <div className="space-y-1">
-                        <h1 className="text-3xl font-black uppercase tracking-tighter text-[#081226] dark:text-white leading-none">
-                            Research <span className="text-[#22D3EE] dark:text-[#22D3EE] text-shadow-institutional">Portal</span>
+                        <h1 className="text-3xl font-black uppercase tracking-tighter leading-none">
+                            <span className="text-[#0F172A] dark:text-[#22D3EE] dark:text-shadow-institutional">Research</span> <span className="text-[#0F172A] dark:text-[#F1F5F9]">Portal</span>
                         </h1>
                         <p className="text-slate-700 dark:text-slate-400 text-[10px] font-black uppercase tracking-[0.4em] italic">Institutional Credentials Required</p>
                     </div>
@@ -69,7 +69,7 @@ function SignInContent() {
                                     type="email"
                                     required
                                     placeholder="analyst@todaydecode.com"
-                                    className="pl-11 h-12 bg-slate-50 dark:bg-[#020617] border-slate-300 dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-slate-500 dark:placeholder:text-slate-600 rounded-xl focus-visible:ring-[#22D3EE] transition-all"
+                                    className="pl-11 h-12 bg-slate-50 dark:bg-[#020617] border border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-slate-500 dark:placeholder:text-slate-600 rounded-xl focus-visible:ring-[#22D3EE] outline-none transition-all"
                                 />
                             </div>
                         </div>
@@ -84,7 +84,7 @@ function SignInContent() {
                                     type="password"
                                     required
                                     placeholder="••••••••"
-                                    className="pl-11 h-12 bg-slate-50 dark:bg-[#020617] border-slate-300 dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-slate-500 dark:placeholder:text-slate-600 rounded-xl focus-visible:ring-[#22D3EE] transition-all"
+                                    className="pl-11 h-12 bg-slate-50 dark:bg-[#020617] border border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-slate-500 dark:placeholder:text-slate-600 rounded-xl focus-visible:ring-[#22D3EE] outline-none transition-all"
                                 />
                             </div>
                         </div>

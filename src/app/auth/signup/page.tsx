@@ -26,8 +26,7 @@ export default function SignUpPage() {
             setError(res.error);
             setLoading(false);
         } else {
-            toast.success("Identity initialized. Please sign in.");
-            router.push("/auth/signin/");
+            router.push("/auth/pending/");
         }
     };
 
@@ -88,6 +87,37 @@ export default function SignUpPage() {
                                     required
                                     placeholder="••••••••"
                                     className="pl-11 bg-slate-950 border-slate-800 focus:border-accent-red text-white"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="space-y-2">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Registration Type</label>
+                            <div className="relative">
+                                <select
+                                    name="registrationType"
+                                    required
+                                    defaultValue=""
+                                    className="w-full h-12 pl-4 pr-10 bg-slate-950 border border-slate-800 focus:border-accent-red text-white text-xs font-bold uppercase rounded-xl appearance-none outline-none transition-all"
+                                >
+                                    <option value="" disabled>Select Clearance Category</option>
+                                    <option value="ACADEMIC">Academic Researcher</option>
+                                    <option value="ANALYST">Strategic Analyst</option>
+                                    <option value="JOURNALIST">Accredited Journalist</option>
+                                    <option value="PROFESSIONAL">Industry Professional</option>
+                                    <option value="STUDENT">University Student</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="space-y-2">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Institutional Background</label>
+                            <div className="relative">
+                                <textarea
+                                    name="institutionalBio"
+                                    required
+                                    placeholder="Briefly detail your academic or professional affiliation..."
+                                    className="w-full h-24 p-4 bg-slate-950 border border-slate-800 focus:border-accent-red text-white text-sm rounded-xl outline-none resize-none placeholder:text-slate-600 transition-all"
                                 />
                             </div>
                         </div>

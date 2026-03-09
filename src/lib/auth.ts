@@ -40,14 +40,22 @@ export const authOptions: NextAuthOptions = {
                     email: user.email,
                     name: user.name,
                     role: user.role,
-                };
+                    isApproved: (user as any).isApproved,
+                } as any;
             },
         }),
     ],
     callbacks: {
-        async jwt({ token, user }) {
+        async signIn({ user }) {
+            if (user && (user as any).isApproved === false) {
+                throw new Error("ACCOUNT_PENDING_VERIFICATION");
+            }
+            return true;
+        },
+        async jwt({ token, user, trigger, session }) {
             if (user) {
                 token.role = (user as any).role;
+                token.isApproved = (user as any).isApproved;
             }
             return token;
         },
@@ -55,6 +63,7 @@ export const authOptions: NextAuthOptions = {
             if (session.user) {
                 (session.user as any).role = token.role;
                 (session.user as any).id = token.sub;
+                (session.user as any).isApproved = token.isApproved;
             }
             return session;
         },

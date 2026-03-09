@@ -70,15 +70,18 @@ model Author {
 }
 
 model User {
-  id                   String          @id @default(cuid())
+  id                   String            @id @default(cuid())
   name                 String?
-  email                String?         @unique
+  email                String?           @unique
   emailVerified        DateTime?
   image                String?
   password             String?
-  role                 UserRole        @default(GUEST)
-  stripeCustomerId     String?         @unique
-  stripeSubscriptionId String?         @unique
+  role                 UserRole          @default(GUEST)
+  isApproved           Boolean           @default(false)
+  institutionalBio     String?           @db.Text
+  registrationType     RegistrationType?
+  stripeCustomerId     String?           @unique
+  stripeSubscriptionId String?           @unique
   accounts             Account[]
   savedAnalyses        SavedAnalysis[]
   sessions             Session[]
@@ -222,4 +225,12 @@ enum UserRole {
   AUTHOR
   EDITOR
   ADMIN
+}
+
+enum RegistrationType {
+  ACADEMIC
+  ANALYST
+  JOURNALIST
+  PROFESSIONAL
+  STUDENT
 }
