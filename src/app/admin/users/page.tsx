@@ -15,6 +15,7 @@ import RoleBadge from "@/components/admin/RoleBadge";
 import UserRoleActions from "@/components/admin/UserRoleActions";
 import { cn } from "@/lib/utils";
 import CreateUserModal from "@/components/admin/CreateUserModal";
+import { DESIGNATIONS } from "@/lib/constants/designations";
 
 export default async function PersonnelRegistry() {
     const session = await getServerSession(authOptions);
@@ -63,6 +64,7 @@ export default async function PersonnelRegistry() {
                         <thead>
                             <tr className="bg-[#020617]/50 border-b border-[#1E293B]">
                                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">Institutional Role</th>
+                                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">Credentials</th>
                                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">Clearance Status</th>
                                 <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">Personnel Actions</th>
                             </tr>
@@ -79,6 +81,23 @@ export default async function PersonnelRegistry() {
                                                 <span className="text-sm font-black text-[#F1F5F9] uppercase tracking-tight">{user.name || "Anonymous Analyst"}</span>
                                                 <span className="text-xs font-medium text-[#64748B] dark:text-[#94A3B8]/60">{user.email}</span>
                                             </div>
+                                        </div>
+                                    </td>
+                                    <td className="px-8 py-6">
+                                        <div className="flex flex-col space-y-1">
+                                            <div className="flex items-center space-x-2">
+                                                <span className="text-xs font-bold text-[#F1F5F9]">
+                                                    {(user as any).designation || "Unknown Designation"}
+                                                </span>
+                                                {(user as any).designation && !Object.values(DESIGNATIONS).flat().includes((user as any).designation) && (
+                                                    <div className="group relative flex items-center justify-center h-4 w-4 rounded-full bg-accent-red/20 text-accent-red cursor-help" title="Manual Review Required: Custom Designation">
+                                                        <ShieldAlert className="h-3 w-3" />
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <span className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">
+                                                at {(user as any).affiliation || "Unspecified Affiliation"}
+                                            </span>
                                         </div>
                                     </td>
                                     <td className="px-8 py-6">

@@ -64,6 +64,7 @@ model Author {
   image       String?
   role        String
   bio         String
+  affiliation String?
   expertise   String[]
   socialLinks Json?
   articles    Article[]
@@ -79,6 +80,8 @@ model User {
   role                 UserRole          @default(GUEST)
   isApproved           Boolean           @default(false)
   institutionalBio     String?           @db.Text
+  designation          String?
+  affiliation          String?
   registrationType     RegistrationType?
   stripeCustomerId     String?           @unique
   stripeSubscriptionId String?           @unique

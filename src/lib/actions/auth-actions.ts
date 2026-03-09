@@ -8,7 +8,8 @@ const signUpSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters."),
     email: z.string().email("Invalid institutional email format."),
     password: z.string().min(8, "Security framework requires at least 8 characters."),
-    registrationType: z.enum(["ACADEMIC", "ANALYST", "JOURNALIST", "PROFESSIONAL", "STUDENT"]),
+    designation: z.string().min(2, "Select a valid designation."),
+    affiliation: z.string().min(2, "Provide your institutional affiliation."),
     institutionalBio: z.string().min(10, "Detail your institutional background."),
 });
 
@@ -37,7 +38,8 @@ export async function signUp(formData: FormData) {
                 password: hashedPassword,
                 role: "AUTHOR",
                 isApproved: false,
-                registrationType: validated.registrationType,
+                designation: validated.designation,
+                affiliation: validated.affiliation,
                 institutionalBio: validated.institutionalBio,
             },
         });

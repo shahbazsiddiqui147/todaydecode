@@ -61,11 +61,11 @@ export default async function AuthorProfilePage({ params }: { params: Promise<{ 
                                     <span className="w-1.5 h-1.5 rounded-full bg-accent-red animate-pulse" />
                                     <span className="text-[10px] font-black text-accent-red uppercase tracking-[0.2em]">Authorized Research Fellow</span>
                                 </div>
-                                <h1 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-none">
+                                <h1 className="text-4xl md:text-6xl font-black text-[#22D3EE] uppercase tracking-tighter leading-none">
                                     {author.name}
                                 </h1>
-                                <p className="text-xs font-black text-[#94A3B8] uppercase tracking-[0.4em] italic pl-1">
-                                    Strategic Analysis // {author.role}
+                                <p className="text-xs font-black text-[#F1F5F9] uppercase tracking-[0.4em] italic pl-1">
+                                    {author.role} {author.affiliation && `at ${author.affiliation}`}
                                 </p>
                             </div>
 
@@ -112,7 +112,7 @@ export default async function AuthorProfilePage({ params }: { params: Promise<{ 
                 <div className="lg:col-span-8 space-y-10">
                     <div className="flex items-center justify-between border-b border-border-slate dark:border-[#1E293B] pb-6">
                         <div className="space-y-1">
-                            <h2 className="text-xl font-black uppercase tracking-tighter text-slate-900 dark:text-white italic">Authorized Research Archive</h2>
+                            <h2 className="text-xl font-black uppercase tracking-tighter text-slate-900 dark:text-white italic">Authorized Research Portfolio</h2>
                             <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
                                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-accent-green" />
                                 Verified Institutional Dispatches

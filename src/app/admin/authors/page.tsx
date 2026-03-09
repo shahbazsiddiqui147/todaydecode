@@ -42,6 +42,7 @@ interface Author {
     name: string;
     slug: string;
     role: string;
+    affiliation: string | null;
     bio: string;
     image: string | null;
     expertise: string[];
@@ -60,6 +61,7 @@ export default function AuthorsPage() {
         name: "",
         slug: "",
         role: "",
+        affiliation: "",
         bio: "",
         image: "",
         expertise: ""
@@ -103,6 +105,7 @@ export default function AuthorsPage() {
             name: formData.name,
             slug: formData.slug,
             role: formData.role,
+            affiliation: formData.affiliation,
             bio: formData.bio,
             image: formData.image,
             expertise: formData.expertise.split(",").map(s => s.trim()).filter(Boolean)
@@ -118,7 +121,7 @@ export default function AuthorsPage() {
                 toast.success(editingAuthor ? "Personnel record updated." : "New analyst initialized.");
                 setIsModalOpen(false);
                 setEditingAuthor(null);
-                setFormData({ name: "", slug: "", role: "", bio: "", image: "", expertise: "" });
+                setFormData({ name: "", slug: "", role: "", affiliation: "", bio: "", image: "", expertise: "" });
                 loadAuthors();
             } else {
                 toast.error(res.error || "Server synchronization failed.");
@@ -152,7 +155,7 @@ export default function AuthorsPage() {
                     </h1>
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#94A3B8]">Managing institutional advisor profiles and strategic expertise.</p>
                 </div>
-                <Button onClick={() => { setEditingAuthor(null); setFormData({ name: "", slug: "", role: "", bio: "", image: "", expertise: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-xl bg-white text-[#0F172A] border-none hover:bg-white/90">
+                <Button onClick={() => { setEditingAuthor(null); setFormData({ name: "", slug: "", role: "", affiliation: "", bio: "", image: "", expertise: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-xl bg-white text-[#0F172A] border-none hover:bg-white/90">
                     <UserPlus className="mr-2 h-4 w-4" /> Authorize Analyst
                 </Button>
             </header>
@@ -235,6 +238,7 @@ export default function AuthorsPage() {
                                                     name: author.name,
                                                     slug: author.slug,
                                                     role: author.role,
+                                                    affiliation: author.affiliation || "",
                                                     bio: author.bio,
                                                     image: author.image || "",
                                                     expertise: author.expertise.join(", ")
@@ -317,6 +321,31 @@ export default function AuthorsPage() {
                                         placeholder="e.g. Lead Analyst"
                                         value={formData.role}
                                         onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                                    />
+                                </div>
+                                <div className="space-y-3">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] flex items-center">
+                                        <Globe className="h-3 w-3 mr-2 text-cyan-500" /> Institutional Affiliation
+                                    </label>
+                                    <Input
+                                        className="h-12 rounded-xl bg-[#020617] border-[#1E293B] text-[#F1F5F9] text-sm font-bold placeholder:text-[#475569] focus:ring-2 focus:ring-[#22D3EE] outline-none transition-all"
+                                        placeholder="e.g. University of Oxford"
+                                        value={formData.affiliation}
+                                        onChange={(e) => setFormData({ ...formData, affiliation: e.target.value })}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div className="space-y-3">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] flex items-center">
+                                        <Tag className="h-3 w-3 mr-2 text-cyan-500" /> Sector Expertise (Comma Separated)
+                                    </label>
+                                    <Input
+                                        className="h-12 rounded-xl bg-[#020617] border-[#1E293B] text-[#F1F5F9] text-sm font-bold placeholder:text-[#475569] focus:ring-2 focus:ring-[#22D3EE] outline-none transition-all"
+                                        placeholder="e.g. Cyber, MENA, Defense"
+                                        value={formData.expertise}
+                                        onChange={(e) => setFormData({ ...formData, expertise: e.target.value })}
                                     />
                                 </div>
                                 <div className="space-y-3">
