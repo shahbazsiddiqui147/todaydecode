@@ -6,6 +6,7 @@ import { z } from "zod";
 import { slugify } from "@/lib/slugify";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+import bcrypt from "bcryptjs";
 
 // --- Validation Schemas ---
 
@@ -708,4 +709,3 @@ export async function createUser(data: z.infer<typeof CreateUserSchema>) {
         return { success: false, error: "Personnel induction failed." };
     }
 }
-import bcrypt from "bcryptjs";
