@@ -237,10 +237,10 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
 
                 <div className="flex items-center gap-3">
                     <Select value={formData.status} onValueChange={(v: string) => handleSelectChange("status", v)}>
-                        <SelectTrigger className="w-[140px] h-10 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[10px] font-black uppercase tracking-widest focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] text-[#0F172A] dark:text-[#F1F5F9]">
+                        <SelectTrigger className="w-[140px] h-10 rounded-xl bg-[#020617] border-[#1E293B] text-[10px] font-black uppercase tracking-widest focus:ring-[#22D3EE] text-[#F1F5F9]">
                             <SelectValue placeholder="STATUS" />
                         </SelectTrigger>
-                        <SelectContent className="rounded-xl border-border text-[10px] font-black uppercase">
+                        <SelectContent className="rounded-xl border-[#1E293B] bg-[#020617] text-[#F1F5F9] text-[10px] font-black uppercase">
                             <SelectItem value="DRAFT">DRAFT</SelectItem>
                             <SelectItem value="PUBLISHED">PUBLISH</SelectItem>
                             <SelectItem value="ARCHIVED">ARCHIVE</SelectItem>
@@ -301,14 +301,14 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                         {activeTab === "content" && (
                             <div className="space-y-6">
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100 pl-1">Featured Image Asset</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] pl-1">Featured Image Asset</Label>
                                     <div className="flex gap-2">
                                         <Input
                                             name="featuredImage"
                                             value={formData.featuredImage}
                                             onChange={handleChange}
                                             placeholder="https://images.unsplash.com/..."
-                                            className="flex-1 h-12 bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-slate-900 dark:text-slate-100 placeholder:text-slate-500 rounded-xl focus-visible:ring-[#0F172A] dark:focus-visible:ring-[#22D3EE] shadow-sm transition-all"
+                                            className="flex-1 h-12 bg-[#020617] border-[#1E293B] text-[#F1F5F9] placeholder:text-[#475569] rounded-xl focus-visible:ring-[#22D3EE] shadow-sm transition-all font-bold"
                                         />
                                         <div className="relative">
                                             <input
@@ -348,44 +348,44 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Primary Strategic Headline</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] pl-1">Primary Strategic Headline</Label>
                                     <Input
                                         name="title"
                                         value={formData.title}
                                         onChange={handleChange}
                                         placeholder="ENTER HEADLINE..."
-                                        className="text-2xl font-black h-16 bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-600 rounded-2xl focus-visible:ring-[#22D3EE] px-6 uppercase tracking-tight italic shadow-sm shadow-cyan-500/5 transition-all"
+                                        className="text-2xl font-black h-16 bg-[#020617] border-[#1E293B] text-[#F1F5F9] placeholder:text-[#475569] rounded-2xl focus-visible:ring-[#22D3EE] px-6 uppercase tracking-tight italic shadow-sm transition-all"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1 flex justify-between">
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] pl-1 flex justify-between">
                                         <span>On-Page Executive Summary</span>
-                                        <span className="opacity-40 lowercase italic font-normal text-slate-400">Lead Overview</span>
+                                        <span className="opacity-40 lowercase italic font-normal text-[#94A3B8]">Lead Overview</span>
                                     </Label>
                                     <Textarea
                                         name="onPageLead"
                                         value={formData.onPageLead}
                                         onChange={handleChange}
                                         placeholder="A high-end strategic hook for the live analysis..."
-                                        className="min-h-[100px] text-sm font-medium bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-600 rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
+                                        className="min-h-[100px] text-sm font-bold bg-[#020617] border-[#1E293B] text-[#F1F5F9] placeholder:text-[#475569] rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] pl-1">Institutional Brief (Strategic Feed)</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] pl-1">Institutional Brief (Strategic Feed)</Label>
                                     <Textarea
                                         name="summary"
                                         value={formData.summary}
                                         onChange={handleChange}
                                         placeholder="Institutional brief for the strategic silos..."
-                                        className="min-h-[120px] text-sm font-medium bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-600 rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
+                                        className="min-h-[120px] text-sm font-bold bg-[#020617] border-[#1E293B] text-[#F1F5F9] placeholder:text-[#475569] rounded-2xl resize-none px-6 py-4 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-between pl-1 mb-2">
-                                        <Label className="text-[10px] font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">Full Strategic Analysis</Label>
+                                        <Label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">Full Strategic Analysis</Label>
                                         <div className="flex items-center gap-2">
                                             <span className="text-[9px] font-black text-cyan-500 uppercase tracking-widest italic animate-pulse">Mermaid.js Enabled</span>
                                             <button
@@ -397,7 +397,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                             </button>
                                         </div>
                                     </div>
-                                    <div className="rounded-2xl border border-[#1E293B] bg-slate-950 text-[#F1F5F9]">
+                                    <div className="rounded-2xl border border-[#1E293B] bg-[#020617] text-[#F1F5F9]">
                                         <RichTextEditor
                                             value={formData.content}
                                             onChange={(val) => setFormData(prev => ({ ...prev, content: val }))}

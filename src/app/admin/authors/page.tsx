@@ -245,29 +245,29 @@ export default function AuthorsPage() {
             {/* Professional Multi-Column Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-6 animate-in fade-in duration-500">
-                    <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-md" onClick={() => setIsModalOpen(false)} />
-                    <div className="relative bg-white dark:bg-[#0D1425] w-full max-w-3xl rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
-                        <div className="p-10 border-b border-[#CBD5E1] dark:border-[#1E293B] flex justify-between items-center bg-slate-50 dark:bg-white/5">
+                    <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-xl" onClick={() => setIsModalOpen(false)} />
+                    <div className="relative bg-[#020617] w-full max-w-3xl rounded-[2.5rem] border border-[#1E293B] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+                        <div className="p-10 border-b border-[#1E293B] flex justify-between items-center bg-[#020617]/50">
                             <div className="space-y-1">
-                                <h2 className="text-2xl font-black uppercase tracking-tighter text-[#0F172A] dark:text-white">
+                                <h2 className="text-2xl font-black uppercase tracking-tighter text-[#F1F5F9]">
                                     {editingAuthor ? "Finalize Analyst Profile" : "Authorize Analyst"}
                                 </h2>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Level 4 Access Required</p>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">Level 4 Access Required</p>
                             </div>
-                            <button onClick={() => setIsModalOpen(false)} className="p-2 border border-[#CBD5E1] dark:border-[#1E293B] rounded-xl hover:bg-white dark:hover:bg-white/10 transition-colors">
+                            <button onClick={() => setIsModalOpen(false)} className="p-2 border border-[#1E293B] rounded-xl hover:bg-[#111827] text-[#94A3B8] transition-colors">
                                 <X className="h-4 w-4" />
                             </button>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="p-10 space-y-8 max-h-[75vh] overflow-y-auto bg-white dark:bg-[#0D1425]">
+                        <form onSubmit={handleSubmit} className="p-10 space-y-8 max-h-[75vh] overflow-y-auto bg-[#020617]">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] flex items-center">
                                         <AtSign className="h-3 w-3 mr-2 text-cyan-500" /> Analyst Name
                                     </label>
                                     <Input
                                         required
-                                        className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold placeholder:text-[#64748B] placeholder:font-normal focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] outline-none transition-all"
+                                        className="h-12 rounded-xl bg-[#020617] border-[#1E293B] text-[#F1F5F9] text-sm font-bold placeholder:text-[#475569] focus:ring-2 focus:ring-[#22D3EE] outline-none transition-all"
                                         placeholder="e.g. Elena Vance"
                                         value={formData.name}
                                         onChange={(e) => {
@@ -280,12 +280,12 @@ export default function AuthorsPage() {
                                     />
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] flex items-center">
                                         <Globe className="h-3 w-3 mr-2 text-cyan-500" /> Digital Handshake (Slug)
                                     </label>
                                     <Input
                                         required
-                                        className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold font-mono placeholder:text-[#64748B] focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] outline-none transition-all"
+                                        className="h-12 rounded-xl bg-[#020617] border-[#1E293B] text-[#F1F5F9] text-sm font-bold font-mono placeholder:text-[#475569] focus:ring-2 focus:ring-[#22D3EE] outline-none transition-all"
                                         placeholder="elena-vance/"
                                         value={formData.slug}
                                         onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
@@ -295,23 +295,23 @@ export default function AuthorsPage() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] flex items-center">
                                         <Plus className="h-3 w-3 mr-2 rotate-45 text-cyan-500" /> Rank / Designation
                                     </label>
                                     <Input
                                         required
-                                        className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold placeholder:text-[#64748B] focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] outline-none transition-all"
+                                        className="h-12 rounded-xl bg-[#020617] border-[#1E293B] text-[#F1F5F9] text-sm font-bold placeholder:text-[#475569] focus:ring-2 focus:ring-[#22D3EE] outline-none transition-all"
                                         placeholder="e.g. Lead Analyst"
                                         value={formData.role}
                                         onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                                     />
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] flex items-center">
                                         <ImageIcon className="h-3 w-3 mr-2 text-cyan-500" /> Analyst Portrait (URL)
                                     </label>
                                     <Input
-                                        className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold placeholder:text-[#64748B] focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] outline-none transition-all"
+                                        className="h-12 rounded-xl bg-[#020617] border-[#1E293B] text-[#F1F5F9] text-sm font-bold placeholder:text-[#475569] focus:ring-2 focus:ring-[#22D3EE] outline-none transition-all"
                                         placeholder="https://..."
                                         value={formData.image}
                                         onChange={(e) => setFormData({ ...formData, image: e.target.value })}
@@ -320,11 +320,11 @@ export default function AuthorsPage() {
                             </div>
 
                             <div className="space-y-3">
-                                <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] flex items-center">
                                     <Tag className="h-3 w-3 mr-2 text-cyan-500" /> Sector Expertise (Comma Separated)
                                 </label>
                                 <Input
-                                    className="h-12 rounded-xl bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] text-sm font-bold placeholder:text-[#64748B] focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] outline-none transition-all"
+                                    className="h-12 rounded-xl bg-[#020617] border-[#1E293B] text-[#F1F5F9] text-sm font-bold placeholder:text-[#475569] focus:ring-2 focus:ring-[#22D3EE] outline-none transition-all"
                                     placeholder="e.g. Cyber, MENA, Defense"
                                     value={formData.expertise}
                                     onChange={(e) => setFormData({ ...formData, expertise: e.target.value })}
@@ -332,12 +332,12 @@ export default function AuthorsPage() {
                             </div>
 
                             <div className="space-y-3">
-                                <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8] flex items-center">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] flex items-center">
                                     <FileText className="h-3 w-3 mr-2 text-cyan-500" /> Institutional Bio
                                 </label>
                                 <textarea
                                     required
-                                    className="w-full h-40 rounded-2xl border border-[#CBD5E1] dark:border-[#1E293B] bg-white dark:bg-[#020617] p-6 text-sm font-medium text-[#0F172A] dark:text-[#F1F5F9] placeholder:text-[#64748B] focus-visible:outline-none focus:ring-2 focus:ring-[#0F172A] dark:focus:ring-[#22D3EE] transition-all outline-none resize-none placeholder:font-normal leading-relaxed shadow-sm"
+                                    className="w-full h-40 rounded-2xl border border-[#1E293B] bg-[#020617] p-6 text-sm font-bold text-[#F1F5F9] placeholder:text-[#475569] focus-visible:outline-none focus:ring-2 focus:ring-[#22D3EE] transition-all outline-none resize-none leading-relaxed shadow-sm"
                                     placeholder="Document the professional capabilities and strategic background..."
                                     value={formData.bio}
                                     onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
@@ -345,8 +345,8 @@ export default function AuthorsPage() {
                             </div>
 
                             <div className="pt-10 flex justify-end space-x-4">
-                                <Button type="button" variant="ghost" className="h-12 px-8 rounded-xl font-black uppercase tracking-widest text-[10px] text-muted-foreground hover:text-foreground" onClick={() => setIsModalOpen(false)}>Cancel Action</Button>
-                                <Button type="submit" className="h-12 px-10 rounded-xl bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] font-black uppercase tracking-widest text-[10px] shadow-xl hover:bg-black dark:hover:bg-white/90">Confirm Authorization</Button>
+                                <Button type="button" variant="ghost" className="h-12 px-8 rounded-xl font-black uppercase tracking-widest text-[10px] text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-white/5" onClick={() => setIsModalOpen(false)}>Cancel Action</Button>
+                                <Button type="submit" className="h-12 px-10 rounded-xl bg-white text-[#020617] font-black uppercase tracking-widest text-[10px] shadow-xl hover:bg-white/90">Confirm Authorization</Button>
                             </div>
                         </form>
                     </div>
