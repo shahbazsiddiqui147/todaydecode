@@ -20,6 +20,12 @@ model Article {
   isFeatured         Boolean           @default(false)
   isFeaturedScenario Boolean           @default(false)
   featuredImage      String?
+  featuredImageAlt   String?
+  confidenceScore    Int?
+  readingTime        Int?
+  sourceUrls         String[]
+  tags               String[]
+  locale             String            @default("en")
   region             Region            @default(GLOBAL)
   riskLevel          RiskLevel         @default(MEDIUM)
   riskScore          Int
@@ -33,6 +39,7 @@ model Article {
   metaTitle          String?
   metaDescription    String?
   publishedAt        DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
   authorId           String
   categoryId         String
   isPremium          Boolean           @default(false)
@@ -166,6 +173,7 @@ model SiteSettings {
   faviconUrl      String?
   socialLinks     Json?
   maintenanceMode Boolean  @default(false)
+  globalRiskIndex Int      @default(50)
   updatedAt       DateTime @updatedAt
 }
 
@@ -186,7 +194,8 @@ model CountryMetric {
   literacy    String?
   economy     String?
   energy      String?
-  army        String?
+  defenceProfile String?
+  riskScore   Int?
   updatedAt   DateTime @updatedAt
 }
 
@@ -221,6 +230,8 @@ enum PublicationFormat {
   DATA_INSIGHT
   ANNUAL_OUTLOOK
   POLICY_TOOLKIT
+  NEWS_BRIEF
+  CURRENT_AFFAIRS
 }
 
 enum UserRole {
