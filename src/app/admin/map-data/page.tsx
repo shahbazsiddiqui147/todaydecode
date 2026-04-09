@@ -39,7 +39,7 @@ export default function MapDataPage() {
         literacy: "",
         economy: "",
         energy: "",
-        army: ""
+        defenceProfile: ""
     });
 
     useEffect(() => {
@@ -58,7 +58,7 @@ export default function MapDataPage() {
                     literacy: metric.literacy || "",
                     economy: metric.economy || "",
                     energy: metric.energy || "",
-                    army: metric.army || ""
+                    defenceProfile: (metric as any).defenceProfile || ""
                 });
             } else {
                 const country = COUNTRIES.find(c => c.code === selectedCode);
@@ -67,7 +67,7 @@ export default function MapDataPage() {
                     literacy: "",
                     economy: "",
                     energy: "",
-                    army: ""
+                    defenceProfile: ""
                 });
             }
             setLoading(false);
@@ -185,10 +185,10 @@ export default function MapDataPage() {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest px-1 text-[#94A3B8]">ARMY STRENGTH</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest px-1 text-[#94A3B8]">DEFENCE PROFILE</label>
                                 <input
-                                    value={formData.army}
-                                    onChange={e => setFormData({ ...formData, army: e.target.value })}
+                                    value={formData.defenceProfile}
+                                    onChange={e => setFormData({ ...formData, defenceProfile: e.target.value })}
                                     className="w-full bg-[#020617] border border-[#1E293B] rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 ring-[#22D3EE]/20 outline-none text-[#F1F5F9] placeholder:text-[#475569]"
                                     placeholder="e.g. Active: 1.2M / Budget: $80B"
                                 />

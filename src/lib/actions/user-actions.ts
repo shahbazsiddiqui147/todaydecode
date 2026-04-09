@@ -153,7 +153,7 @@ export async function saveCountryMetric(data: {
     literacy: string;
     economy: string;
     energy: string;
-    army: string;
+    defenceProfile: string;
 }) {
     const session = await getServerSession(authOptions);
     const user = session?.user as any;
@@ -169,7 +169,7 @@ export async function saveCountryMetric(data: {
                 literacy: data.literacy,
                 economy: data.economy,
                 energy: data.energy,
-                army: data.army,
+                defenceProfile: data.defenceProfile,
                 countryName: data.countryName
             },
             create: {
@@ -178,7 +178,7 @@ export async function saveCountryMetric(data: {
                 literacy: data.literacy,
                 economy: data.economy,
                 energy: data.energy,
-                army: data.army
+                defenceProfile: data.defenceProfile
             }
         });
 

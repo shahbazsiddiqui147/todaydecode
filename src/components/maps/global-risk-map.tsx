@@ -24,7 +24,7 @@ interface RegionDataInfo {
         literacy: string | null;
         economy: string | null;
         energy: string | null;
-        army: string | null;
+        defenceProfile: string | null;
     } | null;
 }
 
@@ -125,7 +125,7 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                         literacy: countryMetrics.literacy,
                         economy: countryMetrics.economy,
                         energy: countryMetrics.energy,
-                        army: countryMetrics.army
+                        defenceProfile: (countryMetrics as any).defenceProfile
                     } : null
                 }
             } : null);
@@ -322,8 +322,8 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                                                 <div className="text-xs font-black text-foreground">{tooltip.data.metrics.literacy || "N/A"}</div>
                                             </div>
                                             <div className="p-3 bg-secondary/50 rounded-xl border border-border/50">
-                                                <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Army</div>
-                                                <div className="text-xs font-black text-foreground">{tooltip.data.metrics.army || "N/A"}</div>
+                                                <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Defence Profile</div>
+                                                <div className="text-xs font-black text-foreground">{tooltip.data.metrics.defenceProfile || "N/A"}</div>
                                             </div>
                                         </div>
                                         <div className="p-3 bg-secondary/50 rounded-xl border border-border/50">
