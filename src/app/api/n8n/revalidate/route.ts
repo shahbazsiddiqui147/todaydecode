@@ -1,54 +1,50 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 
-const N8N_SECRET = process.env.N8N_INGEST_SECRET;
-
-function authorize(req: NextRequest) {
-    const secret = req.headers.get('x-n8n-secret');
-    return secret === N8N_SECRET;
+function isAuthorized(request: NextRequest): boolean {
+  const secret = request.headers.get('x-n8n-secret');
+  return secret === process.env.N8N_INGEST_SECRET;
 }
 
-export async function POST(req: NextRequest) {
-    if (!authorize(req)) {
-        return NextResponse.json({ error: "Unauthorized clearance level." }, { status: 403 });
+export async function POST(request: NextRequest) {
+  if (!isAuthorized(request)) {
+    return NextResponse.json({ error: 'Unauthorized.' }, { status: 401 });
+  }
+
+  let body: { slug?: string; categorySlug?: string } = {};
+  try {
+    body = await request.json();
+  } catch {
+    // empty body is fine
+  }
+
+  try {
+    revalidatePath('/', 'page');
+    revalidatePath('/sitemap.xml', 'page');
+
+    if (body.slug) {
+      revalidatePath(`/${body.slug}/`, 'page');
     }
 
-    try {
-        const body = await req.json();
-        const { slug, categorySlug } = body;
-
-        // 1. Core Revalidations
-        revalidatePath('/');
-        revalidatePath('/sitemap.xml');
-        revalidateTag('articles');
-
-        const revalidated: any = {
-            home: true,
-            sitemap: true,
-            tagArticles: true
-        };
-
-        // 2. Specific Intelligence Node Revalidation
-        if (slug) {
-            revalidatePath(`/${slug}/`);
-            revalidateTag(`article-${slug}`);
-            revalidated.article = slug;
-        }
-
-        // 3. Strategic Silo Revalidation
-        if (categorySlug) {
-            revalidatePath(`/${categorySlug}/`);
-            revalidateTag(`category-${categorySlug}`);
-            revalidated.category = categorySlug;
-        }
-
-        return NextResponse.json({
-            success: true,
-            revalidated,
-            timestamp: new Date().toISOString()
-        });
-
-    } catch (error) {
-        return NextResponse.json({ error: "Revalidation protocol failure." }, { status: 500 });
+    if (body.categorySlug) {
+      revalidatePath(`/${body.categorySlug}/`, 'page');
     }
+
+    return NextResponse.json({
+      success: true,
+      revalidated: {
+        home: true,
+        sitemap: true,
+        slug: body.slug || null,
+        categorySlug: body.categorySlug || null,
+      },
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json(
+      { error: 'Revalidation failed.', detail: message },
+      { status: 500 }
+    );
+  }
 }
