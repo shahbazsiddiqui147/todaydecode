@@ -35,9 +35,9 @@ export default async function AdminDashboard() {
                 <div className="space-y-1">
                     <div className="flex items-center space-x-2 text-[#64748B] dark:text-[#94A3B8] text-[10px] font-black uppercase tracking-[0.3em] mb-2">
                         <Activity className={cn("h-3 w-3", res.success ? "text-cyan-500" : "text-accent-red")} />
-                        <span>Institutional Status: {res.success ? "Active" : "Degraded Linkage"}</span>
+                        <span>Platform Status: {res.success ? "Active" : "Degraded Linkage"}</span>
                     </div>
-                    <h1 className="text-4xl font-black tracking-tight text-[#22D3EE] dark:text-[#22D3EE] uppercase italic">Strategic <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic font-medium">Oversight</span></h1>
+                    <h1 className="text-4xl font-black tracking-tight text-[#22D3EE] dark:text-[#22D3EE] uppercase italic">Editorial <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic font-medium">Dashboard</span></h1>
                     <p className="text-[#64748B] dark:text-[#94A3B8] font-medium border-l-2 border-[#CBD5E1] dark:border-[#1E293B] pl-4 py-1">Institutional management of global risk analysis and strategic repositories.</p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -48,12 +48,12 @@ export default async function AdminDashboard() {
                             : "bg-accent-red/10 border-accent-red/20 text-accent-red animate-pulse"
                     )}>
                         <Database className="h-3 w-3" />
-                        {res.success ? "Institutional Link Active" : "Archive Link Offline"}
+                        {res.success ? "Admin Active" : "Archive Link Offline"}
                     </div>
-                    <Button variant="outline" className="rounded-xl border-border hover:bg-muted font-black uppercase tracking-widest text-[10px]">Refresh Data</Button>
+                    <Button variant="outline" className="rounded-xl border-border hover:bg-muted font-black uppercase tracking-widest text-[10px]">Refresh</Button>
                     <Link href="/admin/articles/">
                         <Button className="rounded-xl font-black uppercase tracking-widest text-[10px] px-6 shadow-xl bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] hover:bg-black dark:hover:bg-white/90">
-                            <Plus className="mr-2 h-4 w-4" /> Create Report
+                            <Plus className="mr-2 h-4 w-4" /> New Article
                         </Button>
                     </Link>
                 </div>
@@ -62,10 +62,10 @@ export default async function AdminDashboard() {
             {/* System Stats */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
-                    { label: "Total Reports", value: statsData.totalArticles, icon: FileText, color: "text-[#22D3EE]" },
-                    { label: "Pending Reviews", value: statsData.pendingReviews, icon: Clock, color: "text-[#64748B]" },
-                    { label: "Analyst Count", value: statsData.totalUsers, icon: Users, color: "text-[#F1F5F9]" },
-                    { label: "Database Health", value: statsData.health, icon: Database, color: statsData.health === "OFFLINE" ? "text-accent-red" : "text-emerald-500" },
+                    { label: "Total Articles", value: statsData.totalArticles, icon: FileText, color: "text-[#22D3EE]" },
+                    { label: "Pending Review", value: statsData.pendingReviews, icon: Clock, color: "text-[#64748B]" },
+                    { label: "Authors", value: statsData.totalUsers, icon: Users, color: "text-[#F1F5F9]" },
+                    { label: "System Health", value: statsData.health, icon: Database, color: statsData.health === "OFFLINE" ? "text-accent-red" : "text-emerald-500" },
                 ].map((stat, i) => (
                     <div key={i} className="bg-[#020617] border border-[#1E293B] p-8 rounded-3xl shadow-2xl hover:shadow-cyan-500/5 transition-all group relative overflow-hidden">
                         <div className="relative z-10">
@@ -85,9 +85,9 @@ export default async function AdminDashboard() {
                 {/* Activity Feed */}
                 <div className="lg:col-span-2 space-y-6">
                     <div className="flex items-center justify-between">
-                        <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#64748B] dark:text-[#94A3B8]">Recent Activity Log</h2>
+                        <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#64748B] dark:text-[#94A3B8]">Recent Activity</h2>
                         <Link href="/admin/logs/" className="text-[10px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8] hover:text-foreground flex items-center transition-colors">
-                            Full Archive <ArrowRight className="ml-2 h-3 w-3" />
+                            View All <ArrowRight className="ml-2 h-3 w-3" />
                         </Link>
                     </div>
 
@@ -95,7 +95,7 @@ export default async function AdminDashboard() {
                         <div className="p-8 border-b border-[#1E293B] flex items-center space-x-4 bg-[#020617]/50">
                             <div className="h-10 w-10 rounded-full bg-[#F1F5F9] flex items-center justify-center text-xs font-black text-[#020617] italic">SL</div>
                             <div>
-                                <div className="text-sm font-black text-[#F1F5F9] uppercase tracking-tight">Senior Analyst</div>
+                                <div className="text-sm font-black text-[#F1F5F9] uppercase tracking-tight">Admin</div>
                                 <div className="text-[10px] text-[#64748B] dark:text-[#94A3B8] font-black uppercase tracking-widest">Administrator</div>
                             </div>
                             <div className="ml-auto flex items-center space-x-2 text-[10px] font-black bg-[#020617] border border-[#1E293B] px-3 py-1 rounded-full text-[#64748B] dark:text-[#94A3B8]">
@@ -119,7 +119,7 @@ export default async function AdminDashboard() {
                                     </p>
                                     <p className="text-xs text-[#64748B] dark:text-[#94A3B8] leading-relaxed max-w-xs mx-auto font-black uppercase tracking-widest">
                                         {res.success
-                                            ? "Research portfolios are synchronized with the Institutional Research Reservoir."
+                                            ? "All content is synced and up to date."
                                             : "System link failure. Archive data unreachable. Maintenance required."}
                                     </p>
                                 </div>
@@ -130,14 +130,14 @@ export default async function AdminDashboard() {
 
                 {/* System Summary */}
                 <div className="space-y-6">
-                    <h2 className="text-xs font-black uppercase tracking-[0.3em] text-[#64748B] dark:text-[#94A3B8]">System Parameters</h2>
+                    <h2 className="text-xs font-black uppercase tracking-[0.3em] text-[#64748B] dark:text-[#94A3B8]">Settings</h2>
                     <div className="bg-[#020617] border border-[#1E293B] rounded-[2rem] p-8 text-white shadow-2xl">
                         <div className="space-y-8">
                             <div className="space-y-3">
-                                <div className="text-2xl font-black tracking-tight uppercase leading-none italic text-[#F1F5F9]">Institutional <span className="text-[#64748B]">Frameworks {res.success ? "Active" : "Compromised"}</span></div>
+                                <div className="text-2xl font-black tracking-tight uppercase leading-none italic text-[#F1F5F9]">Platform <span className="text-[#64748B]">Active {res.success ? "" : "(Compromised)"}</span></div>
                                 <div className="text-[10px] text-[#64748B] leading-relaxed font-bold uppercase tracking-widest">
                                     {res.success
-                                        ? "Strategic management controls initialized for institutional advisory use."
+                                        ? "Management controls initialized."
                                         : "Framework integrity check failed. Data linkage unavailable."}
                                 </div>
                             </div>

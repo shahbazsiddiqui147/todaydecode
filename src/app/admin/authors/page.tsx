@@ -151,12 +151,12 @@ export default function AuthorsPage() {
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#1E293B]">
                 <div className="space-y-1">
                     <h1 className="text-3xl font-black uppercase tracking-tighter italic pb-1">
-                        <span className="text-[#22D3EE]">Analyst</span> <span className="text-[#F1F5F9]">Roster</span>
+                        Authors
                     </h1>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#94A3B8]">Managing institutional advisor profiles and strategic expertise.</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#94A3B8]">Managing author profiles and expertise.</p>
                 </div>
                 <Button onClick={() => { setEditingAuthor(null); setFormData({ name: "", slug: "", role: "", affiliation: "", bio: "", image: "", expertise: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-xl bg-white text-[#0F172A] border-none hover:bg-white/90">
-                    <UserPlus className="mr-2 h-4 w-4" /> Authorize Analyst
+                    <UserPlus className="mr-2 h-4 w-4" /> Add Author
                 </Button>
             </header>
 
@@ -165,7 +165,7 @@ export default function AuthorsPage() {
                 <div className="relative flex-1 flex items-center pl-6">
                     <Search className="h-4 w-4 text-[#475569] mr-4" />
                     <input
-                        placeholder="Search analysts by name or designation..."
+                        placeholder="Search authors by name or role..."
                         className="w-full bg-transparent border-none outline-none text-sm font-bold placeholder:text-[#475569] text-[#F1F5F9]"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
@@ -178,9 +178,9 @@ export default function AuthorsPage() {
                     <TableHeader className="bg-white/5">
                         <TableRow className="border-b border-[#1E293B] hover:bg-transparent">
                             <TableHead className="w-16 text-center text-[#94A3B8] font-black uppercase text-[10px] tracking-widest py-4">Access</TableHead>
-                            <TableHead className="py-5 pl-8 text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Analyst Designation</TableHead>
-                            <TableHead className="text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Institutional Rank</TableHead>
-                            <TableHead className="text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Strategic Silos</TableHead>
+                            <TableHead className="py-5 pl-8 text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Author Role</TableHead>
+                            <TableHead className="text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Platform Role</TableHead>
+                            <TableHead className="text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Categories</TableHead>
                             <TableHead className="text-right pr-8 text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Operations</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -190,7 +190,7 @@ export default function AuthorsPage() {
                                 <TableCell colSpan={5} className="h-64 text-center">
                                     <div className="flex flex-col items-center space-y-4">
                                         <div className="h-8 w-8 rounded-full border-4 border-muted border-t-primary animate-spin"></div>
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Scanning Analyst Roster...</span>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Scanning Authors...</span>
                                     </div>
                                 </TableCell>
                             </TableRow>
@@ -267,9 +267,9 @@ export default function AuthorsPage() {
                         <div className="p-10 border-b border-[#1E293B] flex justify-between items-center bg-[#020617]/50">
                             <div className="space-y-1">
                                 <h2 className="text-2xl font-black uppercase tracking-tighter text-[#F1F5F9]">
-                                    {editingAuthor ? "Finalize Analyst Profile" : "Authorize Analyst"}
+                                    {editingAuthor ? "Update Author Profile" : "Add Author"}
                                 </h2>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">Level 4 Access Required</p>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">Admin Privileges Required</p>
                             </div>
                             <button onClick={() => setIsModalOpen(false)} className="p-2 border border-[#1E293B] rounded-xl hover:bg-[#111827] text-[#94A3B8] transition-colors">
                                 <X className="h-4 w-4" />

@@ -72,7 +72,7 @@ export default function UserRoleActions({ userId, currentRole, isApproved }: Use
     };
 
     const handleDelete = async () => {
-        if (!confirm("Permanently purge this identity from the Institutional Access Registry?")) return;
+        if (!confirm("Permanently purge this identity from the Users registry?")) return;
         setLoading(true);
         try {
             const result = await deleteUser(userId);

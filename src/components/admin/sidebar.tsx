@@ -72,24 +72,24 @@ export function Sidebar() {
     const getGroups = () => {
         const groups: any[] = [];
 
-        // 1. Global Context
+        // 1. Dashboard
         groups.push({
-            name: "Global Context",
+            name: "Dashboard",
             items: [
-                { name: "Strategic Overview", icon: LayoutDashboard, href: "/admin/" },
+                { name: "Global Overview", icon: LayoutDashboard, href: "/admin/" },
             ]
         });
 
-        // 2. Research Desk (The Engine)
+        // 2. Content Management (The Engine)
         const researchItems = [];
 
         if (role === "ADMIN" || role === "EDITOR" || role === "AUTHOR") {
             researchItems.push({
-                name: role === "AUTHOR" ? "My Reports" : "Research Desk",
+                name: role === "AUTHOR" ? "My Reports" : "Articles",
                 icon: FileText,
                 href: "/admin/articles/"
             });
-            researchItems.push({ name: "Draft Archive", icon: FileEdit, href: "/admin/drafts/" });
+            researchItems.push({ name: "Drafts", icon: FileEdit, href: "/admin/drafts/" });
 
             // AUTHOR: Hide Media Library
             if (role !== "AUTHOR") {
@@ -98,37 +98,37 @@ export function Sidebar() {
         }
 
         if (researchItems.length > 0) {
-            groups.push({ name: "Research Desk", items: researchItems });
+            groups.push({ name: "Content Management", items: researchItems });
         }
 
-        // 3. Institutional Control (Admin/Editor)
+        // 3. Site Management (Admin/Editor)
         if (role === "ADMIN" || role === "EDITOR") {
             const architecturalItems = [];
 
             // Editors can manage Authors but not Silos/Pages/Registry
-            architecturalItems.push({ name: "Analyst Roster", icon: Users, href: "/admin/authors/" });
+            architecturalItems.push({ name: "Authors", icon: Users, href: "/admin/authors/" });
 
             if (role === "ADMIN") {
-                architecturalItems.push({ name: "Strategic Silos", icon: Map, href: "/admin/categories/" });
-                architecturalItems.push({ name: "Institutional Pages", icon: Layers, href: "/admin/pages/" });
-                architecturalItems.push({ name: "Strategic Assessment Map", icon: Database, href: "/admin/map-data/" });
-                architecturalItems.push({ name: "Access Registry", icon: UserCheck, href: "/admin/users/" });
+                architecturalItems.push({ name: "Categories", icon: Map, href: "/admin/categories/" });
+                architecturalItems.push({ name: "Pages", icon: Layers, href: "/admin/pages/" });
+                architecturalItems.push({ name: "Map Data", icon: Database, href: "/admin/map-data/" });
+                architecturalItems.push({ name: "Users", icon: UserCheck, href: "/admin/users/" });
             }
 
             groups.push({
-                name: "Institutional Control",
+                name: "Site Management",
                 items: architecturalItems
             });
         }
 
-        // 4. System Parameters (Admin Only)
+        // 4. Settings (Admin Only)
         if (role === "ADMIN") {
             groups.push({
-                name: "System Parameters",
+                name: "Settings",
                 items: [
                     { name: "Analytics", icon: BarChart3, href: "/admin/analytics/" },
-                    { name: "Audit Logs", icon: History, href: "/admin/logs/" },
-                    { name: "Platform Parameters", icon: Settings, href: "/admin/settings/" },
+                    { name: "Activity Logs", icon: History, href: "/admin/logs/" },
+                    { name: "Site Settings", icon: Settings, href: "/admin/settings/" },
                 ]
             });
         }
@@ -147,7 +147,7 @@ export function Sidebar() {
                             <ShieldCheck className="h-5 w-5 text-[#22D3EE] dark:text-[#22D3EE]" />
                         </div>
                         <span className="font-black uppercase tracking-tighter text-base text-[#22D3EE] dark:text-[#22D3EE] italic leading-none">
-                            Research <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic font-medium">Desk</span>
+                            Editorial <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic font-medium">Dashboard</span>
                         </span>
                     </div>
                 </div>
@@ -193,7 +193,7 @@ export function Sidebar() {
                     className="w-full h-12 flex items-center justify-center space-x-3 px-3 py-3 text-[10px] font-black uppercase tracking-widest bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] hover:bg-black dark:hover:bg-white/90 rounded-xl transition-all shadow-xl border border-transparent"
                 >
                     <LogOut className="h-4 w-4" />
-                    <span>Return to Dashboard</span>
+                    <span>Back to Dashboard</span>
                 </button>
             </div>
         </aside>

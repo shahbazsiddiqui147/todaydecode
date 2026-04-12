@@ -51,7 +51,7 @@ export default function DraftsPage() {
             const data = await getAdminArticles();
             setArticles(data.filter((a: any) => a.status === "DRAFT"));
         } catch (err) {
-            toast.error("Failed to sync strategic drafts.");
+            toast.error("Failed to sync drafts.");
         } finally {
             setLoading(false);
         }
@@ -65,8 +65,8 @@ export default function DraftsPage() {
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#1E293B] dark:border-[#1E293B]">
                 <div>
-                    <h1 className="text-3xl font-black tracking-tight text-[#22D3EE] dark:text-[#22D3EE] uppercase italic pb-1">Strategic <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Drafts</span></h1>
-                    <p className="text-[#64748B] dark:text-[#94A3B8] text-xs font-black uppercase tracking-widest">Manage unpublished strategic reports.</p>
+                    <h1 className="text-3xl font-black tracking-tight text-[#22D3EE] dark:text-[#22D3EE] uppercase italic pb-1">Editorial <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Drafts</span></h1>
+                    <p className="text-[#64748B] dark:text-[#94A3B8] text-xs font-black uppercase tracking-widest">Manage unpublished articles.</p>
                 </div>
             </div>
 
@@ -75,7 +75,7 @@ export default function DraftsPage() {
                     <div className="relative flex-1 max-w-sm">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#475569]" />
                         <Input
-                            placeholder="SEARCH DRAFTS..."
+                            placeholder="Search drafts..."
                             className="pl-10 bg-[#020617] border-[#1E293B] rounded-xl h-10 text-[10px] uppercase font-black tracking-widest text-[#F1F5F9] placeholder:text-[#475569] focus-visible:ring-[#22D3EE]"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}

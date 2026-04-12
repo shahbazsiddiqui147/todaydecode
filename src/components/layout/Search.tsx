@@ -79,7 +79,7 @@ export function Search() {
                 className="flex items-center space-x-0 sm:space-x-3 rounded-lg border border-[#1E293B] bg-transparent px-2 sm:px-3 py-1.5 text-sm text-[#94A3B8] group hover:border-[#22D3EE]/50 transition-colors shadow-subtle-glow w-auto sm:w-full sm:max-w-md"
             >
                 <SearchIcon className="h-4 w-4" />
-                <span className="hidden sm:inline-flex flex-1 text-left">Search strategic assessments, silos, or analysts...</span>
+                <span className="hidden sm:inline-flex flex-1 text-left">Search articles, categories, or authors...</span>
                 <kbd className="hidden md:inline-flex h-5 select-none items-center gap-1 rounded border border-[#1E293B] bg-[#0F172A] px-1.5 font-mono text-[10px] font-medium text-slate-400 opacity-100 uppercase">
                     <span className="text-xs font-sans">⌘</span>K
                 </kbd>
@@ -98,7 +98,7 @@ export function Search() {
                         <Command.Input
                             value={query}
                             onValueChange={setQuery}
-                            placeholder="Search strategic assessments, silos, or research fellows..."
+                            placeholder="Search articles, categories, or contributors..."
                             className="flex-1 bg-transparent text-base outline-none placeholder:text-slate-600 text-slate-100"
                         />
                         {isLoading && <Loader2 className="ml-2 h-4 w-4 animate-spin text-[#22D3EE]" />}
@@ -115,7 +115,7 @@ export function Search() {
 
                         {/* STRATEGIC ASSESSMENTS */}
                         {results.articles.length > 0 && (
-                            <Command.Group heading="Strategic Assessments" className="text-[10px] font-black text-slate-500 uppercase tracking-widest px-2 py-3">
+                            <Command.Group heading="Articles" className="text-[10px] font-black text-slate-500 uppercase tracking-widest px-2 py-3">
                                 {results.articles.map((item) => (
                                     <Command.Item
                                         key={item.id}
@@ -153,7 +153,7 @@ export function Search() {
 
                         {/* RESEARCH DESKS */}
                         {results.categories.length > 0 && (
-                            <Command.Group heading="Research Desks" className="mt-4 text-[10px] font-black text-slate-500 uppercase tracking-widest px-2 py-3">
+                            <Command.Group heading="Content Management" className="mt-4 text-[10px] font-black text-slate-500 uppercase tracking-widest px-2 py-3">
                                 {results.categories.map((item) => (
                                     <Command.Item
                                         key={item.id}
@@ -176,7 +176,7 @@ export function Search() {
 
                         {/* ANALYST ROSTER */}
                         {results.authors.length > 0 && (
-                            <Command.Group heading="Analyst Roster" className="mt-4 text-[10px] font-black text-slate-500 uppercase tracking-widest px-2 py-3">
+                            <Command.Group heading="Authors" className="mt-4 text-[10px] font-black text-slate-500 uppercase tracking-widest px-2 py-3">
                                 {results.authors.map((item) => (
                                     <Command.Item
                                         key={item.id}

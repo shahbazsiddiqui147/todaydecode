@@ -15,8 +15,8 @@ export default function AuditLogsPage() {
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#1E293B] dark:border-[#1E293B]">
                 <div>
-                    <h1 className="text-3xl font-black tracking-tight text-[#22D3EE] dark:text-[#22D3EE] uppercase italic pb-1">System <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Audit Logs</span></h1>
-                    <p className="text-[#64748B] dark:text-[#94A3B8] text-xs font-black uppercase tracking-widest">Track all institutional modifications and structural changes.</p>
+                    <h1 className="text-3xl font-black tracking-tight text-[#22D3EE] dark:text-[#22D3EE] uppercase italic pb-1">Activity <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Logs</span></h1>
+                    <p className="text-[#64748B] dark:text-[#94A3B8] text-xs font-black uppercase tracking-widest">Track all platform modifications and site changes.</p>
                 </div>
             </div>
 

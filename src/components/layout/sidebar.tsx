@@ -129,7 +129,7 @@ export function Sidebar({
                     })}
                     {categories.length === 0 && (
                         <div className="px-2 py-4 text-[10px] font-bold text-slate-600 uppercase italic tracking-widest">
-                            Mapping Strategic Silos...
+                            Loading Categories...
                         </div>
                     )}
                 </nav>
@@ -177,7 +177,7 @@ export function Sidebar({
                 {/* System Administration */}
                 <div className="pt-4 border-t border-border-slate">
                     <div className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] px-2 mb-3">
-                        Institutional Oversight
+                        Admin Dashboard
                     </div>
                     <Link
                         href="/admin/"

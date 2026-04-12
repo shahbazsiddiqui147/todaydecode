@@ -143,11 +143,11 @@ export default function CategoriesPage() {
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#1E293B]">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#22D3EE] dark:text-[#22D3EE] italic pb-1">Strategic <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Silos</span></h1>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Institutional parameters for global risk analysis and analysis desks.</p>
+                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#22D3EE] dark:text-[#22D3EE] italic pb-1">Categories</h1>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Platform parameters for content organization and analysis desks.</p>
                 </div>
                 <Button onClick={() => { setEditingCategory(null); setFormData({ name: "", slug: "", description: "", order: "0", isVisible: true, icon: "", leadAnalyst: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-xl bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] border-none hover:bg-black dark:hover:bg-white/90">
-                    <Plus className="mr-2 h-4 w-4" /> Create Strategic Silo
+                    <Plus className="mr-2 h-4 w-4" /> New Category
                 </Button>
             </header>
 
@@ -156,7 +156,7 @@ export default function CategoriesPage() {
                     <TableHeader className="bg-[#020617]/50">
                         <TableRow className="border-b border-[#1E293B] hover:bg-transparent">
                             <TableHead className="w-16 text-center text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Priority</TableHead>
-                            <TableHead className="py-5 pl-8 text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Strategic Silo</TableHead>
+                            <TableHead className="py-5 pl-8 text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Category</TableHead>
                             <TableHead className="text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Structural Path (Slug)</TableHead>
                             <TableHead className="text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">State</TableHead>
                             <TableHead className="text-right pr-8 text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Operations</TableHead>
@@ -168,13 +168,13 @@ export default function CategoriesPage() {
                                 <TableCell colSpan={5} className="h-64 text-center">
                                     <div className="flex flex-col items-center space-y-4">
                                         <div className="h-8 w-8 rounded-full border-4 border-muted border-t-primary animate-spin"></div>
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Loading Strategic Silos...</span>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Loading Categories...</span>
                                     </div>
                                 </TableCell>
                             </TableRow>
                         ) : categories.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={5} className="h-64 text-center text-[#64748B] font-bold uppercase tracking-widest text-[10px] italic">No silos found in system interface.</TableCell>
+                                <TableCell colSpan={5} className="h-64 text-center text-[#64748B] font-bold uppercase tracking-widest text-[10px] italic">No categories found.</TableCell>
                             </TableRow>
                         ) : categories.map((cat) => (
                             <TableRow key={cat.id} className="group border-b border-[#1E293B] hover:bg-[#020617]/50 transition-colors">
@@ -241,7 +241,7 @@ export default function CategoriesPage() {
                         <div className="p-10 border-b border-[#1E293B] flex justify-between items-center bg-[#020617]/50">
                             <div className="space-y-1">
                                 <h2 className="text-2xl font-black uppercase tracking-tighter text-[#F1F5F9]">
-                                    {editingCategory ? "Update Silo Parameters" : "Create Strategic Silo"}
+                                    {editingCategory ? "Update Category" : "New Category"}
                                 </h2>
                                 <p className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">Institutional Authorization Required</p>
                             </div>
@@ -254,7 +254,7 @@ export default function CategoriesPage() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-3">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] flex items-center">
-                                        <Box className="h-3 w-3 mr-2 text-cyan-500" /> Silo Identification
+                                        <Box className="h-3 w-3 mr-2 text-cyan-500" /> Category Name
                                     </label>
                                     <Input
                                         required
@@ -346,8 +346,8 @@ export default function CategoriesPage() {
                             </div>
 
                             <div className="pt-10 flex justify-end space-x-4">
-                                <Button type="button" variant="ghost" className="h-12 px-8 rounded-xl font-black uppercase tracking-widest text-[10px] text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-white/5" onClick={() => setIsModalOpen(false)}>Cancel Action</Button>
-                                <Button type="submit" className="h-12 px-10 rounded-xl bg-white text-[#020617] font-black uppercase tracking-widest text-[10px] shadow-xl hover:bg-white/90">Finalize Silo</Button>
+                                <Button type="button" variant="ghost" className="h-12 px-8 rounded-xl font-black uppercase tracking-widest text-[10px] text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-white/5" onClick={() => setIsModalOpen(false)}>Cancel</Button>
+                                <Button type="submit" className="h-12 px-10 rounded-xl bg-white text-[#020617] font-black uppercase tracking-widest text-[10px] shadow-xl hover:bg-white/90">Save Category</Button>
                             </div>
                         </form>
                     </div>

@@ -4,7 +4,7 @@ import { Toaster } from "sonner";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const metadata = constructMetadata({
-    title: "Admin Research Desk",
+    title: "Admin Dashboard",
     description: "Institutional oversight layer for geopolitical strategic management.",
     path: "/admin/",
     noIndex: true,
