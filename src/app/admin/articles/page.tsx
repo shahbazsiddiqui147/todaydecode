@@ -74,25 +74,25 @@ export default function ArticlesPage() {
             const data = await getAdminArticles();
             setArticles(data as any);
         } catch (err) {
-            toast.error("Failed to sync research portfolios.");
+            toast.error("Failed to load articles.");
         } finally {
             setLoading(false);
         }
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm("Confirm report purge? This action is irreversible.")) return;
+        if (!confirm("Delete this article? This cannot be undone.")) return;
 
         try {
             const res = await deleteArticle(id);
             if (res.success) {
-                toast.success("Strategic report purged.");
+                toast.success("Article deleted.");
                 loadArticles();
             } else {
-                toast.error(res.error || "Purge failed.");
+                toast.error(res.error || "Delete failed.");
             }
         } catch (err) {
-            toast.error("Network interface error.");
+            toast.error("Something went wrong.");
         }
     };
 
@@ -134,13 +134,13 @@ export default function ArticlesPage() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#1E293B]">
                 <div>
                     <h1 className="text-3xl font-black uppercase tracking-tighter italic pb-1">
-                        <span className="text-[#22D3EE]">Strategic</span> <span className="text-[#F1F5F9]">Hub</span>
+                        <span className="text-[#22D3EE]">Articles</span>
                     </h1>
-                    <p className="text-[#64748B] dark:text-[#94A3B8] text-xs font-black uppercase tracking-widest">Manage geopolitical reports and scenarios.</p>
+                    <p className="text-[#64748B] dark:text-[#94A3B8] text-xs font-black uppercase tracking-widest">Manage and publish your articles.</p>
                 </div>
                 <Link href="/admin/articles/new/">
                     <Button className="h-11 rounded-xl font-black uppercase tracking-widest text-[11px] px-6 shadow-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 hover:bg-black dark:hover:bg-white/90">
-                        <Plus className="h-4 w-4 mr-2" /> File New Report
+                        <Plus className="h-4 w-4 mr-2" /> New Article
                     </Button>
                 </Link>
             </div>
@@ -150,7 +150,7 @@ export default function ArticlesPage() {
                     <div className="relative flex-1 max-w-sm">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]/40" />
                         <Input
-                            placeholder="SEARCH REPORTS..."
+                            placeholder="Search articles..."
                             className="pl-10 bg-[#020617] border-[#1E293B] rounded-xl h-10 text-[10px] uppercase font-black tracking-widest focus-visible:ring-[#22D3EE] text-[#F1F5F9] placeholder:text-[#475569]"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
@@ -164,7 +164,7 @@ export default function ArticlesPage() {
                             <TableRow className="border-b border-[#1E293B] hover:bg-transparent">
                                 <TableHead className="text-[10px] uppercase font-black text-[#64748B] dark:text-[#94A3B8] tracking-widest py-4">Status & Title</TableHead>
                                 <TableHead className="text-[10px] uppercase font-black text-[#64748B] dark:text-[#94A3B8] tracking-widest">Metadata</TableHead>
-                                <TableHead className="text-[10px] uppercase font-black text-[#64748B] dark:text-[#94A3B8] tracking-widest text-right">Strategic Scale</TableHead>
+                                <TableHead className="text-[10px] uppercase font-black text-[#64748B] dark:text-[#94A3B8] tracking-widest text-right">Risk Level</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -173,14 +173,14 @@ export default function ArticlesPage() {
                                     <TableCell colSpan={3} className="h-64 text-center">
                                         <div className="flex flex-col items-center space-y-4">
                                             <div className="h-8 w-8 rounded-full border-4 border-muted border-t-primary animate-spin"></div>
-                                            <span className="text-[11px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8]">SCANNING DATABASE...</span>
+                                            <span className="text-[11px] font-black uppercase tracking-widest text-[#64748B] dark:text-[#94A3B8]">Loading articles...</span>
                                         </div>
                                     </TableCell>
                                 </TableRow>
                             ) : filteredArticles.length === 0 ? (
                                 <TableRow>
                                     <TableCell colSpan={3} className="h-64 text-center text-[#64748B] dark:text-[#94A3B8] font-bold uppercase tracking-widest text-[11px] italic">
-                                        NO REPORTS FOUND IN CURRENT SECTOR.
+                                        No articles found.
                                     </TableCell>
                                 </TableRow>
                             ) : (
@@ -224,13 +224,13 @@ export default function ArticlesPage() {
                                                 <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                                     {article.status === "PUBLISHED" && (
                                                         <Link href={`/${article.category.slug}${article.slug}`} target="_blank">
-                                                            <Button variant="outline" className="h-8 w-8 p-0 rounded-lg border-border hover:bg-secondary" title="View Live Node">
+                                                            <Button variant="outline" className="h-8 w-8 p-0 rounded-lg border-border hover:bg-secondary" title="View Live">
                                                                 <Eye className="h-3 w-3" />
                                                             </Button>
                                                         </Link>
                                                     )}
                                                     <Link href={`/admin/articles/${article.id}/`}>
-                                                        <Button variant="outline" className="h-8 w-8 p-0 rounded-lg border-border hover:bg-secondary" title="Edit Analysis">
+                                                        <Button variant="outline" className="h-8 w-8 p-0 rounded-lg border-border hover:bg-secondary" title="Edit">
                                                             <Edit2 className="h-3 w-3" />
                                                         </Button>
                                                     </Link>
@@ -238,7 +238,7 @@ export default function ArticlesPage() {
                                                         variant="destructive"
                                                         className="h-8 w-8 p-0 rounded-lg shadow-lg shadow-destructive/20"
                                                         onClick={() => handleDelete(article.id)}
-                                                        title="Purge Node"
+                                                        title="Delete"
                                                     >
                                                         <Trash2 className="h-3 w-3" />
                                                     </Button>

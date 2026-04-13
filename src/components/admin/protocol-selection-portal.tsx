@@ -24,7 +24,9 @@ export type PublicationFormat =
     | "RISK_ASSESSMENT"
     | "DATA_INSIGHT"
     | "ANNUAL_OUTLOOK"
-    | "POLICY_TOOLKIT";
+    | "POLICY_TOOLKIT"
+    | "NEWS_BRIEF"
+    | "CURRENT_AFFAIRS";
 
 interface Protocol {
     id: PublicationFormat;
@@ -90,6 +92,20 @@ const PROTOCOLS: Protocol[] = [
         description: "Frameworks and methodologies for operational response.",
         icon: Zap,
         color: "text-yellow-500 bg-yellow-500/10"
+    },
+    {
+        id: "NEWS_BRIEF",
+        name: "News Brief",
+        description: "Concise reporting on breaking developments and key events.",
+        icon: Zap,
+        color: "text-rose-500 bg-rose-500/10"
+    },
+    {
+        id: "CURRENT_AFFAIRS",
+        name: "Current Affairs",
+        description: "Timely analysis of evolving global developments.",
+        icon: Globe,
+        color: "text-teal-500 bg-teal-500/10"
     }
 ];
 
@@ -104,21 +120,20 @@ export function ProtocolSelectionPortal({ isOpen, onSelect }: ProtocolSelectionP
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#020617]/95 backdrop-blur-md animate-in fade-in duration-300">
+        <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-[#020617]/95 backdrop-blur-md animate-in fade-in duration-300">
             <div className="max-w-4xl w-full bg-[#0F172A] border border-white/10 rounded-[2.5rem] shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden">
                 <div className="p-8 border-b border-white/5 bg-slate-950/50 flex items-center justify-between">
                     <div className="space-y-1">
                         <div className="flex items-center gap-2">
                             <Lock className="h-4 w-4 text-cyan-500" />
-                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-500">Institutional Forge</span>
+                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-500">Article Setup</span>
                         </div>
                         <h2 className="text-3xl font-black text-white uppercase italic tracking-tighter">
-                            Select Publication Protocol
+                            Choose Article Format
                         </h2>
                     </div>
                     <div className="text-right hidden sm:block">
-                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Foundry Status: Operational</p>
-                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Security: Level 4 Auth</p>
+                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Status: Ready</p>
                     </div>
                 </div>
 
@@ -157,14 +172,14 @@ export function ProtocolSelectionPortal({ isOpen, onSelect }: ProtocolSelectionP
 
                 <div className="p-8 bg-slate-950/50 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-6">
                     <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest leading-relaxed max-w-md text-center sm:text-left italic">
-                        By selecting a protocol, you are committing to standardized institutional forensic standards. Data integrity is non-negotiable.
+                        Select a format to get started. This determines the article structure and metadata fields.
                     </p>
                     <Button
                         onClick={() => selected && onSelect(selected)}
                         disabled={!selected}
                         className="w-full sm:w-auto px-12 py-7 rounded-2xl bg-white text-[#0F172A] hover:bg-white/90 font-black uppercase italic tracking-tighter text-sm active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-white/5"
                     >
-                        Initialize Analysis Base
+                        Continue
                     </Button>
                 </div>
             </div>

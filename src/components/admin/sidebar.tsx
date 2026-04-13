@@ -26,7 +26,7 @@ const GROUPS = [
     {
         name: "Oversight",
         items: [
-            { name: "Executive Oversight", icon: LayoutDashboard, href: "/admin/" },
+            { name: "Editorial Overview", icon: LayoutDashboard, href: "/admin/" },
         ]
     },
     {
@@ -49,14 +49,14 @@ const GROUPS = [
         items: [
             { name: "Categories", icon: Map, href: "/admin/categories/" },
             { name: "Pages", icon: Layers, href: "/admin/pages/" },
-            { name: "Strategic Assessment Map", icon: Database, href: "/admin/map-data/" },
+            { name: "Map Data", icon: Database, href: "/admin/map-data/" },
         ]
     },
     {
         name: "System",
         items: [
             { name: "Analytics", icon: BarChart3, href: "/admin/analytics/" },
-            { name: "Audit Logs", icon: History, href: "/admin/logs/" },
+            { name: "Activity Logs", icon: History, href: "/admin/logs/" },
             { name: "Settings", icon: Settings, href: "/admin/settings/" },
         ]
     }
