@@ -52,8 +52,8 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
     const mouseY = useMotionValue(0);
 
     // Smooth spring animation for the tooltip movement
-    const smoothX = useSpring(mouseX, { damping: 25, stiffness: 200 });
-    const smoothY = useSpring(mouseY, { damping: 25, stiffness: 200 });
+    const smoothX = useSpring(mouseX, { damping: 50, stiffness: 800, mass: 0.2 });
+    const smoothY = useSpring(mouseY, { damping: 50, stiffness: 800, mass: 0.2 });
 
     // Reactive translation logic for boundary detection (no re-renders needed)
     const tooltipX = useTransform(smoothX, (val) => {
@@ -281,6 +281,7 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                             top: 0,
                             x: tooltipX,
                             y: tooltipY,
+                            transformOrigin: "top left",
                             pointerEvents: "none",
                             zIndex: 100
                         }}
