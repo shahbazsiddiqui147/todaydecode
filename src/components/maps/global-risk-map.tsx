@@ -145,12 +145,12 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
             {!isBackdrop && (
                 <div className="p-6 md:absolute md:top-6 md:left-6 z-10 bg-card/50 backdrop-blur-md md:rounded-2xl md:border md:border-white/5">
                     <h2 className="text-xl md:text-2xl font-black text-[#22D3EE] tracking-tight uppercase leading-none italic">
-                        Global Risk <span className="text-[#F1F5F9] not-italic font-medium">Assessment</span>
+                        Global Risk <span className="text-[#F1F5F9] not-italic font-medium">Index</span>
                     </h2>
                     <div className="flex items-center space-x-2 mt-2">
                         <span className="h-1.5 w-1.5 rounded-full bg-accent-red animate-pulse" />
                         <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-[0.2em]">
-                            Live Strategic Aggregation // Deep Research
+                            Live Research Aggregation // Deep Analysis
                         </p>
                     </div>
                 </div>
@@ -173,8 +173,8 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                                 className="flex items-center justify-between p-5 bg-card border border-[#1E293B] rounded-2xl active:scale-95 transition-all shadow-lg"
                             >
                                 <div className="space-y-1">
-                                    <h3 className="text-[11px] font-black uppercase tracking-widest text-foreground italic">{region} SILO</h3>
-                                    <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">Aggregate Assessment</p>
+                                    <h3 className="text-[11px] font-black uppercase tracking-widest text-foreground italic">{region}</h3>
+                                    <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">Aggregate Analysis</p>
                                 </div>
                                 <div className={cn(
                                     "flex flex-col items-center justify-center h-12 w-14 rounded-xl border",
@@ -306,9 +306,7 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                             </div>
 
                             <div className="space-y-4">
-                                <h4 className="text-[10px] font-black text-accent-red uppercase tracking-[0.2em]">
-                                    {loadingReports ? "Synchronizing Strategic Assets..." : "Institutional Risk Data"}
-                                </h4>
+                                    {loadingReports ? "Syncing analysis data..." : "Risk Index Data"}
 
                                 {loadingReports ? (
                                     <div className="grid grid-cols-2 gap-3">
@@ -337,9 +335,7 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                                     </div>
                                 ) : (
                                     <div className="p-4 bg-secondary/30 rounded-2xl border border-dashed border-border flex flex-col items-center justify-center text-center space-y-2">
-                                        <p className="text-[10px] text-muted-foreground italic font-medium">
-                                            Detailed metrics pending synchronization in Admin panel.
-                                        </p>
+                                            Detailed metrics pending synchronization.
                                     </div>
                                 )}
                             </div>

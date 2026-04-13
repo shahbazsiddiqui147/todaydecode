@@ -39,14 +39,14 @@ export function AdContainer({
                         External Resource Pending
                     </p>
                     <p className="text-[9px] text-slate-700 font-medium uppercase italic">
-                        Strategic Partner Integration Node
+                        Partner Resource Integration
                     </p>
                 </div>
             </div>
 
             {/* Micro-label at bottom */}
             <div className="mt-4 text-[8px] text-slate-700 font-bold uppercase tracking-tighter text-right">
-                Institutional Partner Tier // v0.1
+                Partner Tier // v0.1
             </div>
 
             {/* Animated grain/noise overlay for texture */}

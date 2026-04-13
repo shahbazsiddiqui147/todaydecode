@@ -10,8 +10,8 @@ export function ManageSubscriptionButton() {
     const handlePortalRedirect = async () => {
         setLoading(true);
         try {
-            toast.info("Institutional Desk Maintenance", {
-                description: "The automated billing portal is currently offline for strategic upgrades."
+            toast.info("Platform Maintenance", {
+                description: "The automated billing portal is currently offline for system upgrades."
             });
             setTimeout(() => {
                 window.location.href = "/about/";

@@ -43,8 +43,8 @@ export function MobileNav({ isOpen, onClose, categories }: MobileNavProps) {
                         {/* Header */}
                         <div className="p-6 border-b border-white/5 flex items-center justify-between">
                             <div className="flex flex-col">
-                                <span className="text-[10px] font-black text-[#22D3EE] uppercase tracking-[0.3em] italic">Strategic Archive</span>
-                                <span className="text-sm font-black text-[#F1F5F9] uppercase tracking-tighter">Institutional Navigator</span>
+                                <span className="text-[10px] font-black text-[#22D3EE] uppercase tracking-[0.3em] italic">Articles</span>
+                                <span className="text-sm font-black text-[#F1F5F9] uppercase tracking-tighter">Navigator</span>
                             </div>
                             <button
                                 onClick={onClose}
@@ -58,7 +58,7 @@ export function MobileNav({ isOpen, onClose, categories }: MobileNavProps) {
                         <div className="flex-1 overflow-y-auto p-6 space-y-10">
                             {/* Silos Section */}
                             <div className="space-y-4">
-                                <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] border-b border-white/5 pb-2">Research Departments</h4>
+                                <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] border-b border-white/5 pb-2">Research Topics</h4>
                                 <nav className="space-y-1">
                                     {categories.map((cat) => (
                                         <Link
@@ -83,14 +83,14 @@ export function MobileNav({ isOpen, onClose, categories }: MobileNavProps) {
 
                             {/* User Access Section (Mobile Only) */}
                             <div className="space-y-4 pt-4">
-                                <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] border-b border-white/5 pb-2">Institutional Access</h4>
+                                <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] border-b border-white/5 pb-2">Platform Access</h4>
                                 <Link
                                     href="/auth/signup/"
                                     onClick={onClose}
                                     className="flex items-center justify-center space-x-3 w-full bg-white text-[#0A0F1E] font-black uppercase text-[10px] tracking-[0.2em] py-5 rounded-2xl hover:bg-slate-200 transition-all shadow-xl shadow-black/40"
                                 >
                                     <UserPlus className="h-4 w-4" />
-                                    <span>Join Archive</span>
+                                    <span>Subscribe</span>
                                 </Link>
                             </div>
                         </div>
@@ -100,9 +100,9 @@ export function MobileNav({ isOpen, onClose, categories }: MobileNavProps) {
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center space-x-2">
                                     <div className="h-1.5 w-1.5 rounded-full bg-accent-green animate-pulse" />
-                                    <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Sovereign Grid Active</span>
+                                    <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Platform Status: Active</span>
                                 </div>
-                                <span className="text-[8px] font-black text-slate-600 uppercase">v2.4.0-Stable</span>
+                                <span className="text-[8px] font-black text-slate-600 uppercase">v2.4.0</span>
                             </div>
                         </div>
                     </motion.div>

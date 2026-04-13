@@ -26,7 +26,7 @@ const plans = [
         highlight: false,
     },
     {
-        name: "Institutional Oversight",
+        name: "Editorial Oversight",
         price: "$499",
         period: "per month",
         description: "Full strategic access for decision makers and institutions.",

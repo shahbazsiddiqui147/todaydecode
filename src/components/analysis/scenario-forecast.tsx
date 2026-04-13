@@ -50,7 +50,7 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
         <div className="bg-background/40 border border-[#E2E8F0] dark:border-[#1E293B] rounded-2xl overflow-hidden backdrop-blur-sm">
             <div className="p-6 border-b border-[#E2E8F0] dark:border-[#1E293B] bg-secondary/30">
                 <h2 className="text-xl font-black text-[#0F172A] dark:text-[#F1F5F9] tracking-tight uppercase mb-1">
-                    Scenario Synthesis Desk
+                    Scenario Analysis
                 </h2>
                 <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                     Predictive Outcome Modeling // 12-Month Outlook
@@ -113,7 +113,7 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
 
                         <div className="space-y-3">
                             <div className="flex justify-between text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                                <span>Outcome Severity</span>
+                                <span>Outcome severity</span>
                                 <span>{activeData.impact}% Scale</span>
                             </div>
                             <div className="h-2 w-full bg-slate-900 rounded-full overflow-hidden p-[1px] border border-white/5">
@@ -133,13 +133,13 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
                         <div className="pt-8 border-t border-white/5 flex items-center justify-between">
                             <div className="flex items-center space-x-3 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">
                                 <div className="h-2 w-2 rounded-full bg-accent-cyan animate-pulse" />
-                                <span>Assessment Finalized // Data Reconciled</span>
+                                <span>Analysis Complete</span>
                             </div>
                             <Link
                                 href={`/${category.toLowerCase()}/${slug.replace(/^\/|\/$/g, '')}/`}
                                 className="flex items-center text-[10px] font-black text-[#22D3EE] uppercase tracking-[0.2em] hover:text-white transition-colors group"
                             >
-                                <span>View Deep Briefing</span>
+                                <span>Read Full Analysis</span>
                                 <ChevronRight className="ml-2 h-3 w-3 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </div>

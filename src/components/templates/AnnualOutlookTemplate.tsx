@@ -59,7 +59,7 @@ export const AnnualOutlookTemplate: React.FC<AnnualOutlookTemplateProps> = ({
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-[10px] font-black uppercase tracking-[0.4em] text-white/60">
                         <div className="flex flex-col items-center gap-2">
                             <span className="text-white">STATUS</span>
-                            <span className="p-1 px-3 bg-accent-red/20 text-accent-red border border-accent-red/30">UNCLASSIFIED</span>
+                            <span className="p-1 px-3 bg-accent-red/20 text-accent-red border border-accent-red/30">PUBLIC RELEASE</span>
                         </div>
                         <div className="flex flex-col items-center gap-2">
                             <span className="text-white">HORIZON</span>
@@ -67,7 +67,7 @@ export const AnnualOutlookTemplate: React.FC<AnnualOutlookTemplateProps> = ({
                         </div>
                         <div className="flex flex-col items-center gap-2">
                             <span className="text-white">SYSTEM</span>
-                            <span>ENCRYPTED_NODE</span>
+                            <span>SECURE_DATA</span>
                         </div>
                         <div className="flex flex-col items-center gap-2">
                             <span className="text-white">ISSUED</span>
@@ -91,7 +91,7 @@ export const AnnualOutlookTemplate: React.FC<AnnualOutlookTemplateProps> = ({
                             </div>
                             <h3 className="text-xl font-black uppercase tracking-tighter dark:text-white italic">{theme.title || `Theme 0${i + 1}`}</h3>
                             <p className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed uppercase tracking-tight">
-                                {theme.description || "Synthesizing systemic volatility across multi-sector silos for 2026."}
+                                {theme.description || "Synthesizing systemic volatility across multi-sector topics for 2026."}
                             </p>
                         </div>
                     )) : (
@@ -109,7 +109,7 @@ export const AnnualOutlookTemplate: React.FC<AnnualOutlookTemplateProps> = ({
                     <Badge className="bg-slate-100 text-slate-400 dark:bg-white/5 dark:text-slate-500 rounded-none px-4 py-1 text-[10px] font-black uppercase tracking-[0.2em]">
                         Global Strategic Node
                     </Badge>
-                    <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter dark:text-white italic text-center">Regional Volatility Matrix</h2>
+                    <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter dark:text-white italic text-center">Regional Volatility Index</h2>
                 </div>
 
                 <div className="grid grid-cols-2 lg:grid-cols-6 gap-6">

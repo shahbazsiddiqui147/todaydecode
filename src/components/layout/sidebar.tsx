@@ -67,7 +67,7 @@ export function Sidebar({
                 {/* Navigation */}
                 <nav className="flex-1 space-y-1">
                     <div className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] px-2 mb-3">
-                        Strategic Archive
+                        Articles
                     </div>
                     {categories.filter(c => !c.parentId).map((silo) => {
                         const siloSlug = silo.slug.replace(/^\/|\/$/g, '');
@@ -137,7 +137,7 @@ export function Sidebar({
                 {/* Power Dashboard Widgets */}
                 <div className="space-y-4 pt-4 border-t border-border-slate">
                     <div className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] px-2 mb-2">
-                        Power Dashboard
+                        Dashboard
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 px-2">
@@ -166,7 +166,7 @@ export function Sidebar({
                                 <div className="flex items-center justify-center space-x-2">
                                     <div className="h-1.5 w-1.5 rounded-full bg-accent-red animate-pulse" />
                                     <span className="text-[10px] font-bold text-accent-red uppercase tracking-widest">
-                                        {metrics?.conflict?.status === 'CRITICAL' ? 'RED ZONE' : 'STABLE'}
+                                        {metrics?.conflict?.status === 'CRITICAL' ? 'STABLE' : 'STABLE'} 
                                     </span>
                                 </div>
                             </div>
@@ -201,11 +201,11 @@ export function Sidebar({
                 <div className="flex items-center space-x-3 mb-2">
                     <div className="h-1.5 w-1.5 rounded-full bg-accent-green animate-pulse" />
                     <span className="text-[10px] text-accent-green font-black uppercase tracking-[0.2em]">
-                        LIVE ANALYSIS FEED
+                        Live Feed
                     </span>
                 </div>
                 <p className="text-[9px] text-muted-foreground font-medium leading-relaxed uppercase tracking-tighter">
-                    SECURE CONNECTION: 04:52 UTC // BRENT {metrics?.oil?.trend && metrics.oil.trend > 0 ? '+' : ''}{metrics?.oil?.trend}% // NATO-X7 DETECTED
+                    Connected // Latest updates
                 </p>
             </div>
         </div>

@@ -74,12 +74,12 @@ export default async function Page() {
       <div className="border-y border-[#1E293B] bg-secondary/80 backdrop-blur-md sticky top-[64px] z-20 w-full">
         <div className="max-w-7xl mx-auto px-6 py-4 flex flex-wrap md:flex-row items-center justify-between gap-6 md:gap-8">
           <div className="flex items-center space-x-2">
-            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-muted-foreground/40">Assessment Refresh: {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()} // 04:00 UTC</span>
+            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-muted-foreground/40">Last Updated: {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()} // 04:00 UTC</span>
           </div>
 
           <div className="flex flex-wrap md:flex-row items-center justify-center md:justify-end gap-x-12 gap-y-6 flex-1 md:flex-initial">
             <div className="flex flex-col min-w-[120px]">
-              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest text-center md:text-left">Aggregate Risk Rating</span>
+              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest text-center md:text-left">Global Risk Index</span>
               <span className="text-sm font-black text-[#F1F5F9] italic tracking-tighter text-center md:text-left">{avgRisk < 0 ? '' : '+'}{avgRisk}%</span>
             </div>
             <div className="flex flex-col border-l border-border pl-12 min-w-[120px]">
@@ -87,7 +87,7 @@ export default async function Page() {
               <span className="text-sm font-black text-foreground italic tracking-tighter text-center md:text-left">${metrics.oil.value}</span>
             </div>
             <div className="flex flex-col border-l border-border pl-12 min-w-[120px]">
-              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest text-center md:text-left">Reports Published</span>
+              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest text-center md:text-left">Articles Published</span>
               <span className="text-sm font-black text-foreground italic tracking-tighter text-center md:text-left">{fetchedStats.reportsCount || 0}</span>
             </div>
           </div>
@@ -126,16 +126,16 @@ export default async function Page() {
               <div className="flex items-center gap-3 border-b border-[#1E293B] pb-6">
                 <ShieldAlert className="h-5 w-5 text-accent-red" />
                 <h2 className="text-sm font-black uppercase tracking-[0.25em] text-foreground italic">
-                  Global Strategic Risk Index
+                  Global Risk Index
                 </h2>
               </div>
               <div className="p-8 rounded-3xl border border-[#1E293B] bg-card shadow-xl space-y-12 relative overflow-hidden group">
-                <RiskGauge value={avgRisk} label="AGGREGATE RISK RATING" />
+                <RiskGauge value={avgRisk} label="Risk Rating" />
                 <div className="space-y-4 pt-8 border-t border-border/10">
                   <div className="flex items-start gap-4">
                     <div className="h-1.5 w-1.5 rounded-full bg-accent-red mt-1.5 shrink-0" />
                     <p className="text-[11px] font-medium text-muted-foreground uppercase leading-relaxed tracking-tight">
-                      Aggregated geopolitical volatility metrics indicate <span className="text-foreground font-bold">{avgRisk > 60 ? 'elevated' : 'stable'} risk status</span> across core global sectors.
+                      Current geopolitical risk levels indicate <span className="text-foreground font-bold">{avgRisk > 60 ? 'elevated' : 'stable'} risk levels</span> across major global sectors.
                     </p>
                   </div>
                 </div>
@@ -148,13 +148,13 @@ export default async function Page() {
                   <div className="p-2 bg-white/10 rounded-lg">
                     <ShieldCheck className="h-5 w-5 text-white" />
                   </div>
-                  <span className="text-[10px] font-black text-white/50 uppercase tracking-widest">Institutional Advisory</span>
+                  <span className="text-[10px] font-black text-white/50 uppercase tracking-widest">Premium Access</span>
                 </div>
                 <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter leading-none">
-                  Private Strategic <br />Consultancy
+                  Premium Research & <br />Analysis
                 </h3>
                 <button className="flex items-center text-[10px] font-black text-white uppercase tracking-[0.3em] gap-2 pt-2">
-                  Request Briefing <ChevronRight className="h-3 w-3" />
+                  Learn More <ChevronRight className="h-3 w-3" />
                 </button>
               </div>
             </div>
@@ -168,11 +168,11 @@ export default async function Page() {
                   <Zap className="h-6 w-6 text-accent-red" />
                 </div>
                 <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-[#F1F5F9] uppercase tracking-tighter leading-[0.9] italic">
-                  Strategic <br />Scenario <br />Forecasting
+                  Scenario <br />Forecasting
                 </h2>
               </div>
               <p className="text-slate-600 dark:text-[#94A3B8] font-medium text-lg max-w-sm tracking-tight leading-relaxed">
-                Access our proprietary quantitative forecasting engine. Predict institutional impact across multiple geopolitical timelines.
+                Explore scenario analysis across multiple geopolitical timelines with our forecasting tools.
               </p>
             </div>
             <div className="lg:col-span-7 bg-white dark:bg-[#0A0F1E] rounded-3xl border border-[#1E293B] p-8 shadow-inner relative">

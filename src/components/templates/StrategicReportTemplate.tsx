@@ -45,7 +45,7 @@ export const StrategicReportTemplate: React.FC<StrategicReportTemplateProps> = (
                     <div className="space-y-8">
                         <div className="flex items-center gap-4">
                             <Badge className="bg-accent-red text-white rounded-none px-4 py-1 text-[10px] font-black uppercase tracking-[0.2em]">
-                                STRATEGIC REPORT
+                                ANALYSIS REPORT
                             </Badge>
                             <MethodologyBadge />
                         </div>
@@ -76,8 +76,7 @@ export const StrategicReportTemplate: React.FC<StrategicReportTemplateProps> = (
                                     <span className="text-white flex items-center gap-2"><Layers className="h-3 w-3" /> {readingTime}</span>
                                 </div>
                                 <div className="flex flex-col gap-1">
-                                    <span className="text-slate-400">FIDELITY</span>
-                                    <span className="text-[#22D3EE]">NODE_VERIFIED_A4</span>
+                                    <span className="text-[#22D3EE]">VERIFIED_ANALYSIS</span>
                                 </div>
                             </div>
                         </div>
@@ -161,7 +160,7 @@ export const StrategicReportTemplate: React.FC<StrategicReportTemplateProps> = (
                     <div className="space-y-10 py-16 border-t border-white/10">
                         <div className="flex items-center gap-3">
                             <GitBranch className="h-6 w-6 text-[#22D3EE]" />
-                            <h3 className="text-2xl font-black uppercase tracking-tighter text-white italic">Strategic Outcome Models</h3>
+                            <h3 className="text-2xl font-black uppercase tracking-tighter text-white italic">Analysis Outcome Models</h3>
                         </div>
                         <ScenarioForecast scenarios={processedScenarios} category={article.category.slug} slug={article.slug} />
                     </div>
@@ -170,7 +169,7 @@ export const StrategicReportTemplate: React.FC<StrategicReportTemplateProps> = (
 
                     {/* Sources & Citations */}
                     <div className="pt-16 border-t border-white/10 space-y-8 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all">
-                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Sources & Analytical Citations</h4>
+                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Sources & Analytical References</h4>
                         <div className="p-8 bg-black/20 border border-white/5 rounded-2xl">
                             <CitationTool
                                 title={article.title}

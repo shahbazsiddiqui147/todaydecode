@@ -36,7 +36,7 @@ export const PolicyBriefTemplate: React.FC<PolicyBriefTemplateProps> = ({
                     <div className="text-2xl font-black uppercase tracking-tighter text-[#111827] dark:text-[#F1F5F9]">
                         TODAY <span className="text-accent-red">DECODE</span>
                     </div>
-                    <div className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Institutional Strategy & Geopolitical Analysis</div>
+                    <div className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Platform Strategy & Geopolitical Analysis</div>
                 </div>
                 <div className="text-right space-y-1">
                     <div className="text-[10px] font-black uppercase tracking-widest text-[#111827] dark:text-[#22D3EE]">Strategic Dispatch No. {article.id.substring(0, 8)}</div>
@@ -60,7 +60,7 @@ export const PolicyBriefTemplate: React.FC<PolicyBriefTemplateProps> = ({
                 <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-500">
                     <div className="flex items-center gap-6">
                         <span className="flex items-center gap-2"><Clock className="h-3 w-3" /> {readingTime}</span>
-                        <span className="flex items-center gap-2 font-bold text-[#111827] dark:text-[#22D3EE]">Verification: Level 4 Institutional</span>
+                        <span className="flex items-center gap-2 font-bold text-[#111827] dark:text-[#22D3EE]">Verification: Expert Analysis</span>
                     </div>
                     <div className="flex items-center gap-2 italic">
                         Node ID: {article.slug}
@@ -138,7 +138,7 @@ export const PolicyBriefTemplate: React.FC<PolicyBriefTemplateProps> = ({
                     </div>
                 </div>
                 <div className="max-w-xs">
-                    <div className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-2">Institutional Citation</div>
+                    <div className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-2">Analysis Citation</div>
                     <div className="p-3 bg-white dark:bg-[#0A0F1E] border border-border/10">
                         <CitationTool
                             title={article.title}
@@ -154,7 +154,7 @@ export const PolicyBriefTemplate: React.FC<PolicyBriefTemplateProps> = ({
             {/* High-density clinical summary */}
             <div className="p-4 bg-[#111827] text-center">
                 <p className="text-[8px] font-black uppercase tracking-[0.5em] text-[#22D3EE]/60">
-                    Sovereign Strategic Asset - Today Decode Institutional Archive - (C) 2026
+                    Today Decode analysis report - (C) 2026
                 </p>
             </div>
         </div>

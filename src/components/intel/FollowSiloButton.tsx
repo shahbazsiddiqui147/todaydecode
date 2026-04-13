@@ -37,7 +37,7 @@ export function FollowSiloButton({ categoryId, categoryName }: FollowSiloButtonP
 
     const handleToggle = () => {
         if (!session) {
-            toast.error("Institutional access required to follow desks.");
+            toast.error("Sign in required to follow topics.");
             return;
         }
 
@@ -57,8 +57,8 @@ export function FollowSiloButton({ categoryId, categoryName }: FollowSiloButtonP
 
                 toast.success(
                     isFollowed
-                        ? `${categoryName} added to your Strategic Oversight.`
-                        : `${categoryName} removed from Oversight.`
+                        ? `${categoryName} added to your feed.`
+                        : `${categoryName} removed from feed.`
                 );
             }
         });
@@ -86,7 +86,7 @@ export function FollowSiloButton({ categoryId, categoryName }: FollowSiloButtonP
                 </span>
             ) : (
                 <span className="flex items-center gap-2">
-                    <PlusCircle className="h-3.5 w-3.5" /> Follow Desk
+                    <PlusCircle className="h-3.5 w-3.5" /> Follow Topic
                 </span>
             )}
         </Button>

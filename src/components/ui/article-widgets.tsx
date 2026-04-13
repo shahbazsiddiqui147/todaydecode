@@ -20,7 +20,7 @@ export function RiskGauge({ score, label }: RiskGaugeProps) {
         <div className="space-y-4 rounded-xl border border-border-slate bg-primary/40 p-6">
             <div className="flex items-center justify-between">
                 <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                    Aggregate Risk Rating
+                    Global Risk Index
                 </h4>
                 <span className={cn(
                     "px-2 py-0.5 rounded text-[10px] font-bold uppercase border",
@@ -43,7 +43,7 @@ export function RiskGauge({ score, label }: RiskGaugeProps) {
             </div>
 
             <p className="text-[10px] text-slate-400 leading-relaxed italic">
-                * Based on current Conflict Intensity and Geographic Weighting.
+                * Based on current Conflict Intensity and geopolitical weighting.
             </p>
         </div>
     );

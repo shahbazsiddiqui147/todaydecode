@@ -96,7 +96,7 @@ export function Header({
                         </Link>
                         <Link href="/auth/signup/" className="hidden sm:block">
                             <button className="bg-white text-[#0A0F1E] text-[10px] font-black uppercase tracking-widest px-4 sm:px-6 h-9 sm:h-10 rounded-xl hover:bg-slate-200 transition-all shadow-lg whitespace-nowrap flex items-center justify-center">
-                                Join Archive
+                                Subscribe
                             </button>
                         </Link>
 
@@ -105,7 +105,7 @@ export function Header({
                             onClick={onMenuClick}
                             className="sm:hidden flex items-center gap-2 px-3 h-10 border border-[#F1F5F9]/20 rounded-xl bg-white/5 active:scale-95 transition-all"
                         >
-                            <span className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9]">Silos</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9]">Topics</span>
                             <Menu className="h-4 w-4 text-[#F1F5F9]" />
                         </button>
                     </div>

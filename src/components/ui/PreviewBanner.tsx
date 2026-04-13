@@ -31,7 +31,7 @@ export function PreviewBanner() {
                         <div className="absolute inset-0 bg-cyan-400/20 blur-md rounded-full" />
                     </div>
                     <span className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-400 italic whitespace-nowrap">
-                        Preview Mode Active // Strategic Oversight Enabled
+                        Preview Mode Active // Content Management Enabled
                     </span>
                 </div>
 
@@ -43,7 +43,7 @@ export function PreviewBanner() {
                 >
                     <XCircle className="h-4 w-4 text-slate-500 group-hover:text-white transition-colors" />
                     <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 group-hover:text-white transition-colors">
-                        Deauthorize
+                        Exit Preview
                     </span>
                 </button>
             </div>

@@ -37,7 +37,7 @@ export const RiskAssessmentTemplate: React.FC<RiskAssessmentTemplateProps> = ({
                 <div className="lg:col-span-8 space-y-8">
                     <div className="flex items-center gap-4">
                         <Badge className="bg-accent-red text-white dark:bg-accent-red dark:text-white rounded-none px-4 py-1 text-[10px] font-black uppercase tracking-[0.2em]">
-                            RISK ASSESSMENT
+                            RISK ANALYSIS
                         </Badge>
                         <MethodologyBadge />
                         <span className="text-[10px] font-black uppercase tracking-widest text-[#22D3EE] animate-pulse">Live Risk Monitoring Active</span>
@@ -139,7 +139,7 @@ export const RiskAssessmentTemplate: React.FC<RiskAssessmentTemplateProps> = ({
                 <aside className="lg:col-span-4 space-y-10">
                     <div className="sticky top-32 space-y-10">
                         <div className="p-8 bg-slate-900/50 border border-white/5 rounded-3xl space-y-6 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all">
-                            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 border-b border-white/5 pb-4">Institutional Attribution</h4>
+                            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 border-b border-white/5 pb-4">Source Attribution</h4>
                             <CitationTool
                                 title={article.title}
                                 author={article.author.name}

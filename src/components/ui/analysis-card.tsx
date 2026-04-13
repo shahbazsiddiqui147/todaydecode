@@ -72,10 +72,10 @@ export function AnalysisCard({
 
                 <div className="mt-auto pt-6 border-t border-border flex items-center justify-between">
                     <span className="text-[10px] text-muted-foreground font-black uppercase tracking-[0.15em]">
-                        RESEARCH ASSESSMENT
+                        RESEARCH ANALYSIS
                     </span>
                     <span className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-tighter">
-                        Archive No. 2026-{id.substring(0, 4).toUpperCase()}
+                        ID No. 2026-{id.substring(0, 4).toUpperCase()}
                     </span>
                 </div>
             </div>

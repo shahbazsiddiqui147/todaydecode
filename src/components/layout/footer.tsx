@@ -39,7 +39,7 @@ export async function Footer() {
                         Today Decode
                     </Link>
                     <p className="text-xs font-medium text-muted-foreground uppercase tracking-tight leading-relaxed max-w-xs">
-                        A proprietary strategic advisory providing high-fidelity strategic analysis and risk assessment for institutional decision-makers.
+                        An independent think tank providing in-depth analysis and research on global affairs, policy, and geopolitical risk.
                     </p>
                     <div className="flex items-center gap-3">
                         {hasActiveLinks ? (
@@ -83,7 +83,7 @@ export async function Footer() {
 
                 {/* Institutional Framework */}
                 <div className="md:col-span-1 space-y-6">
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-foreground dark:text-white italic">Institutional</h4>
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-foreground dark:text-white italic">About</h4>
                     <nav className="flex flex-col gap-3">
                         {pages.map((page) => (
                             <Link
@@ -96,19 +96,19 @@ export async function Footer() {
                             </Link>
                         ))}
                         {pages.length === 0 && (
-                            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-tighter italic">Data Pending...</span>
+                            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-tighter italic">Coming soon</span>
                         )}
                     </nav>
                 </div>
 
                 {/* Analysis Desk Access */}
                 <div className="md:col-span-1 space-y-6">
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-foreground dark:text-white italic">Analysis Desk</h4>
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-foreground dark:text-white italic">Topics</h4>
                     <nav className="flex flex-col gap-3">
-                        <Link href="/security/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Security Silo</Link>
-                        <Link href="/economy/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Economy Silo</Link>
-                        <Link href="/technology/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Technology Silo</Link>
-                        <Link href="/energy/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Energy Silo</Link>
+                        <Link href="/security/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Security</Link>
+                        <Link href="/economy/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Economy</Link>
+                        <Link href="/technology/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Technology</Link>
+                        <Link href="/energy/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Energy</Link>
                     </nav>
                 </div>
 
@@ -116,10 +116,10 @@ export async function Footer() {
                 <div className="md:col-span-1 p-6 bg-card border border-border rounded-2xl space-y-4">
                     <div className="flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full bg-accent-green animate-pulse" />
-                        <span className="text-[9px] font-black uppercase tracking-[0.25em] text-accent-green">Strategic Matrix</span>
+                        <span className="text-[9px] font-black uppercase tracking-[0.25em] text-accent-green">System Status</span>
                     </div>
                     <p className="text-[10px] font-medium text-muted-foreground leading-relaxed">
-                        The Strategic Archive is monitored by institutional AI. All data manifests are encrypted with proprietary-grade frameworks.
+                        Platform monitored and maintained. All data is securely managed.
                     </p>
                     <div className="pt-2 flex items-center justify-between border-t border-border/10">
                         <span className="text-[8px] font-black text-muted-foreground/60 uppercase">Latency: 24ms</span>
@@ -130,11 +130,10 @@ export async function Footer() {
 
             <div className="max-w-7xl mx-auto mt-10 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="text-[9px] font-black text-muted-foreground/60 uppercase tracking-[0.1em]">
-                    © {new Date().getFullYear()} TODAY DECODE STRATEGIC ADVISORY. ALL RIGHTS RESERVED.
+                    © {new Date().getFullYear()} TODAY DECODE. ALL RIGHTS RESERVED.
                 </div>
                 <div className="flex items-center gap-6">
-                    <span className="text-[8px] font-black text-muted-foreground/40 uppercase tracking-tighter">System Version: 2.3.0-Pivot</span>
-                    <span className="text-[8px] font-black text-muted-foreground/40 uppercase tracking-tighter">Encrypted Handshake: Active</span>
+                    <span className="text-[8px] font-black text-muted-foreground/40 uppercase tracking-tighter">v2.3.0</span>
                 </div>
             </div>
         </footer>

@@ -45,8 +45,8 @@ export async function generateMetadata({ params }: { params: Promise<{ path: str
         const silo = await getCategoryBySlug(slug);
         if (silo) {
             return constructMetadata({
-                title: `${silo.name} | Strategic Analysis Silo`,
-                description: silo.description || `Strategic oversight and analytical reports for ${silo.name}.`,
+                title: `${silo.name} | Topic Analysis`,
+                description: silo.description || `In-depth research and analysis reports for ${silo.name}.`,
                 path: slug,
             });
         }
@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: { params: Promise<{ path: str
         const page = await getPageBySlug(slug);
         if (page) {
             return constructMetadata({
-                title: page.metaTitle || `${page.title} | Institutional`,
+                title: page.metaTitle || `${page.title} | Today Decode`,
                 description: page.metaDescription || undefined,
                 path: slug,
             });
@@ -150,10 +150,10 @@ function SiloDeskIndex({ silo, parentPath }: { silo: any; parentPath?: string })
             <div className="max-w-screen-2xl mx-auto px-6 pb-32">
                 <div className="flex items-center justify-between mb-16">
                     <h2 className="text-lg font-black uppercase tracking-[0.3em] text-foreground italic border-l-4 border-accent-red pl-4">
-                        Strategic Analysis
+                        Topic Analysis
                     </h2>
                     <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest italic">
-                        {reportCount} Assessments Filed
+                        {reportCount} Analysis Reports
                     </div>
                 </div>
 
@@ -179,7 +179,7 @@ function SiloDeskIndex({ silo, parentPath }: { silo: any; parentPath?: string })
                             <div className="space-y-3">
                                 <p className="text-2xl font-black uppercase tracking-[0.4em] text-foreground italic">Analysis Pending</p>
                                 <p className="text-sm text-muted-foreground font-medium uppercase tracking-[0.1em] max-w-md mx-auto leading-relaxed">
-                                    Institutional data is being authorized for public release.
+                                    Platform data is being updated. Our research team is mapping the latest indicators.
                                 </p>
                             </div>
                         </div>

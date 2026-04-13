@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     if (!article) return constructMetadata({ title: "Analysis Not Found" });
 
     return constructMetadata({
-        title: `[Strategic Analysis] ${article.title} | Today Decode`,
+        title: `${article.title} | Today Decode`,
         description: article.metaDescription || article.summary.substring(0, 160),
         path: `/${category}/${articleSlug}/`,
         riskScore: article.riskScore,
@@ -79,7 +79,7 @@ export default async function ArticlePage({
         },
         worst: {
             title: rawScenarios.worst?.title || "Systemic Fragmentation",
-            description: rawScenarios.worst?.description || "Critical system failure or breakdown of institutional frameworks.",
+            description: rawScenarios.worst?.description || "Critical system failure or breakdown of key frameworks.",
             impact: rawScenarios.worst?.impact ?? 90
         }
     };
