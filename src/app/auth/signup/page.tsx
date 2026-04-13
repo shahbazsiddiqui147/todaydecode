@@ -47,9 +47,9 @@ export default function SignUpPage() {
                     </div>
                     <div className="space-y-1">
                         <h1 className="text-3xl font-black uppercase tracking-tighter text-white">
-                            Initialize <span className="text-accent-red">Identity</span>
+                            Create <span className="text-accent-red">Account</span>
                         </h1>
-                        <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.3em]">Institutional Analyst Enrollment</p>
+                        <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.3em]">Sign Up</p>
                     </div>
                 </div>
 
@@ -58,7 +58,7 @@ export default function SignUpPage() {
 
                     <form onSubmit={handleSubmit} className="space-y-6 relative">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">Professional Name</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">Full Name</label>
                             <div className="relative">
                                 <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
                                 <Input
@@ -72,7 +72,7 @@ export default function SignUpPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">Professional Email</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">Email</label>
                             <div className="relative">
                                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
                                 <Input
@@ -86,7 +86,7 @@ export default function SignUpPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">Institutional Access Key</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">Password</label>
                             <div className="relative">
                                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
                                 <Input
@@ -100,7 +100,7 @@ export default function SignUpPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">Professional Designation</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">Role</label>
                             <div className="relative">
                                 <select
                                     name="designation"
@@ -109,7 +109,7 @@ export default function SignUpPage() {
                                     onChange={(e) => setDesignation(e.target.value)}
                                     className="w-full h-12 pl-4 pr-10 bg-[#020617] border border-[#1E293B] focus:border-[#22D3EE] text-[#F1F5F9] text-xs font-bold uppercase rounded-xl appearance-none outline-none transition-all"
                                 >
-                                    <option value="" disabled>Select Professional Designation</option>
+                                    <option value="" disabled>Select Role</option>
                                     {Object.entries(DESIGNATIONS).map(([category, titles]) => (
                                         <optgroup label={category} key={category} className="bg-[#0D1425] text-[#94A3B8]">
                                             {titles.map(title => (
@@ -130,7 +130,7 @@ export default function SignUpPage() {
                                         name="designationOverride"
                                         type="text"
                                         required
-                                        placeholder="Enter exact professional title"
+                                        placeholder="Enter your role"
                                         className="pl-4 h-12 bg-[#020617] border border-accent-red/30 text-[#F1F5F9] placeholder:text-[#475569] rounded-xl focus-visible:ring-accent-red outline-none transition-all"
                                     />
                                 </div>
@@ -138,7 +138,7 @@ export default function SignUpPage() {
                         )}
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">Institutional Affiliation</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">Organization</label>
                             <div className="relative">
                                 <Input
                                     name="affiliation"
@@ -151,12 +151,12 @@ export default function SignUpPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">Institutional Background</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">About You</label>
                             <div className="relative">
                                 <textarea
                                     name="institutionalBio"
                                     required
-                                    placeholder="Briefly detail your academic or professional background..."
+                                    placeholder="Briefly describe your role and expertise..."
                                     className="w-full h-24 p-4 bg-[#020617] border border-[#1E293B] focus:border-[#22D3EE] text-[#F1F5F9] text-sm rounded-xl outline-none resize-none placeholder:text-[#475569] transition-all"
                                 />
                             </div>
@@ -174,7 +174,7 @@ export default function SignUpPage() {
                             className="w-full h-14 text-[11px] font-black uppercase tracking-[0.3em] bg-[#22D3EE] text-[#0F172A] hover:bg-[#06B6D4] transition-all rounded-2xl group shadow-[0_0_20px_rgba(34,211,238,0.2)]"
                             disabled={loading}
                         >
-                            {loading ? "Initializing..." : "Register Identity"}
+                            {loading ? "Initializing..." : "Create Account"}
                         </Button>
                     </form>
                 </div>
@@ -189,7 +189,7 @@ export default function SignUpPage() {
                 </div>
 
                 <p className="text-center text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em] opacity-30">
-                    Strict Confidentiality — Institutional Rules Apply
+                    Today Decode Account Registration
                 </p>
             </div>
         </div>

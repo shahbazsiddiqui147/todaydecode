@@ -31,7 +31,7 @@ function SignInContent() {
         });
 
         if (res?.error) {
-            setError("Authorization failed. Institutional metadata mismatch.");
+            setError("Invalid email or password.");
             setLoading(false);
         } else {
             router.push(callbackUrl);
@@ -48,9 +48,9 @@ function SignInContent() {
                     </div>
                     <div className="space-y-1">
                         <h1 className="text-3xl font-black uppercase tracking-tighter leading-none text-shadow-institutional">
-                            <span className="text-[#22D3EE]">Research</span> <span className="text-[#F1F5F9]">Portal</span>
+                            Sign <span className="text-[#F1F5F9]">In</span>
                         </h1>
-                        <p className="text-[#94A3B8] text-[10px] font-black uppercase tracking-[0.4em] italic">Institutional Credentials Required</p>
+                        <p className="text-[#94A3B8] text-[10px] font-black uppercase tracking-[0.4em] italic">Enter your credentials</p>
                     </div>
                 </div>
 
@@ -61,7 +61,7 @@ function SignInContent() {
                     <form onSubmit={handleSubmit} className="space-y-6 relative">
                         {/* Professional Email */}
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">Professional Email</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">Email</label>
                             <div className="relative">
                                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
                                 <Input
@@ -76,7 +76,7 @@ function SignInContent() {
 
                         {/* Secure Access Key */}
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">Secure Access Key</label>
+                            <label className="text-[10px] font-black uppercase tracking-widest text-[#F1F5F9] ml-1">Password</label>
                             <div className="relative">
                                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
                                 <Input
@@ -104,7 +104,7 @@ function SignInContent() {
                         >
                             {loading ? "Reconciling..." : (
                                 <>
-                                    Authorize Session
+                                    Sign In
                                     <ChevronRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                                 </>
                             )}
@@ -114,7 +114,7 @@ function SignInContent() {
 
                 {/* Strategic Footer */}
                 <p className="text-center text-[9px] text-slate-500 font-black uppercase tracking-[0.2em] leading-relaxed max-w-xs mx-auto opacity-50 relative z-10 p-4">
-                    For Authorized Institutional Use Only — <br /> Systemic Integrity Framework Active
+                    Today Decode Platform Access
                 </p>
             </div>
 

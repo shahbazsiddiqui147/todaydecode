@@ -14,18 +14,18 @@ export default function PendingVerificationPage() {
 
                 <div className="space-y-4">
                     <h1 className="text-4xl font-black uppercase tracking-tighter text-white">
-                        Identity <span className="text-accent-red">Registered</span>
+                        Account <span className="text-accent-red">Created</span>
                     </h1>
                     <div className="p-6 bg-[#111827] border border-slate-800 rounded-2xl space-y-4">
                         <div className="flex justify-center mb-4">
                             <Clock className="h-10 w-10 text-slate-500 animate-pulse" />
                         </div>
-                        <h2 className="text-lg font-black uppercase tracking-widest text-white">Institutional Verification in Progress</h2>
+                        <h2 className="text-lg font-black uppercase tracking-widest text-white">Account Pending Approval</h2>
                         <p className="text-sm text-slate-400 font-medium">
-                            Your credentials have been securely logged. The Editorial Desk manually reviews all applications to ensure the highest standard of institutional integrity.
+                            Your account has been created. The editorial team manually reviews all applications to ensure the highest standards of platform integrity.
                         </p>
                         <p className="text-xs text-slate-500 font-bold uppercase tracking-widest pt-4 border-t border-slate-800">
-                            You will be granted system access upon approval.
+                            You will be notified when your account is approved.
                         </p>
                     </div>
                 </div>
@@ -34,7 +34,7 @@ export default function PendingVerificationPage() {
                     <Link href="/">
                         <Button variant="ghost" className="text-slate-400 hover:text-white transition-colors group text-[10px] font-black uppercase tracking-widest">
                             <ArrowLeft className="h-3.5 w-3.5 mr-2 group-hover:-translate-x-1 transition-transform" />
-                            Return to Global Context
+                            Back to Home
                         </Button>
                     </Link>
                 </div>
