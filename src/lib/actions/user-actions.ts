@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
+import { PublicationFormat, Region } from "@prisma/client";
 
 /**
  * Toggles a user's follow status for a specific category (Strategic Silo).
@@ -188,4 +190,68 @@ export async function saveCountryMetric(data: {
         console.error("Metric Save Failure:", error);
         return { error: "Failed to authorize metrics. Matrix link error." };
     }
+}
+
+/**
+ * --- Submission Actions ---
+ */
+
+const SubmissionSchema = z.object({
+    title: z.string().min(5, "Title must be at least 5 characters."),
+    summary: z.string().min(20, "Summary must be at least 20 characters."),
+    content: z.string().min(100, "Content must be at least 100 characters."),
+    format: z.nativeEnum(PublicationFormat),
+    categoryId: z.string().min(1, "Category is required."),
+    region: z.nativeEnum(Region).default(Region.GLOBAL),
+    sourceUrls: z.array(z.string()).optional().default([]),
+});
+
+export async function submitArticle(data: any) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+        return { success: false, error: "Authentication required." };
+    }
+
+    const user = await prisma.user.findUnique({
+        where: { id: session.user.id }
+    });
+
+    if (!user || (!user.isApproved && user.role !== "ADMIN" && user.role !== "EDITOR")) {
+        return { success: false, error: "Your account is pending approval." };
+    }
+
+    try {
+        const validated = SubmissionSchema.parse(data);
+        await prisma.submission.create({
+            data: {
+                ...validated,
+                userId: user.id,
+            }
+        });
+
+        revalidatePath("/admin/submissions/");
+        revalidatePath("/dashboard/");
+        return { success: true };
+    } catch (error: any) {
+        console.error("Submission Error:", error);
+        if (error instanceof z.ZodError) {
+            return { success: false, error: error.issues[0].message };
+        }
+        return { success: false, error: "Failed to submit article. Please try again." };
+    }
+}
+
+export async function getUserSubmissions() {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) return [];
+
+    return await prisma.submission.findMany({
+        where: { userId: session.user.id },
+        include: {
+            category: {
+                select: { name: true }
+            }
+        },
+        orderBy: { submittedAt: "desc" }
+    });
 }

@@ -59,6 +59,7 @@ model Category {
   icon        String?
   parentId    String?
   articles    Article[]
+  submissions Submission[]
   parent      Category?   @relation("SubCategories", fields: [parentId], references: [id])
   children    Category[]  @relation("SubCategories")
   watchlists  Watchlist[]
@@ -96,6 +97,7 @@ model User {
   savedAnalyses        SavedAnalysis[]
   sessions             Session[]
   watchlists           Watchlist[]
+  submissions          Submission[]
 }
 
 model Account {
@@ -199,6 +201,24 @@ model CountryMetric {
   updatedAt   DateTime @updatedAt
 }
 
+model Submission {
+  id              String            @id @default(cuid())
+  title           String
+  summary         String
+  content         String            @db.Text
+  format          PublicationFormat @default(COMMENTARY)
+  categoryId      String
+  region          Region            @default(GLOBAL)
+  sourceUrls      String[]
+  status          SubmissionStatus  @default(PENDING)
+  reviewNote      String?
+  submittedAt     DateTime          @default(now())
+  reviewedAt      DateTime?
+  userId          String
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category        Category          @relation(fields: [categoryId], references: [id])
+}
+
 enum RiskLevel {
   LOW
   MEDIUM
@@ -247,4 +267,12 @@ enum RegistrationType {
   JOURNALIST
   PROFESSIONAL
   STUDENT
+}
+
+enum SubmissionStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  PUBLISHED
 }

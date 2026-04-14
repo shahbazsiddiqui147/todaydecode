@@ -14,6 +14,7 @@ import {
     Image as ImageIcon,
     FileEdit,
     UserCheck,
+    Inbox,
     Layers,
     BarChart3,
     History,
@@ -90,6 +91,7 @@ export function Sidebar() {
                 href: "/admin/articles/"
             });
             researchItems.push({ name: "Drafts", icon: FileEdit, href: "/admin/drafts/" });
+            researchItems.push({ name: "Submissions", icon: Inbox, href: "/admin/submissions/" });
 
             // AUTHOR: Hide Media Library
             if (role !== "AUTHOR") {

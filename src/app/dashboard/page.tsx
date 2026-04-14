@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { constructMetadata } from "@/lib/seo";
 import { GlobalRiskMap } from "@/components/maps/global-risk-map";
 import { AnalysisCard } from "@/components/ui/analysis-card";
-import { Search, Filter, Settings, Bell, LayoutDashboard, Layers, Bookmark } from "lucide-react";
+import { Search, Filter, Settings, Bell, LayoutDashboard, Layers, Bookmark, FileText, Send, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { ManageSubscriptionButton } from "@/components/monetization/manage-subscription-button";
 
@@ -68,6 +68,16 @@ export default async function DashboardPage() {
     });
     aggregations.forEach((item) => {
         regionData[item.region] = Math.round(item._avg?.riskScore || 0);
+    });
+ 
+    // 5. Fetch User Submissions
+    const userSubmissions = await prisma.submission.findMany({
+        where: { userId: user.id },
+        include: {
+            category: { select: { name: true } }
+        },
+        orderBy: { submittedAt: 'desc' },
+        take: 10
     });
 
     return (
@@ -189,6 +199,70 @@ export default async function DashboardPage() {
                                 ))
                             ) : (
                                 <p className="text-[9px] font-bold text-slate-600 uppercase italic">No silos followed.</p>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Your Submissions Section */}
+                    <div className="bg-secondary/50 dark:bg-slate-900/50 border border-border-slate rounded-xl p-6 space-y-6 backdrop-blur-sm">
+                        <div className="flex items-center justify-between">
+                            <h3 className="text-[10px] font-black text-foreground dark:text-white uppercase tracking-widest flex items-center gap-2">
+                                <FileText className="h-3 w-3 text-[#22D3EE]" />
+                                Your Submissions
+                            </h3>
+                            <Link href="/contributors/submit/" className="text-[8px] font-black text-[#22D3EE] hover:text-white uppercase tracking-widest transition-colors flex items-center gap-1 group">
+                                <Send className="h-2.5 w-2.5" />
+                                Submit New
+                            </Link>
+                        </div>
+
+                        <div className="space-y-4">
+                            {userSubmissions.length > 0 ? (
+                                userSubmissions.map((sub) => (
+                                    <div key={sub.id} className="space-y-2 group">
+                                        <div className="flex items-start justify-between gap-4">
+                                            <p className="text-[11px] font-black text-muted-foreground dark:text-slate-200 uppercase tracking-tight italic line-clamp-1">
+                                                {sub.title}
+                                            </p>
+                                            <div className={cn(
+                                                "text-[7px] font-black uppercase tracking-tighter px-1.5 py-0.5 rounded border shrink-0",
+                                                sub.status === "PENDING" && "bg-amber-500/10 text-amber-500 border-amber-500/20",
+                                                sub.status === "UNDER_REVIEW" && "bg-blue-500/10 text-blue-500 border-blue-500/20",
+                                                sub.status === "APPROVED" && "bg-green-500/10 text-green-500 border-green-500/20",
+                                                sub.status === "REJECTED" && "bg-red-500/10 text-red-500 border-red-500/20",
+                                                sub.status === "PUBLISHED" && "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                                            )}>
+                                                {sub.status.replace("_", " ")}
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-[7px] font-bold text-slate-500 uppercase">{sub.category.name}</span>
+                                                <span className="text-[7px] font-medium text-slate-600">•</span>
+                                                <span className="text-[7px] font-bold text-slate-500 uppercase">{new Date(sub.submittedAt).toLocaleDateString()}</span>
+                                            </div>
+                                        </div>
+
+                                        {sub.status === "REJECTED" && sub.reviewNote && (
+                                            <div className="flex items-start gap-1.5 p-2 bg-red-500/5 border border-red-500/10 rounded-lg">
+                                                <AlertCircle className="h-2.5 w-2.5 text-red-500 shrink-0 mt-0.5" />
+                                                <p className="text-[9px] text-red-400 font-medium leading-tight italic line-clamp-2">
+                                                    {sub.reviewNote}
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="space-y-4 text-center py-4">
+                                    <p className="text-[9px] font-bold text-slate-600 uppercase italic">No submissions yet.</p>
+                                    <Link href="/contributors/submit/">
+                                        <Button variant="outline" className="h-8 w-full border-border-slate text-[8px] font-black uppercase tracking-widest rounded-lg">
+                                            Submit your first article
+                                        </Button>
+                                    </Link>
+                                </div>
                             )}
                         </div>
                     </div>

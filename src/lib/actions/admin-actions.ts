@@ -7,6 +7,7 @@ import { slugify } from "@/lib/slugify";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import bcrypt from "bcryptjs";
+import { SubmissionStatus } from "@prisma/client";
 
 // --- Validation Schemas ---
 
@@ -710,5 +711,154 @@ export async function createUser(data: z.infer<typeof CreateUserSchema>) {
             return { success: false, error: "Identity already exists in Registry." };
         }
         return { success: false, error: "Personnel induction failed." };
+    }
+}
+
+// --- Contributor Submission System ---
+
+export async function getAdminSubmissions(statusFilter?: string) {
+    const session = await getServerSession(authOptions);
+    if (!session || !["ADMIN", "EDITOR"].includes(session.user.role)) {
+        throw new Error("Unauthorized access.");
+    }
+
+    const where: any = {};
+    if (statusFilter && Object.values(SubmissionStatus).includes(statusFilter as any)) {
+        where.status = statusFilter as SubmissionStatus;
+    }
+
+    return await prisma.submission.findMany({
+        where,
+        include: {
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    designation: true,
+                    affiliation: true,
+                    institutionalBio: true
+                }
+            },
+            category: {
+                select: {
+                    name: true
+                }
+            }
+        },
+        orderBy: { submittedAt: "desc" }
+    });
+}
+
+export async function reviewSubmission(submissionId: string, action: 'approve' | 'reject', reviewNote?: string) {
+    const session = await getServerSession(authOptions);
+    if (!session || !["ADMIN", "EDITOR"].includes(session.user.role)) {
+        return { success: false, error: "Unauthorized access: Insufficient clearance." };
+    }
+
+    if (action === 'reject' && !reviewNote) {
+        return { success: false, error: "Review note is required for rejections." };
+    }
+
+    try {
+        const submission = await prisma.submission.findUnique({
+            where: { id: submissionId },
+            include: { user: true }
+        });
+
+        if (!submission) {
+            return { success: false, error: "Submission not found." };
+        }
+
+        if (action === 'reject') {
+            await prisma.submission.update({
+                where: { id: submissionId },
+                data: {
+                    status: "REJECTED" as any,
+                    reviewNote,
+                    reviewedAt: new Date()
+                }
+            });
+            revalidatePath("/admin/submissions/");
+            revalidatePath("/dashboard/");
+            return { success: true };
+        }
+
+        // Action: Approve
+        // 1. Update submission status to APPROVED
+        await prisma.submission.update({
+            where: { id: submissionId },
+            data: {
+                status: "APPROVED" as any,
+                reviewNote,
+                reviewedAt: new Date()
+            }
+        });
+
+        // 2. Author Resolution
+        const user = submission.user;
+        const authorSlug = slugify(user.name || "Anonymous Contributor");
+        
+        let author = await prisma.author.findUnique({
+            where: { slug: authorSlug }
+        });
+
+        if (!author) {
+            author = await prisma.author.create({
+                data: {
+                    name: user.name || "Anonymous Contributor",
+                    slug: authorSlug,
+                    role: user.designation || "Contributor",
+                    bio: user.institutionalBio || "Contributor at Today Decode",
+                    affiliation: user.affiliation || "Independent",
+                }
+            });
+        }
+
+        // 3. Article Creation
+        let articleSlug = slugify(submission.title);
+        // Collision Detection
+        let uniqueSlug = articleSlug;
+        let counter = 1;
+        while (true) {
+            const existing = await prisma.article.findUnique({
+                where: { slug: uniqueSlug }
+            });
+            if (!existing) break;
+            counter++;
+            uniqueSlug = articleSlug.replace(/\/$/, `-${counter}/`);
+        }
+
+        await prisma.article.create({
+            data: {
+                title: submission.title,
+                slug: uniqueSlug,
+                summary: submission.summary,
+                content: submission.content,
+                format: submission.format as any,
+                categoryId: submission.categoryId,
+                region: submission.region as any,
+                sourceUrls: submission.sourceUrls,
+                status: "DRAFT" as any,
+                authorId: author.id,
+                riskScore: 50,
+                impactScore: 50,
+            }
+        });
+
+        // 4. Update submission to PUBLISHED (processed)
+        await prisma.submission.update({
+            where: { id: submissionId },
+            data: { status: "PUBLISHED" as any }
+        });
+
+        revalidatePath("/admin/submissions/");
+        revalidatePath("/admin/articles/");
+        revalidatePath("/dashboard/");
+        
+        return { success: true };
+    } catch (error: any) {
+        console.error("Submission Review Error:", error);
+        return { success: false, error: "Failed to process review." };
     }
 }
