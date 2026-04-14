@@ -18,7 +18,8 @@ import {
     X,
     MessageSquare,
     Link as LinkIcon,
-    AlertCircle
+    AlertCircle,
+    Layers
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
