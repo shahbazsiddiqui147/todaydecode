@@ -97,13 +97,13 @@ export default function PagesManager() {
             });
 
             if (res.success) {
-                toast.success(editingPage ? "Page updated successfully." : "New page published.");
+                toast.success(editingPage ? "Page updated." : "Page published.");
                 setIsModalOpen(false);
                 setEditingPage(null);
                 setFormData({ title: "", slug: "", content: "", metaTitle: "", metaDescription: "" });
                 loadPages();
             } else {
-                toast.error(res.error || "Failed to save page.");
+                toast.error(res.error || "Failed to save.");
             }
         } catch (err) {
             toast.error("An error occurred.");
@@ -111,14 +111,14 @@ export default function PagesManager() {
     };
 
     const handleDeleteClick = async (id: string) => {
-        if (!confirm("Delete this page? This action is permanent.")) return;
+        if (!confirm("Delete this page?")) return;
         try {
             const res = await deletePage(id);
             if (res.success) {
                 toast.success("Page deleted.");
                 loadPages();
             } else {
-                toast.error(res.error || "Failed to delete page.");
+                toast.error(res.error || "Delete failed.");
             }
         } catch (err) {
             toast.error("Internal connection error.");
@@ -130,7 +130,7 @@ export default function PagesManager() {
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#1E293B] dark:border-[#1E293B]">
                 <div className="space-y-1">
                     <h1 className="text-3xl font-black uppercase tracking-tighter text-[#22D3EE] dark:text-[#22D3EE] italic">Static <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Pages</span></h1>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Management of About Us, Privacy Policy, Terms, and Research Methodologies.</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Manage About Us, Editorial Standards, Contact, and other site pages.</p>
                 </div>
                 <Button onClick={() => { setEditingPage(null); setFormData({ title: "", slug: "", content: "", metaTitle: "", metaDescription: "" }); setIsModalOpen(true); }} className="h-11 rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-xl bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] border-none hover:bg-black dark:hover:bg-white/90">
                     <Plus className="mr-2 h-4 w-4" /> New Page
@@ -159,7 +159,7 @@ export default function PagesManager() {
                             </TableRow>
                         ) : pages.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={4} className="h-64 text-center text-[#64748B] font-bold uppercase tracking-widest text-[10px] italic">No pages created yet. Click 'New Page' to get started.</TableCell>
+                                <TableCell colSpan={4} className="h-64 text-center text-[#64748B] font-bold uppercase tracking-widest text-[10px] italic">No pages created yet.</TableCell>
                             </TableRow>
                         ) : pages.map((page) => (
                             <TableRow key={page.id} className="group border-b border-[#1E293B] hover:bg-[#020617]/50 transition-colors cursor-default">
@@ -271,7 +271,7 @@ export default function PagesManager() {
                                     <label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">SEO Title</label>
                                     <Input
                                         className="h-12 rounded-xl bg-[#020617] border-[#1E293B] text-[#F1F5F9] text-sm font-bold placeholder:text-[#475569] focus:ring-2 focus:ring-[#22D3EE] outline-none transition-all"
-                                        placeholder="Custom meta title for search engines"
+                                        placeholder="Custom meta title"
                                         value={formData.metaTitle}
                                         onChange={(e) => setFormData({ ...formData, metaTitle: e.target.value })}
                                     />
@@ -280,7 +280,7 @@ export default function PagesManager() {
                                     <label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8]">SEO Description</label>
                                     <Input
                                         className="h-12 rounded-xl bg-[#020617] border-[#1E293B] text-[#F1F5F9] text-sm font-bold placeholder:text-[#475569] focus:ring-2 focus:ring-[#22D3EE] outline-none transition-all"
-                                        placeholder="Custom meta description for search engines"
+                                        placeholder="Custom meta description"
                                         value={formData.metaDescription}
                                         onChange={(e) => setFormData({ ...formData, metaDescription: e.target.value })}
                                     />

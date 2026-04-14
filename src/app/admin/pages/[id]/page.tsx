@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import {
     Save,
     ChevronLeft,
-    Shield,
+
     FileText,
     Globe,
     RefreshCw,
@@ -78,9 +78,9 @@ export default function PageEditor() {
                 if (res.success) {
                     router.push("/admin/pages/");
                     router.refresh();
-                    return "Page saved successfully.";
+                    return "Page saved.";
                 }
-                throw new Error(res.error || "Failed to save page.");
+                throw new Error(res.error || "Save failed.");
             },
             error: (err) => err.message || "An error occurred.",
         });
