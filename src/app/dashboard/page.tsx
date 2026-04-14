@@ -9,6 +9,7 @@ import { Search, Filter, Settings, Bell, LayoutDashboard, Layers, Bookmark, File
 import Link from "next/link";
 import { ManageSubscriptionButton } from "@/components/monetization/manage-subscription-button";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 export async function generateMetadata() {
     return constructMetadata({
