@@ -20,6 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import RichTextEditor from "@/components/ui/rich-text-editor";
 import { 
     Select, 
     SelectContent, 
@@ -269,17 +270,12 @@ export default function SubmitArticlePage() {
                             <label className="text-[10px] font-black uppercase tracking-widest text-[#94A3B8] pl-1 flex items-center gap-2">
                                 <FileText className="h-3 w-3" /> Full Analysis Documentation
                             </label>
-                            <Textarea 
-                                value={formData.content}
-                                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                                placeholder="Develop your full strategic analysis here..."
-                                required
-                                className="min-h-[500px] bg-white dark:bg-[#0F172A] border-border rounded-[2rem] p-10 text-base font-medium leading-loose resize-none font-serif"
+                            <RichTextEditor 
+                                content={formData.content} 
+                                onChange={(html) => setFormData({ ...formData, content: html })} 
+                                placeholder="Develop your full strategic analysis here..." 
+                                minHeight="400px" 
                             />
-                            <div className="flex items-center gap-2 text-[10px] font-bold text-[#64748B] uppercase tracking-wider mt-4">
-                                <Info className="h-3.5 w-3.5" />
-                                HTML formatting is supported for headings, bold, and bullet points.
-                            </div>
                         </div>
 
                         {/* Sources */}

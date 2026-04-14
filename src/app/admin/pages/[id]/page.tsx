@@ -8,7 +8,7 @@ import {
 } from "@/lib/actions/admin-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import RichTextEditor from "@/components/ui/rich-text-editor";
 import {
     Save,
     ChevronLeft,
@@ -139,7 +139,14 @@ export default function PageEditor() {
                             <Input
                                 value={formData.title}
                                 placeholder="Enter page title..."
-                                onChange={(e) => setFormData({ ...formData, title: e.target.value, slug: id === "new" ? e.target.value.toLowerCase().replace(/[^a-z0-9]/g, '-') : formData.slug })}
+                                onChange={(e) => {
+                                    const newTitle = e.target.value;
+                                    setFormData({
+                                        ...formData,
+                                        title: newTitle,
+                                        slug: newTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+                                    });
+                                }}
                                 className="text-2xl font-black h-16 bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] uppercase tracking-tight italic"
                             />
                         </div>
@@ -155,12 +162,12 @@ export default function PageEditor() {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Content (HTML supported)</label>
-                            <Textarea
-                                value={formData.content}
-                                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                                placeholder="Enter page content..."
-                                className="min-h-[500px] text-sm font-medium leading-relaxed bg-white dark:bg-[#020617] border-[#CBD5E1] dark:border-[#1E293B] p-8 rounded-2xl"
+                            <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground pl-1">Page Content</label>
+                            <RichTextEditor 
+                                content={formData.content} 
+                                onChange={(html) => setFormData({ ...formData, content: html })} 
+                                placeholder="Start writing page content..." 
+                                minHeight="500px" 
                             />
                         </div>
                     </div>

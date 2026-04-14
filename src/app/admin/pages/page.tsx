@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import RichTextEditor from "@/components/ui/rich-text-editor";
 import {
     Table,
     TableBody,
@@ -235,10 +236,11 @@ export default function PagesManager() {
                                         placeholder="e.g. About Us"
                                         value={formData.title}
                                         onChange={(e) => {
+                                            const newTitle = e.target.value;
                                             setFormData({
                                                 ...formData,
-                                                title: e.target.value,
-                                                slug: editingPage ? formData.slug : e.target.value.toLowerCase().replace(/[^a-z0-9]/g, '-')
+                                                title: newTitle,
+                                                slug: newTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
                                             });
                                         }}
                                     />
@@ -255,14 +257,13 @@ export default function PagesManager() {
                                 </div>
                             </div>
 
-                            <div className="space-y-3">
-                                <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8]">Page Content (HTML supported)</label>
-                                <textarea
-                                    required
-                                    className="w-full h-80 rounded-2xl border border-[#1E293B] bg-[#020617] p-8 text-sm font-bold text-[#F1F5F9] placeholder:text-[#475569] focus-visible:outline-none focus:ring-2 focus:ring-[#22D3EE] outline-none resize-none leading-relaxed"
-                                    placeholder="Enter page content here..."
-                                    value={formData.content}
-                                    onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                             <div className="space-y-3">
+                                <label className="text-[10px] font-medium uppercase tracking-widest text-[#1E293B] dark:text-[#94A3B8]">Page Content</label>
+                                <RichTextEditor 
+                                    content={formData.content} 
+                                    onChange={(html) => setFormData({ ...formData, content: html })} 
+                                    placeholder="Start writing page content..." 
+                                    minHeight="300px" 
                                 />
                             </div>
 
