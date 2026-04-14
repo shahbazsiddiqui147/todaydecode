@@ -8,6 +8,7 @@ import { AnalysisCard } from "@/components/ui/analysis-card";
 import { Search, Filter, Settings, Bell, LayoutDashboard, Layers, Bookmark, FileText, Send, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { ManageSubscriptionButton } from "@/components/monetization/manage-subscription-button";
+import { cn } from "@/lib/utils";
 
 export async function generateMetadata() {
     return constructMetadata({
