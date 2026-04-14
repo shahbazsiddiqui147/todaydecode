@@ -22,7 +22,7 @@ export default function AdminLayout({
                 <header className="h-16 shrink-0 border-b border-[#1E293B] bg-[#020617]/80 backdrop-blur-md flex items-center justify-end px-10">
                     <ThemeToggle />
                 </header>
-                <main className="flex-1 overflow-y-auto bg-[#020617]">
+                <main className="flex-1 overflow-y-auto bg-[#020617] relative">
                     <div className="p-10 max-w-7xl mx-auto space-y-10">
                         {children}
                     </div>
