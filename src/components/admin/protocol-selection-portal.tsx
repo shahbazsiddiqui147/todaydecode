@@ -120,7 +120,7 @@ export function ProtocolSelectionPortal({ isOpen, onSelect }: ProtocolSelectionP
     if (!isOpen) return null;
 
     return (
-        <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-[#020617]/95 backdrop-blur-md animate-in fade-in duration-300">
+        <div className="fixed inset-0 left-64 z-50 flex items-center justify-center p-4 bg-[#020617]/95 backdrop-blur-md animate-in fade-in duration-300">
             <div className="max-w-4xl w-full bg-[#0F172A] border border-white/10 rounded-[2.5rem] shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden">
                 <div className="p-8 border-b border-white/5 bg-slate-950/50 flex items-center justify-between">
                     <div className="space-y-1">
