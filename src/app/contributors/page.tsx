@@ -1,92 +1,189 @@
-import { ShieldAlert, BookOpen, PenTool, Globe, ChevronRight } from "lucide-react";
+import { 
+    GraduationCap, 
+    Globe, 
+    Newspaper, 
+    BookOpen, 
+    ChevronRight, 
+    Plus,
+    UserPlus,
+    FileSearch,
+    CheckCircle,
+    Layout
+} from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
+const ROLES = [
+    {
+        title: "Academics & Researchers",
+        description: "University faculty and PhD candidates focusing on international relations, macroeconomics, or regional security studies.",
+        icon: GraduationCap
+    },
+    {
+        title: "Policy Analysts",
+        description: "Think tank professionals and strategic consultants with deep expertise in specific geopolitical or sectoral domains.",
+        icon: Globe
+    },
+    {
+        title: "Journalists",
+        description: "Investigative reporters and field journalists providing verifiable intelligence and on-the-ground reporting.",
+        icon: Newspaper
+    },
+    {
+        title: "Independent Scholars",
+        description: "Subject matter experts and industry veterans with unique insights into emerging technologies or resource markets.",
+        icon: BookOpen
+    }
+];
+
+const FORMATS = [
+    { name: "Policy Brief", count: "1200-2500w" },
+    { name: "Strategic Report", count: "3000-12000w" },
+    { name: "Commentary", count: "800-1200w" },
+    { name: "Scenario Analysis", count: "1500-3000w" },
+    { name: "Risk Assessment", count: "1200-2000w" },
+    { name: "Data Insight", count: "600-1000w" },
+    { name: "Annual Outlook", count: "4000-8000w" },
+    { name: "Policy Toolkit", count: "1500-3000w" },
+    { name: "News Brief", count: "400-800w" },
+    { name: "Current Affairs", count: "800-1500w" }
+];
+
+const STEPS = [
+    { title: "Create Account", description: "Sign up via our contributor portal and complete your professional profile." },
+    { title: "Submit Article", description: "Upload your draft using our structured editor, ensuring all citations are provided." },
+    { title: "Editorial Review", description: "Our editorial desk reviews submissions for accuracy, evidence, and analytical rigor." },
+    { title: "Publication", description: "Approved research is published to our global network and archived for decision-makers." }
+];
+
 export default function ContributorsPage() {
     return (
-        <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#020617] text-slate-900 dark:text-slate-100">
-            {/* Whitepaper Header */}
-            <header className="py-24 px-6 md:px-12 lg:px-24 border-b-4 border-[#0F172A] dark:border-[#22D3EE] bg-white dark:bg-[#0B1120]">
-                <div className="max-w-4xl mx-auto space-y-6">
-                    <div className="inline-flex items-center space-x-3 text-accent-red dark:text-[#22D3EE] mb-4">
-                        <ShieldAlert className="h-6 w-6" />
-                        <span className="text-xs font-black uppercase tracking-[0.3em] font-mono">Institutional Document 001</span>
+        <div className="min-h-screen bg-background text-foreground">
+            {/* Header */}
+            <header className="py-32 px-6 border-b border-border bg-card/30">
+                <div className="max-w-screen-xl mx-auto space-y-8">
+                    <div className="space-y-4">
+                        <div className="h-1.5 w-24 bg-accent-red" />
+                        <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter italic leading-[0.85]">
+                            Contribute to <br />
+                            <span className="text-accent-red">Today Decode</span>
+                        </h1>
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[0.9] text-[#0F172A] dark:text-white">
-                        Join The <br />
-                        <span className="text-accent-red dark:text-[#22D3EE]">Research Network</span>
-                    </h1>
-                    <p className="text-xl md:text-2xl font-serif text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed mt-8 border-l-4 border-slate-300 dark:border-slate-800 pl-6">
-                        Today Decode operates a strict Peer-Verified Institutional Network. We invite academics, journalists, and strategic analysts to contribute to our global vulnerability archive.
+                    <p className="text-2xl md:text-3xl font-medium text-muted-foreground max-w-3xl uppercase tracking-tight leading-tight">
+                        We invite researchers, analysts, academics, and journalists to join our network of experts providing high-fidelity geopolitical research.
                     </p>
                 </div>
             </header>
 
-            {/* Main Content */}
-            <main className="py-24 px-6 md:px-12 lg:px-24">
-                <div className="max-w-4xl mx-auto space-y-24">
-
-                    {/* Section 1 */}
-                    <section className="space-y-8">
-                        <h2 className="text-3xl font-black uppercase tracking-tighter border-b-2 border-slate-200 dark:border-slate-800 pb-4">
-                            01 // The Strategic Mandate
-                        </h2>
-                        <div className="prose prose-slate dark:prose-invert max-w-none text-lg font-serif">
-                            <p>
-                                To maintain the highest standards of geopolitical intelligence, we have transitioned from an open-access model to a curated network of experts. Every analyst in our system is manually vetted to ensure their insights are grounded in reality, rigorously researched, and institutionally sound.
-                            </p>
-                            <p>
-                                When you join Today Decode, you are joining an intelligence hub that values concrete data over speculation.
-                            </p>
-                        </div>
-                    </section>
-
-                    {/* Roles Grid */}
-                    <section className="space-y-8">
-                        <h2 className="text-3xl font-black uppercase tracking-tighter border-b-2 border-slate-200 dark:border-slate-800 pb-4">
-                            02 // Recognized Clearances
-                        </h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div className="p-8 bg-white dark:bg-[#0B1120] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm">
-                                <BookOpen className="h-8 w-8 text-accent-red dark:text-[#22D3EE] mb-6" />
-                                <h3 className="text-xl font-black uppercase tracking-tight mb-2">Academic Researcher</h3>
-                                <p className="text-sm text-slate-600 dark:text-slate-400 font-serif">University faculty, post-docs, and PhD candidates focusing on international relations, security, and economics.</p>
-                            </div>
-                            <div className="p-8 bg-white dark:bg-[#0B1120] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm">
-                                <Globe className="h-8 w-8 text-accent-red dark:text-[#22D3EE] mb-6" />
-                                <h3 className="text-xl font-black uppercase tracking-tight mb-2">Strategic Analyst</h3>
-                                <p className="text-sm text-slate-600 dark:text-slate-400 font-serif">Professionals from think tanks, intelligence agencies, and risk consulting firms with regional expertise.</p>
-                            </div>
-                            <div className="p-8 bg-white dark:bg-[#0B1120] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm">
-                                <PenTool className="h-8 w-8 text-accent-red dark:text-[#22D3EE] mb-6" />
-                                <h3 className="text-xl font-black uppercase tracking-tight mb-2">Accredited Journalist</h3>
-                                <p className="text-sm text-slate-600 dark:text-slate-400 font-serif">Field reporters and investigative journalists providing on-the-ground intelligence and verified facts.</p>
-                            </div>
-                            <div className="p-8 bg-white dark:bg-[#0B1120] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm">
-                                <ShieldAlert className="h-8 w-8 text-accent-red dark:text-[#22D3EE] mb-6" />
-                                <h3 className="text-xl font-black uppercase tracking-tight mb-2">Industry Professional</h3>
-                                <p className="text-sm text-slate-600 dark:text-slate-400 font-serif">Industry veterans with deep knowledge of supply chains, energy markets, or emerging technologies.</p>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* CTA */}
-                    <section className="p-12 md:p-16 bg-[#0F172A] dark:bg-[#22D3EE]/10 border-4 border-[#0F172A] dark:border-[#22D3EE] rounded-3xl text-center space-y-8">
-                        <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white dark:text-[#F1F5F9]">
-                            Initiate Clearance Protocol
-                        </h2>
-                        <p className="text-slate-300 dark:text-slate-400 max-w-xl mx-auto font-serif">
-                            Submit your institutional background for review. Applications are processed by the Editorial Desk within 48 hours.
+            <main className="max-w-screen-xl mx-auto px-6 py-32 space-y-40">
+                {/* Why Contribute */}
+                <section className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                    <div className="space-y-8">
+                        <h2 className="text-xs font-black uppercase tracking-[0.4em] text-accent-red italic">01 // The Network</h2>
+                        <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none italic">
+                            Why Publish <br /> With Us?
+                        </h3>
+                        <p className="text-xl text-muted-foreground leading-relaxed max-w-xl">
+                            Today Decode provides a premium platform for rigorous analysis. We bridge the gap between academic depth and policy relevance, ensuring your research reaches decision-makers globally while maintaining full author attribution and intellectual integrity.
                         </p>
-                        <Link href="/auth/signup/" className="inline-block">
-                            <Button className="h-14 px-8 bg-white text-[#0F172A] hover:bg-slate-200 dark:bg-[#22D3EE] dark:text-[#0F172A] dark:hover:bg-[#06B6D4] text-xs font-black uppercase tracking-[0.3em] rounded-xl shadow-2xl group transition-all">
-                                Request Access
-                                <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                    <div className="p-12 bg-card border border-border rounded-[3rem] shadow-2xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-8 opacity-10">
+                            <Layout className="h-40 w-40" />
+                        </div>
+                        <div className="space-y-6 relative z-10">
+                            <p className="text-lg font-bold italic uppercase tracking-widest text-[#22D3EE]">Institutional Standards</p>
+                            <p className="text-4xl font-black uppercase tracking-tighter leading-tight italic">
+                                "Rigorous, Evidence-Based, and Actions-Oriented Research."
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Who We Welcome */}
+                <section className="space-y-16">
+                    <div className="space-y-6">
+                        <h2 className="text-xs font-black uppercase tracking-[0.4em] text-accent-red italic">02 // Eligibility</h2>
+                        <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none italic">
+                            Who We Welcome
+                        </h3>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {ROLES.map((role) => (
+                            <div key={role.title} className="p-10 bg-card border border-border rounded-3xl hover:border-accent-red/50 transition-all group">
+                                <role.icon className="h-10 w-10 text-accent-red mb-8 group-hover:scale-110 transition-transform" />
+                                <h4 className="text-xl font-black uppercase tracking-tight mb-4 italic">{role.title}</h4>
+                                <p className="text-sm text-muted-foreground font-medium leading-relaxed">{role.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* Publication Formats */}
+                <section className="space-y-16">
+                    <div className="space-y-6">
+                        <h2 className="text-xs font-black uppercase tracking-[0.4em] text-accent-red italic">03 // Standards</h2>
+                        <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none italic">
+                            Publication Formats
+                        </h3>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                        {FORMATS.map((format) => (
+                            <div key={format.name} className="p-6 bg-secondary/30 border border-border rounded-2xl flex flex-col justify-between hover:bg-secondary/50 transition-colors">
+                                <p className="text-sm font-black uppercase tracking-tight italic mb-2">{format.name}</p>
+                                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{format.count}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* How It Works */}
+                <section className="space-y-16">
+                    <div className="space-y-6">
+                        <h2 className="text-xs font-black uppercase tracking-[0.4em] text-accent-red italic">04 // Process</h2>
+                        <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none italic">
+                            How It Works
+                        </h3>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                        {STEPS.map((step, idx) => (
+                            <div key={step.title} className="space-y-8 relative">
+                                <div className="text-6xl font-black text-muted-foreground/10 absolute -top-8 -left-4 select-none italic">
+                                    0{idx + 1}
+                                </div>
+                                <div className="space-y-4 relative z-10">
+                                    <h4 className="text-2xl font-black uppercase tracking-tighter italic">{step.title}</h4>
+                                    <p className="text-muted-foreground font-medium leading-relaxed">{step.description}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* CTA */}
+                <section className="p-16 md:p-24 bg-card border border-border rounded-[4rem] text-center space-y-12 shadow-2xl relative overflow-hidden">
+                    <div className="absolute inset-0 bg-accent-red/5" />
+                    <div className="space-y-6 relative z-10">
+                        <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter italic leading-none">
+                            Ready to <br /> <span className="text-accent-red">Contribute?</span>
+                        </h2>
+                        <p className="text-xl text-muted-foreground max-w-xl mx-auto font-medium uppercase tracking-tight">
+                            Join our global network of analysts and provide high-impact research to our platform.
+                        </p>
+                    </div>
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-6 relative z-10">
+                        <Link href="/auth/signup/">
+                            <Button className="h-16 px-12 bg-accent-red text-white hover:bg-accent-red/90 rounded-2xl font-black uppercase tracking-widest italic text-sm shadow-xl active:scale-95 transition-all">
+                                Create Account
                             </Button>
                         </Link>
-                    </section>
-
-                </div>
+                        <Link href="/submission-guidelines/">
+                            <Button variant="outline" className="h-16 px-12 border-border hover:bg-secondary rounded-2xl font-black uppercase tracking-widest italic text-sm shadow-xl active:scale-95 transition-all">
+                                Read Guidelines
+                            </Button>
+                        </Link>
+                    </div>
+                </section>
             </main>
         </div>
     );

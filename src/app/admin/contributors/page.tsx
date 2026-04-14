@@ -49,7 +49,7 @@ export default function ContributorsAdminPage() {
             const users = await getPendingAnalysts();
             setPendingUsers(users);
         } catch (err) {
-            toast.error("Personnel interface failure.");
+            toast.error("Failed to load pending contributors.");
         } finally {
             setLoading(false);
         }
@@ -58,15 +58,15 @@ export default function ContributorsAdminPage() {
     const handleApprove = async (userId: string) => {
         const promise = approveAnalyst(userId);
         toast.promise(promise, {
-            loading: "Authorizing analyst...",
+            loading: "Approving contributor...",
             success: (res) => {
                 if (res.success) {
                     loadPending();
-                    return "Analyst status authorized.";
+                    return "Contributor approved successfully.";
                 }
                 throw new Error(res.error);
             },
-            error: "Authorization failed."
+            error: "Approval failed."
         });
     };
 
@@ -87,13 +87,13 @@ export default function ContributorsAdminPage() {
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#1E293B] dark:border-[#1E293B]">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#22D3EE] dark:text-[#22D3EE] italic pb-1">Strategic <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Contributors</span></h1>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Manage external analysts and guest researchers.</p>
+                    <h1 className="text-3xl font-black uppercase tracking-tighter text-[#22D3EE] dark:text-[#22D3EE] italic pb-1">Pending <span className="text-[#F1F5F9] dark:text-[#F1F5F9] not-italic">Contributors</span></h1>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#64748B] dark:text-[#94A3B8]">Review and approve contributor applications.</p>
                 </div>
                 <div className="flex items-center gap-3">
                     <div className="px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                        <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500">Recruitment Active</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500">Accepting Applications</span>
                     </div>
                 </div>
             </header>
@@ -104,7 +104,7 @@ export default function ContributorsAdminPage() {
                 <div className="relative flex-1 flex items-center pl-6">
                     <Search className="h-4 w-4 text-[#475569] mr-4" />
                     <input
-                        placeholder="Scan for applicants by email or name..."
+                        placeholder="Search by email or name..."
                         className="w-full bg-transparent border-none outline-none text-sm font-bold placeholder:text-[#475569] text-[#F1F5F9]"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
@@ -117,10 +117,10 @@ export default function ContributorsAdminPage() {
                 <Table>
                     <TableHeader className="bg-[#020617]/50">
                         <TableRow className="border-b border-[#1E293B] hover:bg-transparent">
-                            <TableHead className="py-5 pl-8 text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Applicant Signature</TableHead>
-                            <TableHead className="text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest text-center">Current Role</TableHead>
-                            <TableHead className="text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest text-center">Verification</TableHead>
-                            <TableHead className="text-right pr-8 text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Authorization</TableHead>
+                            <TableHead className="py-5 pl-8 text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Applicant</TableHead>
+                            <TableHead className="text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest text-center">Designation</TableHead>
+                            <TableHead className="text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest text-center">Status</TableHead>
+                            <TableHead className="text-right pr-8 text-[#64748B] dark:text-[#94A3B8] font-black uppercase text-[10px] tracking-widest">Action</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -129,8 +129,8 @@ export default function ContributorsAdminPage() {
                                 <TableCell colSpan={4} className="h-64 text-center">
                                     <div className="flex flex-col items-center gap-4 opacity-40">
                                         <Users className="h-10 w-10 mb-2" />
-                                        <p className="text-[10px] font-black uppercase tracking-widest italic">Personnel register empty</p>
-                                        <p className="text-[9px] uppercase">No guest analysts are currently authorized.</p>
+                                        <p className="text-[10px] font-black uppercase tracking-widest italic">No pending applications</p>
+                                        <p className="text-[9px] uppercase">New applications will appear here for review.</p>
                                     </div>
                                 </TableCell>
                             </TableRow>
@@ -140,22 +140,26 @@ export default function ContributorsAdminPage() {
                                     <TableCell className="py-5 pl-8">
                                         <div className="flex items-center gap-4">
                                             <div className="h-10 w-10 rounded-xl bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-black text-[#0F172A] dark:text-white uppercase transition-transform group-hover:scale-110">
-                                                {user.image ? <img src={user.image} className="h-full w-full object-cover rounded-xl" /> : (user.name || user.email || "?").charAt(0)}
+                                                {user.image ? <img src={user.image} className="h-full w-full object-cover rounded-xl" /> : (user.name || user.email || "Unknown").charAt(0)}
                                             </div>
                                             <div className="space-y-0.5">
-                                                <p className="text-sm font-black uppercase tracking-tight text-[#0F172A] dark:text-[#F1F5F9]">{user.name || "Unidentified Applicant"}</p>
+                                                <p className="text-sm font-black uppercase tracking-tight text-[#0F172A] dark:text-[#F1F5F9]">{user.name || "Unknown"}</p>
                                                 <p className="text-[10px] font-mono text-[#64748B] dark:text-[#94A3B8]/60 flex items-center gap-1.5"><Mail className="h-3 w-3" /> {user.email}</p>
                                             </div>
                                         </div>
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex justify-center">
-                                            <span className="text-[9px] font-black uppercase tracking-widest px-3 py-1 bg-slate-800 text-[#94A3B8] border border-[#1E293B] rounded-lg">GUEST_INGRESS</span>
+                                            <span className="text-[9px] font-black uppercase tracking-widest px-3 py-1 bg-slate-800 text-[#94A3B8] border border-[#1E293B] rounded-lg">
+                                                {user.designation || "Not specified"}
+                                            </span>
                                         </div>
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex justify-center">
-                                            <ShieldAlert className="h-4 w-4 text-amber-500 animate-pulse" />
+                                            <span className="text-[8px] font-black uppercase tracking-widest px-2 py-1 bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded-md animate-pulse">
+                                                Pending Review
+                                            </span>
                                         </div>
                                     </TableCell>
                                     <TableCell className="text-right pr-8">
@@ -163,7 +167,7 @@ export default function ContributorsAdminPage() {
                                             onClick={() => handleApprove(user.id)}
                                             className="h-10 rounded-xl bg-[#0F172A] text-white dark:bg-white dark:text-[#0F172A] font-black uppercase tracking-widest text-[9px] shadow-lg hover:bg-black dark:hover:bg-white/90"
                                         >
-                                            <UserCheck className="h-3.5 w-3.5 mr-2" /> Authorize Analyst
+                                            <UserCheck className="h-3.5 w-3.5 mr-2" /> Approve
                                         </Button>
                                     </TableCell>
                                 </TableRow>
@@ -177,12 +181,12 @@ export default function ContributorsAdminPage() {
             <div className="p-8 border border-dashed border-[#1E293B] rounded-3xl bg-muted/5 flex items-center justify-between">
                 <div className="space-y-1">
                     <p className="text-[10px] font-black uppercase tracking-widest text-foreground flex items-center gap-2">
-                        <CheckCircle2 className="h-3 w-3 text-[#22D3EE]" /> Active Directory Monitoring
+                        <CheckCircle2 className="h-3 w-3 text-[#22D3EE]" /> Review Queue Active
                     </p>
-                    <p className="text-[9px] text-muted-foreground/40 uppercase font-mono pl-5 italic">All guest accounts are flagged for institutional review within 24 hours.</p>
+                    <p className="text-[9px] text-muted-foreground/40 uppercase font-mono pl-5 italic">All applications are reviewed within 48 hours.</p>
                 </div>
                 <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#22D3EE]">Institutional UI Standard</span>
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#22D3EE]">{filteredUsers.length} pending</span>
                 </div>
             </div>
         </div>
