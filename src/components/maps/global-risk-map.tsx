@@ -59,13 +59,13 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
     const tooltipX = useTransform(smoothX, (val) => {
         if (typeof window === "undefined") return val + 15;
         // If near right edge (within 350px), flip box to left side of cursor
-        return val > window.innerWidth - 350 ? val - 330 : val + 15;
+        return val > window.innerWidth - 380 ? val - 340 : val + 20;
     });
 
     const tooltipY = useTransform(smoothY, (val) => {
         if (typeof window === "undefined") return val + 15;
         // If near bottom (within 450px), flip box upward
-        return val > window.innerHeight - 450 ? val - 410 : val + 15;
+        return val > window.innerHeight - 480 ? val - 420 : val + 20;
     });
 
     useEffect(() => {

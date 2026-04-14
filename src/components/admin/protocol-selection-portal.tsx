@@ -140,6 +140,7 @@ export function ProtocolSelectionPortal({ isOpen, onSelect }: ProtocolSelectionP
                 <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                     {PROTOCOLS.map((protocol) => (
                         <button
+                            type="button"
                             key={protocol.id}
                             onClick={() => setSelected(protocol.id)}
                             className={cn(
@@ -175,6 +176,7 @@ export function ProtocolSelectionPortal({ isOpen, onSelect }: ProtocolSelectionP
                         Select a format to get started. This determines the article structure and metadata fields.
                     </p>
                     <Button
+                        type="button"
                         onClick={() => selected && onSelect(selected)}
                         disabled={!selected}
                         className="w-full sm:w-auto px-12 py-7 rounded-2xl bg-white text-[#0F172A] hover:bg-white/90 font-black uppercase italic tracking-tighter text-sm active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-white/5"
