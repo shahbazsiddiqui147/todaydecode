@@ -7,7 +7,7 @@ import { History, ShieldCheck } from "lucide-react";
 export default function AuditLogsPage() {
     const { data: session, status } = useSession();
 
-    if (status === "loading") return null;
+    if (status === "loading") return <div className="space-y-4 animate-pulse">{[...Array(6)].map((_,i) => <div key={i} className="h-16 bg-white/5 rounded-2xl" />)}</div>;
     if (!session || session.user.role !== "ADMIN") {
         redirect("/admin/");
     }

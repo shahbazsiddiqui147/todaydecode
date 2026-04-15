@@ -42,7 +42,7 @@ export default function ContributorsAdminPage() {
         }
     }, [status, session]);
 
-    if (status === "loading") return null;
+    if (status === "loading") return <div className="space-y-4 animate-pulse">{[...Array(6)].map((_,i) => <div key={i} className="h-16 bg-white/5 rounded-2xl" />)}</div>;
 
     const loadPending = async () => {
         try {

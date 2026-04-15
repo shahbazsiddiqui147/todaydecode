@@ -66,7 +66,32 @@ export default function ArticlesPage() {
         }
     }, [status]);
 
-    if (status === "loading") return null;
+    if (status === "loading") return (
+        <div className="space-y-6 animate-pulse">
+            <div className="flex justify-between items-center pb-6 border-b border-[#1E293B]">
+                <div className="space-y-2">
+                    <div className="h-8 w-48 bg-white/5 rounded-xl" />
+                    <div className="h-3 w-64 bg-white/5 rounded-lg" />
+                </div>
+                <div className="h-11 w-36 bg-white/5 rounded-xl" />
+            </div>
+            <div className="bg-[#020617]/50 border border-[#1E293B] rounded-3xl overflow-hidden">
+                <div className="p-4 border-b border-[#1E293B]">
+                    <div className="h-10 w-64 bg-white/5 rounded-xl" />
+                </div>
+                {[...Array(5)].map((_, i) => (
+                    <div key={i} className="flex items-center gap-4 p-4 border-b border-[#1E293B]/50">
+                        <div className="h-5 w-16 bg-white/5 rounded-lg" />
+                        <div className="flex-1 space-y-2">
+                            <div className="h-4 w-3/4 bg-white/5 rounded-lg" />
+                            <div className="h-3 w-1/2 bg-white/5 rounded-lg" />
+                        </div>
+                        <div className="h-5 w-20 bg-white/5 rounded-lg" />
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 
     const loadArticles = async () => {
         try {
