@@ -230,6 +230,10 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
         const promise = upsertArticle({
             id: article?.id,
             ...formData,
+            format: formData.format as "POLICY_BRIEF" | "STRATEGIC_REPORT" | "COMMENTARY" | "SCENARIO_ANALYSIS" | "RISK_ASSESSMENT" | "DATA_INSIGHT" | "ANNUAL_OUTLOOK" | "POLICY_TOOLKIT",
+            status: formData.status as "DRAFT" | "PUBLISHED" | "ARCHIVED",
+            region: formData.region as "GLOBAL" | "MENA" | "APAC" | "EUROPE" | "AMERICAS" | "AFRICA",
+            riskLevel: formData.riskLevel as "LOW" | "MEDIUM" | "HIGH" | "CRITICAL",
             riskScore: Number(formData.riskScore),
             impactScore: Number(formData.impactScore),
         });
