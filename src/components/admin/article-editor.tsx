@@ -40,7 +40,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { RichTextEditor } from "@/components/ui/rich-text-editor";
+import RichTextEditor from "@/components/ui/rich-text-editor";
 import { PromptLibrary } from "@/components/admin/prompt-library";
 import { ProtocolSelectionPortal, PublicationFormat } from "@/components/admin/protocol-selection-portal";
 
