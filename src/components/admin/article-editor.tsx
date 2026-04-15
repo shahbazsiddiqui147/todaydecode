@@ -65,7 +65,15 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
         summary: article?.summary || "",
         content: article?.content || "",
         status: article?.status || "DRAFT",
-        format: article?.format || "STRATEGIC_REPORT",
+        format: (() => {
+            const VALID_FORMATS = [
+                "POLICY_BRIEF", "STRATEGIC_REPORT", "COMMENTARY",
+                "SCENARIO_ANALYSIS", "RISK_ASSESSMENT", "DATA_INSIGHT",
+                "ANNUAL_OUTLOOK", "POLICY_TOOLKIT"
+            ];
+            const raw = article?.format as string;
+            return VALID_FORMATS.includes(raw) ? raw : "COMMENTARY";
+        })(),
         isFeatured: article?.isFeatured || false,
         isFeaturedScenario: article?.isFeaturedScenario || false,
         isPremium: article?.isPremium || false,

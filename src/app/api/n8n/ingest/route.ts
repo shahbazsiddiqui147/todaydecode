@@ -38,11 +38,17 @@ export async function POST(req: NextRequest) {
 
     try {
         const body = await req.json();
+        const VALID_FORMATS = [
+            'POLICY_BRIEF', 'STRATEGIC_REPORT', 'COMMENTARY',
+            'SCENARIO_ANALYSIS', 'RISK_ASSESSMENT', 'DATA_INSIGHT',
+            'ANNUAL_OUTLOOK', 'POLICY_TOOLKIT'
+        ];
+
         const {
             title,
             summary,
             content,
-            format,
+            format: rawFormat,
             categoryId,
             authorId,
             slug: providedSlug,
@@ -57,9 +63,9 @@ export async function POST(req: NextRequest) {
             metaTitle,
             metaDescription,
             directAnswer,
-            faqData = [],
-            structuredData = {},
-            scenarios = {},
+            faqData = null,
+            structuredData = null,
+            scenarios = null,
             auditNodes,
             researchArchive,
             sourceUrls = [],
@@ -68,8 +74,11 @@ export async function POST(req: NextRequest) {
             isPremium = false
         } = body;
 
-        // 1. Mandatory Validation
-        if (!title || !summary || !content || !format || !categoryId) {
+        // Normalize format: default to COMMENTARY if missing or not in valid list
+        const format = VALID_FORMATS.includes(rawFormat) ? rawFormat : 'COMMENTARY';
+
+        // 1. Mandatory Validation (format is now always set above, no longer required from body)
+        if (!title || !summary || !content || !categoryId) {
             return NextResponse.json({ error: "Missing required institutional fields." }, { status: 400 });
         }
 
