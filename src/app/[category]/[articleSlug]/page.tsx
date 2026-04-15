@@ -27,6 +27,8 @@ import { ScenarioAnalysisTemplate } from "@/components/templates/ScenarioAnalysi
 import { DataInsightTemplate } from "@/components/templates/DataInsightTemplate";
 import { AnnualOutlookTemplate } from "@/components/templates/AnnualOutlookTemplate";
 import { PolicyToolkitTemplate } from "@/components/templates/PolicyToolkitTemplate";
+import { NewsBriefTemplate } from "@/components/templates/NewsBriefTemplate";
+import { CurrentAffairsTemplate } from "@/components/templates/CurrentAffairsTemplate";
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string; articleSlug: string }> }) {
     const { category, articleSlug } = await params;
@@ -140,6 +142,20 @@ export default async function ArticlePage({
 
             case 'POLICY_TOOLKIT':
                 return <PolicyToolkitTemplate
+                    article={article}
+                    formattedDate={formattedDate}
+                    readingTime={readingTime}
+                />;
+
+            case 'NEWS_BRIEF':
+                return <NewsBriefTemplate
+                    article={article}
+                    formattedDate={formattedDate}
+                    readingTime={readingTime}
+                />;
+
+            case 'CURRENT_AFFAIRS':
+                return <CurrentAffairsTemplate
                     article={article}
                     formattedDate={formattedDate}
                     readingTime={readingTime}

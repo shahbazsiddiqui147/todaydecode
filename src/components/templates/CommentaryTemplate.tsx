@@ -1,6 +1,6 @@
 import React from 'react';
 import { Badge } from "@/components/ui/badge";
-import { Clock, MessageSquare, Quote } from "lucide-react";
+import { Clock, MessageSquare, Quote, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -52,6 +52,59 @@ export const CommentaryTemplate: React.FC<CommentaryTemplateProps> = ({
                         <div className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">{article.author.role}</div>
                     </div>
                 </div>
+
+                {/* Structured Data Sections */}
+                {(() => {
+                    const structuredData = (article.structuredData as any) || {};
+                    const { thesis, evidence, implications, counterarguments } = structuredData;
+                    return (
+                        <div className="space-y-8">
+                            {/* Thesis — Large italic pull-quote */}
+                            {thesis && (
+                                <div className="relative py-10 px-8 text-center">
+                                    <Quote className="absolute left-1/2 top-0 -translate-x-1/2 h-20 w-20 text-slate-100 dark:text-white/5 -z-10" />
+                                    <p className="text-2xl md:text-3xl font-semibold text-slate-800 dark:text-slate-100 leading-relaxed italic">
+                                        &ldquo;{thesis}&rdquo;
+                                    </p>
+                                    <div className="mt-4 mx-auto w-12 h-0.5 bg-slate-300 dark:bg-white/20" />
+                                </div>
+                            )}
+
+                            {/* Evidence — slate-50 bg with blue left border */}
+                            {evidence && (
+                                <div className="pl-6 pr-8 py-6 bg-slate-50 dark:bg-white/5 border-l-4 border-blue-500 rounded-r-2xl">
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-blue-500 mb-3">Evidence</p>
+                                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                                        {evidence}
+                                    </p>
+                                </div>
+                            )}
+
+                            {/* Policy Implications — purple/pink gradient card */}
+                            {implications && (
+                                <div className="p-8 bg-gradient-to-br from-purple-950/30 to-pink-950/20 border border-purple-800/30 rounded-3xl space-y-3">
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-purple-400">Policy Implications</p>
+                                    <p className="text-base text-slate-700 dark:text-slate-200 leading-relaxed">
+                                        {implications}
+                                    </p>
+                                </div>
+                            )}
+
+                            {/* Counterarguments — orange warning card */}
+                            {counterarguments && (
+                                <div className="p-8 bg-orange-950/20 border border-orange-800/30 rounded-3xl space-y-3">
+                                    <div className="flex items-center gap-3">
+                                        <AlertTriangle className="h-4 w-4 text-orange-500" />
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-orange-500">Counterarguments</p>
+                                    </div>
+                                    <p className="text-base text-slate-700 dark:text-slate-200 leading-relaxed">
+                                        {counterarguments}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                    );
+                })()}
 
                 {/* Lead Content */}
                 {article.onPageLead && (
