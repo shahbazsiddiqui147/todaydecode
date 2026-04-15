@@ -431,7 +431,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                     </div>
                                     <div className="rounded-2xl border border-[#1E293B] bg-[#020617] text-[#F1F5F9]">
                                         <RichTextEditor
-                                            value={formData.content}
+                                            content={formData.content}
                                             onChange={(val) => setFormData(prev => ({ ...prev, content: val }))}
                                             placeholder="Write your article content here..."
                                         />
