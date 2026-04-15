@@ -78,14 +78,47 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
         metaTitle: article?.metaTitle || "",
         metaDescription: article?.metaDescription || "",
         featuredImage: article?.featuredImage || "",
-        scenarios: article?.scenarios || {
-            best: { title: "Strategic Convergence", description: "", impact: 10 },
-            likely: { title: "Linear Tension", description: "", impact: 50 },
-            worst: { title: "Systemic Fragmentation", description: "", impact: 90 },
-        },
-        faqData: Array.isArray(article?.faqData) ? article.faqData : [
-            { question: "What is the primary driver of this conflict?", answer: "" },
-        ],
+        scenarios: (() => {
+            const raw = article?.scenarios;
+            const defaultScenarios = {
+                best: { title: "Strategic Convergence", description: "", impact: 10 },
+                likely: { title: "Linear Tension", description: "", impact: 50 },
+                worst: { title: "Systemic Fragmentation", description: "", impact: 90 },
+            };
+            // Guard against N8N storing empty object {} instead of null
+            // An empty object is truthy but has no best/likely/worst keys
+            if (!raw || typeof raw !== "object" || !raw.best || !raw.likely || !raw.worst) {
+                return defaultScenarios;
+            }
+            // Ensure each scenario sub-object has required fields
+            return {
+                best: {
+                    title: raw.best?.title ?? defaultScenarios.best.title,
+                    description: raw.best?.description ?? "",
+                    impact: raw.best?.impact ?? 10,
+                },
+                likely: {
+                    title: raw.likely?.title ?? defaultScenarios.likely.title,
+                    description: raw.likely?.description ?? "",
+                    impact: raw.likely?.impact ?? 50,
+                },
+                worst: {
+                    title: raw.worst?.title ?? defaultScenarios.worst.title,
+                    description: raw.worst?.description ?? "",
+                    impact: raw.worst?.impact ?? 90,
+                },
+            };
+        })(),
+        faqData: (() => {
+            const raw = article?.faqData;
+            const defaultFaq = [{ question: "What is the primary driver of this conflict?", answer: "" }];
+            // Guard against N8N storing [] (empty array) - keep default for new edit session
+            // But preserve actual FAQ data if it has valid entries
+            if (!Array.isArray(raw) || raw.length === 0) return defaultFaq;
+            // Filter out malformed entries (missing question field)
+            const valid = raw.filter((f: any) => f && typeof f.question !== "undefined");
+            return valid.length > 0 ? valid : defaultFaq;
+        })(),
         auditNodes: article?.auditNodes || "",
         researchArchive: article?.researchArchive || "",
         directAnswer: article?.directAnswer || "",
