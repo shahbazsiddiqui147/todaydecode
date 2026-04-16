@@ -76,7 +76,34 @@ return [{json:{requestBody,region,categoryId}}];"""
 let rawText = '';
 try { rawText = geminiResponse.candidates[0].content.parts[0].text; } catch(e) { throw new Error('Gemini error: ' + JSON.stringify(geminiResponse).substring(0,300)); }
 let groundingUrls = [];
-try { const m = geminiResponse.candidates[0].groundingMetadata; if(m && m.groundingChunks) { groundingUrls = m.groundingChunks.filter(c=>c.web&&c.web.uri).map(c=>c.web.uri).slice(0,5); } } catch(e) { groundingUrls = []; }
+try {
+  const candidate = geminiResponse.candidates[0];
+  const metadata = candidate.groundingMetadata;
+  if (metadata) {
+    if (metadata.groundingChunks) {
+      const chunkUrls = metadata.groundingChunks
+        .filter(c => c.web && c.web.uri)
+        .map(c => c.web.uri);
+      groundingUrls = [...groundingUrls, ...chunkUrls];
+    }
+    if (metadata.webSearchQueries) {
+      console.log('Search queries used:', metadata.webSearchQueries);
+    }
+    if (metadata.retrievalMetadata) {
+      console.log('Retrieval metadata:', JSON.stringify(metadata.retrievalMetadata));
+    }
+  }
+  const citationMeta = candidate.citationMetadata;
+  if (citationMeta && citationMeta.citationSources) {
+    const citationUrls = citationMeta.citationSources
+      .filter(s => s.uri)
+      .map(s => s.uri);
+    groundingUrls = [...groundingUrls, ...citationUrls];
+  }
+  groundingUrls = [...new Set(groundingUrls)].slice(0, 5);
+} catch(e) {
+  groundingUrls = [];
+}
 rawText = rawText.replace(/```json/g,'').replace(/```/g,'').trim();
 const s = rawText.indexOf('{'); const e = rawText.lastIndexOf('}');
 if(s===-1||e===-1) throw new Error('No JSON in response: '+rawText.substring(0,300));
