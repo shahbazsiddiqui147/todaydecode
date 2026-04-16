@@ -38,6 +38,15 @@ export async function POST(req: NextRequest) {
 
     try {
         const body = await req.json();
+        
+        // Helper to normalize empty JSON from N8N
+        function normalizeJsonField(value: any) {
+            if (value === null || value === undefined) return null;
+            if (Array.isArray(value) && value.length === 0) return null;
+            if (typeof value === 'object' && Object.keys(value).length === 0) return null;
+            return value;
+        }
+
         const VALID_FORMATS = [
             'POLICY_BRIEF', 'STRATEGIC_REPORT', 'COMMENTARY',
             'SCENARIO_ANALYSIS', 'RISK_ASSESSMENT', 'DATA_INSIGHT',
@@ -45,6 +54,7 @@ export async function POST(req: NextRequest) {
         ];
 
         const {
+            id,
             title,
             summary,
             content,
@@ -63,24 +73,25 @@ export async function POST(req: NextRequest) {
             metaTitle,
             metaDescription,
             directAnswer,
-            faqData = null,
-            structuredData = null,
-            scenarios = null,
+            faqData,
+            structuredData,
+            scenarios,
             auditNodes,
             researchArchive,
             sourceUrls = [],
             tags = [],
             locale = "en",
-            isPremium = false
+            isPremium = false,
+            status = 'DRAFT'
         } = body;
 
-        // Normalize format: default to COMMENTARY if missing or not in valid list
-        const format = VALID_FORMATS.includes(rawFormat) ? rawFormat : 'COMMENTARY';
-
-        // 1. Mandatory Validation (format is now always set above, no longer required from body)
+        // 1. Mandatory Validation
         if (!title || !summary || !content || !categoryId) {
             return NextResponse.json({ error: "Missing required institutional fields." }, { status: 400 });
         }
+
+        // Normalize format
+        const format = VALID_FORMATS.includes(rawFormat) ? rawFormat : 'COMMENTARY';
 
         // 2. Author Resolution
         let finalAuthorId = authorId;
@@ -104,7 +115,12 @@ export async function POST(req: NextRequest) {
 
         // 4. Slug Generation & Collision Protection
         let slug = providedSlug || generateSlug(title);
-        const existing = await prisma.article.findUnique({ where: { slug } });
+        const existing = await prisma.article.findFirst({ 
+            where: { 
+                slug,
+                NOT: id ? { id } : undefined 
+            } 
+        });
         if (existing) {
             slug = `${slug}-${Date.now()}`;
         }
@@ -113,55 +129,76 @@ export async function POST(req: NextRequest) {
         const wordCount = content.trim().split(/\s+/).length;
         const readingTime = Math.ceil(wordCount / 238);
 
-        // 6. Create Article Draft
-        const article = await prisma.article.create({
-            data: {
-                title,
-                slug,
-                summary,
-                content,
-                onPageLead,
-                format,
-                status: 'DRAFT',
-                isFeatured: false,
-                isFeaturedScenario: false,
-                region,
-                riskLevel,
-                riskScore,
-                impactScore,
-                confidenceScore,
-                featuredImage,
-                featuredImageAlt,
-                readingTime,
-                metaTitle,
-                metaDescription,
-                directAnswer,
-                faqData,
-                structuredData,
-                scenarios,
-                auditNodes,
-                researchArchive,
-                sourceUrls,
-                tags,
-                locale,
-                isPremium,
-                authorId: finalAuthorId,
-                categoryId
-            }
-        });
+        // 6. Article Data Preparation
+        const articleData = {
+            title,
+            slug,
+            summary,
+            content,
+            onPageLead: onPageLead || summary?.substring(0, 200),
+            format,
+            status,
+            isFeatured: false,
+            isFeaturedScenario: false,
+            region,
+            riskLevel,
+            riskScore: Number(riskScore),
+            impactScore: Number(impactScore),
+            confidenceScore: confidenceScore ? Number(confidenceScore) : null,
+            featuredImage,
+            featuredImageAlt,
+            readingTime,
+            metaTitle: metaTitle || title,
+            metaDescription: metaDescription || summary?.substring(0, 160),
+            directAnswer,
+            faqData: normalizeJsonField(faqData),
+            structuredData: normalizeJsonField(structuredData),
+            scenarios: normalizeJsonField(scenarios),
+            auditNodes: normalizeJsonField(auditNodes),
+            researchArchive: normalizeJsonField(researchArchive),
+            sourceUrls,
+            tags,
+            locale,
+            isPremium,
+            authorId: finalAuthorId,
+            categoryId,
+            publishedAt: status === 'PUBLISHED' ? new Date() : undefined,
+        };
+
+        let article;
+        if (body.id) {
+            article = await prisma.article.update({
+                where: { id: body.id },
+                data: articleData,
+            });
+        } else {
+            article = await prisma.article.create({
+                data: articleData,
+            });
+        }
+
 
         const adminUrl = `${process.env.NEXTAUTH_URL || ''}/admin/articles/edit/${article.id}`;
 
         return NextResponse.json({
             success: true,
-            articleId: article.id,
-            slug: article.slug,
+            action: body.id ? 'updated' : 'created',
+            article: {
+                id: article.id,
+                title: article.title,
+                slug: article.slug,
+                status: article.status,
+            },
             adminUrl,
-            message: "Intelligence dispatch ingested successfully as DRAFT."
+            message: `Intelligence dispatch ${body.id ? 'updated' : 'created'} successfully.`
         });
 
     } catch (error: any) {
         console.error("Ingestion Failure:", error);
-        return NextResponse.json({ error: "Internal protocol error during ingestion." }, { status: 500 });
+        return NextResponse.json({ 
+            success: false, 
+            error: "Internal protocol error during ingestion.",
+            details: error.message 
+        }, { status: 500 });
     }
 }
