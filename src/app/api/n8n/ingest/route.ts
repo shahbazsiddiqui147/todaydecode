@@ -14,13 +14,13 @@ function generateSlug(title: string) {
         .replace(/[^\w\s-]/g, '') // remove special chars
         .trim()
         .replace(/\s+/g, '-'); // spaces to hyphens
-    
+
     // Max 8 words
     const words = slug.split('-');
     if (words.length > 8) {
         slug = words.slice(0, 8).join('-');
     }
-    
+
     return slug;
 }
 
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
 
     try {
         const body = await req.json();
-        
+
         // Helper to normalize empty JSON from N8N
         function normalizeJsonField(value: any) {
             if (value === null || value === undefined) return null;
@@ -115,11 +115,11 @@ export async function POST(req: NextRequest) {
 
         // 4. Slug Generation & Collision Protection
         let slug = providedSlug || generateSlug(title);
-        const existing = await prisma.article.findFirst({ 
-            where: { 
+        const existing = await prisma.article.findFirst({
+            where: {
                 slug,
-                NOT: id ? { id } : undefined 
-            } 
+                NOT: id ? { id } : undefined
+            }
         });
         if (existing) {
             slug = `${slug}-${Date.now()}`;
@@ -198,10 +198,10 @@ export async function POST(req: NextRequest) {
 
     } catch (error: any) {
         console.error("Ingestion Failure:", error);
-        return NextResponse.json({ 
-            success: false, 
+        return NextResponse.json({
+            success: false,
             error: "Internal protocol error during ingestion.",
-            details: error.message 
+            details: error.message
         }, { status: 500 });
     }
 }
