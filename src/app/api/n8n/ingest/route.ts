@@ -166,32 +166,35 @@ export async function POST(req: NextRequest) {
         };
 
         let article;
+        let action;
+
         if (body.id) {
+            // UPDATE existing article
             article = await prisma.article.update({
                 where: { id: body.id },
                 data: articleData,
             });
+            action = 'updated';
         } else {
+            // CREATE new article
             article = await prisma.article.create({
                 data: articleData,
             });
+            action = 'created';
         }
+
 
 
         const adminUrl = `${process.env.NEXTAUTH_URL || ''}/admin/articles/edit/${article.id}`;
 
         return NextResponse.json({
             success: true,
-            action: body.id ? 'updated' : 'created',
-            article: {
-                id: article.id,
-                title: article.title,
-                slug: article.slug,
-                status: article.status,
-            },
-            adminUrl,
-            message: `Intelligence dispatch ${body.id ? 'updated' : 'created'} successfully.`
-        });
+            action: action,
+            articleId: article.id,
+            slug: article.slug,
+            adminUrl: `https://todaydecode.com/admin/articles/edit/${article.id}`,
+            message: `Intelligence dispatch ${action} successfully as ${article.status}.`
+        }, { status: 200 });
 
     } catch (error: any) {
         console.error("Ingestion Failure:", error);
