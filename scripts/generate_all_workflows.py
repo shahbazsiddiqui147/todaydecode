@@ -89,6 +89,9 @@ const JSON_TEMPLATE = `""" + esc_template + r"""`;
         build_prompt_js = shared_prefix_js + r"""
 const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }.
 
+YOUR ARTICLE TOPIC IS: ${topic}
+YOU MUST WRITE ABOUT THIS EXACT TOPIC AND NOTHING ELSE.
+
 """ + esc_format + r"""
 
 ${WRITING_RULES}
@@ -104,14 +107,14 @@ const requestBody = {
 return [{json: {requestBody, region, categoryId, format: '""" + format_enum + r"""', topic}}];"""
     elif multi_call == 2:
         build_prompt_js = shared_prefix_js + r"""
-const prompt1 = `PART 1: """ + esc_format + r"""\n\n${WRITING_RULES}\n\nRESPONSE MUST BE RAW JSON.`;
+const prompt1 = `PART 1: YOUR ARTICLE TOPIC IS: ${topic}\nYOU MUST WRITE ABOUT THIS EXACT TOPIC AND NOTHING ELSE.\n\n""" + esc_format + r"""\n\n${WRITING_RULES}\n\nRESPONSE MUST BE RAW JSON.`;
 const prompt2 = `PART 2: Finish and provide full JSON. Template: ${JSON_TEMPLATE}`;
 const requestBody1 = { contents: [{parts: [{text: prompt1}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
 const requestBody2 = { contents: [{parts: [{text: prompt2}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
 return [{json: {requestBody1, requestBody2, region, categoryId, format: '""" + format_enum + r"""', topic}}];"""
     elif multi_call == 4:
         build_prompt_js = shared_prefix_js + r"""
-const prompt1 = `Step 1: Research and draft CORE sections.`;
+const prompt1 = `PART 1: YOUR ARTICLE TOPIC IS: ${topic}\nYOU MUST WRITE ABOUT THIS EXACT TOPIC AND NOTHING ELSE.\n\nStep 1: Research and draft CORE sections.`;
 const prompt2 = `Step 2: Analysis and Data.`;
 const prompt3 = `Step 3: Strategic Outlook.`;
 const prompt4 = `Step 4: Finalize and provide FULL article in this JSON structure: ${JSON_TEMPLATE}\n\n${WRITING_RULES}`;
@@ -369,7 +372,11 @@ const allUrls = [...new Set([...groundingUrls, ...articleUrls])].filter(u => u &
 
 if (!title || !content) throw new Error('Could not extract required fields from Gemini response');
 
-console.log('sourceUrls Verification (first 3 chars):', allUrls.length > 0 ? allUrls[0].substring(0, 3) : 'NONE');
+// Verify sourceUrls is array of strings not an object
+const finalUrls = Array.isArray(allUrls) ? allUrls.filter(u => typeof u === 'string' && u.startsWith('http')) : [];
+const finalArchive = typeof imagePrompts === 'object' ? JSON.stringify(imagePrompts) : '{}';
+
+console.log('sourceUrls Verification (first 3 chars):', finalUrls.length > 0 ? finalUrls[0].substring(0, 3) : 'NONE');
 
 return [{json: {
   title,
@@ -391,10 +398,10 @@ return [{json: {
   directAnswer,
   faqData,
   scenarios,
-  sourceUrls: allUrls,
+  sourceUrls: finalUrls,
   featuredImage: 'https://source.unsplash.com/1200x630/?' + encodeURIComponent(unsplashKeyword),
   featuredImageAlt,
-  researchArchive: JSON.stringify(imagePrompts),
+  researchArchive: finalArchive,
   locale: 'en',
   isPremium: false
 }}];"""
