@@ -183,6 +183,11 @@ const nested = parsed.newsBrief || parsed.currentAffairs || parsed.commentary ||
   parsed.scenarioAnalysis || parsed.annualOutlook || parsed.policyToolkit ||
   parsed.strategicReport || parsed.article || parsed;
 
+const riskScore = Number(nested.riskScore) || Number(parsed.riskScore) || 50;
+const impactScore = Number(nested.impactScore) || Number(parsed.impactScore) || 55;
+const confidenceScore = Number(nested.confidenceScore) || Number(parsed.confidenceScore) || 70;
+const riskLevel = nested.riskLevel || parsed.riskLevel || 'MEDIUM';
+
 // Extract content - try direct content field first, then build from sections
 let content = extractField(nested, ['content', 'body', 'articleContent', 'text']);
 if (!content && nested.sections) {
