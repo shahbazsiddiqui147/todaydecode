@@ -91,74 +91,191 @@ return [{json: {b1, b2, b3, b4, region, categoryId, format: '""" + format_enum +
     parse_validate_js = r"""const geminiResponse = $input.first().json;
 const buildData = $('Build Prompt').first().json;
 let rawText = '';
-try { rawText = geminiResponse.candidates[0].content.parts[0].text; }
-catch(e) { throw new Error('Gemini error'); }
+try {
+  rawText = geminiResponse.candidates[0].content.parts[0].text;
+} catch(e) {
+  throw new Error('Gemini error: ' + JSON.stringify(geminiResponse).substring(0,300));
+}
+
+// Extract grounding URLs
 let groundingUrls = [];
 try {
-  const metadata = geminiResponse.candidates[0].groundingMetadata;
+  const candidate = geminiResponse.candidates[0];
+  const metadata = candidate.groundingMetadata;
   if (metadata && metadata.groundingChunks) {
-    groundingUrls = metadata.groundingChunks
-      .filter(c => c.web && c.web.uri && c.web.title && !c.web.uri.includes('vertexaisearch.cloud.google.com'))
-      .map(c => c.web.uri).slice(0, 5);
+    const filtered = metadata.groundingChunks
+      .filter(c => c.web && c.web.uri && c.web.title && !c.web.uri.includes('vertexaisearch.cloud.google.com'));
+    if (filtered.length > 0) {
+      groundingUrls = filtered.map(c => c.web.uri).slice(0, 5);
+    } else {
+      groundingUrls = metadata.groundingChunks
+        .filter(c => c.web && c.web.title)
+        .map(c => {
+          const t = c.web.title.toLowerCase();
+          if (t.includes('reuters')) return 'https://www.reuters.com';
+          if (t.includes('bbc')) return 'https://www.bbc.com';
+          if (t.includes('aljazeera')) return 'https://www.aljazeera.com';
+          if (t.includes('ft.com') || t.includes('financial times')) return 'https://www.ft.com';
+          if (t.includes('foreignpolicy')) return 'https://foreignpolicy.com';
+          if (t.includes('brookings')) return 'https://www.brookings.edu';
+          if (t.includes('rand')) return 'https://www.rand.org';
+          if (t.includes('cfr')) return 'https://www.cfr.org';
+          if (t.includes('chatham')) return 'https://www.chathamhouse.org';
+          if (t.includes('imf')) return 'https://www.imf.org';
+          if (t.includes('worldbank') || t.includes('world bank')) return 'https://www.worldbank.org';
+          if (t.includes('un.org') || t.includes('united nations')) return 'https://www.un.org';
+          if (t.includes('sipri')) return 'https://www.sipri.org';
+          if (t.includes('guardian')) return 'https://www.theguardian.com';
+          if (t.includes('economist')) return 'https://www.economist.com';
+          if (t.includes('iea')) return 'https://www.iea.org';
+          if (t.includes('nato')) return 'https://www.nato.int';
+          if (t.includes('wikipedia')) return 'https://www.wikipedia.org';
+          return null;
+        })
+        .filter(url => url !== null)
+        .filter((url, i, self) => self.indexOf(url) === i)
+        .slice(0, 5);
+    }
   }
-} catch(e) {}
+} catch(e) { groundingUrls = []; }
+
+// Clean raw text
 rawText = rawText.replace(/```json/g,'').replace(/```/g,'').trim();
 
-let article;
-// Try to parse as JSON first
-const jsonStart = rawText.indexOf('{');
-const jsonEnd = rawText.lastIndexOf('}');
-if (jsonStart !== -1 && jsonEnd !== -1) {
-  try {
-    article = JSON.parse(rawText.substring(jsonStart, jsonEnd + 1));
-  } catch(e) {
-    article = null;
+// Find JSON boundaries
+const s = rawText.indexOf('{');
+const e2 = rawText.lastIndexOf('}');
+if (s === -1 || e2 === -1) throw new Error('No JSON in response');
+const jsonStr = rawText.substring(s, e2 + 1);
+
+let parsed;
+try { parsed = JSON.parse(jsonStr); }
+catch(e) { throw new Error('JSON parse failed: ' + jsonStr.substring(0,200)); }
+
+// AGGRESSIVE CONTENT EXTRACTION
+// Handles any nesting: {content:...} or {newsBrief:{...}} or {article:{...}} or {sections:[...]}
+function extractField(obj, fields) {
+  for (const f of fields) {
+    if (obj[f] && typeof obj[f] === 'string' && obj[f].length > 10) return obj[f];
   }
+  return null;
 }
-// If JSON parsing failed, Gemini returned raw HTML - build article object from it
-if (!article || !article.title) {
-  const titleMatch = rawText.match(/<h1[^>]*>(.*?)<\/h1>/i) || rawText.match(/<h2[^>]*>(.*?)<\/h2>/i);
-  article = {
-    title: titleMatch ? titleMatch[1].replace(/<[^>]+>/g, '') : buildData.topic,
-    summary: rawText.replace(/<[^>]+>/g, '').substring(0, 200).trim(),
-    content: rawText,
-    riskLevel: 'MEDIUM',
-    riskScore: 50,
-    impactScore: 55,
-    confidenceScore: 70,
-    tags: [buildData.topic.toLowerCase().replace(/\s+/g, '-').substring(0, 20), buildData.region.toLowerCase(), '2026'],
-    metaTitle: buildData.topic.substring(0, 60),
-    metaDescription: rawText.replace(/<[^>]+>/g, '').substring(0, 155).trim(),
-    directAnswer: rawText.replace(/<[^>]+>/g, '').substring(0, 200).trim(),
-    faqData: [],
-    scenarios: null,
-    sourceUrls: [],
-    imagePrompts: {},
-    unsplashKeyword: buildData.topic.split(' ').slice(0, 2).join(' '),
-    featuredImageAlt: buildData.topic
+
+function sectionsToHtml(sections) {
+  if (!Array.isArray(sections)) return '';
+  let html = '';
+  sections.forEach(sec => {
+    if (sec.heading) html += '<h2>' + sec.heading + '</h2>';
+    if (sec.content) {
+      if (Array.isArray(sec.content)) {
+        html += '<ul>' + sec.content.map(i => '<li>' + i + '</li>').join('') + '</ul>';
+      } else if (typeof sec.content === 'string') {
+        html += '<p>' + sec.content + '</p>';
+      }
+    }
+  });
+  return html;
+}
+
+// Find the real article data regardless of nesting
+const nested = parsed.newsBrief || parsed.currentAffairs || parsed.commentary ||
+  parsed.policyBrief || parsed.riskAssessment || parsed.dataInsight ||
+  parsed.scenarioAnalysis || parsed.annualOutlook || parsed.policyToolkit ||
+  parsed.strategicReport || parsed.article || parsed;
+
+// Extract content - try direct content field first, then build from sections
+let content = extractField(nested, ['content', 'body', 'articleContent', 'text']);
+if (!content && nested.sections) {
+  content = sectionsToHtml(nested.sections);
+}
+if (!content && nested.article && nested.article.sections) {
+  content = sectionsToHtml(nested.article.sections);
+}
+if (!content) content = '<p>' + buildData.topic + '</p>';
+
+// Extract all other fields with fallbacks
+const title = extractField(nested, ['title', 'headline']) || buildData.topic;
+const summary = extractField(nested, ['summary', 'executiveSummary', 'abstract', 'overview']) ||
+  content.replace(/<[^>]+>/g, '').substring(0, 200).trim();
+const onPageLead = extractField(nested, ['onPageLead', 'hook', 'lead', 'lede']) ||
+  summary.substring(0, 180);
+const metaTitle = extractField(nested, ['metaTitle', 'seoTitle']) || title.substring(0, 60);
+const metaDescription = extractField(nested, ['metaDescription', 'seoDescription']) ||
+  summary.substring(0, 155);
+const directAnswer = extractField(nested, ['directAnswer', 'keyFinding', 'bottomLine']) || '';
+
+// Extract arrays with fallbacks
+const tags = Array.isArray(nested.tags) ? nested.tags :
+  [buildData.topic.toLowerCase().split(' ')[0], buildData.region.toLowerCase(), '2026'];
+const faqData = Array.isArray(nested.faqData) ? nested.faqData :
+  (Array.isArray(nested.faq) ? nested.faq : []);
+const articleUrls = Array.isArray(nested.sourceUrls) ? nested.sourceUrls :
+  (Array.isArray(nested.sources) ? nested.sources : []);
+const allUrls = [...new Set([...groundingUrls, ...articleUrls])].filter(u => u && u.startsWith('http')).slice(0, 5);
+
+// Extract numeric fields
+const riskScore = Number(nested.riskScore) || Number(parsed.riskScore) || 50;
+const impactScore = Number(nested.impactScore) || Number(parsed.impactScore) || 55;
+const confidenceScore = Number(nested.confidenceScore) || Number(parsed.confidenceScore) || 70;
+const riskLevel = nested.riskLevel || parsed.riskLevel || 'MEDIUM';
+
+// Extract scenarios
+let scenarios = null;
+const rawScenarios = nested.scenarios || parsed.scenarios;
+if (rawScenarios && rawScenarios.best && rawScenarios.likely && rawScenarios.worst) {
+  scenarios = {
+    best: {
+      title: rawScenarios.best.title || 'Strategic Convergence',
+      description: rawScenarios.best.description || '',
+      impact: Number(rawScenarios.best.impact) || 20
+    },
+    likely: {
+      title: rawScenarios.likely.title || 'Linear Tension',
+      description: rawScenarios.likely.description || '',
+      impact: Number(rawScenarios.likely.impact) || 55
+    },
+    worst: {
+      title: rawScenarios.worst.title || 'Systemic Fragmentation',
+      description: rawScenarios.worst.description || '',
+      impact: Number(rawScenarios.worst.impact) || 85
+    }
   };
 }
-if (!article.title || !article.content) throw new Error('Could not extract article content from Gemini response');
 
-return [{json:{
-  title:article.title,
-  summary:article.summary,
-  content:article.content,
-  format:buildData.format,
-  status:'DRAFT',
-  region:buildData.region||'GLOBAL',
-  categoryId:buildData.categoryId,
-  authorId:'cmnzrwf6c000aki0f8ssj29vz',
-  sourceUrls:[...new Set([...groundingUrls,...(article.sourceUrls||[])])].slice(0,5),
-  tags: article.tags || [],
-  riskLevel: article.riskLevel || 'MEDIUM',
-  riskScore: article.riskScore || 50,
-  impactScore: article.impactScore || 50,
-  confidenceScore: article.confidenceScore || 70,
-  metaTitle: article.metaTitle || article.title,
-  metaDescription: article.metaDescription || article.summary,
-  scenarios: article.scenarios || null,
-  faqData: article.faqData || []
+// Extract image prompts
+const imagePrompts = nested.imagePrompts || parsed.imagePrompts || {};
+const unsplashKeyword = nested.unsplashKeyword || parsed.unsplashKeyword ||
+  buildData.topic.split(' ').slice(0, 2).join(' ');
+const featuredImageAlt = nested.featuredImageAlt || parsed.featuredImageAlt || title;
+
+if (!title || !content) throw new Error('Could not extract required fields from Gemini response');
+
+return [{json: {
+  title,
+  summary,
+  onPageLead,
+  content,
+  format: buildData.format,
+  status: 'DRAFT',
+  region: buildData.region || 'GLOBAL',
+  categoryId: buildData.categoryId,
+  authorId: 'cmnzrwf6c000aki0f8ssj29vz',
+  riskLevel,
+  riskScore,
+  impactScore,
+  confidenceScore,
+  tags,
+  metaTitle,
+  metaDescription,
+  directAnswer,
+  faqData,
+  scenarios,
+  sourceUrls: allUrls,
+  featuredImage: 'https://source.unsplash.com/1200x630/?' + encodeURIComponent(unsplashKeyword),
+  featuredImageAlt,
+  researchArchive: JSON.stringify(imagePrompts),
+  locale: 'en',
+  isPremium: false
 }}];"""
 
     nodes = [
