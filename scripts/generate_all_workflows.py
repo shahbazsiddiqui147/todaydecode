@@ -152,8 +152,13 @@ let parsed;
 try { parsed = JSON.parse(jsonStr); }
 catch(e) { throw new Error('JSON parse failed: ' + jsonStr.substring(0,200)); }
 
-// AGGRESSIVE CONTENT EXTRACTION
-// Handles any nesting: {content:...} or {newsBrief:{...}} or {article:{...}} or {sections:[...]}
+// Find the real article data regardless of nesting
+const nested = parsed.newsBrief || parsed.currentAffairs || parsed.commentary ||
+  parsed.policyBrief || parsed.riskAssessment || parsed.dataInsight ||
+  parsed.scenarioAnalysis || parsed.annualOutlook || parsed.policyToolkit ||
+  parsed.strategicReport || parsed.article || parsed;
+
+// Function definitions
 function extractField(obj, fields) {
   for (const f of fields) {
     if (obj[f] && typeof obj[f] === 'string' && obj[f].length > 10) return obj[f];
@@ -177,18 +182,7 @@ function sectionsToHtml(sections) {
   return html;
 }
 
-// Find the real article data regardless of nesting
-const nested = parsed.newsBrief || parsed.currentAffairs || parsed.commentary ||
-  parsed.policyBrief || parsed.riskAssessment || parsed.dataInsight ||
-  parsed.scenarioAnalysis || parsed.annualOutlook || parsed.policyToolkit ||
-  parsed.strategicReport || parsed.article || parsed;
-
-const riskScore = Number(nested.riskScore) || Number(parsed.riskScore) || 50;
-const impactScore = Number(nested.impactScore) || Number(parsed.impactScore) || 55;
-const confidenceScore = Number(nested.confidenceScore) || Number(parsed.confidenceScore) || 70;
-const riskLevel = nested.riskLevel || parsed.riskLevel || 'MEDIUM';
-
-// Extract content - try direct content field first, then build from sections
+// Content extraction
 let content = extractField(nested, ['content', 'body', 'articleContent', 'text']);
 if (!content && nested.sections) {
   content = sectionsToHtml(nested.sections);
@@ -198,15 +192,21 @@ if (!content && nested.article && nested.article.sections) {
 }
 if (!content) content = '<p>' + buildData.topic + '</p>';
 
-// Extract all other fields with fallbacks
+// ALL scalar variables
+const riskScore = Number(nested.riskScore) || Number(parsed.riskScore) || 50;
+const impactScore = Number(nested.impactScore) || Number(parsed.impactScore) || 55;
+const confidenceScore = Number(nested.confidenceScore) || Number(parsed.confidenceScore) || 70;
+const riskLevel = nested.riskLevel || parsed.riskLevel || 'MEDIUM';
 const title = extractField(nested, ['title', 'headline']) || buildData.topic;
-const summary = extractField(nested, ['summary', 'executiveSummary', 'abstract', 'overview']) ||
-  content.replace(/<[^>]+>/g, '').substring(0, 200).trim();
-const onPageLead = extractField(nested, ['onPageLead', 'hook', 'lead', 'lede']) ||
-  summary.substring(0, 180);
+const summary = extractField(nested, ['summary', 'executiveSummary', 'abstract', 'overview']) || content.replace(/<[^>]+>/g, '').substring(0, 200).trim();
+const onPageLead = extractField(nested, ['onPageLead', 'hook', 'lead', 'lede']) || summary.substring(0, 180);
 const metaTitle = extractField(nested, ['metaTitle', 'seoTitle']) || title.substring(0, 60);
-const metaDescription = extractField(nested, ['metaDescription', 'seoDescription']) ||
-  summary.substring(0, 155);
+const metaDescription = extractField(nested, ['metaDescription', 'seoDescription']) || summary.substring(0, 155);
+const tags = Array.isArray(nested.tags) ? nested.tags : (Array.isArray(parsed.tags) ? parsed.tags : [buildData.topic.toLowerCase().split(' ')[0], buildData.region.toLowerCase(), '2026']);
+const unsplashKeyword = nested.unsplashKeyword || parsed.unsplashKeyword || buildData.topic.split(' ').slice(0, 2).join(' ');
+const featuredImageAlt = nested.featuredImageAlt || parsed.featuredImageAlt || title;
+const imagePrompts = nested.imagePrompts || parsed.imagePrompts || {};
+
 // Extract faqData - search everywhere in the parsed object
 let faqData = [];
 if (Array.isArray(nested.faqData) && nested.faqData.length > 0) {
@@ -333,12 +333,6 @@ if (articleUrls.length === 0) {
   }
 }
 const allUrls = [...new Set([...groundingUrls, ...articleUrls])].filter(u => u && u.startsWith('http')).slice(0, 5);
-
-// Extract image prompts
-const imagePrompts = nested.imagePrompts || parsed.imagePrompts || {};
-const unsplashKeyword = nested.unsplashKeyword || parsed.unsplashKeyword ||
-  buildData.topic.split(' ').slice(0, 2).join(' ');
-const featuredImageAlt = nested.featuredImageAlt || parsed.featuredImageAlt || title;
 
 if (!title || !content) throw new Error('Could not extract required fields from Gemini response');
 
