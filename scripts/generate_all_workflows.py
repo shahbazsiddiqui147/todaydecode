@@ -202,45 +202,132 @@ const onPageLead = extractField(nested, ['onPageLead', 'hook', 'lead', 'lede']) 
 const metaTitle = extractField(nested, ['metaTitle', 'seoTitle']) || title.substring(0, 60);
 const metaDescription = extractField(nested, ['metaDescription', 'seoDescription']) ||
   summary.substring(0, 155);
-const directAnswer = extractField(nested, ['directAnswer', 'keyFinding', 'bottomLine']) || '';
+// Extract faqData - search everywhere in the parsed object
+let faqData = [];
+if (Array.isArray(nested.faqData) && nested.faqData.length > 0) {
+  faqData = nested.faqData;
+} else if (Array.isArray(parsed.faqData) && parsed.faqData.length > 0) {
+  faqData = parsed.faqData;
+} else if (Array.isArray(nested.faq) && nested.faq.length > 0) {
+  faqData = nested.faq;
+} else if (Array.isArray(parsed.faq) && parsed.faq.length > 0) {
+  faqData = parsed.faq;
+} else {
+  // Search all keys of parsed object for any array containing question/answer objects
+  for (const key of Object.keys(parsed)) {
+    const val = parsed[key];
+    if (Array.isArray(val) && val.length > 0 && val[0].question && val[0].answer) {
+      faqData = val;
+      break;
+    }
+    if (val && typeof val === 'object' && !Array.isArray(val)) {
+      for (const innerKey of Object.keys(val)) {
+        const innerVal = val[innerKey];
+        if (Array.isArray(innerVal) && innerVal.length > 0 && innerVal[0].question && innerVal[0].answer) {
+          faqData = innerVal;
+          break;
+        }
+      }
+    }
+  }
+}
 
-// Extract arrays with fallbacks
-const tags = Array.isArray(nested.tags) ? nested.tags :
-  [buildData.topic.toLowerCase().split(' ')[0], buildData.region.toLowerCase(), '2026'];
-const faqData = Array.isArray(nested.faqData) ? nested.faqData :
-  (Array.isArray(nested.faq) ? nested.faq : []);
-const articleUrls = Array.isArray(nested.sourceUrls) ? nested.sourceUrls :
-  (Array.isArray(nested.sources) ? nested.sources : []);
-const allUrls = [...new Set([...groundingUrls, ...articleUrls])].filter(u => u && u.startsWith('http')).slice(0, 5);
+// Extract directAnswer - search everywhere
+let directAnswer = '';
+const directAnswerFields = ['directAnswer', 'keyFinding', 'bottomLine', 'keyTakeaway', 'mainPoint'];
+for (const field of directAnswerFields) {
+  if (nested[field] && typeof nested[field] === 'string' && nested[field].length > 5) {
+    directAnswer = nested[field];
+    break;
+  }
+  if (parsed[field] && typeof parsed[field] === 'string' && parsed[field].length > 5) {
+    directAnswer = parsed[field];
+    break;
+  }
+}
+// If still empty search all nested objects
+if (!directAnswer) {
+  for (const key of Object.keys(parsed)) {
+    const val = parsed[key];
+    if (val && typeof val === 'object' && !Array.isArray(val)) {
+      for (const field of directAnswerFields) {
+        if (val[field] && typeof val[field] === 'string' && val[field].length > 5) {
+          directAnswer = val[field];
+          break;
+        }
+      }
+    }
+  }
+}
 
-// Extract numeric fields
-const riskScore = Number(nested.riskScore) || Number(parsed.riskScore) || 50;
-const impactScore = Number(nested.impactScore) || Number(parsed.impactScore) || 55;
-const confidenceScore = Number(nested.confidenceScore) || Number(parsed.confidenceScore) || 70;
-const riskLevel = nested.riskLevel || parsed.riskLevel || 'MEDIUM';
-
-// Extract scenarios
+// Extract scenarios - search everywhere with full description extraction
 let scenarios = null;
-const rawScenarios = nested.scenarios || parsed.scenarios;
-if (rawScenarios && rawScenarios.best && rawScenarios.likely && rawScenarios.worst) {
-  scenarios = {
+function extractScenarios(obj) {
+  if (!obj || typeof obj !== 'object') return null;
+  const raw = obj.scenarios || obj.scenarioProjections || obj.scenarioAnalysis;
+  if (!raw) return null;
+  const best = raw.best || raw.bestCase || raw.convergence || raw.optimistic;
+  const likely = raw.likely || raw.mostLikely || raw.continuation || raw.baseline;
+  const worst = raw.worst || raw.worstCase || raw.fragmentation || raw.pessimistic;
+  if (!best || !likely || !worst) return null;
+  return {
     best: {
-      title: rawScenarios.best.title || 'Strategic Convergence',
-      description: rawScenarios.best.description || '',
-      impact: Number(rawScenarios.best.impact) || 20
+      title: best.title || best.name || 'Strategic Convergence',
+      description: best.description || best.details || best.summary || best.content || '',
+      impact: Number(best.impact) || Number(best.probability) || Number(best.weight) || 20
     },
     likely: {
-      title: rawScenarios.likely.title || 'Linear Tension',
-      description: rawScenarios.likely.description || '',
-      impact: Number(rawScenarios.likely.impact) || 55
+      title: likely.title || likely.name || 'Linear Tension',
+      description: likely.description || likely.details || likely.summary || likely.content || '',
+      impact: Number(likely.impact) || Number(likely.probability) || Number(likely.weight) || 55
     },
     worst: {
-      title: rawScenarios.worst.title || 'Systemic Fragmentation',
-      description: rawScenarios.worst.description || '',
-      impact: Number(rawScenarios.worst.impact) || 85
+      title: worst.title || worst.name || 'Systemic Fragmentation',
+      description: worst.description || worst.details || worst.summary || worst.content || '',
+      impact: Number(worst.impact) || Number(worst.probability) || Number(worst.weight) || 85
     }
   };
 }
+scenarios = extractScenarios(nested) || extractScenarios(parsed);
+// Also search one level deeper
+if (!scenarios) {
+  for (const key of Object.keys(parsed)) {
+    const val = parsed[key];
+    if (val && typeof val === 'object' && !Array.isArray(val)) {
+      scenarios = extractScenarios(val);
+      if (scenarios) break;
+    }
+  }
+}
+
+// Extract sourceUrls - search everywhere, filter valid URLs only
+let articleUrls = [];
+const urlFields = ['sourceUrls', 'sources', 'references', 'links', 'citations'];
+for (const field of urlFields) {
+  if (Array.isArray(nested[field]) && nested[field].length > 0) {
+    articleUrls = nested[field].filter(u => u && typeof u === 'string' && u.startsWith('http'));
+    if (articleUrls.length > 0) break;
+  }
+  if (Array.isArray(parsed[field]) && parsed[field].length > 0) {
+    articleUrls = parsed[field].filter(u => u && typeof u === 'string' && u.startsWith('http'));
+    if (articleUrls.length > 0) break;
+  }
+}
+// Search nested objects if still empty
+if (articleUrls.length === 0) {
+  for (const key of Object.keys(parsed)) {
+    const val = parsed[key];
+    if (val && typeof val === 'object' && !Array.isArray(val)) {
+      for (const field of urlFields) {
+        if (Array.isArray(val[field]) && val[field].length > 0) {
+          const found = val[field].filter(u => u && typeof u === 'string' && u.startsWith('http'));
+          if (found.length > 0) { articleUrls = found; break; }
+        }
+      }
+    }
+  }
+}
+const allUrls = [...new Set([...groundingUrls, ...articleUrls])].filter(u => u && u.startsWith('http')).slice(0, 5);
 
 // Extract image prompts
 const imagePrompts = nested.imagePrompts || parsed.imagePrompts || {};
