@@ -369,6 +369,8 @@ const allUrls = [...new Set([...groundingUrls, ...articleUrls])].filter(u => u &
 
 if (!title || !content) throw new Error('Could not extract required fields from Gemini response');
 
+console.log('sourceUrls Verification (first 3 chars):', allUrls.length > 0 ? allUrls[0].substring(0, 3) : 'NONE');
+
 return [{json: {
   title,
   summary,
