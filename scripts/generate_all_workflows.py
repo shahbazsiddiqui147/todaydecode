@@ -103,10 +103,43 @@ try {
   }
 } catch(e) {}
 rawText = rawText.replace(/```json/g,'').replace(/```/g,'').trim();
-const s = rawText.indexOf('{'); const e = rawText.lastIndexOf('}');
-if(s===-1||e===-1) throw new Error('No JSON');
-rawText = rawText.substring(s,e+1);
-let article = JSON.parse(rawText);
+
+let article;
+// Try to parse as JSON first
+const jsonStart = rawText.indexOf('{');
+const jsonEnd = rawText.lastIndexOf('}');
+if (jsonStart !== -1 && jsonEnd !== -1) {
+  try {
+    article = JSON.parse(rawText.substring(jsonStart, jsonEnd + 1));
+  } catch(e) {
+    article = null;
+  }
+}
+// If JSON parsing failed, Gemini returned raw HTML - build article object from it
+if (!article || !article.title) {
+  const titleMatch = rawText.match(/<h1[^>]*>(.*?)<\/h1>/i) || rawText.match(/<h2[^>]*>(.*?)<\/h2>/i);
+  article = {
+    title: titleMatch ? titleMatch[1].replace(/<[^>]+>/g, '') : buildData.topic,
+    summary: rawText.replace(/<[^>]+>/g, '').substring(0, 200).trim(),
+    content: rawText,
+    riskLevel: 'MEDIUM',
+    riskScore: 50,
+    impactScore: 55,
+    confidenceScore: 70,
+    tags: [buildData.topic.toLowerCase().replace(/\s+/g, '-').substring(0, 20), buildData.region.toLowerCase(), '2026'],
+    metaTitle: buildData.topic.substring(0, 60),
+    metaDescription: rawText.replace(/<[^>]+>/g, '').substring(0, 155).trim(),
+    directAnswer: rawText.replace(/<[^>]+>/g, '').substring(0, 200).trim(),
+    faqData: [],
+    scenarios: null,
+    sourceUrls: [],
+    imagePrompts: {},
+    unsplashKeyword: buildData.topic.split(' ').slice(0, 2).join(' '),
+    featuredImageAlt: buildData.topic
+  };
+}
+if (!article.title || !article.content) throw new Error('Could not extract article content from Gemini response');
+
 return [{json:{
   title:article.title,
   summary:article.summary,
@@ -261,17 +294,17 @@ return [{json:{
         json.dump({"name": workflow_name, "nodes": nodes, "connections": connections, "settings": {"executionOrder": "v1"}, "tags": [{"name": "todaydecode"}]}, f, indent=2, ensure_ascii=False)
     print(f"Written: {filename}")
 
-# Standardized Prompts (Simplified for logic but comprehensive in rules)
-p_commentary = r"""const formatPrompt = `Write a COMMENTARY for ${topic}. Sections: Hook, Context, Argument, Interpretation, Implications, Conclusion. ${WRITING_RULES}`;"""
-p_news = r"""const formatPrompt = `Write a NEWS BRIEF for ${topic}. Sections: Summary, Facts, Context, Importance, Analysis, Outlook. ${WRITING_RULES}`;"""
-p_current = r"""const formatPrompt = `Write a CURRENT AFFAIRS analysis for ${topic}. ${WRITING_RULES}`;"""
-p_policy = r"""const formatPrompt = `Write a POLICY BRIEF for ${topic}. ${WRITING_RULES}`;"""
-p_risk = r"""const formatPrompt = `Write a RISK ASSESSMENT for ${topic}. ${WRITING_RULES}`;"""
-p_data = r"""const formatPrompt = `Write a DATA INSIGHT for ${topic}. ${WRITING_RULES}`;"""
-p_scenario = r"""const formatPrompt = `Write a SCENARIO ANALYSIS for ${topic}. ${WRITING_RULES}`;"""
-p_annual = r"""const prompt1 = `ANNUAL part 1. ${WRITING_RULES}`; const prompt2 = `ANNUAL part 2. ${WRITING_RULES}`;"""
-p_toolkit = r"""const formatPrompt = `TOOLKIT for ${topic}. ${WRITING_RULES}`;"""
-p_report = r"""const prompt1 = `REP1`; const prompt2 = `REP2`; const prompt3 = `REP3`; const prompt4 = `REP4`;"""
+# Format Prompts
+p_commentary = r"""const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. Write a COMMENTARY for ${topic}. Sections: Hook, Context, Argument. ${WRITING_RULES}`;"""
+p_news = r"""const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. Write a NEWS BRIEF for ${topic}. Sections: Summary, Key Facts. ${WRITING_RULES}`;"""
+p_current = r"""const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. Write a CURRENT AFFAIRS analysis for ${topic}. ${WRITING_RULES}`;"""
+p_policy = r"""const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. Write a POLICY BRIEF for ${topic}. ${WRITING_RULES}`;"""
+p_risk = r"""const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. Write a RISK ASSESSMENT for ${topic}. ${WRITING_RULES}`;"""
+p_data = r"""const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. Write a DATA INSIGHT for ${topic}. ${WRITING_RULES}`;"""
+p_scenario = r"""const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. Write a SCENARIO ANALYSIS for ${topic}. ${WRITING_RULES}`;"""
+p_annual = r"""const prompt1 = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. ANNUAL part 1. ${WRITING_RULES}`; const prompt2 = `ANNUAL part 2. ${WRITING_RULES}`;"""
+p_toolkit = r"""const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. TOOLKIT for ${topic}. ${WRITING_RULES}`;"""
+p_report = r"""const prompt1 = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. REP1`; const prompt2 = `REP2`; const prompt3 = `REP3`; const prompt4 = `REP4`;"""
 
 formats = [
     ("TodayDecode_Commentary_Workflow.json", "Commentary Generator", "COMMENTARY", p_commentary, 1),
