@@ -69,7 +69,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
             const VALID_FORMATS = [
                 "POLICY_BRIEF", "STRATEGIC_REPORT", "COMMENTARY",
                 "SCENARIO_ANALYSIS", "RISK_ASSESSMENT", "DATA_INSIGHT",
-                "ANNUAL_OUTLOOK", "POLICY_TOOLKIT"
+                "ANNUAL_OUTLOOK", "POLICY_TOOLKIT", "NEWS_BRIEF", "CURRENT_AFFAIRS"
             ];
             const raw = article?.format as string;
             return VALID_FORMATS.includes(raw) ? raw : "COMMENTARY";
@@ -129,6 +129,7 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
         })(),
         auditNodes: article?.auditNodes || "",
         researchArchive: article?.researchArchive || "",
+        sourceUrls: article?.sourceUrls || [],
         directAnswer: article?.directAnswer || "",
         structuredData: article?.structuredData || {},
     });
@@ -783,8 +784,8 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
                                                     Source URLs
                                                 </Label>
                                                 <Textarea
-                                                    name="researchArchive"
-                                                    value={formData.researchArchive || ""}
+                                                    name="sourceUrls"
+                                                    value={Array.isArray(formData.sourceUrls) ? formData.sourceUrls.join("\n") : ""}
                                                     onChange={handleChange}
                                                     placeholder="Add source URLs..."
                                                     className="min-h-[150px] text-xs font-mono bg-slate-950 border-[#1E293B] text-[#F1F5F9] placeholder:text-slate-600 rounded-xl resize-none px-4 py-3 focus-visible:ring-[#22D3EE] shadow-sm transition-all"
