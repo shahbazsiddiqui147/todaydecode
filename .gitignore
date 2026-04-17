@@ -44,3 +44,5 @@ docs/*Workflow*.json
 
 scripts/generate_youtube_workflow.py
 scripts/generate_workflow.py
+
+scripts/*.py
