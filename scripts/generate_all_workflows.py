@@ -66,13 +66,13 @@ HTML FORMATTING (mandatory):
 }
 """
 
-    # Escape function for prompt to survive JS template string inside JSON
-    def escape_for_js(s):
-        return s.replace('\\', '\\\\').replace('`', '\\`').replace('$', '\\$').replace("'", "\\'").replace('\n', '\\n')
+    # For string concatenation, we must escape single quotes and backslashes
+    def escape_for_concat(s):
+        return s.replace('\\', '\\\\').replace("'", "\\'").replace('\n', '\\n')
 
-    esc_rules = escape_for_js(writing_rules)
-    esc_template = escape_for_js(json_template)
-    esc_format = escape_for_js(format_prompt)
+    esc_rules = escape_for_concat(writing_rules)
+    esc_template = escape_for_concat(json_template)
+    esc_format = escape_for_concat(format_prompt)
 
     shared_prefix_js = r"""const formData = $input.first().json;
 const topic = formData['Topic'] || '';
@@ -81,24 +81,35 @@ const region = formData['Region'] || 'GLOBAL';
 const categoryId = formData['Category ID'] || '';
 const context = formData['Additional Context'] || 'None';
 const currentDate = 'April 2026';
-const WRITING_RULES = `""" + esc_rules + r"""`;
-const JSON_TEMPLATE = `""" + esc_template + r"""`;
+const categoryContextMap = {
+  'Geopolitics': 'Focus on balance-of-power dynamics, diplomatic relations, state-level actors, alliance systems, territorial disputes, and multilateral frameworks.',
+  'Global Economy': 'Focus on trade flows, monetary policy, fiscal frameworks, sovereign debt, and investment patterns.',
+  'Security and Defense': 'Focus on threat assessment, defense capabilities, conflict dynamics, and security architecture.',
+  'Governance and Politics': 'Focus on institutional frameworks, electoral dynamics, rule of law, and policy implementation.',
+  'Technology and Strategic Innovation': 'Focus on emerging technologies, regulatory frameworks, digital sovereignty, and tech geopolitics.',
+  'Energy and Resources': 'Focus on energy security, resource competition, transition dynamics, and commodity markets.',
+  'Society and Demographics': 'Focus on demographic trends, social cohesion, migration patterns, and inequality.',
+  'Strategic Reports': 'Focus on long-term strategic trends and institutional implications.',
+  'Data Center': 'Focus on quantitative analysis, statistical trends, and empirical evidence.',
+  'Current Affairs': 'Focus on immediate developments and breaking news context.'
+};
+const categoryContext = categoryContextMap[categoryFocus] || categoryContextMap['Geopolitics'];
+const WRITING_RULES = '""" + esc_rules + r"""';
+const JSON_TEMPLATE = '""" + esc_template + r"""';
 """
 
     if multi_call == 1:
         build_prompt_js = shared_prefix_js + r"""
-const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }.
-
-YOUR ARTICLE TOPIC IS: ${topic}
-YOU MUST WRITE ABOUT THIS EXACT TOPIC AND NOTHING ELSE.
-
-""" + esc_format + r"""
-
-${WRITING_RULES}
-
-YOU MUST FOLLOW THIS JSON STRUCTURE EXACTLY:
-${JSON_TEMPLATE}
-`;
+const formatPrompt = 'YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }.\n\n'
+  + 'YOUR ARTICLE TOPIC IS: ' + topic + '\n'
+  + 'YOU MUST WRITE ABOUT THIS EXACT TOPIC AND NOTHING ELSE.\n\n'
+  + 'REGION: ' + region + '\n'
+  + 'CATEGORY: ' + categoryFocus + '\n\n'
+  + categoryContext + '\n\n'
+  + '""" + esc_format + r"""\n\n'
+  + WRITING_RULES + '\n\n'
+  + 'YOU MUST FOLLOW THIS JSON STRUCTURE EXACTLY:\n'
+  + JSON_TEMPLATE;
 const requestBody = {
   contents: [{parts: [{text: formatPrompt}]}],
   tools: [{google_search: {}}],
@@ -107,17 +118,29 @@ const requestBody = {
 return [{json: {requestBody, region, categoryId, format: '""" + format_enum + r"""', topic}}];"""
     elif multi_call == 2:
         build_prompt_js = shared_prefix_js + r"""
-const prompt1 = `PART 1: YOUR ARTICLE TOPIC IS: ${topic}\nYOU MUST WRITE ABOUT THIS EXACT TOPIC AND NOTHING ELSE.\n\n""" + esc_format + r"""\n\n${WRITING_RULES}\n\nRESPONSE MUST BE RAW JSON.`;
-const prompt2 = `PART 2: Finish and provide full JSON. Template: ${JSON_TEMPLATE}`;
+const prompt1 = 'PART 1: YOUR ARTICLE TOPIC IS: ' + topic + '\n'
+  + 'YOU MUST WRITE ABOUT THIS EXACT TOPIC AND NOTHING ELSE.\n\n'
+  + 'REGION: ' + region + '\n'
+  + 'CATEGORY: ' + categoryFocus + '\n\n'
+  + categoryContext + '\n\n'
+  + '""" + esc_format + r"""\n\n'
+  + WRITING_RULES + '\n\n'
+  + 'RESPONSE MUST BE RAW JSON.';
+const prompt2 = 'PART 2: Finish and provide full JSON. Template:\n' + JSON_TEMPLATE;
 const requestBody1 = { contents: [{parts: [{text: prompt1}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
 const requestBody2 = { contents: [{parts: [{text: prompt2}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
 return [{json: {requestBody1, requestBody2, region, categoryId, format: '""" + format_enum + r"""', topic}}];"""
     elif multi_call == 4:
         build_prompt_js = shared_prefix_js + r"""
-const prompt1 = `PART 1: YOUR ARTICLE TOPIC IS: ${topic}\nYOU MUST WRITE ABOUT THIS EXACT TOPIC AND NOTHING ELSE.\n\nStep 1: Research and draft CORE sections.`;
-const prompt2 = `Step 2: Analysis and Data.`;
-const prompt3 = `Step 3: Strategic Outlook.`;
-const prompt4 = `Step 4: Finalize and provide FULL article in this JSON structure: ${JSON_TEMPLATE}\n\n${WRITING_RULES}`;
+const prompt1 = 'PART 1: YOUR ARTICLE TOPIC IS: ' + topic + '\n'
+  + 'YOU MUST WRITE ABOUT THIS EXACT TOPIC AND NOTHING ELSE.\n\n'
+  + 'REGION: ' + region + '\n'
+  + 'CATEGORY: ' + categoryFocus + '\n\n'
+  + categoryContext + '\n\n'
+  + 'Step 1: Research and draft CORE sections.';
+const prompt2 = 'Step 2: Analysis and Data.';
+const prompt3 = 'Step 3: Strategic Outlook.';
+const prompt4 = 'Step 4: Finalize and provide FULL article in this JSON structure:\n' + JSON_TEMPLATE + '\n\n' + WRITING_RULES;
 const b1 = { contents: [{parts: [{text: prompt1}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
 const b2 = { contents: [{parts: [{text: prompt2}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
 const b3 = { contents: [{parts: [{text: prompt3}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
@@ -540,7 +563,7 @@ return [{json: {
     print(f"Written: {filename}")
 
 # Format Prompts
-p_commentary = r"""Write a COMMENTARY for ${topic}.
+p_commentary = r"""Write a COMMENTARY article.
 Sections:
 - Hook: 50-100 words
 - Immediate Context: 100-150 words
@@ -548,7 +571,7 @@ Sections:
 - Interpretation: 100-200 words
 - Strategic Implications: 100-200 words
 - Conclusion: 50-100 words"""
-p_news = r"""Write a NEWS BRIEF for ${topic}.
+p_news = r"""Write a NEWS BRIEF article.
 MANDATORY SECTIONS:
 - Event Summary: 100-150 words
 - Key Facts: 50-100 words as bullet points
@@ -556,59 +579,47 @@ MANDATORY SECTIONS:
 - Why It Matters: 100-200 words
 - Short Analysis: 100-150 words
 - Outlook: 50-100 words"""
-p_current = r"""Write a CURRENT AFFAIRS analysis for ${topic}.
+p_current = r"""Write a CURRENT AFFAIRS analysis article.
 Sections:
 - Breaking Context: 100-150 words
 - The Actors: 100-150 words
 - Conflict/Dynamic Analysis: 150-250 words
 - Regional Impact: 100-200 words
 - Path Ahead: 50-100 words"""
-p_policy = r"""Write a POLICY BRIEF for ${topic}.
+p_policy = r"""Write a POLICY BRIEF article.
 Sections:
 - Executive Summary: 100-150 words
 - Problem Definition: 150-250 words
 - Policy Options: 150-250 words
 - Strategic Recommendation: 100-200 words
 - Implementation Framework: 100-150 words"""
-p_risk = r"""Write a RISK ASSESSMENT for ${topic}.
+p_risk = r"""Write a RISK ASSESSMENT article.
 Sections:
 - Risk Profile: 100-150 words
 - Trigger Events: 100-150 words
 - Vulnerability Analysis: 150-250 words
 - Mitigation Strategies: 100-200 words
 - Probabilistic Outlook: 50-100 words"""
-p_data = r"""Write a DATA INSIGHT for ${topic}.
+p_data = r"""Write a DATA INSIGHT article.
 Sections:
 - Data Overview: 100-150 words
 - Variable Analysis: 150-250 words
 - Statistical Significant Trends: 150-250 words
 - Empirical Conclusions: 100-200 words"""
-p_scenario = r"""Write a SCENARIO ANALYSIS for ${topic}.
+p_scenario = r"""Write a SCENARIO ANALYSIS article.
 Sections:
 - Driver Identification: 100-150 words
 - The Scenarios: 200-400 words
 - Indicator Monitoring: 100-200 words
 - Strategic Preparedness: 100-150 words"""
-p_annual = r"""Write an ANNUAL OUTLOOK for ${topic}.
-Sections:
-- Yearly Retrospective: 200-300 words
-- Macro Drivers: 250-400 words
-- Sector/Regional Trends: 250-400 words
-- Risk/Opportunity Matrix: 200-300 words
-- 12-Month Outlook: 150-250 words"""
-p_toolkit = r"""Write a POLICY TOOLKIT for ${topic}.
+p_annual = r"""Write an ANNUAL OUTLOOK article."""
+p_toolkit = r"""Write a POLICY TOOLKIT article.
 Sections:
 - Objective Framework: 100-150 words
 - Core Instruments: 200-300 words
 - Best Practices: 150-250 words
 - Monitoring & Evaluation: 100-150 words"""
-p_report = r"""Write a STRATEGIC REPORT for ${topic}.
-Sections:
-- Strategic Context: 200-300 words
-- Capability Assessment: 250-400 words
-- Adversarial/Competitive Analysis: 250-400 words
-- Theatre/Market Dynamics: 200-300 words
-- Strategic Conclusions: 150-250 words"""
+p_report = r"""Write a STRATEGIC REPORT article."""
 
 formats = [
     ("TodayDecode_Commentary_Workflow.json", "Commentary Generator", "COMMENTARY", p_commentary, 1),
