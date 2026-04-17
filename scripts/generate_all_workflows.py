@@ -24,16 +24,6 @@ BANNED CHARACTERS AND PUNCTUATION (absolutely never use):
 - The En dash (Unicode U+2013) is also forbidden
 - Instead of dashes, restructure sentences using: however, while, although, which, that, because, since, as, and, but, or use a new sentence entirely
 
-INSTITUTIONAL SOURCES TO PRIORITIZE (use Google Search grounding to find current reports):
-- UN System: un.org, undp.org, unhcr.org, unodc.org, wfp.org
-- Financial: imf.org, worldbank.org, wto.org, oecd.org, bis.org
-- Security: sipri.org, iiss.org, nato.int
-- Think Tanks: brookings.edu, rand.org, cfr.org, chathamhouse.org, carnegieendowment.org, csis.org, wilsoncenter.org
-- South Asia: sadf.eu, orfonline.org, stimson.org, ipcs.org
-- Energy: iea.org, opec.org, eia.gov, bp.com/statisticalreview
-- Data: data.worldbank.org, ourworldindata.org, statista.com
-- Regional: asean.org, africaunion.org, sco-russia.ru
-
 HTML FORMATTING (mandatory):
 - Wrap every paragraph in <p> tags
 - Use <h2> for main section headers
@@ -45,6 +35,45 @@ HTML FORMATTING (mandatory):
 - Never use markdown symbols outside HTML tags
 """
 
+    json_template = r"""
+{
+  "title": "Clear Analytical Title",
+  "summary": "1-2 sentence high-level overview",
+  "onPageLead": "Punchy 1-sentence hook",
+  "content": "Full HTML formatted article body",
+  "riskLevel": "LOW/MEDIUM/HIGH/CRITICAL",
+  "riskScore": 0-100,
+  "impactScore": 0-100,
+  "confidenceScore": 0-100,
+  "tags": ["tag1", "tag2", "tag3"],
+  "metaTitle": "SEO title (max 60 chars)",
+  "metaDescription": "SEO description (max 155 chars)",
+  "directAnswer": "1-sentence direct answer to the implicit user query",
+  "faqData": [
+    {"question": "Question 1?", "answer": "Answer 1."},
+    {"question": "Question 2?", "answer": "Answer 2."},
+    {"question": "Question 3?", "answer": "Answer 3."}
+  ],
+  "scenarios": {
+    "best": {"title": "Optimistic Trend", "description": "Detailed description", "impact": 20},
+    "likely": {"title": "Baseline Projection", "description": "Detailed description", "impact": 55},
+    "worst": {"title": "Risk Realization", "description": "Detailed description", "impact": 85}
+  },
+  "sourceUrls": ["https://source1.org", "https://source2.org"],
+  "imagePrompts": {"hero": "detailed alt text description", "infographic": "data visualization description"},
+  "unsplashKeyword": "word1 word2",
+  "featuredImageAlt": "Alt text for image"
+}
+"""
+
+    # Escape function for prompt to survive JS template string inside JSON
+    def escape_for_js(s):
+        return s.replace('\\', '\\\\').replace('`', '\\`').replace('$', '\\$').replace("'", "\\'").replace('\n', '\\n')
+
+    esc_rules = escape_for_js(writing_rules)
+    esc_template = escape_for_js(json_template)
+    esc_format = escape_for_js(format_prompt)
+
     shared_prefix_js = r"""const formData = $input.first().json;
 const topic = formData['Topic'] || '';
 const categoryFocus = formData['Category Focus'] || 'Geopolitics';
@@ -52,23 +81,21 @@ const region = formData['Region'] || 'GLOBAL';
 const categoryId = formData['Category ID'] || '';
 const context = formData['Additional Context'] || 'None';
 const currentDate = 'April 2026';
-const categoryContextMap = {
-  'Geopolitics': 'Focus on balance-of-power dynamics, diplomatic relations, state-level actors, alliance systems, territorial disputes, and multilateral frameworks.',
-  'Global Economy': 'Focus on trade flows, monetary policy, fiscal frameworks, sovereign debt, and investment patterns.',
-  'Security and Defense': 'Focus on threat assessment, defense capabilities, conflict dynamics, and security architecture.',
-  'Governance and Politics': 'Focus on institutional frameworks, electoral dynamics, rule of law, and policy implementation.',
-  'Technology and Strategic Innovation': 'Focus on emerging technologies, regulatory frameworks, digital sovereignty, and tech geopolitics.',
-  'Energy and Resources': 'Focus on energy security, resource competition, transition dynamics, and commodity markets.',
-  'Society and Demographics': 'Focus on demographic trends, social cohesion, migration patterns, and inequality.',
-  'Strategic Reports': 'Focus on long-term strategic trends and institutional implications.',
-  'Data Center': 'Focus on quantitative analysis, statistical trends, and empirical evidence.',
-  'Current Affairs': 'Focus on immediate developments and breaking news context.'
-};
-const categoryContext = categoryContextMap[categoryFocus] || categoryContextMap['Geopolitics'];
+const WRITING_RULES = `""" + esc_rules + r"""`;
+const JSON_TEMPLATE = `""" + esc_template + r"""`;
 """
 
     if multi_call == 1:
-        build_prompt_js = shared_prefix_js + "\nconst WRITING_RULES = `" + writing_rules + "`;\n" + format_prompt + r"""
+        build_prompt_js = shared_prefix_js + r"""
+const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }.
+
+""" + esc_format + r"""
+
+${WRITING_RULES}
+
+YOU MUST FOLLOW THIS JSON STRUCTURE EXACTLY:
+${JSON_TEMPLATE}
+`;
 const requestBody = {
   contents: [{parts: [{text: formatPrompt}]}],
   tools: [{google_search: {}}],
@@ -76,12 +103,18 @@ const requestBody = {
 };
 return [{json: {requestBody, region, categoryId, format: '""" + format_enum + r"""', topic}}];"""
     elif multi_call == 2:
-        build_prompt_js = shared_prefix_js + "\nconst WRITING_RULES = `" + writing_rules + "`;\n" + format_prompt + r"""
+        build_prompt_js = shared_prefix_js + r"""
+const prompt1 = `PART 1: """ + esc_format + r"""\n\n${WRITING_RULES}\n\nRESPONSE MUST BE RAW JSON.`;
+const prompt2 = `PART 2: Finish and provide full JSON. Template: ${JSON_TEMPLATE}`;
 const requestBody1 = { contents: [{parts: [{text: prompt1}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
 const requestBody2 = { contents: [{parts: [{text: prompt2}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
 return [{json: {requestBody1, requestBody2, region, categoryId, format: '""" + format_enum + r"""', topic}}];"""
     elif multi_call == 4:
-        build_prompt_js = shared_prefix_js + "\nconst WRITING_RULES = `" + writing_rules + "`;\n" + format_prompt + r"""
+        build_prompt_js = shared_prefix_js + r"""
+const prompt1 = `Step 1: Research and draft CORE sections.`;
+const prompt2 = `Step 2: Analysis and Data.`;
+const prompt3 = `Step 3: Strategic Outlook.`;
+const prompt4 = `Step 4: Finalize and provide FULL article in this JSON structure: ${JSON_TEMPLATE}\n\n${WRITING_RULES}`;
 const b1 = { contents: [{parts: [{text: prompt1}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
 const b2 = { contents: [{parts: [{text: prompt2}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
 const b3 = { contents: [{parts: [{text: prompt3}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
@@ -498,16 +531,75 @@ return [{json: {
     print(f"Written: {filename}")
 
 # Format Prompts
-p_commentary = r"""const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. Write a COMMENTARY for ${topic}. Sections: Hook, Context, Argument. ${WRITING_RULES}`;"""
-p_news = r"""const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. Write a NEWS BRIEF for ${topic}. Sections: Summary, Key Facts. ${WRITING_RULES}`;"""
-p_current = r"""const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. Write a CURRENT AFFAIRS analysis for ${topic}. ${WRITING_RULES}`;"""
-p_policy = r"""const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. Write a POLICY BRIEF for ${topic}. ${WRITING_RULES}`;"""
-p_risk = r"""const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. Write a RISK ASSESSMENT for ${topic}. ${WRITING_RULES}`;"""
-p_data = r"""const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. Write a DATA INSIGHT for ${topic}. ${WRITING_RULES}`;"""
-p_scenario = r"""const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. Write a SCENARIO ANALYSIS for ${topic}. ${WRITING_RULES}`;"""
-p_annual = r"""const prompt1 = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. ANNUAL part 1. ${WRITING_RULES}`; const prompt2 = `ANNUAL part 2. ${WRITING_RULES}`;"""
-p_toolkit = r"""const formatPrompt = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. TOOLKIT for ${topic}. ${WRITING_RULES}`;"""
-p_report = r"""const prompt1 = `YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BEFORE OR AFTER THE JSON. NO MARKDOWN CODE FENCES. JUST THE RAW JSON OBJECT STARTING WITH { AND ENDING WITH }. REP1`; const prompt2 = `REP2`; const prompt3 = `REP3`; const prompt4 = `REP4`;"""
+p_commentary = r"""Write a COMMENTARY for ${topic}.
+Sections:
+- Hook: 50-100 words
+- Immediate Context: 100-150 words
+- Main Argument: 150-250 words
+- Interpretation: 100-200 words
+- Strategic Implications: 100-200 words
+- Conclusion: 50-100 words"""
+p_news = r"""Write a NEWS BRIEF for ${topic}.
+MANDATORY SECTIONS:
+- Event Summary: 100-150 words
+- Key Facts: 50-100 words as bullet points
+- Immediate Context: 100-150 words
+- Why It Matters: 100-200 words
+- Short Analysis: 100-150 words
+- Outlook: 50-100 words"""
+p_current = r"""Write a CURRENT AFFAIRS analysis for ${topic}.
+Sections:
+- Breaking Context: 100-150 words
+- The Actors: 100-150 words
+- Conflict/Dynamic Analysis: 150-250 words
+- Regional Impact: 100-200 words
+- Path Ahead: 50-100 words"""
+p_policy = r"""Write a POLICY BRIEF for ${topic}.
+Sections:
+- Executive Summary: 100-150 words
+- Problem Definition: 150-250 words
+- Policy Options: 150-250 words
+- Strategic Recommendation: 100-200 words
+- Implementation Framework: 100-150 words"""
+p_risk = r"""Write a RISK ASSESSMENT for ${topic}.
+Sections:
+- Risk Profile: 100-150 words
+- Trigger Events: 100-150 words
+- Vulnerability Analysis: 150-250 words
+- Mitigation Strategies: 100-200 words
+- Probabilistic Outlook: 50-100 words"""
+p_data = r"""Write a DATA INSIGHT for ${topic}.
+Sections:
+- Data Overview: 100-150 words
+- Variable Analysis: 150-250 words
+- Statistical Significant Trends: 150-250 words
+- Empirical Conclusions: 100-200 words"""
+p_scenario = r"""Write a SCENARIO ANALYSIS for ${topic}.
+Sections:
+- Driver Identification: 100-150 words
+- The Scenarios: 200-400 words
+- Indicator Monitoring: 100-200 words
+- Strategic Preparedness: 100-150 words"""
+p_annual = r"""Write an ANNUAL OUTLOOK for ${topic}.
+Sections:
+- Yearly Retrospective: 200-300 words
+- Macro Drivers: 250-400 words
+- Sector/Regional Trends: 250-400 words
+- Risk/Opportunity Matrix: 200-300 words
+- 12-Month Outlook: 150-250 words"""
+p_toolkit = r"""Write a POLICY TOOLKIT for ${topic}.
+Sections:
+- Objective Framework: 100-150 words
+- Core Instruments: 200-300 words
+- Best Practices: 150-250 words
+- Monitoring & Evaluation: 100-150 words"""
+p_report = r"""Write a STRATEGIC REPORT for ${topic}.
+Sections:
+- Strategic Context: 200-300 words
+- Capability Assessment: 250-400 words
+- Adversarial/Competitive Analysis: 250-400 words
+- Theatre/Market Dynamics: 200-300 words
+- Strategic Conclusions: 150-250 words"""
 
 formats = [
     ("TodayDecode_Commentary_Workflow.json", "Commentary Generator", "COMMENTARY", p_commentary, 1),
