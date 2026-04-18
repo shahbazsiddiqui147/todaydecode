@@ -4,6 +4,7 @@ import os
 def generate_workflow(filename, workflow_name, format_enum, format_prompt, multi_call=1):
     secret = "0f9308d261f24fd5bf75c3f2859cd9c1d0fe9a1a9baf459994d3405084695fe7"
     gemini_key = "PASTE_YOUR_GEMINI_KEY_HERE"
+    claude_key = "PASTE_YOUR_CLAUDE_KEY_HERE"
     
     writing_rules = r"""
 LANGUAGE AND STYLE RULES (mandatory):
@@ -111,9 +112,10 @@ const formatPrompt = 'YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BE
   + 'YOU MUST FOLLOW THIS JSON STRUCTURE EXACTLY:\n'
   + JSON_TEMPLATE;
 const requestBody = {
-  contents: [{parts: [{text: formatPrompt}]}],
-  tools: [{googleSearch: {}}],
-  generationConfig: {temperature: 0.7, maxOutputTokens: 8192}
+  model: 'claude-sonnet-4-5-20251001',
+  max_tokens: 8192,
+  messages: [{role: 'user', content: formatPrompt}],
+  tools: [{type: 'web_search_20250305', name: 'web_search'}]
 };
 return [{json: {requestBody, region, categoryId, format: '""" + format_enum + r"""', topic, categoryFocus}}];"""
     elif multi_call == 2:
@@ -127,8 +129,17 @@ const prompt1 = 'PART 1: YOUR ARTICLE TOPIC IS: ' + topic + '\n'
   + WRITING_RULES + '\n\n'
   + 'RESPONSE MUST BE RAW JSON.';
 const prompt2 = 'PART 2: Finish and provide full JSON. Template:\n' + JSON_TEMPLATE;
-const requestBody1 = { contents: [{parts: [{text: prompt1}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
-const requestBody2 = { contents: [{parts: [{text: prompt2}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
+const requestBody1 = {
+  model: 'claude-sonnet-4-5-20251001',
+  max_tokens: 8192,
+  messages: [{role: 'user', content: prompt1}],
+  tools: [{type: 'web_search_20250305', name: 'web_search'}]
+};
+const requestBody2 = {
+  model: 'claude-sonnet-4-5-20251001',
+  max_tokens: 8192,
+  messages: [{role: 'user', content: prompt2}]
+};
 return [{json: {requestBody1, requestBody2, region, categoryId, format: '""" + format_enum + r"""', topic, categoryFocus}}];"""
     elif multi_call == 4:
         build_prompt_js = shared_prefix_js + r"""
@@ -141,61 +152,39 @@ const prompt1 = 'PART 1: YOUR ARTICLE TOPIC IS: ' + topic + '\n'
 const prompt2 = 'Step 2: Analysis and Data.';
 const prompt3 = 'Step 3: Strategic Outlook.';
 const prompt4 = 'Step 4: Finalize and provide FULL article in this JSON structure:\n' + JSON_TEMPLATE + '\n\n' + WRITING_RULES;
-const b1 = { contents: [{parts: [{text: prompt1}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
-const b2 = { contents: [{parts: [{text: prompt2}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
-const b3 = { contents: [{parts: [{text: prompt3}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
-const b4 = { contents: [{parts: [{text: prompt4}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
+const b1 = { model: 'claude-sonnet-4-5-20251001', max_tokens: 8192, messages: [{role: 'user', content: prompt1}], tools: [{type: 'web_search_20250305', name: 'web_search'}] };
+const b2 = { model: 'claude-sonnet-4-5-20251001', max_tokens: 8192, messages: [{role: 'user', content: prompt2}] };
+const b3 = { model: 'claude-sonnet-4-5-20251001', max_tokens: 8192, messages: [{role: 'user', content: prompt3}] };
+const b4 = { model: 'claude-sonnet-4-5-20251001', max_tokens: 8192, messages: [{role: 'user', content: prompt4}] };
 return [{json: {b1, b2, b3, b4, region, categoryId, format: '""" + format_enum + r"""', topic, categoryFocus}}];"""
 
     parse_validate_js = r"""const geminiResponse = $input.first().json;
 const buildData = $('Build Prompt').first().json;
 let rawText = '';
 try {
-  rawText = geminiResponse.candidates[0].content.parts[0].text;
+  // Handle Claude API response format
+  const content = geminiResponse.content || [];
+  rawText = content.filter(b => b.type === 'text').map(b => b.text).join('');
 } catch(e) {
-  throw new Error('Gemini error: ' + JSON.stringify(geminiResponse).substring(0,300));
+  throw new Error('Claude error: ' + JSON.stringify(geminiResponse).substring(0,300));
 }
 
-// Extract grounding URLs
+// Extract source URLs from Claude web_search tool results
 let groundingUrls = [];
 try {
-  const candidate = geminiResponse.candidates[0];
-  const metadata = candidate.groundingMetadata;
-  if (metadata && metadata.groundingChunks) {
-    const filtered = metadata.groundingChunks
-      .filter(c => c.web && c.web.uri && c.web.title);
-    if (filtered.length > 0) {
-      groundingUrls = filtered.map(c => c.web.uri).slice(0, 5);
-    } else {
-      groundingUrls = metadata.groundingChunks
-        .filter(c => c.web && c.web.title)
-        .map(c => {
-          const t = c.web.title.toLowerCase();
-          if (t.includes('reuters')) return 'https://www.reuters.com';
-          if (t.includes('bbc')) return 'https://www.bbc.com';
-          if (t.includes('aljazeera')) return 'https://www.aljazeera.com';
-          if (t.includes('ft.com') || t.includes('financial times')) return 'https://www.ft.com';
-          if (t.includes('foreignpolicy')) return 'https://foreignpolicy.com';
-          if (t.includes('brookings')) return 'https://www.brookings.edu';
-          if (t.includes('rand')) return 'https://www.rand.org';
-          if (t.includes('cfr')) return 'https://www.cfr.org';
-          if (t.includes('chatham')) return 'https://www.chathamhouse.org';
-          if (t.includes('imf')) return 'https://www.imf.org';
-          if (t.includes('worldbank') || t.includes('world bank')) return 'https://www.worldbank.org';
-          if (t.includes('un.org') || t.includes('united nations')) return 'https://www.un.org';
-          if (t.includes('sipri')) return 'https://www.sipri.org';
-          if (t.includes('guardian')) return 'https://www.theguardian.com';
-          if (t.includes('economist')) return 'https://www.economist.com';
-          if (t.includes('iea')) return 'https://www.iea.org';
-          if (t.includes('nato')) return 'https://www.nato.int';
-          if (t.includes('wikipedia')) return 'https://www.wikipedia.org';
-          return null;
-        })
-        .filter(url => url !== null)
-        .filter((url, i, self) => self.indexOf(url) === i)
-        .slice(0, 5);
+  const content = geminiResponse.content || [];
+  content.forEach(block => {
+    if (block.type === 'tool_result' || block.type === 'web_search_tool_result') {
+      if (block.content && Array.isArray(block.content)) {
+        block.content.forEach(item => {
+          if (item.type === 'web_search_result' && item.url) {
+            groundingUrls.push(item.url);
+          }
+        });
+      }
     }
-  }
+  });
+  groundingUrls = [...new Set(groundingUrls)].slice(0, 5);
 } catch(e) { groundingUrls = []; }
 
 // Clean raw text
@@ -393,7 +382,7 @@ if (articleUrls.length === 0) {
 }
 const allUrls = [...new Set([...groundingUrls, ...articleUrls])].filter(u => u && u.startsWith('http')).slice(0, 5);
 
-if (!title || !content) throw new Error('Could not extract required fields from Gemini response');
+if (!title || !content) throw new Error('Could not extract required fields from Claude response');
 
 // Separation strategy: groundingUrls -> sourceUrls (fallback to articleUrls if empty), articleUrls/imagePrompts -> researchArchive
 const finalUrls = (Array.isArray(groundingUrls) && groundingUrls.length > 0)
@@ -444,7 +433,7 @@ return [{json: {
             "position": [240, 300],
             "parameters": {
                 "formTitle": workflow_name,
-                "formDescription": "Generate a " + format_enum + " article using Gemini AI",
+                "formDescription": "Generate a " + format_enum + " article using Claude AI",
                 "formFields": {
                     "values": [
                         {"fieldLabel": "Topic", "fieldType": "textarea", "requiredField": True},
@@ -490,50 +479,78 @@ return [{json: {
 
     if multi_call == 1:
         nodes.append({
-            "id": "gemini-ai", "name": "Gemini AI", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [x, 300],
+            "id": "claude-ai", "name": "Claude AI", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [x, 300],
             "parameters": {
                 "method": "POST",
-                "url": f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={gemini_key}",
+                "url": "https://api.anthropic.com/v1/messages",
+                "sendHeaders": True,
+                "headerParameters": {"parameters": [
+                    {"name": "x-api-key", "value": claude_key},
+                    {"name": "anthropic-version", "value": "2023-06-01"},
+                    {"name": "content-type", "value": "application/json"},
+                    {"name": "anthropic-beta", "value": "web-search-2025-03-05"}
+                ]},
                 "sendBody": True, "specifyBody": "json",
                 "jsonBody": "={{ JSON.stringify($json.requestBody) }}"
             }
         })
-        connections["Build Prompt"] = {"main": [[{"node": "Gemini AI", "type": "main", "index": 0}]]}
-        last_node = "Gemini AI"
+        connections["Build Prompt"] = {"main": [[{"node": "Claude AI", "type": "main", "index": 0}]]}
+        last_node = "Claude AI"
         x += 260
     elif multi_call == 2:
-        nodes.append({
-            "id": "gemini-1", "name": "Gemini Part 1", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [x, 150],
-            "parameters": {"method": "POST", "url": f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={gemini_key}", "sendBody": True, "specifyBody": "json", "jsonBody": "={{ JSON.stringify($json.requestBody1) }}"}
-        })
-        nodes.append({
-            "id": "gemini-2", "name": "Gemini Part 2", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [x, 450],
-            "parameters": {"method": "POST", "url": f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={gemini_key}", "sendBody": True, "specifyBody": "json", "jsonBody": "={{ JSON.stringify($json.requestBody2) }}"}
-        })
+        for i in range(1, 3):
+            nodes.append({
+                "id": f"claude-{i}", "name": f"Claude Part {i}", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [x, 150 + (300 * (i-1))],
+                "parameters": {
+                    "method": "POST",
+                    "url": "https://api.anthropic.com/v1/messages",
+                    "sendHeaders": True,
+                    "headerParameters": {"parameters": [
+                        {"name": "x-api-key", "value": claude_key},
+                        {"name": "anthropic-version", "value": "2023-06-01"},
+                        {"name": "content-type", "value": "application/json"},
+                        {"name": "anthropic-beta", "value": "web-search-2025-03-05" if i == 1 else ""}
+                    ]},
+                    "sendBody": True, "specifyBody": "json",
+                    "jsonBody": f"={{ JSON.stringify($json.requestBody{i}) }}"
+                }
+            })
         x += 260
         nodes.append({
-            "id": "merge-node", "name": "Merge AI Content", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [x, 300],
-            "parameters": {"jsCode": "const c1 = $('Gemini Part 1').first().json; const c2 = $('Gemini Part 2').first().json; const text = c1.candidates[0].content.parts[0].text + c2.candidates[0].content.parts[0].text; return [{json: { candidates: [{ content: { parts: [{ text }] } }] }}];"}
+            "id": "merge-node", "name": "Merge AI Content", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [x + 260, 300],
+            "parameters": {"jsCode": "const parts = [$('Claude Part 1').first().json, $('Claude Part 2').first().json]; const text = parts.map(p => { const content = p.content || []; return content.filter(b => b.type === 'text').map(b => b.text).join(''); }).join(''); return [{json: { content: [{ type: 'text', text }] }}];"}
         })
-        connections["Build Prompt"] = {"main": [[{"node": "Gemini Part 1", "type": "main", "index": 0}, {"node": "Gemini Part 2", "type": "main", "index": 0}]]}
-        connections["Gemini Part 1"] = {"main": [[{"node": "Merge AI Content", "type": "main", "index": 0}]]}
-        connections["Gemini Part 2"] = {"main": [[{"node": "Merge AI Content", "type": "main", "index": 0}]]}
+        connections["Build Prompt"] = {"main": [[{"node": "Claude Part 1", "type": "main", "index": 0}, {"node": "Claude Part 2", "type": "main", "index": 0}]]}
+        connections["Claude Part 1"] = {"main": [[{"node": "Merge AI Content", "type": "main", "index": 0}]]}
+        connections["Claude Part 2"] = {"main": [[{"node": "Merge AI Content", "type": "main", "index": 0}]]}
         last_node = "Merge AI Content"
         x += 260
     elif multi_call == 4:
         gnodes = []
         for i in range(1, 5):
             nodes.append({
-                "id": f"gemini-{i}", "name": f"Gemini Part {i}", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [x, 100 * i],
-                "parameters": {"method": "POST", "url": f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={gemini_key}", "sendBody": True, "specifyBody": "json", "jsonBody": f"={{ JSON.stringify($json.b{i}) }}"}
+                "id": f"claude-{i}", "name": f"Claude Part {i}", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [x, 100 * i],
+                "parameters": {
+                    "method": "POST",
+                    "url": "https://api.anthropic.com/v1/messages",
+                    "sendHeaders": True,
+                    "headerParameters": {"parameters": [
+                        {"name": "x-api-key", "value": claude_key},
+                        {"name": "anthropic-version", "value": "2023-06-01"},
+                        {"name": "content-type", "value": "application/json"},
+                        {"name": "anthropic-beta", "value": "web-search-2025-03-05" if i == 1 else ""}
+                    ]},
+                    "sendBody": True, "specifyBody": "json",
+                    "jsonBody": f"={{ JSON.stringify($json.b{i}) }}"
+                }
             })
-            gnodes.append({"node": f"Gemini Part {i}", "type": "main", "index": 0})
-            connections[f"Gemini Part {i}"] = {"main": [[{"node": "Merge AI Content", "type": "main", "index": 0}]]}
+            gnodes.append({"node": f"Claude Part {i}", "type": "main", "index": 0})
+            connections[f"Claude Part {i}"] = {"main": [[{"node": "Merge AI Content", "type": "main", "index": 0}]]}
         connections["Build Prompt"] = {"main": [gnodes]}
         x += 260
         nodes.append({
-            "id": "merge-node", "name": "Merge AI Content", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [x, 300],
-            "parameters": {"jsCode": "const parts = [$('Gemini Part 1').first().json, $('Gemini Part 2').first().json, $('Gemini Part 3').first().json, $('Gemini Part 4').first().json]; const text = parts.map(p => p.candidates[0].content.parts[0].text).join(''); return [{json: { candidates: [{ content: { parts: [{ text }] } }] }}];"}
+            "id": "merge-node", "name": "Merge AI Content", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [x + 260, 300],
+            "parameters": {"jsCode": "const parts = [$('Claude Part 1').first().json, $('Claude Part 2').first().json, $('Claude Part 3').first().json, $('Claude Part 4').first().json]; const text = parts.map(p => { const content = p.content || []; return content.filter(b => b.type === 'text').map(b => b.text).join(''); }).join(''); return [{json: { content: [{ type: 'text', text }] }}];"}
         })
         last_node = "Merge AI Content"
         x += 260
