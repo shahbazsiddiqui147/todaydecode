@@ -59,7 +59,7 @@ HTML FORMATTING (mandatory):
     "likely": {"title": "Baseline Projection", "description": "Detailed description", "impact": 55},
     "worst": {"title": "Risk Realization", "description": "Detailed description", "impact": 85}
   },
-  "sourceUrls": ["https://source1.org", "https://source2.org"],
+  "sourceUrls": [],
   "imagePrompts": {"hero": "detailed alt text description", "infographic": "data visualization description"},
   "unsplashKeyword": "word1 word2",
   "featuredImageAlt": "Alt text for image"
@@ -112,7 +112,7 @@ const formatPrompt = 'YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BE
   + JSON_TEMPLATE;
 const requestBody = {
   contents: [{parts: [{text: formatPrompt}]}],
-  tools: [{google_search: {}}],
+  tools: [{googleSearch: {}}],
   generationConfig: {temperature: 0.7, maxOutputTokens: 8192}
 };
 return [{json: {requestBody, region, categoryId, format: '""" + format_enum + r"""', topic, categoryFocus}}];"""
@@ -127,8 +127,8 @@ const prompt1 = 'PART 1: YOUR ARTICLE TOPIC IS: ' + topic + '\n'
   + WRITING_RULES + '\n\n'
   + 'RESPONSE MUST BE RAW JSON.';
 const prompt2 = 'PART 2: Finish and provide full JSON. Template:\n' + JSON_TEMPLATE;
-const requestBody1 = { contents: [{parts: [{text: prompt1}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
-const requestBody2 = { contents: [{parts: [{text: prompt2}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
+const requestBody1 = { contents: [{parts: [{text: prompt1}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
+const requestBody2 = { contents: [{parts: [{text: prompt2}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
 return [{json: {requestBody1, requestBody2, region, categoryId, format: '""" + format_enum + r"""', topic, categoryFocus}}];"""
     elif multi_call == 4:
         build_prompt_js = shared_prefix_js + r"""
@@ -141,10 +141,10 @@ const prompt1 = 'PART 1: YOUR ARTICLE TOPIC IS: ' + topic + '\n'
 const prompt2 = 'Step 2: Analysis and Data.';
 const prompt3 = 'Step 3: Strategic Outlook.';
 const prompt4 = 'Step 4: Finalize and provide FULL article in this JSON structure:\n' + JSON_TEMPLATE + '\n\n' + WRITING_RULES;
-const b1 = { contents: [{parts: [{text: prompt1}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
-const b2 = { contents: [{parts: [{text: prompt2}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
-const b3 = { contents: [{parts: [{text: prompt3}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
-const b4 = { contents: [{parts: [{text: prompt4}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
+const b1 = { contents: [{parts: [{text: prompt1}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
+const b2 = { contents: [{parts: [{text: prompt2}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
+const b3 = { contents: [{parts: [{text: prompt3}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
+const b4 = { contents: [{parts: [{text: prompt4}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
 return [{json: {b1, b2, b3, b4, region, categoryId, format: '""" + format_enum + r"""', topic, categoryFocus}}];"""
 
     parse_validate_js = r"""const geminiResponse = $input.first().json;
