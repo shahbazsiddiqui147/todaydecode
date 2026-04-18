@@ -163,7 +163,7 @@ try {
   const metadata = candidate.groundingMetadata;
   if (metadata && metadata.groundingChunks) {
     const filtered = metadata.groundingChunks
-      .filter(c => c.web && c.web.uri && c.web.title && !c.web.uri.includes('vertexaisearch.cloud.google.com'));
+      .filter(c => c.web && c.web.uri && c.web.title);
     if (filtered.length > 0) {
       groundingUrls = filtered.map(c => c.web.uri).slice(0, 5);
     } else {
