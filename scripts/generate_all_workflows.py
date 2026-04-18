@@ -417,7 +417,7 @@ return [{json: {
   faqData,
   scenarios,
   sourceUrls: finalUrls,
-  featuredImage: 'https://source.unsplash.com/1200x630/?' + encodeURIComponent(unsplashKeyword),
+  featuredImage: '',
   featuredImageAlt,
   researchArchive: finalArchive,
   locale: 'en',
