@@ -395,8 +395,11 @@ const allUrls = [...new Set([...groundingUrls, ...articleUrls])].filter(u => u &
 
 if (!title || !content) throw new Error('Could not extract required fields from Gemini response');
 
-// Separation strategy: groundingUrls -> sourceUrls, articleUrls/imagePrompts -> researchArchive
-const finalUrls = Array.isArray(groundingUrls) ? groundingUrls : [];
+// Separation strategy: groundingUrls -> sourceUrls (fallback to articleUrls if empty), articleUrls/imagePrompts -> researchArchive
+const finalUrls = (Array.isArray(groundingUrls) && groundingUrls.length > 0)
+  ? groundingUrls
+  : articleUrls.filter(u => u && typeof u === 'string' && u.startsWith('http') && !u.includes('source1.org') && !u.includes('source2.org'));
+
 const finalArchive = JSON.stringify({
   imagePrompts: imagePrompts || {},
   articleUrls: articleUrls || []
