@@ -112,7 +112,7 @@ const formatPrompt = 'YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BE
   + JSON_TEMPLATE;
 const requestBody = {
   contents: [{parts: [{text: formatPrompt}]}],
-  tools: [{google_search: {}}],
+  tools: [{googleSearch: {}}],
   generationConfig: {temperature: 0.7, maxOutputTokens: 8192}
 };
 return [{json: {requestBody, region, categoryId, format: '""" + format_enum + r"""', topic, categoryFocus}}];"""
@@ -127,8 +127,8 @@ const prompt1 = 'PART 1: YOUR ARTICLE TOPIC IS: ' + topic + '\n'
   + WRITING_RULES + '\n\n'
   + 'RESPONSE MUST BE RAW JSON.';
 const prompt2 = 'PART 2: Finish and provide full JSON. Template:\n' + JSON_TEMPLATE;
-const requestBody1 = { contents: [{parts: [{text: prompt1}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
-const requestBody2 = { contents: [{parts: [{text: prompt2}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
+const requestBody1 = { contents: [{parts: [{text: prompt1}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
+const requestBody2 = { contents: [{parts: [{text: prompt2}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
 return [{json: {requestBody1, requestBody2, region, categoryId, format: '""" + format_enum + r"""', topic, categoryFocus}}];"""
     elif multi_call == 4:
         build_prompt_js = shared_prefix_js + r"""
@@ -141,10 +141,10 @@ const prompt1 = 'PART 1: YOUR ARTICLE TOPIC IS: ' + topic + '\n'
 const prompt2 = 'Step 2: Analysis and Data.';
 const prompt3 = 'Step 3: Strategic Outlook.';
 const prompt4 = 'Step 4: Finalize and provide FULL article in this JSON structure:\n' + JSON_TEMPLATE + '\n\n' + WRITING_RULES;
-const b1 = { contents: [{parts: [{text: prompt1}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
-const b2 = { contents: [{parts: [{text: prompt2}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
-const b3 = { contents: [{parts: [{text: prompt3}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
-const b4 = { contents: [{parts: [{text: prompt4}]}], tools: [{google_search: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
+const b1 = { contents: [{parts: [{text: prompt1}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
+const b2 = { contents: [{parts: [{text: prompt2}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
+const b3 = { contents: [{parts: [{text: prompt3}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
+const b4 = { contents: [{parts: [{text: prompt4}]}], tools: [{googleSearch: {}}], generationConfig: {temperature: 0.7, maxOutputTokens: 8192} };
 return [{json: {b1, b2, b3, b4, region, categoryId, format: '""" + format_enum + r"""', topic, categoryFocus}}];"""
 
     parse_validate_js = r"""const geminiResponse = $input.first().json;
@@ -493,7 +493,7 @@ return [{json: {
             "id": "gemini-ai", "name": "Gemini AI", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [x, 300],
             "parameters": {
                 "method": "POST",
-                "url": f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent?key={gemini_key}",
+                "url": f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={gemini_key}",
                 "sendBody": True, "specifyBody": "json",
                 "jsonBody": "={{ JSON.stringify($json.requestBody) }}"
             }
@@ -504,11 +504,11 @@ return [{json: {
     elif multi_call == 2:
         nodes.append({
             "id": "gemini-1", "name": "Gemini Part 1", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [x, 150],
-            "parameters": {"method": "POST", "url": f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent?key={gemini_key}", "sendBody": True, "specifyBody": "json", "jsonBody": "={{ JSON.stringify($json.requestBody1) }}"}
+            "parameters": {"method": "POST", "url": f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={gemini_key}", "sendBody": True, "specifyBody": "json", "jsonBody": "={{ JSON.stringify($json.requestBody1) }}"}
         })
         nodes.append({
             "id": "gemini-2", "name": "Gemini Part 2", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [x, 450],
-            "parameters": {"method": "POST", "url": f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent?key={gemini_key}", "sendBody": True, "specifyBody": "json", "jsonBody": "={{ JSON.stringify($json.requestBody2) }}"}
+            "parameters": {"method": "POST", "url": f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={gemini_key}", "sendBody": True, "specifyBody": "json", "jsonBody": "={{ JSON.stringify($json.requestBody2) }}"}
         })
         x += 260
         nodes.append({
@@ -525,7 +525,7 @@ return [{json: {
         for i in range(1, 5):
             nodes.append({
                 "id": f"gemini-{i}", "name": f"Gemini Part {i}", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [x, 100 * i],
-                "parameters": {"method": "POST", "url": f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent?key={gemini_key}", "sendBody": True, "specifyBody": "json", "jsonBody": f"={{ JSON.stringify($json.b{i}) }}"}
+                "parameters": {"method": "POST", "url": f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={gemini_key}", "sendBody": True, "specifyBody": "json", "jsonBody": f"={{ JSON.stringify($json.b{i}) }}"}
             })
             gnodes.append({"node": f"Gemini Part {i}", "type": "main", "index": 0})
             connections[f"Gemini Part {i}"] = {"main": [[{"node": "Merge AI Content", "type": "main", "index": 0}]]}
