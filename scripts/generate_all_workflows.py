@@ -62,7 +62,6 @@ HTML FORMATTING (mandatory):
   },
   "sourceUrls": [],
   "imagePrompts": {"hero": "detailed alt text description", "infographic": "data visualization description"},
-  "unsplashKeyword": "word1 word2",
   "featuredImageAlt": "Alt text for image"
 }
 """
@@ -251,7 +250,6 @@ const onPageLead = extractField(nested, ['onPageLead', 'hook', 'lead', 'lede']) 
 const metaTitle = extractField(nested, ['metaTitle', 'seoTitle']) || title.substring(0, 60);
 const metaDescription = extractField(nested, ['metaDescription', 'seoDescription']) || summary.substring(0, 155);
 const tags = Array.isArray(nested.tags) ? nested.tags : (Array.isArray(parsed.tags) ? parsed.tags : [buildData.topic.toLowerCase().split(' ')[0], buildData.region.toLowerCase(), '2026']);
-const unsplashKeyword = nested.unsplashKeyword || parsed.unsplashKeyword || buildData.topic.split(' ').slice(0, 2).join(' ');
 const featuredImageAlt = nested.featuredImageAlt || parsed.featuredImageAlt || title;
 const imagePrompts = nested.imagePrompts || parsed.imagePrompts || {};
 
