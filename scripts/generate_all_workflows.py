@@ -112,7 +112,7 @@ const formatPrompt = 'YOU MUST RESPOND WITH ONLY A VALID JSON OBJECT. NO TEXT BE
   + 'YOU MUST FOLLOW THIS JSON STRUCTURE EXACTLY:\n'
   + JSON_TEMPLATE;
 const requestBody = {
-  model: 'claude-sonnet-4-5-20251001',
+  model: 'claude-sonnet-4-5',
   max_tokens: 8192,
   messages: [{role: 'user', content: formatPrompt}],
   tools: [{type: 'web_search_20250305', name: 'web_search'}]
@@ -130,13 +130,13 @@ const prompt1 = 'PART 1: YOUR ARTICLE TOPIC IS: ' + topic + '\n'
   + 'RESPONSE MUST BE RAW JSON.';
 const prompt2 = 'PART 2: Finish and provide full JSON. Template:\n' + JSON_TEMPLATE;
 const requestBody1 = {
-  model: 'claude-sonnet-4-5-20251001',
+  model: 'claude-sonnet-4-5',
   max_tokens: 8192,
   messages: [{role: 'user', content: prompt1}],
   tools: [{type: 'web_search_20250305', name: 'web_search'}]
 };
 const requestBody2 = {
-  model: 'claude-sonnet-4-5-20251001',
+  model: 'claude-sonnet-4-5',
   max_tokens: 8192,
   messages: [{role: 'user', content: prompt2}]
 };
@@ -152,10 +152,10 @@ const prompt1 = 'PART 1: YOUR ARTICLE TOPIC IS: ' + topic + '\n'
 const prompt2 = 'Step 2: Analysis and Data.';
 const prompt3 = 'Step 3: Strategic Outlook.';
 const prompt4 = 'Step 4: Finalize and provide FULL article in this JSON structure:\n' + JSON_TEMPLATE + '\n\n' + WRITING_RULES;
-const b1 = { model: 'claude-sonnet-4-5-20251001', max_tokens: 8192, messages: [{role: 'user', content: prompt1}], tools: [{type: 'web_search_20250305', name: 'web_search'}] };
-const b2 = { model: 'claude-sonnet-4-5-20251001', max_tokens: 8192, messages: [{role: 'user', content: prompt2}] };
-const b3 = { model: 'claude-sonnet-4-5-20251001', max_tokens: 8192, messages: [{role: 'user', content: prompt3}] };
-const b4 = { model: 'claude-sonnet-4-5-20251001', max_tokens: 8192, messages: [{role: 'user', content: prompt4}] };
+const b1 = { model: 'claude-sonnet-4-5', max_tokens: 8192, messages: [{role: 'user', content: prompt1}], tools: [{type: 'web_search_20250305', name: 'web_search'}] };
+const b2 = { model: 'claude-sonnet-4-5', max_tokens: 8192, messages: [{role: 'user', content: prompt2}] };
+const b3 = { model: 'claude-sonnet-4-5', max_tokens: 8192, messages: [{role: 'user', content: prompt3}] };
+const b4 = { model: 'claude-sonnet-4-5', max_tokens: 8192, messages: [{role: 'user', content: prompt4}] };
 return [{json: {b1, b2, b3, b4, region, categoryId, format: '""" + format_enum + r"""', topic, categoryFocus}}];"""
 
     parse_validate_js = r"""const geminiResponse = $input.first().json;
