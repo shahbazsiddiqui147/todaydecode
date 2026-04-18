@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
         const VALID_FORMATS = [
             'POLICY_BRIEF', 'STRATEGIC_REPORT', 'COMMENTARY',
             'SCENARIO_ANALYSIS', 'RISK_ASSESSMENT', 'DATA_INSIGHT',
-            'ANNUAL_OUTLOOK', 'POLICY_TOOLKIT'
+            'ANNUAL_OUTLOOK', 'POLICY_TOOLKIT', 'NEWS_BRIEF', 'CURRENT_AFFAIRS'
         ];
 
         const {
