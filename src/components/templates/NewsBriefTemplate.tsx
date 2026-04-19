@@ -29,7 +29,6 @@ export const NewsBriefTemplate: React.FC<NewsBriefTemplateProps> = ({
                 {/* Breaking News Header */}
                 <div className="space-y-6 text-center">
                     <div className="flex items-center justify-center gap-3">
-                        {/* Pulsing red dot */}
                         <span className="relative flex h-3 w-3">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
                             <span className="relative inline-flex rounded-full h-3 w-3 bg-red-600" />
@@ -57,8 +56,19 @@ export const NewsBriefTemplate: React.FC<NewsBriefTemplateProps> = ({
                     </div>
                 </div>
 
+                {/* Featured Image */}
+                {article.featuredImage && (
+                    <div className="w-full aspect-video rounded-3xl overflow-hidden border border-slate-200 dark:border-white/10 shadow-2xl">
+                        <img
+                            src={article.featuredImage}
+                            alt={article.featuredImageAlt || article.title}
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+                )}
+
                 {/* Summary Card — Red accent */}
-                {summary && (
+                {article.onPageLead && (
                     <div className="relative p-8 bg-red-950/20 border border-red-900/40 rounded-3xl overflow-hidden">
                         <div className="absolute top-0 left-0 w-1 h-full bg-red-600 rounded-l-3xl" />
                         <div className="flex items-start gap-4">
@@ -66,51 +76,10 @@ export const NewsBriefTemplate: React.FC<NewsBriefTemplateProps> = ({
                             <div>
                                 <p className="text-[10px] font-black uppercase tracking-widest text-red-500 mb-3">Summary</p>
                                 <p className="text-base text-slate-700 dark:text-slate-200 leading-relaxed font-medium">
-                                    {summary}
+                                    {article.onPageLead}
                                 </p>
                             </div>
                         </div>
-                    </div>
-                )}
-
-                {/* 2-Column Grid: keyDevelopments + context */}
-                {(keyDevelopments || context) && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {keyDevelopments && (
-                            <div className="p-8 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 rounded-3xl space-y-4 hover:border-cyan-500/30 transition-all">
-                                <div className="flex items-center gap-3">
-                                    <Eye className="h-5 w-5 text-cyan-500" />
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-cyan-500">Key Developments</p>
-                                </div>
-                                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                                    {keyDevelopments}
-                                </p>
-                            </div>
-                        )}
-                        {context && (
-                            <div className="p-8 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 rounded-3xl space-y-4 hover:border-purple-500/30 transition-all">
-                                <div className="flex items-center gap-3">
-                                    <AlertCircle className="h-5 w-5 text-purple-500" />
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-purple-500">Context</p>
-                                </div>
-                                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                                    {context}
-                                </p>
-                            </div>
-                        )}
-                    </div>
-                )}
-
-                {/* Outlook — Dark gradient card */}
-                {outlook && (
-                    <div className="p-8 bg-gradient-to-br from-slate-900 to-slate-800 dark:from-black dark:to-slate-900 border border-white/10 rounded-3xl space-y-4">
-                        <div className="flex items-center gap-3">
-                            <TrendingUp className="h-5 w-5 text-emerald-400" />
-                            <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400">Outlook</p>
-                        </div>
-                        <p className="text-sm text-slate-300 leading-relaxed font-medium">
-                            {outlook}
-                        </p>
                     </div>
                 )}
 
