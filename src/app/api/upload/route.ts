@@ -35,7 +35,10 @@ export async function POST(request: Request): Promise<NextResponse> {
         await mkdir(uploadsDir, { recursive: true });
 
         // Always save as .jpg after compression
-        const baseName = path.parse(filename).name;
+        const baseName = path.parse(filename).name
+            .replace(/\s+/g, '-')
+            .replace(/[^a-zA-Z0-9-_]/g, '')
+            .toLowerCase();
         const finalFilename = `${baseName}-${Date.now()}.jpg`;
         const filePath = path.join(uploadsDir, finalFilename);
         await writeFile(filePath, compressed);
