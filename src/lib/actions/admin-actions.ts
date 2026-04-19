@@ -50,8 +50,10 @@ const ArticleSchema = z.object({
         "RISK_ASSESSMENT",
         "DATA_INSIGHT",
         "ANNUAL_OUTLOOK",
-        "POLICY_TOOLKIT"
-    ]).default("STRATEGIC_REPORT"),
+        "POLICY_TOOLKIT",
+        "NEWS_BRIEF",
+        "CURRENT_AFFAIRS"
+    ]).default("COMMENTARY"),
     isFeatured: z.boolean().default(false),
     isFeaturedScenario: z.boolean().default(false),
     region: z.enum(["GLOBAL", "MENA", "APAC", "EUROPE", "AMERICAS", "AFRICA"]).default("GLOBAL"),
