@@ -11,6 +11,7 @@ import OrderedList from "@tiptap/extension-ordered-list";
 import Blockquote from "@tiptap/extension-blockquote";
 import Bold from "@tiptap/extension-bold";
 import Italic from "@tiptap/extension-italic";
+import Image from "@tiptap/extension-image";
 import { 
     Bold as BoldIcon, 
     Italic as ItalicIcon, 
@@ -22,7 +23,8 @@ import {
     Quote, 
     Link as LinkIcon, 
     Undo2, 
-    Redo2 
+    Redo2,
+    ImageIcon
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
@@ -52,6 +54,29 @@ const MenuBar = ({ editor }: { editor: any }) => {
 
         // update link
         editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+    };
+
+    const handleImageUpload = async () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = async (e: any) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            try {
+                const response = await fetch(
+                    `/api/upload?filename=${encodeURIComponent(file.name)}`,
+                    { method: 'POST', body: file }
+                );
+                const data = await response.json();
+                if (data.url) {
+                    editor.chain().focus().setImage({ src: data.url, alt: file.name }).run();
+                }
+            } catch (err) {
+                console.error('Image upload failed:', err);
+            }
+        };
+        input.click();
     };
 
     const buttons = [
@@ -123,6 +148,12 @@ const MenuBar = ({ editor }: { editor: any }) => {
             isActive: () => false,
             disabled: () => !editor.can().redo(),
         },
+        {
+            icon: ImageIcon,
+            title: "Insert Image",
+            action: handleImageUpload,
+            isActive: () => false,
+        },
     ];
 
     return (
@@ -178,6 +209,11 @@ export default function RichTextEditor({
             }),
             Placeholder.configure({
                 placeholder,
+            }),
+            Image.configure({
+                HTMLAttributes: {
+                    class: 'rounded-2xl max-w-full my-6',
+                },
             }),
         ],
         content: content,
