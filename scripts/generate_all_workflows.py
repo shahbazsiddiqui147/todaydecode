@@ -633,7 +633,23 @@ Sections:
 - The Scenarios: 200-400 words
 - Indicator Monitoring: 100-200 words
 - Strategic Preparedness: 100-150 words"""
-p_annual = r"""Write an ANNUAL OUTLOOK article."""
+p_annual = r"""Write a comprehensive ANNUAL OUTLOOK article of 4,000 to 8,000 words.
+
+MANDATORY SECTIONS (in this exact order):
+- Executive Summary: 300-500 words. High-level synthesis of the year ahead.
+- Global Overview: 600-1,000 words. State of the world, macro context, key shifts.
+- Major Trends: 800-1,500 words. 4-6 dominant structural trends shaping the year.
+- Regional Outlooks: 1,000-2,000 words. Cover MENA, APAC, Europe, Americas, Africa separately.
+- Key Risks: 500-1,000 words. Top 5 risks with probability and impact ratings.
+- Economic Forecast: 500-1,000 words. GDP, inflation, trade, investment projections.
+- Technology and Security Trends: 500-1,000 words. AI, cyber, emerging tech, defense implications.
+- Strategic Predictions: 300-600 words. 5-7 bold but evidence-based predictions for the year.
+- Policy Priorities: 300-600 words. Key policy actions governments and institutions should take.
+- Conclusion: 200-400 words. Forward-looking synthesis, not a summary.
+
+Use <h2> for each section header. Use <h3> for subsections within Regional Outlooks.
+Every section must include specific data points, statistics, and percentages.
+Total word count must be between 4,000 and 8,000 words."""
 p_toolkit = r"""Write a POLICY TOOLKIT article.
 Sections:
 - Objective Framework: 100-150 words
