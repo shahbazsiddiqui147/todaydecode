@@ -192,7 +192,38 @@ rawText = rawText.replace(/```json/g,'').replace(/```/g,'').trim();
 // Find JSON boundaries
 const s = rawText.indexOf('{');
 const e2 = rawText.lastIndexOf('}');
-if (s === -1 || e2 === -1) throw new Error('No JSON in response');
+if (s === -1 || e2 === -1) {
+  // For long articles, Claude may return HTML content directly without JSON wrapper
+  // Extract whatever text we have and wrap it
+  const fallbackContent = rawText.length > 100 ? rawText : '<p>' + buildData.topic + '</p>';
+  return [{json: {
+    title: buildData.topic,
+    summary: buildData.topic,
+    onPageLead: buildData.topic,
+    content: fallbackContent,
+    format: buildData.format,
+    status: 'DRAFT',
+    region: buildData.region || 'GLOBAL',
+    categoryId: buildData.categoryId,
+    authorId: 'cmnzrwf6c000aki0f8ssj29vz',
+    riskLevel: 'MEDIUM',
+    riskScore: 50,
+    impactScore: 55,
+    confidenceScore: 70,
+    tags: [buildData.topic.toLowerCase().split(' ')[0], '2026'],
+    metaTitle: buildData.topic.substring(0, 60),
+    metaDescription: buildData.topic.substring(0, 155),
+    directAnswer: '',
+    faqData: [],
+    scenarios: null,
+    sourceUrls: groundingUrls,
+    featuredImage: '',
+    featuredImageAlt: buildData.topic,
+    researchArchive: '{}',
+    locale: 'en',
+    isPremium: false
+  }}];
+}
 const jsonStr = rawText.substring(s, e2 + 1);
 
 let parsed;
@@ -636,20 +667,20 @@ Sections:
 p_annual = r"""Write a comprehensive ANNUAL OUTLOOK article of 4,000 to 8,000 words.
 
 MANDATORY SECTIONS (in this exact order):
-- Executive Summary: 300-500 words. High-level synthesis of the year ahead.
-- Global Overview: 600-1,000 words. State of the world, macro context, key shifts.
-- Major Trends: 800-1,500 words. 4-6 dominant structural trends shaping the year.
-- Regional Outlooks: 1,000-2,000 words. Cover MENA, APAC, Europe, Americas, Africa separately.
-- Key Risks: 500-1,000 words. Top 5 risks with probability and impact ratings.
+- Executive Summary: 300-500 words
+- Global Overview: 600-1,000 words
+- Major Trends: 800-1,500 words. Cover 4-6 dominant structural trends.
+- Regional Outlooks: 1,000-2,000 words. Use <h3> for each region: MENA, APAC, Europe, Americas, Africa.
+- Key Risks: 500-1,000 words. Top 5 risks with probability and impact.
 - Economic Forecast: 500-1,000 words. GDP, inflation, trade, investment projections.
-- Technology and Security Trends: 500-1,000 words. AI, cyber, emerging tech, defense implications.
-- Strategic Predictions: 300-600 words. 5-7 bold but evidence-based predictions for the year.
-- Policy Priorities: 300-600 words. Key policy actions governments and institutions should take.
-- Conclusion: 200-400 words. Forward-looking synthesis, not a summary.
+- Technology and Security Trends: 500-1,000 words.
+- Strategic Predictions: 300-600 words. 5-7 bold evidence-based predictions.
+- Policy Priorities: 300-600 words.
+- Conclusion: 200-400 words. Forward-looking, not a summary.
 
-Use <h2> for each section header. Use <h3> for subsections within Regional Outlooks.
-Every section must include specific data points, statistics, and percentages.
-Total word count must be between 4,000 and 8,000 words."""
+IMPORTANT: Keep your JSON response compact. For the content field, write the full article HTML.
+For all other fields keep values short. The JSON must be valid and complete.
+Do not truncate the content field under any circumstances."""
 p_toolkit = r"""Write a POLICY TOOLKIT article.
 Sections:
 - Objective Framework: 100-150 words
