@@ -510,7 +510,7 @@ return [{json: {
                         {"name": "anthropic-beta", "value": "web-search-2025-03-05" if i == 1 else ""}
                     ]},
                     "sendBody": True, "specifyBody": "json",
-                    "jsonBody": f"={{ JSON.stringify($json.requestBody{i}) }}"
+                    "jsonBody": f"={{{{ JSON.stringify($json.requestBody{i}) }}}}"
                 }
             })
         x += 260
@@ -539,7 +539,7 @@ return [{json: {
                         {"name": "anthropic-beta", "value": "web-search-2025-03-05" if i == 1 else ""}
                     ]},
                     "sendBody": True, "specifyBody": "json",
-                    "jsonBody": f"={{ JSON.stringify($json.b{i}) }}"
+                    "jsonBody": f"={{{{ JSON.stringify($json.b{i}) }}}}"
                 }
             })
             gnodes.append({"node": f"Claude Part {i}", "type": "main", "index": 0})
