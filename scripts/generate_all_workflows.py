@@ -189,6 +189,34 @@ try {
 // Clean raw text
 rawText = rawText.replace(/```json/g,'').replace(/```/g,'').trim();
 
+// For very long responses, Claude may truncate JSON - use a repair strategy
+// Fix common JSON issues: unescaped quotes in content, truncated JSON
+function repairJson(str) {
+  // Find the content field and protect it
+  try {
+    // Try direct parse first
+    JSON.parse(str);
+    return str;
+  } catch(e) {
+    // Try to find where JSON breaks and truncate to last valid closing
+    let depth = 0;
+    let inString = false;
+    let escape = false;
+    let lastValidClose = -1;
+    for (let i = 0; i < str.length; i++) {
+      const c = str[i];
+      if (escape) { escape = false; continue; }
+      if (c === '\\') { escape = true; continue; }
+      if (c === '"' && !escape) { inString = !inString; continue; }
+      if (inString) continue;
+      if (c === '{' || c === '[') depth++;
+      if (c === '}' || c === ']') { depth--; if (depth === 0) lastValidClose = i; }
+    }
+    if (lastValidClose > 0) return str.substring(0, lastValidClose + 1);
+    return str;
+  }
+}
+
 // Find JSON boundaries
 const s = rawText.indexOf('{');
 const e2 = rawText.lastIndexOf('}');
@@ -224,7 +252,7 @@ if (s === -1 || e2 === -1) {
     isPremium: false
   }}];
 }
-const jsonStr = rawText.substring(s, e2 + 1);
+const jsonStr = repairJson(rawText.substring(s, e2 + 1));
 
 let parsed;
 try { parsed = JSON.parse(jsonStr); }
