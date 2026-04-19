@@ -650,9 +650,9 @@ formats = [
     ("TodayDecode_RiskAssessment_Workflow.json", "Risk Assessment Generator", "RISK_ASSESSMENT", p_risk, 1),
     ("TodayDecode_DataInsight_Workflow.json", "Data Insight Generator", "DATA_INSIGHT", p_data, 1),
     ("TodayDecode_ScenarioAnalysis_Workflow.json", "Scenario Analysis Generator", "SCENARIO_ANALYSIS", p_scenario, 1),
-    ("TodayDecode_AnnualOutlook_Workflow.json", "Annual Outlook Generator", "ANNUAL_OUTLOOK", p_annual, 2),
+    ("TodayDecode_AnnualOutlook_Workflow.json", "Annual Outlook Generator", "ANNUAL_OUTLOOK", p_annual, 1),
     ("TodayDecode_PolicyToolkit_Workflow.json", "Policy Toolkit Generator", "POLICY_TOOLKIT", p_toolkit, 1),
-    ("TodayDecode_StrategicReport_Workflow.json", "Strategic Report Generator", "STRATEGIC_REPORT", p_report, 4)
+    ("TodayDecode_StrategicReport_Workflow.json", "Strategic Report Generator", "STRATEGIC_REPORT", p_report, 1)
 ]
 
 for f in formats: generate_workflow(*f)
