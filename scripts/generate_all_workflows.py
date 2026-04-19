@@ -643,78 +643,138 @@ return [{json: {
     print(f"Written: {filename}")
 
 # Format Prompts
-p_commentary = r"""Write a COMMENTARY article.
-Sections:
-- Hook: 50-100 words
-- Immediate Context: 100-150 words
-- Main Argument: 150-250 words
-- Interpretation: 100-200 words
-- Strategic Implications: 100-200 words
-- Conclusion: 50-100 words"""
-p_news = r"""Write a NEWS BRIEF article.
-MANDATORY SECTIONS:
-- Event Summary: 100-150 words
-- Key Facts: 50-100 words as bullet points
-- Immediate Context: 100-150 words
-- Why It Matters: 100-200 words
-- Short Analysis: 100-150 words
-- Outlook: 50-100 words"""
-p_current = r"""Write a CURRENT AFFAIRS analysis article.
-Sections:
-- Breaking Context: 100-150 words
-- The Actors: 100-150 words
-- Conflict/Dynamic Analysis: 150-250 words
-- Regional Impact: 100-200 words
-- Path Ahead: 50-100 words"""
-p_policy = r"""Write a POLICY BRIEF article.
-Sections:
-- Executive Summary: 100-150 words
-- Problem Definition: 150-250 words
-- Policy Options: 150-250 words
-- Strategic Recommendation: 100-200 words
-- Implementation Framework: 100-150 words"""
-p_risk = r"""Write a RISK ASSESSMENT article.
-Sections:
-- Risk Profile: 100-150 words
-- Trigger Events: 100-150 words
-- Vulnerability Analysis: 150-250 words
-- Mitigation Strategies: 100-200 words
-- Probabilistic Outlook: 50-100 words"""
-p_data = r"""Write a DATA INSIGHT article.
-Sections:
-- Data Overview: 100-150 words
-- Variable Analysis: 150-250 words
-- Statistical Significant Trends: 150-250 words
-- Empirical Conclusions: 100-200 words"""
-p_scenario = r"""Write a SCENARIO ANALYSIS article.
-Sections:
-- Driver Identification: 100-150 words
-- The Scenarios: 200-400 words
-- Indicator Monitoring: 100-200 words
-- Strategic Preparedness: 100-150 words"""
-p_annual = r"""Write an ANNUAL OUTLOOK article on the given topic.
+p_commentary = r"""Write a COMMENTARY article of 800-1,200 words total.
 
-RESPOND WITH ONLY A VALID JSON OBJECT. The content field must contain HTML but ALL double quotes inside HTML attributes must use single quotes instead. Example: <a href='url'>text</a> NOT <a href="url">text</a>. Never use double quotes inside the content field string.
+MANDATORY SECTIONS (use <h2> tags):
+1. Hook: 100-150 words. Sharp opening statement that grabs attention.
+2. Context: 150-250 words. Background framing the issue.
+3. Argument / Perspective: 300-500 words. The core analytical argument with evidence.
+4. Strategic Interpretation: 150-250 words. What this means strategically.
+5. Implications: 100-200 words. Consequences for key actors.
+6. Conclusion: 100-150 words. Forward-looking final statement.
 
-Target 2,500 words for the content field.
+Use <h2> for sections, <p> for paragraphs, <strong> for key terms. Include minimum 3 statistics. Single quotes only inside HTML attributes."""
 
-SECTIONS in content (use <h2> tags):
-1. Executive Summary (200-300 words)
-2. Global Overview (400-500 words)
-3. Major Trends (400-500 words)
-4. Regional Outlooks (400-500 words)
-5. Key Risks (300-400 words)
-6. Strategic Predictions (200-300 words)
-7. Conclusion (150-200 words)
+p_news = r"""Write a NEWS BRIEF article of 300-600 words total.
 
-Include minimum 5 statistics. Use <h2> for sections, <h3> for subsections, <p> for paragraphs. ARTICLE CONTENT ONLY."""
-p_toolkit = r"""Write a POLICY TOOLKIT article.
-Sections:
-- Objective Framework: 100-150 words
-- Core Instruments: 200-300 words
-- Best Practices: 150-250 words
-- Monitoring & Evaluation: 100-150 words"""
-p_report = r"""Write a STRATEGIC REPORT article."""
+MANDATORY SECTIONS (use <h2> tags):
+1. Event Summary: 100-150 words. What happened, when, where.
+2. Key Facts: 50-100 words. Use <ul><li> bullet points with 4-5 key facts.
+3. Immediate Context: 100-150 words. Why this happened now.
+4. Why It Matters: 100-200 words. Strategic significance.
+5. Short Analysis: 100-150 words. Brief analytical take.
+6. Outlook: 50-100 words. What happens next.
+
+Use <h2> for sections, <p> for paragraphs, <strong> for key terms. Single quotes only inside HTML attributes."""
+
+p_current = r"""Write a CURRENT AFFAIRS article of 1,000-2,000 words total.
+
+MANDATORY SECTIONS (use <h2> tags):
+1. Overview: 150-250 words. Summary of the current situation.
+2. Background: 200-400 words. Historical and structural context.
+3. Recent Developments: 300-500 words. What has changed recently.
+4. Analysis: 300-600 words. Deep analytical assessment.
+5. Strategic Significance: 200-300 words. Why this matters globally.
+6. Regional / Global Impact: 200-400 words. Effects on key regions and actors.
+7. Conclusion: 100-200 words. Forward-looking synthesis.
+
+Use <h2> for sections, <p> for paragraphs, <strong> for key terms. Include minimum 4 statistics. Single quotes only inside HTML attributes."""
+
+p_policy = r"""Write a POLICY BRIEF article of 1,200-2,500 words total.
+
+MANDATORY SECTIONS (use <h2> tags):
+1. Executive Summary: 150-200 words. High-level synthesis for decision-makers.
+2. Key Takeaways: 100-150 words. Use <ul><li> for 4-5 bullet points.
+3. Strategic Context: 300-500 words. The broader environment shaping this issue.
+4. Problem Definition: 200-400 words. Precise articulation of the policy challenge.
+5. Analysis: 400-800 words. Evidence-based examination of causes, dynamics, stakes.
+6. Policy Recommendations: 300-600 words. Concrete actionable recommendations numbered with <ol><li>.
+7. Conclusion: 100-200 words. Call to action and forward outlook.
+
+Use <h2> for sections, <p> for paragraphs, <strong> for key terms. Include minimum 5 statistics. Single quotes only inside HTML attributes."""
+
+p_risk = r"""Write a RISK ASSESSMENT article of 1,200-2,000 words total.
+
+MANDATORY SECTIONS (use <h2> tags):
+1. Issue Overview: 200-300 words. What is being assessed and why.
+2. Risk Rating: 50-100 words. State overall risk level (LOW/MEDIUM/HIGH/CRITICAL) with brief justification.
+3. Risk Drivers: 300-500 words. Primary factors generating or amplifying the risk.
+4. Impact Analysis: 300-600 words. Consequences if risk materializes across sectors and actors.
+5. Geographic / Sector Exposure: 200-300 words. Who and where is most exposed.
+6. Time Horizon: 100-200 words. Short, medium, long-term risk trajectory.
+7. Mitigation Factors: 150-300 words. What could reduce or contain the risk.
+8. Strategic Outlook: 150-300 words. Net assessment and forward projection.
+
+Use <h2> for sections, <p> for paragraphs, <strong> for key terms. Include minimum 4 statistics. Single quotes only inside HTML attributes."""
+
+p_data = r"""Write a DATA INSIGHT article of 600-1,000 words total.
+
+MANDATORY SECTIONS (use <h2> tags):
+1. Key Finding: 100-150 words. The single most important data-driven insight.
+2. Dataset / Source: 50-100 words. Describe the data sources and methodology.
+3. Analysis: 250-400 words. Deep examination of what the data shows.
+4. Interpretation: 150-250 words. What the patterns mean in context.
+5. Policy / Market Implication: 100-200 words. Actionable implications for decision-makers.
+
+Use <h2> for sections, <p> for paragraphs, <strong> for key terms and numbers. Include minimum 6 specific data points with percentages or figures. Single quotes only inside HTML attributes."""
+
+p_scenario = r"""Write a SCENARIO ANALYSIS article of 1,500-3,000 words total.
+
+MANDATORY SECTIONS (use <h2> tags):
+1. Overview: 200-300 words. Frame the issue and why scenarios matter here.
+2. Key Drivers: 300-500 words. The 3-4 variables that will determine which scenario unfolds.
+3. Scenario 1 — Best Case: 300-600 words. Conditions, probability, outcomes.
+4. Scenario 2 — Most Likely: 300-600 words. Baseline trajectory with evidence.
+5. Scenario 3 — Worst Case: 300-600 words. Conditions, cascade effects, consequences.
+6. Probability Indicators: 150-300 words. Metrics and signals indicating which scenario is emerging.
+7. Signals to Watch: 150-300 words. Specific observable triggers to monitor.
+8. Strategic Implications: 200-400 words. What each scenario means for key actors.
+9. Conclusion: 100-200 words. Net assessment and recommended posture.
+
+Use <h2> for sections, <p> for paragraphs, <strong> for key terms. Include minimum 4 statistics. Single quotes only inside HTML attributes."""
+
+p_annual = r"""Write an ANNUAL OUTLOOK article of 2,500-3,500 words total.
+
+MANDATORY SECTIONS (use <h2> tags):
+1. Executive Summary: 200-300 words.
+2. Global Overview: 400-500 words.
+3. Major Trends: 400-600 words. Cover 4 trends with <h3> subheaders.
+4. Regional Outlooks: 400-600 words. Use <h3> for MENA, APAC, Europe, Americas.
+5. Key Risks: 300-400 words. Top 4 risks.
+6. Economic Forecast: 300-400 words.
+7. Strategic Predictions: 200-300 words. 5 predictions.
+8. Conclusion: 150-200 words.
+
+CRITICAL: Use single quotes only inside HTML attributes. Keep all JSON metadata fields very short. Include minimum 5 statistics."""
+
+p_toolkit = r"""Write a POLICY TOOLKIT article of 1,500-3,000 words total.
+
+MANDATORY SECTIONS (use <h2> tags):
+1. Policy Challenge: 200-300 words. Define the problem requiring a toolkit response.
+2. Existing Approaches: 300-500 words. Survey current policies and their limitations.
+3. Comparative Analysis: 300-600 words. Compare approaches across jurisdictions or sectors.
+4. Framework / Model: 300-600 words. Present the recommended policy framework.
+5. Implementation Strategy: 300-600 words. How to operationalize the framework.
+6. Operational Steps: 200-400 words. Numbered concrete steps using <ol><li>.
+7. Risks and Limitations: 150-300 words. What could go wrong and how to mitigate.
+8. Conclusion: 100-200 words. Summary and call to action.
+
+Use <h2> for sections, <p> for paragraphs, <strong> for key terms. Include minimum 4 statistics. Single quotes only inside HTML attributes."""
+
+p_report = r"""Write a STRATEGIC REPORT article of 3,000-4,000 words total.
+
+MANDATORY SECTIONS (use <h2> tags):
+1. Executive Summary: 300-400 words.
+2. Introduction: 300-500 words. Frame the strategic question.
+3. Global / Regional Context: 500-800 words. The broader environment.
+4. Data and Evidence: 600-1,000 words. Key facts, statistics, empirical evidence.
+5. Core Analysis: 700-1,000 words. Deep analytical assessment.
+6. Future Scenarios: 400-600 words. 3 scenarios with <h3> subheaders.
+7. Policy Implications: 300-500 words. What this means for governments and institutions.
+8. Recommendations: 300-500 words. Numbered using <ol><li>.
+9. Conclusion: 200-300 words.
+
+CRITICAL: Use single quotes only inside HTML attributes. Keep all JSON metadata fields very short. Include minimum 5 statistics."""
 
 formats = [
     ("TodayDecode_Commentary_Workflow.json", "Commentary Generator", "COMMENTARY", p_commentary, 1),
