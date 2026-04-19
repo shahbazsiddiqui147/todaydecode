@@ -664,23 +664,20 @@ Sections:
 - The Scenarios: 200-400 words
 - Indicator Monitoring: 100-200 words
 - Strategic Preparedness: 100-150 words"""
-p_annual = r"""Write a comprehensive ANNUAL OUTLOOK article of 4,000 to 8,000 words.
+p_annual = r"""Write an ANNUAL OUTLOOK article. Target 3,000-4,000 words total.
 
-MANDATORY SECTIONS (in this exact order):
-- Executive Summary: 300-500 words
-- Global Overview: 600-1,000 words
-- Major Trends: 800-1,500 words. Cover 4-6 dominant structural trends.
-- Regional Outlooks: 1,000-2,000 words. Use <h3> for each region: MENA, APAC, Europe, Americas, Africa.
-- Key Risks: 500-1,000 words. Top 5 risks with probability and impact.
-- Economic Forecast: 500-1,000 words. GDP, inflation, trade, investment projections.
-- Technology and Security Trends: 500-1,000 words.
-- Strategic Predictions: 300-600 words. 5-7 bold evidence-based predictions.
-- Policy Priorities: 300-600 words.
-- Conclusion: 200-400 words. Forward-looking, not a summary.
+SECTIONS (use <h2> headers):
+1. Executive Summary (200-300 words)
+2. Global Overview (400-600 words)
+3. Major Trends (500-800 words, 4 trends with <h3> subheaders)
+4. Regional Outlooks (500-800 words, use <h3> for MENA, APAC, Europe, Americas)
+5. Key Risks (300-500 words, top 4 risks)
+6. Economic Forecast (300-500 words)
+7. Strategic Predictions (200-300 words, 5 predictions)
+8. Conclusion (150-200 words)
 
-IMPORTANT: Keep your JSON response compact. For the content field, write the full article HTML.
-For all other fields keep values short. The JSON must be valid and complete.
-Do not truncate the content field under any circumstances."""
+Include minimum 5 specific statistics. Use HTML formatting throughout.
+Keep JSON metadata fields SHORT - summary max 200 chars, onPageLead max 180 chars."""
 p_toolkit = r"""Write a POLICY TOOLKIT article.
 Sections:
 - Objective Framework: 100-150 words
