@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
 import { scaleLinear } from "d3-scale";
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { getLatestReportsByRegion, getCountryMetric } from "@/lib/actions/public-actions";
@@ -46,33 +45,30 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
     const [tooltip, setTooltip] = useState<{ id: string; data: RegionDataInfo } | null>(null);
     const [loadingReports, setLoadingReports] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
-
-    // High-precision mouse tracking
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-
-    // Smooth spring animation for the tooltip movement
-    const smoothX = useSpring(mouseX, { damping: 50, stiffness: 800, mass: 0.2 });
-    const smoothY = useSpring(mouseY, { damping: 50, stiffness: 800, mass: 0.2 });
-
-    // Reactive translation logic for boundary detection (no re-renders needed)
-    const tooltipX = useTransform(smoothX, (val) => {
-        if (typeof window === "undefined") return val + 15;
-        // If near right edge (within 350px), flip box to left side of cursor
-        return val > window.innerWidth - 380 ? val - 340 : val + 20;
-    });
-
-    const tooltipY = useTransform(smoothY, (val) => {
-        if (typeof window === "undefined") return val + 15;
-        // If near bottom (within 450px), flip box upward
-        return val > window.innerHeight - 480 ? val - 420 : val + 20;
-    });
+    const tooltipRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 1024);
         checkMobile();
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    // Global mousemove — updates tooltip position via direct DOM, zero React overhead
+    useEffect(() => {
+        const move = (e: MouseEvent) => {
+            const el = tooltipRef.current;
+            if (!el) return;
+            const W = window.innerWidth;
+            const H = window.innerHeight;
+            const TW = 340;
+            const TH = 460;
+            const x = e.clientX + 18 + TW > W ? e.clientX - TW - 12 : e.clientX + 18;
+            const y = e.clientY + 18 + TH > H ? e.clientY - TH - 12 : e.clientY + 18;
+            el.style.transform = `translate(${x}px, ${y}px)`;
+        };
+        window.addEventListener('mousemove', move);
+        return () => window.removeEventListener('mousemove', move);
     }, []);
 
     const getRegionForCountry = (iso: string) => {
@@ -87,30 +83,26 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
         return regionData[region] || 10;
     };
 
-    const handleMouseEnter = async (geo: any, event: React.MouseEvent) => {
+    const handleMouseEnter = async (geo: any) => {
         if (isMobile) return;
         const iso = geo.id || (geo.properties && geo.properties.ISO_A3);
         const region = getRegionForCountry(iso);
         const riskScore = getRiskForCountry(iso);
 
-        const initialData: RegionDataInfo = {
+        setTooltip({
             id: iso,
-            name: (geo.properties && geo.properties.NAME) || iso,
-            riskScore: riskScore,
-            regionEnum: region,
-            latestReports: [],
-            metrics: null
-        };
-
-        setTooltip({ id: iso, data: initialData });
-
-        // Update mouse position INSTANTLY to prevent glide-in from origin
-        mouseX.jump(event.clientX);
-        mouseY.jump(event.clientY);
+            data: {
+                id: iso,
+                name: (geo.properties && geo.properties.NAME) || iso,
+                riskScore,
+                regionEnum: region,
+                latestReports: [],
+                metrics: null
+            }
+        });
 
         setLoadingReports(true);
         try {
-            // Concurrent fetch for reports and country-specific metrics
             const [reports, countryMetrics] = await Promise.all([
                 region !== "GLOBAL" ? getLatestReportsByRegion(region) : Promise.resolve([]),
                 iso ? getCountryMetric(iso) : Promise.resolve(null)
@@ -120,6 +112,7 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                 ...prev,
                 data: {
                     ...prev.data,
+                    riskScore: countryMetrics?.riskScore ?? riskScore,
                     latestReports: reports,
                     metrics: countryMetrics ? {
                         literacy: countryMetrics.literacy,
@@ -141,7 +134,6 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
             "relative w-full overflow-visible transition-colors duration-300",
             !isBackdrop ? "bg-card rounded-3xl border border-border group" : ""
         )}>
-            {/* Command Header */}
             {!isBackdrop && (
                 <div className="p-6 md:absolute md:top-6 md:left-6 z-10 bg-card/50 backdrop-blur-md md:rounded-2xl md:border md:border-white/5">
                     <h2 className="text-xl md:text-2xl font-black text-[#22D3EE] tracking-tight uppercase leading-none italic">
@@ -156,7 +148,7 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                 </div>
             )}
 
-            {/* Mobile Regional List Fallback */}
+            {/* Mobile fallback */}
             <div className="lg:hidden p-6 pt-0 space-y-4">
                 <div className="bg-accent-red/10 border border-accent-red/20 p-3 rounded-xl mb-4">
                     <p className="text-[10px] font-black text-accent-red uppercase tracking-widest text-center">
@@ -167,11 +159,8 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                     {Object.keys(REGION_ISO_MAP).filter(r => r !== "GLOBAL").map(region => {
                         const score = regionData[region] || 10;
                         return (
-                            <Link
-                                key={region}
-                                href={`/${region.toLowerCase()}/`}
-                                className="flex items-center justify-between p-5 bg-card border border-[#1E293B] rounded-2xl active:scale-95 transition-all shadow-lg"
-                            >
+                            <Link key={region} href={`/${region.toLowerCase()}/`}
+                                className="flex items-center justify-between p-5 bg-card border border-[#1E293B] rounded-2xl active:scale-95 transition-all shadow-lg">
                                 <div className="space-y-1">
                                     <h3 className="text-[11px] font-black uppercase tracking-widest text-foreground italic">{region}</h3>
                                     <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">Aggregate Analysis</p>
@@ -191,35 +180,23 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                 </div>
             </div>
 
-            {/* Map Visualization (Hidden on small mobile, shown on tablet/desktop) */}
-            <div
-                onMouseMove={(e) => {
-                    if (!isMobile) {
-                        mouseX.set(e.clientX);
-                        mouseY.set(e.clientY);
-                    }
-                }}
-                className={cn(
-                    "relative aspect-video lg:aspect-[3/1] w-full border border-border/50 rounded-2xl overflow-hidden bg-[#0A0F1E]",
-                    (isMobile && !isBackdrop) ? "hidden lg:block opacity-40 shadow-2xl" : "block"
-                )}
-            >
-                <ComposableMap
-                    projectionConfig={{ scale: 140 }}
-                    className="w-full h-full"
-                >
+            {/* Map */}
+            <div className={cn(
+                "relative aspect-video lg:aspect-[3/1] w-full border border-border/50 rounded-2xl overflow-hidden bg-[#0A0F1E]",
+                (isMobile && !isBackdrop) ? "hidden lg:block opacity-40 shadow-2xl" : "block"
+            )}>
+                <ComposableMap projectionConfig={{ scale: 140 }} className="w-full h-full">
                     <ZoomableGroup center={[0, 0]} zoom={1} minZoom={1} maxZoom={4}>
                         <Geographies geography={geoUrl}>
                             {({ geographies }: { geographies: any[] }) =>
                                 geographies.map((geo: any) => {
                                     const iso = geo.id || (geo.properties && geo.properties.ISO_A3);
                                     const riskScore = getRiskForCountry(iso);
-
                                     return (
                                         <Geography
                                             key={geo.rsmKey}
                                             geography={geo}
-                                            onMouseEnter={(e: React.MouseEvent) => handleMouseEnter(geo, e)}
+                                            onMouseEnter={() => handleMouseEnter(geo)}
                                             onMouseLeave={() => setTooltip(null)}
                                             style={{
                                                 default: {
@@ -234,13 +211,10 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                                                     stroke: "var(--primary)",
                                                     strokeWidth: 1,
                                                     outline: "none",
-                                                    filter: "drop-shadow(0 0 16px rgba(255, 255, 255, 0.6))",
+                                                    filter: "drop-shadow(0 0 16px rgba(255,255,255,0.6))",
                                                     cursor: "pointer"
                                                 },
-                                                pressed: {
-                                                    fill: "var(--foreground)",
-                                                    outline: "none",
-                                                }
+                                                pressed: { fill: "var(--foreground)", outline: "none" }
                                             }}
                                         />
                                     );
@@ -250,100 +224,95 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                     </ZoomableGroup>
                 </ComposableMap>
 
-                {/* Legend (Visual only) */}
                 {!isBackdrop && (
                     <div className="absolute bottom-6 left-6 z-10 hidden md:flex space-x-6">
                         <div className="flex items-center space-x-2">
-                            <div className="h-2 w-2 rounded-full bg-accent-green shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
+                            <div className="h-2 w-2 rounded-full bg-accent-green" />
                             <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Low Risk</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                            <div className="h-2 w-2 rounded-full bg-yellow-500 shadow-[0_0_8_px_rgba(234,179,8,0.3)]" />
+                            <div className="h-2 w-2 rounded-full bg-yellow-500" />
                             <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Medium</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                            <div className="h-2 w-2 rounded-full bg-accent-red shadow-[0_0_8_px_rgba(255,75,75,0.4)]" />
+                            <div className="h-2 w-2 rounded-full bg-accent-red" />
                             <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Critical</span>
                         </div>
                     </div>
                 )}
             </div>
 
-            <AnimatePresence>
-                {!isMobile && tooltip && (
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        style={{
-                            position: "fixed",
-                            left: 0,
-                            top: 0,
-                            x: tooltipX,
-                            y: tooltipY,
-                            transformOrigin: "top left",
-                            pointerEvents: "none",
-                            zIndex: 100
-                        }}
-                        className="bg-[#111827] border border-[#1E293B] p-4 rounded-2xl shadow-2xl backdrop-blur-2xl min-w-[300px] max-w-[340px] transition-colors duration-300 ring-1 ring-white/10"
-                    >
-                        <div className="flex flex-col space-y-6">
-                            <div className="flex items-center justify-between border-b border-border/10 pb-4">
-                                <div className="space-y-1">
-                                    <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
-                                        Global Actor // {tooltip.data.id}
-                                    </span>
-                                    <h3 className="text-[#F1F5F9] font-black text-2xl tracking-tighter leading-none italic uppercase">
-                                        {tooltip.data.name}
-                                    </h3>
-                                </div>
-                                <div className={cn(
-                                    "flex flex-col items-center justify-center h-12 w-12 rounded-xl border shadow-lg",
-                                    tooltip.data.riskScore > 70 ? "border-accent-red/30 bg-accent-red/10 text-accent-red shadow-accent-red/10" : "border-border bg-secondary text-muted-foreground"
-                                )}>
-                                    <span className="text-sm font-black italic">{tooltip.data.riskScore}</span>
-                                    <span className="text-[7px] font-bold uppercase tracking-tighter">Index</span>
-                                </div>
+            {/* Tooltip — position set via direct DOM transform */}
+            {!isMobile && tooltip && (
+                <div
+                    ref={tooltipRef}
+                    style={{
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        transform: "translate(0px, 0px)",
+                        pointerEvents: "none",
+                        zIndex: 9999,
+                        willChange: "transform"
+                    }}
+                    className="bg-[#111827] border border-[#1E293B] p-4 rounded-2xl shadow-2xl backdrop-blur-2xl w-[320px] ring-1 ring-white/10"
+                >
+                    <div className="flex flex-col space-y-4">
+                        <div className="flex items-center justify-between border-b border-border/10 pb-3">
+                            <div className="space-y-1">
+                                <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
+                                    Global Actor // {tooltip.data.id}
+                                </span>
+                                <h3 className="text-[#F1F5F9] font-black text-2xl tracking-tighter leading-none italic uppercase">
+                                    {tooltip.data.name}
+                                </h3>
                             </div>
-
-                            <div className="space-y-4">
-                                    {loadingReports ? "Syncing analysis data..." : "Risk Index Data"}
-
-                                {loadingReports ? (
-                                    <div className="grid grid-cols-2 gap-3">
-                                        {[1, 2, 3, 4].map(i => <div key={i} className="h-10 w-full bg-foreground/5 rounded-xl animate-pulse" />)}
-                                    </div>
-                                ) : tooltip.data.metrics ? (
-                                    <div className="grid grid-cols-1 gap-4">
-                                        <div className="grid grid-cols-2 gap-3">
-                                            <div className="p-3 bg-secondary/50 rounded-xl border border-border/50">
-                                                <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Literacy</div>
-                                                <div className="text-xs font-black text-foreground">{tooltip.data.metrics.literacy || "N/A"}</div>
-                                            </div>
-                                            <div className="p-3 bg-secondary/50 rounded-xl border border-border/50">
-                                                <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Defence Profile</div>
-                                                <div className="text-xs font-black text-foreground">{tooltip.data.metrics.defenceProfile || "N/A"}</div>
-                                            </div>
-                                        </div>
-                                        <div className="p-3 bg-secondary/50 rounded-xl border border-border/50">
-                                            <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Economy</div>
-                                            <div className="text-xs font-black text-foreground">{tooltip.data.metrics.economy || "N/A"}</div>
-                                        </div>
-                                        <div className="p-3 bg-secondary/50 rounded-xl border border-border/50">
-                                            <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Energy</div>
-                                            <div className="text-xs font-black text-foreground">{tooltip.data.metrics.energy || "N/A"}</div>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="p-4 bg-secondary/30 rounded-2xl border border-dashed border-border flex flex-col items-center justify-center text-center space-y-2">
-                                            Detailed metrics pending synchronization.
-                                    </div>
-                                )}
+                            <div className={cn(
+                                "flex flex-col items-center justify-center h-12 w-12 rounded-xl border shadow-lg shrink-0",
+                                tooltip.data.riskScore > 70 ? "border-accent-red/30 bg-accent-red/10 text-accent-red" :
+                                    tooltip.data.riskScore > 40 ? "border-yellow-500/30 bg-yellow-500/10 text-yellow-400" :
+                                        "border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
+                            )}>
+                                <span className="text-sm font-black italic">{tooltip.data.riskScore}</span>
+                                <span className="text-[7px] font-bold uppercase tracking-tighter">Index</span>
                             </div>
                         </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+
+                        {loadingReports ? (
+                            <div className="grid grid-cols-2 gap-2">
+                                {[1, 2, 3, 4].map(i => (
+                                    <div key={i} className="h-10 w-full bg-foreground/5 rounded-xl animate-pulse" />
+                                ))}
+                            </div>
+                        ) : tooltip.data.metrics ? (
+                            <div className="grid grid-cols-1 gap-2">
+                                <div className="grid grid-cols-2 gap-2">
+                                    <div className="p-3 bg-secondary/50 rounded-xl border border-border/50">
+                                        <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Literacy</div>
+                                        <div className="text-xs font-black text-foreground">{tooltip.data.metrics.literacy || "N/A"}</div>
+                                    </div>
+                                    <div className="p-3 bg-secondary/50 rounded-xl border border-border/50">
+                                        <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Economy</div>
+                                        <div className="text-xs font-black text-foreground">{tooltip.data.metrics.economy || "N/A"}</div>
+                                    </div>
+                                </div>
+                                <div className="p-3 bg-secondary/50 rounded-xl border border-border/50">
+                                    <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Energy</div>
+                                    <div className="text-xs font-black text-foreground">{tooltip.data.metrics.energy || "N/A"}</div>
+                                </div>
+                                <div className="p-3 bg-secondary/50 rounded-xl border border-border/50">
+                                    <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Defence Profile</div>
+                                    <div className="text-xs font-black text-foreground">{tooltip.data.metrics.defenceProfile || "N/A"}</div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="p-3 bg-secondary/30 rounded-xl border border-dashed border-border text-center">
+                                <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Data forthcoming</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
