@@ -20,6 +20,7 @@ import {
 import { cn } from "@/lib/utils";
 import { RiskGauge } from "../metrics/risk-gauge";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 // Default icon mapping for dynamic categories
 const ICON_MAP: Record<string, any> = {
@@ -44,6 +45,8 @@ export function Sidebar({
     navigationItems?: any[]
 }) {
     const pathname = usePathname();
+    const { data: session } = useSession();
+    const isAdmin = (session?.user as any)?.role === 'ADMIN';
     const [metrics, setMetrics] = useState<any>(initialMetrics);
     const [categories, setCategories] = useState<any[]>(initialCategories);
     const [curatedNav, setCuratedNav] = useState<any[]>(navigationItems);
@@ -174,26 +177,28 @@ export function Sidebar({
                     </div>
                 </div>
 
-                {/* System Administration */}
-                <div className="pt-4 border-t border-border-slate">
-                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] px-2 mb-3">
-                        Admin Dashboard
+                {/* System Administration — Admin only */}
+                {isAdmin && (
+                    <div className="pt-4 border-t border-border-slate">
+                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] px-2 mb-3">
+                            Admin
+                        </div>
+                        <Link
+                            href="/admin/"
+                            className="group flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:bg-secondary/50 hover:text-foreground transition-colors"
+                        >
+                            <LayoutDashboard className="mr-3 h-4 w-4 shrink-0" />
+                            Admin Panel
+                        </Link>
+                        <Link
+                            href="/settings/"
+                            className="group flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:bg-secondary/50 hover:text-foreground transition-colors"
+                        >
+                            <Settings className="mr-3 h-4 w-4 shrink-0" />
+                            Settings
+                        </Link>
                     </div>
-                    <Link
-                        href="/admin/"
-                        className="group flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:bg-secondary/50 hover:text-foreground transition-colors"
-                    >
-                        <LayoutDashboard className="mr-3 h-4 w-4 shrink-0" />
-                        Admin Panel
-                    </Link>
-                    <Link
-                        href="/settings/"
-                        className="group flex items-center px-2 py-2 text-sm font-medium text-muted-foreground rounded-md hover:bg-secondary/50 hover:text-foreground transition-colors"
-                    >
-                        <Settings className="mr-3 h-4 w-4 shrink-0" />
-                        Settings
-                    </Link>
-                </div>
+                )}
             </div>
 
             {/* Footer Info */}

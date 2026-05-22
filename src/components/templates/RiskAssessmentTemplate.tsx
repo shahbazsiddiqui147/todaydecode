@@ -40,10 +40,9 @@ export const RiskAssessmentTemplate: React.FC<RiskAssessmentTemplateProps> = ({
                             RISK ANALYSIS
                         </Badge>
                         <MethodologyBadge />
-                        <span className="text-[10px] font-black uppercase tracking-widest text-[#22D3EE] animate-pulse">Live Risk Monitoring Active</span>
                     </div>
 
-                    <h1 className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-[0.9]">
+                    <h1 className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tighter leading-[0.95]">
                         {article.title}
                     </h1>
 
@@ -128,7 +127,7 @@ export const RiskAssessmentTemplate: React.FC<RiskAssessmentTemplateProps> = ({
             {/* Analysis Body */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 py-16">
                 <main className="lg:col-span-8 space-y-16">
-                    <div className="prose prose-slate dark:prose-invert max-w-none prose-p:text-lg prose-p:leading-relaxed prose-headings:uppercase prose-headings:tracking-tighter prose-headings:font-black">
+                    <div className="prose prose-slate dark:prose-invert max-w-none prose-p:text-lg prose-p:leading-relaxed prose-headings:tracking-tight prose-headings:font-black">
                         <PaywallGate isPremium={article.isPremium}>
                             <ContentRenderer content={article.content} />
                         </PaywallGate>
@@ -154,7 +153,7 @@ export const RiskAssessmentTemplate: React.FC<RiskAssessmentTemplateProps> = ({
                                 <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Risk Audit Nodes</h4>
                                 <ShieldAlert className="h-3 w-3 text-accent-red" />
                             </div>
-                            <div className="space-y-4 font-mono text-[9px] text-slate-500">
+                            <div className="space-y-4 font-mono text-[11px] text-slate-500">
                                 <div className="flex justify-between"><span>VERIFICATION_HASH:</span> <span className="text-white">TD-{article.id.substring(0, 6)}X</span></div>
                                 <div className="flex justify-between"><span>IMPACT_VECT:</span> <span className="text-white">{article.impactScore}% ALPHA</span></div>
                                 <div className="flex justify-between"><span>NODAL_SYNC:</span> <span className="text-white">ENCRYPTED</span></div>

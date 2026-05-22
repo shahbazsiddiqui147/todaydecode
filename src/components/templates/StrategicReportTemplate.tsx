@@ -152,7 +152,7 @@ export const StrategicReportTemplate: React.FC<StrategicReportTemplateProps> = (
                     </div>
 
                     {/* Primary Analysis Content */}
-                    <div className="prose prose-slate dark:prose-invert max-w-none prose-p:text-lg prose-p:leading-relaxed prose-headings:uppercase prose-headings:tracking-tighter prose-headings:font-black prose-img:rounded-3xl">
+                    <div className="prose prose-slate dark:prose-invert max-w-none prose-p:text-lg prose-p:leading-relaxed prose-headings:tracking-tight prose-headings:font-black prose-img:rounded-3xl">
                         <PaywallGate isPremium={article.isPremium}>
                             <ContentRenderer content={article.content} />
                         </PaywallGate>

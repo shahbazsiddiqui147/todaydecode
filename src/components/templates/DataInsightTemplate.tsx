@@ -79,7 +79,7 @@ export const DataInsightTemplate: React.FC<DataInsightTemplateProps> = ({
                 </div>
 
                 {/* Full Analysis Body */}
-                <div className="prose prose-slate dark:prose-invert max-w-none prose-p:text-lg prose-p:leading-relaxed prose-headings:uppercase prose-headings:tracking-tighter prose-headings:font-black pt-12 border-t border-white/5">
+                <div className="prose prose-slate dark:prose-invert max-w-none prose-p:text-lg prose-p:leading-relaxed prose-headings:tracking-tight prose-headings:font-black pt-12 border-t border-white/5">
                     <PaywallGate isPremium={article.isPremium}>
                         <ContentRenderer content={article.content.includes('##') ? '##' + article.content.split('##').slice(1).join('##') : ''} />
                     </PaywallGate>

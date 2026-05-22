@@ -77,7 +77,7 @@ export const ScenarioAnalysisTemplate: React.FC<ScenarioAnalysisTemplateProps> =
                             </div>
                         )}
 
-                        <div className="prose prose-slate dark:prose-invert max-w-none prose-p:text-lg prose-p:leading-relaxed prose-headings:uppercase prose-headings:tracking-widest prose-headings:text-sm prose-headings:font-black prose-headings:text-slate-500 prose-headings:border-b prose-headings:border-white/5 prose-headings:pb-4">
+                        <div className="prose prose-slate dark:prose-invert max-w-none prose-p:text-lg prose-p:leading-relaxed prose-headings:tracking-wide prose-headings:text-sm prose-headings:font-black prose-headings:text-slate-500 prose-headings:border-b prose-headings:border-white/5 prose-headings:pb-4">
                             <PaywallGate isPremium={article.isPremium}>
                                 <ContentRenderer content={article.content} />
                             </PaywallGate>

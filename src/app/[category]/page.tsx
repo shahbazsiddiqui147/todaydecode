@@ -166,7 +166,7 @@ function InstitutionalPage({ page }: { page: any }) {
 
                 <div
                     className="institutional-content prose prose-slate dark:prose-invert max-w-none 
-                        prose-headings:uppercase prose-headings:tracking-tighter prose-headings:font-black prose-headings:italic
+                        prose-headings:tracking-tight prose-headings:font-black
                         prose-p:text-lg prose-p:font-medium prose-p:leading-relaxed prose-p:tracking-tight
                         prose-strong:text-foreground prose-strong:font-black
                         prose-a:text-accent-red prose-a:no-underline hover:prose-a:underline

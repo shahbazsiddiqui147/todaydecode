@@ -97,7 +97,7 @@ export const PolicyBriefTemplate: React.FC<PolicyBriefTemplateProps> = ({
                 )}
 
                 {/* Strategic Context / Analysis */}
-                <div className="prose prose-slate dark:prose-invert max-w-none prose-headings:uppercase prose-headings:tracking-tighter prose-headings:font-black">
+                <div className="prose prose-slate dark:prose-invert max-w-none prose-headings:tracking-tight prose-headings:font-black">
                     <PaywallGate isPremium={article.isPremium}>
                         <ContentRenderer content={article.content} />
                     </PaywallGate>

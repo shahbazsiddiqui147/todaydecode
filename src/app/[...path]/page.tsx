@@ -205,7 +205,7 @@ function StaticPage({ page }: { page: any }) {
                 </div>
                 <div
                     className="institutional-content prose prose-slate dark:prose-invert max-w-none 
-                        prose-headings:uppercase prose-headings:tracking-tighter prose-headings:font-black prose-headings:italic
+                        prose-headings:tracking-tight prose-headings:font-black
                         prose-p:text-lg prose-p:font-medium prose-p:leading-relaxed prose-p:tracking-tight
                         prose-a:text-accent-red prose-a:no-underline hover:prose-a:underline
                         prose-li:text-base prose-li:font-medium prose-li:leading-relaxed
