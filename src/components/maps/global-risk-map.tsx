@@ -46,6 +46,7 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
     const [loadingReports, setLoadingReports] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const tooltipRef = useRef<HTMLDivElement>(null);
+    const lastMousePos = useRef({ x: 0, y: 0 });
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 1024);
@@ -54,22 +55,34 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
+    const positionTooltip = (mx: number, my: number) => {
+        const el = tooltipRef.current;
+        if (!el) return;
+        const W = window.innerWidth;
+        const H = window.innerHeight;
+        const TW = 340;
+        const TH = 240;
+        const x = mx + 20 + TW > W ? mx - TW - 14 : mx + 20;
+        const y = my + 20 + TH > H ? my - TH - 14 : my + 20;
+        el.style.transform = `translate(${x}px, ${y}px)`;
+    };
+
     // Global mousemove — updates tooltip position via direct DOM, zero React overhead
     useEffect(() => {
         const move = (e: MouseEvent) => {
-            const el = tooltipRef.current;
-            if (!el) return;
-            const W = window.innerWidth;
-            const H = window.innerHeight;
-            const TW = 340;
-            const TH = 460;
-            const x = e.clientX + 18 + TW > W ? e.clientX - TW - 12 : e.clientX + 18;
-            const y = e.clientY + 18 + TH > H ? e.clientY - TH - 12 : e.clientY + 18;
-            el.style.transform = `translate(${x}px, ${y}px)`;
+            lastMousePos.current = { x: e.clientX, y: e.clientY };
+            positionTooltip(e.clientX, e.clientY);
         };
         window.addEventListener('mousemove', move);
         return () => window.removeEventListener('mousemove', move);
     }, []);
+
+    // Snap tooltip to cursor immediately when it first appears (before first mousemove fires)
+    useEffect(() => {
+        if (!tooltip) return;
+        const { x, y } = lastMousePos.current;
+        positionTooltip(x, y);
+    }, [tooltip?.id]);
 
     const getRegionForCountry = (iso: string) => {
         for (const [region, isos] of Object.entries(REGION_ISO_MAP)) {
