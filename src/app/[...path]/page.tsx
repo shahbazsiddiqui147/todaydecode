@@ -162,7 +162,7 @@ function CategoryIndex({ category, parentPath }: { category: any; parentPath?: s
                             key={article.id}
                             id={article.id}
                             title={article.title}
-                            category={category.name}
+                            category={category.slug}
                             slug={article.slug}
                             image={article.featuredImage || "/images/intel-1.jpg"}
                             riskLevel={article.riskLevel}

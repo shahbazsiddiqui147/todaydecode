@@ -118,7 +118,7 @@ function CategoryDesk({ silo }: { silo: any }) {
                             key={article.id}
                             id={article.id}
                             title={article.title}
-                            category={silo.name}
+                            category={silo.slug}
                             slug={article.slug}
                             image={article.featuredImage || "/images/intel-1.jpg"}
                             riskLevel={article.riskLevel}

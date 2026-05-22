@@ -2,13 +2,31 @@
 
 import React from 'react';
 import parse, { domToReact, HTMLReactParserOptions, Element, Text } from 'html-react-parser';
+import { marked } from 'marked';
 import { DiagramRenderer } from '@/components/intel/DiagramRenderer';
 
 interface ContentRendererProps {
     content: string;
 }
 
+// Detect if content is markdown (contains ## headings or **bold**)
+function isMarkdown(content: string): boolean {
+    return /^#{1,6}\s/m.test(content) || /\*\*[^*]+\*\*/.test(content);
+}
+
+// Convert markdown to HTML synchronously
+function markdownToHtml(content: string): string {
+    marked.setOptions({ breaks: true });
+    const result = marked.parse(content);
+    // marked.parse can return a Promise if using async renderer, handle both
+    if (typeof result === 'string') return result;
+    return content;
+}
+
 export const ContentRenderer: React.FC<ContentRendererProps> = ({ content }) => {
+    // Pre-process: convert markdown to HTML if needed
+    const processedContent = isMarkdown(content) ? markdownToHtml(content) : content;
+
     // Recursive text extractor for TipTap nodes
     const extractText = (node: any): string => {
         if (!node) return '';
@@ -65,7 +83,7 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({ content }) => 
 
     return (
         <div className="prose prose-invert prose-slate max-w-none text-slate-300 leading-[1.75] text-[1.125rem] font-medium tracking-tight">
-            {parse(content, options)}
+            {parse(processedContent, options)}
         </div>
     );
 };

@@ -31,14 +31,16 @@ export const StrategicReportTemplate: React.FC<StrategicReportTemplateProps> = (
     return (
         <div className="strategic-report-container max-w-screen-2xl mx-auto pb-20">
             {/* Academic Hero Section */}
-            <div className="relative h-[70vh] w-full overflow-hidden border-b border-border/10 bg-[#020617]">
-                <Image
-                    src={article.featuredImage || "/images/intel-1.jpg"}
-                    alt={article.title}
-                    fill
-                    className="object-cover opacity-40 grayscale transition-all duration-1000 hover:opacity-50"
-                    priority
-                />
+            <div className={`relative ${article.featuredImage ? 'h-[70vh]' : 'h-[50vh]'} w-full overflow-hidden border-b border-border/10 bg-[#020617]`}>
+                {article.featuredImage && (
+                    <Image
+                        src={article.featuredImage}
+                        alt={article.title}
+                        fill
+                        className="object-cover opacity-40 grayscale transition-all duration-1000 hover:opacity-50"
+                        priority
+                    />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/40 to-transparent" />
 
                 <div className="absolute bottom-0 left-0 right-0 p-12 max-w-7xl mx-auto">

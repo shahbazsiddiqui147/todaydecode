@@ -130,7 +130,7 @@ export default async function AuthorProfilePage({ params }: { params: Promise<{ 
                                     key={article.slug}
                                     id={article.id}
                                     title={article.title}
-                                    category={article.category.name}
+                                    category={article.category.slug}
                                     slug={article.slug}
                                     image={article.featuredImage || "/images/intel-1.jpg"}
                                     riskLevel={article.riskLevel}

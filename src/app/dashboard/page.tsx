@@ -157,7 +157,7 @@ export default async function DashboardPage() {
                                         key={article.id}
                                         id={article.id}
                                         title={article.title}
-                                        category={article.category.name}
+                                        category={article.category.slug}
                                         slug={article.slug}
                                         image="/images/intel-1.jpg"
                                         riskLevel={article.riskLevel}

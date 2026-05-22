@@ -25,7 +25,7 @@ export function QuickAnswers({ faqData }: QuickAnswersProps) {
                 </div>
                 <div>
                     <h2 className="text-md font-black text-slate-900 dark:text-white uppercase tracking-tighter text-white">
-                        Institutional Strategic Analysis Desk Q&A
+                        Research & Analysis Q&A
                     </h2>
                 </div>
             </div>
