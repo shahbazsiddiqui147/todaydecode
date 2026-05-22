@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ path: str
         if (desk) {
             return constructMetadata({
                 title: `${desk.name} | Research Topic`,
-                description: desk.description || `Tactical reports and analytical vectors for ${desk.name}.`,
+                description: desk.description || `Strategic reports and research analysis for ${desk.name}.`,
                 path: `/${path.join('/')}/`,
             });
         }

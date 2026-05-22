@@ -7,17 +7,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     let categories: any[] = [];
 
     try {
-        // Fetch articles and categories from the database if URL exists
+        // Fetch only PUBLISHED articles and visible categories
         articles = await prisma.article.findMany({
+            where: { status: 'PUBLISHED' },
             select: {
                 slug: true,
                 publishedAt: true,
+                updatedAt: true,
                 category: { select: { slug: true } }
             },
         });
 
         categories = await prisma.category.findMany({
-            select: { slug: true },
+            where: { isVisible: true },
+            select: { slug: true, updatedAt: true },
         });
     } catch (error) {
         console.error("Sitemap generation error: Database connection failed. Returning static routes only.", error);
@@ -25,21 +28,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const articleEntries: MetadataRoute.Sitemap = articles.map((article) => ({
         url: `${SITE_URL}/${article.category.slug.replace(/^\/|\/$/g, '')}/${article.slug.replace(/^\/|\/$/g, '')}/`,
-        lastModified: article.publishedAt,
-        changeFrequency: 'daily',
+        lastModified: article.updatedAt || article.publishedAt,
+        changeFrequency: 'weekly',
         priority: 0.8,
     }));
 
     const categoryEntries: MetadataRoute.Sitemap = categories.map((category) => ({
         url: `${SITE_URL}/${category.slug.replace(/^\/|\/$/g, '')}/`,
-        changeFrequency: 'weekly',
-        priority: 0.5,
+        lastModified: category.updatedAt,
+        changeFrequency: 'daily',
+        priority: 0.7,
     }));
 
     const staticPages = [
-        { url: `${SITE_URL}/`, priority: 1, changeFrequency: 'daily' },
+        { url: `${SITE_URL}/`, priority: 1.0, changeFrequency: 'daily' },
+        { url: `${SITE_URL}/about/`, priority: 0.8, changeFrequency: 'monthly' },
+        { url: `${SITE_URL}/contributors/`, priority: 0.7, changeFrequency: 'monthly' },
         { url: `${SITE_URL}/pricing/`, priority: 0.7, changeFrequency: 'monthly' },
-        { url: `${SITE_URL}/methodology/`, priority: 0.5, changeFrequency: 'monthly' },
+        { url: `${SITE_URL}/methodology/`, priority: 0.6, changeFrequency: 'monthly' },
+        { url: `${SITE_URL}/contact/`, priority: 0.5, changeFrequency: 'yearly' },
     ] as MetadataRoute.Sitemap;
 
     return [

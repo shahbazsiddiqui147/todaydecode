@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     return constructMetadata({
         title: `${author.name} | Strategic Analyst Profile`,
-        description: `Professional strategic manifest for ${author.name}. Role: ${author.role}. Sector Expertise: ${author.expertise.join(", ")}.`,
+        description: `Professional strategic profile for ${author.name}. Role: ${author.role}. Sector Expertise: ${author.expertise.join(", ")}.`,
         path: `/author/${slug}/`,
     });
 }

@@ -72,7 +72,7 @@ export const DataInsightTemplate: React.FC<DataInsightTemplateProps> = ({
                         </div>
                         <div className="p-8 bg-black/20 border border-white/5 rounded-2xl">
                             <p className="text-sm font-medium text-slate-400 leading-relaxed uppercase tracking-tight">
-                                {structuredData.interpretation || "Cross-nodal verification suggests this dataset is a lead indicator for broader volatility in the 30-day window."}
+                                {structuredData.interpretation || "Cross-referenced analysis suggests this dataset is a lead indicator for broader volatility in the 30-day window."}
                             </p>
                         </div>
                     </div>

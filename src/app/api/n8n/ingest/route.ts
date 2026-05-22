@@ -97,10 +97,10 @@ export async function POST(req: NextRequest) {
         let finalAuthorId = authorId;
         if (!finalAuthorId) {
             const aiAuthor = await prisma.author.findUnique({
-                where: { slug: 'strategic-analysis-desk' }
+                where: { slug: 'the-desk' }
             });
             if (!aiAuthor) {
-                return NextResponse.json({ error: "Strategic Analysis Desk identity not found." }, { status: 500 });
+                return NextResponse.json({ error: "The Desk author not found." }, { status: 500 });
             }
             finalAuthorId = aiAuthor.id;
         }
@@ -193,7 +193,7 @@ export async function POST(req: NextRequest) {
             articleId: article.id,
             slug: article.slug,
             adminUrl: `https://todaydecode.com/admin/articles/edit/${article.id}`,
-            message: `Intelligence dispatch ${action} successfully as ${article.status}.`
+            message: `Content dispatch ${action} successfully as ${article.status}.`
         }, { status: 200 });
 
     } catch (error: any) {

@@ -9,7 +9,7 @@ export function MethodologyBadge() {
     const [isOpen, setIsOpen] = useState(false);
 
     const verificationPoints = [
-        { title: "OSINT Verification", desc: "Cross-referenced data from open-source satellite imagery and localized reports." },
+        { title: "Open-Source Verification", desc: "Cross-referenced data from publicly available sources, satellite imagery, and localized reports." },
         { title: "Financial Modeling", desc: "Live-streamed economic indicators correlated with regional instability scores." },
         { title: "Geopolitical Sentiment", desc: "AI-driven analysis of official state communications and diplomatic cables." },
         { title: "Corridor Analysis", desc: "Physical chokepoint monitoring via AIS and maritime tracking systems." },

@@ -40,8 +40,8 @@ export function BookmarkButton({ articleId, className }: BookmarkButtonProps) {
                 setBookmarked(res.action === "bookmarked");
                 toast.success(
                     res.action === "bookmarked"
-                        ? "Analysis saved to your Strategic Manifest."
-                        : "Analysis removed from Manifest."
+                        ? "Analysis saved to your Research Portfolio."
+                        : "Analysis removed from Research Portfolio."
                 );
             }
         });
@@ -58,7 +58,7 @@ export function BookmarkButton({ articleId, className }: BookmarkButtonProps) {
                     : "bg-slate-900 text-slate-500 hover:text-white border border-slate-800",
                 className
             )}
-            title={bookmarked ? "Remove from Manifest" : "Save to Manifest"}
+            title={bookmarked ? "Remove from Portfolio" : "Save to Portfolio"}
         >
             {bookmarked ? (
                 <BookmarkCheck className={cn("h-4 w-4", isPending && "animate-pulse")} />

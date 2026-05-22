@@ -37,15 +37,14 @@ export function constructMetadata({
             'COMMENTARY': 'Strategic Commentary',
             'DATA_INSIGHT': 'Technical Data Insight',
             'ANNUAL_OUTLOOK': 'Annual Strategic Outlook',
-            'POLICY_TOOLKIT': 'Operational Policy Toolkit'
+            'POLICY_TOOLKIT': 'Institutional Policy Toolkit'
         };
         const label = formatLabels[articleFormat] || 'Strategic Analysis';
         dynamicDescription = `[${label}] ${description}`;
     }
 
-    if (riskScore !== undefined) {
-        dynamicDescription = `[RISK: ${riskScore}/100] // ${dynamicDescription}`;
-    }
+    // riskScore is used for structured data only, not injected into meta description
+    // to preserve the full 160-char description for SEO
 
     return {
         metadataBase: new URL(SITE_URL),

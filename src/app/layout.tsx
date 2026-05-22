@@ -79,7 +79,7 @@ export default async function RootLayout({
                   <div className="h-full bg-accent-red animate-progress-loading" />
                 </div>
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground animate-pulse">
-                  Initializing Strategic Assets...
+                  Initializing Research Platform...
                 </span>
               </div>
             }>

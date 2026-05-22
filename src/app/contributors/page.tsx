@@ -27,7 +27,7 @@ const ROLES = [
     },
     {
         title: "Journalists",
-        description: "Investigative reporters and field journalists providing verifiable intelligence and on-the-ground reporting.",
+        description: "Investigative reporters and field journalists providing verifiable research insights and on-the-ground reporting.",
         icon: Newspaper
     },
     {

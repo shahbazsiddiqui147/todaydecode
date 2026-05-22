@@ -42,7 +42,7 @@ export const PolicyToolkitTemplate: React.FC<PolicyToolkitTemplateProps> = ({
                 </h1>
 
                 <div className="flex flex-wrap gap-8 text-[10px] font-black uppercase tracking-widest text-slate-500">
-                    <div className="flex items-center gap-2"><ClipboardList className="h-4 w-4" /> Operational Manual</div>
+                    <div className="flex items-center gap-2"><ClipboardList className="h-4 w-4" /> Implementation Guide</div>
                     <div className="flex items-center gap-2"><Clock className="h-4 w-4" /> {formattedDate}</div>
                     <div className="flex items-center gap-2"><Layers className="h-4 w-4" /> {readingTime}</div>
                 </div>
@@ -125,12 +125,12 @@ export const PolicyToolkitTemplate: React.FC<PolicyToolkitTemplateProps> = ({
                     <div className="sticky top-32 space-y-10">
                         <div className="p-8 bg-slate-900/90 border-t-4 border-accent-green rounded-3xl space-y-8">
                             <div className="flex items-center justify-between">
-                                <h4 className="text-xs font-black uppercase tracking-[0.3em] text-white">Resource Manifest</h4>
+                                <h4 className="text-xs font-black uppercase tracking-[0.3em] text-white">Resource Index</h4>
                                 <BookOpen className="h-4 w-4 text-accent-green" />
                             </div>
                             <div className="space-y-4">
                                 <div className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all cursor-pointer group">
-                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest group-hover:text-white transition-colors">Data Manifest Node</span>
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest group-hover:text-white transition-colors">Reference Document</span>
                                     <ExternalLink className="h-3 w-3 text-slate-500" />
                                 </div>
                                 <div className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all cursor-pointer group">
