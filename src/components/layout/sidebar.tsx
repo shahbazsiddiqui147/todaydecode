@@ -3,37 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-    Globe,
-    TrendingUp,
-    ShieldAlert,
-    Cpu,
-    Zap,
     LayoutDashboard,
     Settings,
     ChevronUp,
     ChevronDown,
-    Layers,
-    Activity,
-    Database,
-    Binary
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { RiskGauge } from "../metrics/risk-gauge";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-
-// Default icon mapping for dynamic categories
-const ICON_MAP: Record<string, any> = {
-    "geopolitics": Globe,
-    "economy": TrendingUp,
-    "security": ShieldAlert,
-    "technology": Cpu,
-    "energy": Zap,
-    "global": Layers,
-    "risk": Activity,
-    "cyber": Binary,
-    "data": Database
-};
 
 export function Sidebar({
     initialCategories = [],
@@ -76,7 +54,6 @@ export function Sidebar({
                         const siloSlug = silo.slug.replace(/^\/|\/$/g, '');
                         const siloHref = `/${siloSlug}/`;
                         const isSiloActive = pathname.startsWith(siloHref);
-                        const SiloIcon = ICON_MAP[silo.name.toLowerCase()] || ICON_MAP[siloSlug] || Globe;
 
                         return (
                             <div key={silo.id} className="space-y-1">
@@ -89,10 +66,6 @@ export function Sidebar({
                                     )}
                                 >
                                     <Link href={siloHref} className="flex items-center flex-1">
-                                        <SiloIcon className={cn(
-                                            "mr-3 h-5 w-5 shrink-0 transition-colors",
-                                            isSiloActive ? "text-[#22D3EE]" : "group-hover:text-[#22D3EE]"
-                                        )} />
                                         {silo.name}
                                     </Link>
                                     {silo.children && silo.children.length > 0 && (

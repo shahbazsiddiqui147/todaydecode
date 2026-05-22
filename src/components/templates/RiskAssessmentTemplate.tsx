@@ -75,7 +75,8 @@ export const RiskAssessmentTemplate: React.FC<RiskAssessmentTemplateProps> = ({
                 </div>
             </div>
 
-            {/* Technical Grid: Drivers & Sectors */}
+            {/* Technical Grid: Drivers & Sectors — only shown when data exists */}
+            {(volatilityDrivers.length > 0 || affectedSectors.length > 0) && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-16 border-b border-white/5">
                 {/* Volatility Drivers */}
                 <div className="space-y-6">
@@ -123,6 +124,7 @@ export const RiskAssessmentTemplate: React.FC<RiskAssessmentTemplateProps> = ({
                     </div>
                 </div>
             </div>
+            )}
 
             {/* Analysis Body */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 py-16">

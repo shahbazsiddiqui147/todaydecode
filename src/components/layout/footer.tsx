@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { getAdminPages } from "@/lib/actions/admin-actions";
 import { fetchSiteSettings } from "@/lib/fetchers";
+import { prisma } from "@/lib/prisma";
 import {
     Shield,
     Globe,
@@ -18,10 +19,17 @@ import {
 export async function Footer() {
     let pages: any[] = [];
     let settings: any = null;
+    let categories: any[] = [];
     try {
-        [pages, settings] = await Promise.all([
+        [pages, settings, categories] = await Promise.all([
             getAdminPages(),
-            fetchSiteSettings()
+            fetchSiteSettings(),
+            prisma.category.findMany({
+                where: { isVisible: true, parentId: null },
+                select: { name: true, slug: true },
+                orderBy: { order: 'asc' },
+                take: 8
+            })
         ]);
     } catch (error) {
         console.error("Institutional Footer Sync Failed:", error);
@@ -32,7 +40,7 @@ export async function Footer() {
 
     return (
         <footer className="w-full bg-background border-t border-border pt-20 pb-10 px-6 mt-20 transition-colors duration-300">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 sm:gap-8 border-b border-border pb-16">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-12 sm:gap-8 border-b border-border pb-16">
                 {/* Brand Identity */}
                 <div className="md:col-span-1 space-y-6">
                     <Link href="/" className="text-2xl font-black tracking-tighter text-foreground uppercase italic dark:text-white">
@@ -101,30 +109,51 @@ export async function Footer() {
                     </nav>
                 </div>
 
-                {/* Analysis Desk Access */}
+                {/* Topics — dynamic from DB */}
                 <div className="md:col-span-1 space-y-6">
                     <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-foreground dark:text-white italic">Topics</h4>
                     <nav className="flex flex-col gap-3">
-                        <Link href="/security/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Security</Link>
-                        <Link href="/economy/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Economy</Link>
-                        <Link href="/technology/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Technology</Link>
-                        <Link href="/energy/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors">Energy</Link>
+                        {categories.length > 0 ? categories.map((cat) => (
+                            <Link
+                                key={cat.slug}
+                                href={`/${cat.slug.replace(/^\/|\/$/g, '')}/`}
+                                className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors flex items-center gap-2 group"
+                            >
+                                <ChevronRight className="h-3 w-3 text-accent-red opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
+                                {cat.name}
+                            </Link>
+                        )) : (
+                            <>
+                                <Link href="/geopolitics/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-white transition-colors">Geopolitics</Link>
+                                <Link href="/global-economy/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-white transition-colors">Global Economy</Link>
+                                <Link href="/security-defense/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-white transition-colors">Security & Defense</Link>
+                                <Link href="/conflict-crisis/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-white transition-colors">Conflict & Crisis</Link>
+                            </>
+                        )}
                     </nav>
                 </div>
 
-                {/* System Integrity */}
-                <div className="md:col-span-1 p-6 bg-card border border-border rounded-2xl space-y-4">
-                    <div className="flex items-center gap-2">
-                        <div className="h-2 w-2 rounded-full bg-accent-green animate-pulse" />
-                        <span className="text-[9px] font-black uppercase tracking-[0.25em] text-accent-green">System Status</span>
-                    </div>
-                    <p className="text-[10px] font-medium text-muted-foreground leading-relaxed">
-                        Platform monitored and maintained. All data is securely managed.
-                    </p>
-                    <div className="pt-2 flex items-center justify-between border-t border-border/10">
-                        <span className="text-[8px] font-black text-muted-foreground/60 uppercase">Latency: 24ms</span>
-                        <span className="text-[8px] font-black text-muted-foreground/60 uppercase">Uptime: 99.9%</span>
-                    </div>
+                {/* Contribute */}
+                <div className="md:col-span-1 space-y-6">
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-foreground dark:text-white italic">Contribute</h4>
+                    <nav className="flex flex-col gap-3">
+                        <Link href="/contributors/submit/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors flex items-center gap-2 group">
+                            <ChevronRight className="h-3 w-3 text-accent-red opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
+                            Become a Contributor
+                        </Link>
+                        <Link href="/about/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors flex items-center gap-2 group">
+                            <ChevronRight className="h-3 w-3 text-accent-red opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
+                            About Us
+                        </Link>
+                        <Link href="/contact/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors flex items-center gap-2 group">
+                            <ChevronRight className="h-3 w-3 text-accent-red opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
+                            Contact Us
+                        </Link>
+                        <Link href="/pricing/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors flex items-center gap-2 group">
+                            <ChevronRight className="h-3 w-3 text-accent-red opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
+                            Membership
+                        </Link>
+                    </nav>
                 </div>
             </div>
 

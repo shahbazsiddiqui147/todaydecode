@@ -285,23 +285,21 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                                 ))}
                             </div>
                         ) : tooltip.data.metrics ? (
-                            <div className="grid grid-cols-1 gap-2">
-                                <div className="grid grid-cols-2 gap-2">
-                                    <div className="p-3 bg-secondary/50 rounded-xl border border-border/50">
-                                        <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Literacy</div>
-                                        <div className="text-xs font-black text-foreground">{tooltip.data.metrics.literacy || "N/A"}</div>
-                                    </div>
-                                    <div className="p-3 bg-secondary/50 rounded-xl border border-border/50">
-                                        <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Economy</div>
-                                        <div className="text-xs font-black text-foreground">{tooltip.data.metrics.economy || "N/A"}</div>
-                                    </div>
+                            <div className="grid grid-cols-2 gap-2">
+                                <div className="p-3 bg-secondary/50 rounded-xl border border-border/50">
+                                    <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Population</div>
+                                    <div className="text-xs font-black text-foreground">{tooltip.data.metrics.literacy || "N/A"}</div>
                                 </div>
                                 <div className="p-3 bg-secondary/50 rounded-xl border border-border/50">
-                                    <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Energy</div>
+                                    <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Economy</div>
+                                    <div className="text-xs font-black text-foreground">{tooltip.data.metrics.economy || "N/A"}</div>
+                                </div>
+                                <div className="p-3 bg-secondary/50 rounded-xl border border-border/50">
+                                    <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Fuel</div>
                                     <div className="text-xs font-black text-foreground">{tooltip.data.metrics.energy || "N/A"}</div>
                                 </div>
                                 <div className="p-3 bg-secondary/50 rounded-xl border border-border/50">
-                                    <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Defence Profile</div>
+                                    <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Military Power</div>
                                     <div className="text-xs font-black text-foreground">{tooltip.data.metrics.defenceProfile || "N/A"}</div>
                                 </div>
                             </div>
