@@ -20,7 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
         categories = await prisma.category.findMany({
             where: { isVisible: true },
-            select: { slug: true, updatedAt: true },
+            select: { slug: true },
         });
     } catch (error) {
         console.error("Sitemap generation error: Database connection failed. Returning static routes only.", error);
@@ -35,7 +35,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const categoryEntries: MetadataRoute.Sitemap = categories.map((category) => ({
         url: `${SITE_URL}/${category.slug.replace(/^\/|\/$/g, '')}/`,
-        lastModified: category.updatedAt,
         changeFrequency: 'daily',
         priority: 0.7,
     }));
