@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
 import { scaleLinear } from "d3-scale";
 import Link from "next/link";
@@ -125,6 +126,7 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                 ...prev,
                 data: {
                     ...prev.data,
+                    name: countryMetrics?.countryName || prev.data.name,
                     riskScore: countryMetrics?.riskScore ?? riskScore,
                     latestReports: reports,
                     metrics: countryMetrics ? {
@@ -255,8 +257,8 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                 )}
             </div>
 
-            {/* Tooltip — position set via direct DOM transform */}
-            {!isMobile && tooltip && (
+            {/* Tooltip — rendered into document.body via portal to avoid parent transform offsets */}
+            {!isMobile && tooltip && typeof document !== "undefined" && createPortal(
                 <div
                     ref={tooltipRef}
                     style={{
@@ -274,11 +276,16 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                         <div className="flex items-center justify-between border-b border-border/10 pb-3">
                             <div className="space-y-1">
                                 <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
-                                    Global Actor // {tooltip.data.id}
+                                    Country Profile
                                 </span>
                                 <h3 className="text-[#F1F5F9] font-black text-2xl tracking-tighter leading-none italic uppercase">
-                                    {tooltip.data.name}
+                                    {tooltip.data.metrics?.literacy
+                                        ? tooltip.data.name
+                                        : tooltip.data.name}
                                 </h3>
+                                <span className="text-[9px] font-bold text-muted-foreground/60 uppercase tracking-widest">
+                                    ISO: {tooltip.data.id}
+                                </span>
                             </div>
                             <div className={cn(
                                 "flex flex-col items-center justify-center h-12 w-12 rounded-xl border shadow-lg shrink-0",
@@ -322,7 +329,8 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                             </div>
                         )}
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );
