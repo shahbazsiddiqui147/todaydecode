@@ -36,7 +36,7 @@ export default function ArticleController({
         <div className="relative min-h-screen bg-background pb-20">
             <ReadingProgressBar />
             <JsonLd
-                type={FORMAT_JSON_LD_TYPE[article.format] || 'Article'}
+                type={(FORMAT_JSON_LD_TYPE[article.format] || 'Article') as any}
                 data={{
                     title: article.title,
                     summary: article.summary,
