@@ -5,6 +5,17 @@ import parse, { domToReact, HTMLReactParserOptions, Element, Text } from 'html-r
 import { marked } from 'marked';
 import { DiagramRenderer } from '@/components/intel/DiagramRenderer';
 
+// Convert ALL-CAPS heading text to Title Case
+// e.g. "THE CHINA SIDE" → "The China Side"
+function toTitleCase(str: string): string {
+    if (!str) return str;
+    // Only convert if string is predominantly uppercase
+    const upper = (str.match(/[A-Z]/g) || []).length;
+    const lower = (str.match(/[a-z]/g) || []).length;
+    if (upper <= lower) return str; // already mixed case, leave it
+    return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+}
+
 interface ContentRendererProps {
     content: string;
 }
@@ -40,6 +51,17 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({ content }) => 
 
     const options: HTMLReactParserOptions = {
         replace: (domNode: any) => {
+            // Priority 0: Normalise heading case
+            if (domNode instanceof Element && ['h1','h2','h3','h4','h5','h6'].includes(domNode.name)) {
+                const Tag = domNode.name as any;
+                const rawText = extractText(domNode);
+                const fixedText = toTitleCase(rawText);
+                // Only swap in fixed text if it actually changed
+                if (fixedText !== rawText) {
+                    return <Tag>{fixedText}</Tag>;
+                }
+            }
+
             // Priority 1: Institutional Diagram Block (Tiptap Custom Node)
             if (domNode instanceof Element && domNode.name === 'div' && domNode.attribs['data-type'] === 'diagram-block') {
                 const code = domNode.attribs['data-code'] || "";

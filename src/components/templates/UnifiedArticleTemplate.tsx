@@ -78,7 +78,7 @@ export const UnifiedArticleTemplate: React.FC<Props> = ({
                     </div>
 
                     {/* Title */}
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter leading-[0.92] max-w-4xl mb-8">
+                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tighter leading-[1.1] max-w-4xl mb-8 normal-case">
                         {article.title}
                     </h1>
 
