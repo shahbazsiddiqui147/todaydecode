@@ -99,15 +99,15 @@ footer {
 }
 
 .prose h1 {
-  @apply text-[2.25rem] md:text-[3.75rem] font-black uppercase tracking-tighter mb-8 mt-12 leading-[1.1];
+  @apply text-[2.25rem] md:text-[3.75rem] font-black tracking-tighter mb-8 mt-12 leading-[1.1];
 }
 
 .prose h2 {
-  @apply text-[1.875rem] font-semibold uppercase tracking-wide mb-6 mt-10 text-[#22D3EE];
+  @apply text-[1.875rem] font-semibold tracking-wide mb-6 mt-10 text-[#22D3EE];
 }
 
 .prose h3 {
-  @apply text-[1.5rem] font-medium uppercase tracking-wide mb-4 mt-8;
+  @apply text-[1.5rem] font-medium tracking-wide mb-4 mt-8;
 }
 
 .prose p {
