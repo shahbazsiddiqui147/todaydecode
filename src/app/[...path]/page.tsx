@@ -84,8 +84,19 @@ export default async function CatchAllRoute({ params, searchParams }: {
         />;
     }
 
-    // PATH 2: CHILD DESK INDEX
+    // PATH 2: ARTICLE UNDER SILO  (/category/article-slug/)  OR CHILD DESK INDEX
     if (path.length === 2) {
+        // First try as article: /silo/article-slug/
+        const articleSlug = `/${path[1]}/`;
+        const article = await getPublicArticleBySlug(articleSlug);
+        if (article) {
+            return <ArticleController
+                article={article}
+                fullSiloPath={`/${path[0]}/`}
+            />;
+        }
+
+        // Fallback: treat as sub-category desk index
         const deskSlug = `/${path[1]}/`;
         const desk = await getCategoryBySlug(deskSlug);
         if (!desk) notFound();
