@@ -215,9 +215,10 @@ export const UnifiedArticleTemplate: React.FC<Props> = ({
                     {/* Article body */}
                     <div className="prose prose-slate dark:prose-invert max-w-none
                         prose-p:text-[17px] prose-p:leading-[1.8] prose-p:text-slate-300
-                        prose-headings:font-black prose-headings:tracking-tight prose-headings:text-white
-                        prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4
-                        prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+                        prose-headings:font-black prose-headings:tracking-tight prose-headings:text-white prose-headings:normal-case
+                        prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 [&_h2]:capitalize
+                        prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 [&_h3]:capitalize
+                        [&_h4]:capitalize
                         prose-strong:text-white prose-strong:font-bold
                         prose-li:text-slate-300 prose-li:text-[17px]
                         prose-img:rounded-2xl">
