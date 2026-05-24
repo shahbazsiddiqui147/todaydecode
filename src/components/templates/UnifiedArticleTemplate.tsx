@@ -69,7 +69,7 @@ export const UnifiedArticleTemplate: React.FC<Props> = ({
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/50 to-transparent" />
 
-                <div className="relative z-10 max-w-5xl mx-auto px-6 pt-16 pb-12 flex flex-col justify-end h-full">
+                <div className="relative z-10 max-w-6xl mx-auto px-6 pt-16 pb-12 flex flex-col justify-end h-full">
                     {/* Badges */}
                     <div className="flex items-center gap-3 mb-6 flex-wrap">
                         <Badge className="bg-accent-red/90 text-white rounded-sm px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em]">
@@ -111,7 +111,7 @@ export const UnifiedArticleTemplate: React.FC<Props> = ({
             </div>
 
             {/* ── LEADERBOARD AD — after hero ── */}
-            <div className="max-w-5xl mx-auto px-6 mt-8 flex justify-center">
+            <div className="max-w-6xl mx-auto px-6 mt-8 flex justify-center">
                 <AdUnit
                     placement="leaderboard"
                     adsenseSlot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_LEADERBOARD}
@@ -121,7 +121,7 @@ export const UnifiedArticleTemplate: React.FC<Props> = ({
             </div>
 
             {/* ── BODY GRID ── */}
-            <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 mt-8">
+            <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 mt-8">
 
                 {/* ── SIDEBAR ── */}
                 <aside className="lg:col-span-3 order-2 lg:order-1">
@@ -195,20 +195,6 @@ export const UnifiedArticleTemplate: React.FC<Props> = ({
                             </div>
                         )}
 
-                        {/* Citation Tool */}
-                        <div className="p-5 border border-white/8 rounded-2xl bg-white/[0.03] space-y-4 opacity-50 hover:opacity-100 transition-opacity">
-                            <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-500 border-b border-white/5 pb-3">
-                                Cite This Report
-                            </h4>
-                            <CitationTool
-                                title={article.title}
-                                author={article.author.name}
-                                publishedDate={formattedDate}
-                                category={fullSiloPath || article.category.name}
-                                slug={article.slug}
-                            />
-                        </div>
-
                         {/* Sidebar Ad */}
                         <AdUnit
                             placement="sidebar"
@@ -252,6 +238,20 @@ export const UnifiedArticleTemplate: React.FC<Props> = ({
                             adsenseSlot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_FOOTER}
                             gamUnit={process.env.NEXT_PUBLIC_GAM_UNIT_FOOTER}
                             ezoicId={104}
+                        />
+                    </div>
+
+                    {/* Citation Tool — full width below article */}
+                    <div className="border-t border-white/8 pt-8">
+                        <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-500 mb-4">
+                            Cite This Report
+                        </h4>
+                        <CitationTool
+                            title={article.title}
+                            author={article.author.name}
+                            publishedDate={formattedDate}
+                            category={fullSiloPath || article.category.name}
+                            slug={article.slug}
                         />
                     </div>
 
