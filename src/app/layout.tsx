@@ -17,6 +17,7 @@ import {
 } from "@/lib/fetchers";
 
 import { Footer } from "@/components/layout/footer";
+import { AdScripts } from "@/components/monetization/AdScripts";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -66,6 +67,9 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <AdScripts />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AuthProvider>
           <ThemeProvider

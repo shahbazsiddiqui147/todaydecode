@@ -4,48 +4,46 @@ import React from 'react';
 import parse, { domToReact, HTMLReactParserOptions, Element, Text } from 'html-react-parser';
 import { marked } from 'marked';
 import { DiagramRenderer } from '@/components/intel/DiagramRenderer';
+import { AdUnit } from '@/components/monetization/AdUnit';
 
 // Convert ALL-CAPS heading text to Title Case
 // e.g. "THE CHINA SIDE" → "The China Side"
 function toTitleCase(str: string): string {
     if (!str) return str;
-    // Only convert if string is predominantly uppercase
     const upper = (str.match(/[A-Z]/g) || []).length;
     const lower = (str.match(/[a-z]/g) || []).length;
-    if (upper <= lower) return str; // already mixed case, leave it
+    if (upper <= lower) return str;
     return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
 }
 
 interface ContentRendererProps {
     content: string;
+    /** Show in-content ads after every Nth paragraph. Default: 4. Set 0 to disable. */
+    adEvery?: number;
 }
 
-// Detect if content is markdown (contains ## headings or **bold**)
 function isMarkdown(content: string): boolean {
     return /^#{1,6}\s/m.test(content) || /\*\*[^*]+\*\*/.test(content);
 }
 
-// Convert markdown to HTML synchronously
 function markdownToHtml(content: string): string {
     marked.setOptions({ breaks: true });
     const result = marked.parse(content);
-    // marked.parse can return a Promise if using async renderer, handle both
     if (typeof result === 'string') return result;
     return content;
 }
 
-export const ContentRenderer: React.FC<ContentRendererProps> = ({ content }) => {
-    // Pre-process: convert markdown to HTML if needed
+export const ContentRenderer: React.FC<ContentRendererProps> = ({ content, adEvery = 4 }) => {
     const processedContent = isMarkdown(content) ? markdownToHtml(content) : content;
 
-    // Recursive text extractor for TipTap nodes
+    // Counter for paragraphs — mutable ref in closure (safe: runs once per render)
+    let paragraphCount = 0;
+
     const extractText = (node: any): string => {
         if (!node) return '';
         if (node.type === 'text') return node.data || '';
         if (node.name === 'br') return '\n';
-        if (Array.isArray(node.children)) {
-            return node.children.map(extractText).join('');
-        }
+        if (Array.isArray(node.children)) return node.children.map(extractText).join('');
         return '';
     };
 
@@ -56,49 +54,57 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({ content }) => 
                 const Tag = domNode.name as any;
                 const rawText = extractText(domNode);
                 const fixedText = toTitleCase(rawText);
-                // Only swap in fixed text if it actually changed
                 if (fixedText !== rawText) {
                     return <Tag>{fixedText}</Tag>;
                 }
             }
 
-            // Priority 1: Institutional Diagram Block (Tiptap Custom Node)
+            // Priority 1: Diagram block
             if (domNode instanceof Element && domNode.name === 'div' && domNode.attribs['data-type'] === 'diagram-block') {
-                const code = domNode.attribs['data-code'] || "";
-                return <DiagramRenderer code={code} />;
+                return <DiagramRenderer code={domNode.attribs['data-code'] || ""} />;
             }
 
-            // Legacy Support: Semantic code blocks from Tiptap
+            // Legacy mermaid code block
             if (domNode instanceof Element && domNode.name === 'pre' && (domNode.attribs.class?.includes('mermaid') || domNode.attribs['data-type'] === 'mermaid')) {
-                const code = extractText(domNode);
-                return <DiagramRenderer code={code} />;
+                return <DiagramRenderer code={extractText(domNode)} />;
             }
 
-            // Priority 2: Robust Regex Text Intercepts (Direct logic blocks)
+            // Priority 2: Paragraph — mermaid detection + ad injection
             if (domNode instanceof Element && domNode.name === 'p') {
                 const text = extractText(domNode).trim();
+                const isMermaid = /^(graph|flowchart|sequenceDiagram|gantt|classDiagram|stateDiagram|erDiagram|journey|pie|gitGraph|requirementDiagram)($|[\s\n;])/i.test(text) || text.startsWith('%%{init');
+                if (isMermaid) return <DiagramRenderer code={text} />;
 
-                const isMermaid = /^(graph|flowchart|sequenceDiagram|gantt|classDiagram|stateDiagram|erDiagram|journey|pie|gitGraph|requirementDiagram)($|[\s\n;])/i.test(text) ||
-                    text.startsWith('%%{init');
-
-                if (isMermaid) {
-                    return <DiagramRenderer code={text} />;
+                // Count this paragraph and inject ad after every Nth
+                if (adEvery > 0) {
+                    paragraphCount++;
+                    if (paragraphCount % adEvery === 0) {
+                        const adKey = `ad-p-${paragraphCount}`;
+                        return (
+                            <>
+                                <p>{domToReact(domNode.children as any, options)}</p>
+                                <div key={adKey} className="my-6 flex justify-center not-prose">
+                                    <AdUnit
+                                        placement="in-content"
+                                        adsenseSlot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_INCONTENT}
+                                        gamUnit={process.env.NEXT_PUBLIC_GAM_UNIT_INCONTENT}
+                                        ezoicId={102}
+                                    />
+                                </div>
+                            </>
+                        );
+                    }
                 }
             }
 
-            // Priority 3: List-to-Mermaid Merging (For when users accidentally use bullet points)
+            // Priority 3: Mermaid from list
             if (domNode instanceof Element && (domNode.name === 'ul' || domNode.name === 'ol')) {
                 const combinedText = domNode.children
                     .filter((child: any) => child.name === 'li')
                     .map((li: any) => extractText(li))
                     .join('\n').trim();
-
-                const isMermaidList = /^(graph|flowchart|sequenceDiagram|gantt|classDiagram|stateDiagram|erDiagram|journey|pie|gitGraph|requirementDiagram)($|[\s\n;])/i.test(combinedText) ||
-                    combinedText.startsWith('%%{init');
-
-                if (isMermaidList) {
-                    return <DiagramRenderer code={combinedText} />;
-                }
+                const isMermaidList = /^(graph|flowchart|sequenceDiagram|gantt|classDiagram|stateDiagram|erDiagram|journey|pie|gitGraph|requirementDiagram)($|[\s\n;])/i.test(combinedText) || combinedText.startsWith('%%{init');
+                if (isMermaidList) return <DiagramRenderer code={combinedText} />;
             }
         },
     };

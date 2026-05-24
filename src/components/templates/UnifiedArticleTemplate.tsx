@@ -7,6 +7,7 @@ import { QuickAnswers } from "@/components/aeo/quick-answers";
 import { MethodologyBadge } from "@/components/intel/methodology-badge";
 import { CitationTool } from "@/components/intel/citation-tool";
 import { PaywallGate } from "@/components/monetization/paywall-gate";
+import { AdUnit } from "@/components/monetization/AdUnit";
 
 const FORMAT_LABELS: Record<string, string> = {
     POLICY_BRIEF:      "Policy Brief",
@@ -109,8 +110,18 @@ export const UnifiedArticleTemplate: React.FC<Props> = ({
                 </div>
             </div>
 
+            {/* ── LEADERBOARD AD — after hero ── */}
+            <div className="max-w-5xl mx-auto px-6 mt-8 flex justify-center">
+                <AdUnit
+                    placement="leaderboard"
+                    adsenseSlot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_LEADERBOARD}
+                    gamUnit={process.env.NEXT_PUBLIC_GAM_UNIT_LEADERBOARD}
+                    ezoicId={101}
+                />
+            </div>
+
             {/* ── BODY GRID ── */}
-            <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 mt-14">
+            <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 mt-8">
 
                 {/* ── SIDEBAR ── */}
                 <aside className="lg:col-span-3 order-2 lg:order-1">
@@ -197,6 +208,14 @@ export const UnifiedArticleTemplate: React.FC<Props> = ({
                                 slug={article.slug}
                             />
                         </div>
+
+                        {/* Sidebar Ad */}
+                        <AdUnit
+                            placement="sidebar"
+                            adsenseSlot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_SIDEBAR}
+                            gamUnit={process.env.NEXT_PUBLIC_GAM_UNIT_SIDEBAR}
+                            ezoicId={103}
+                        />
                     </div>
                 </aside>
 
@@ -224,6 +243,16 @@ export const UnifiedArticleTemplate: React.FC<Props> = ({
                         <PaywallGate isPremium={article.isPremium}>
                             <ContentRenderer content={article.content} />
                         </PaywallGate>
+                    </div>
+
+                    {/* End-of-article Ad */}
+                    <div className="flex justify-center pt-4">
+                        <AdUnit
+                            placement="footer"
+                            adsenseSlot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_FOOTER}
+                            gamUnit={process.env.NEXT_PUBLIC_GAM_UNIT_FOOTER}
+                            ezoicId={104}
+                        />
                     </div>
 
                     {/* FAQ */}
