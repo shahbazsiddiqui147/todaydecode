@@ -33,7 +33,7 @@ export function AnalysisCard({
 
     // Normalize category and article slug for high-fidelity routing (prevents triple-slashes)
     // Converts "Global Economy" → "global-economy" and already-hyphenated slugs stay clean
-    const normalizedCategory = category.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-').replace(/^\/|\/$/g, '');
+    const normalizedCategory = category.replace(/^\/+|\/+$/g, '').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-');
     const normalizedArticle = slug.replace(/^\/|\/$/g, '');
 
     return (

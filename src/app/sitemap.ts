@@ -2,6 +2,9 @@ import { MetadataRoute } from 'next';
 import { prisma } from '@/lib/prisma';
 const SITE_URL = 'https://todaydecode.com';
 
+// Rebuild hourly so newly published articles appear without a redeploy
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     let articles: any[] = [];
     let categories: any[] = [];

@@ -136,7 +136,7 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
                                 <span>Analysis Complete</span>
                             </div>
                             <Link
-                                href={`/${category.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')}/${slug.replace(/^\/|\/$/g, '')}/`}
+                                href={`/${category.replace(/^\/+|\/+$/g, '').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')}/${slug.replace(/^\/|\/$/g, '')}/`}
                                 className="flex items-center text-[10px] font-black text-[#22D3EE] uppercase tracking-[0.2em] hover:text-white transition-colors group"
                             >
                                 <span>Read Full Analysis</span>
