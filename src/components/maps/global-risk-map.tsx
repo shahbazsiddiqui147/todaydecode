@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
 import { scaleLinear } from "d3-scale";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { getLatestReportsByRegion, getCountryMetric } from "@/lib/actions/public-actions";
 
@@ -174,8 +173,8 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                     {Object.keys(REGION_ISO_MAP).filter(r => r !== "GLOBAL").map(region => {
                         const score = regionData[region] || 10;
                         return (
-                            <Link key={region} href={`/${region.toLowerCase()}/`}
-                                className="flex items-center justify-between p-5 bg-card border border-[#1E293B] rounded-2xl active:scale-95 transition-all shadow-lg">
+                            <div key={region}
+                                className="flex items-center justify-between p-5 bg-card border border-[#1E293B] rounded-2xl shadow-lg">
                                 <div className="space-y-1">
                                     <h3 className="text-[11px] font-black uppercase tracking-widest text-foreground italic">{region}</h3>
                                     <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">Aggregate Analysis</p>
@@ -189,7 +188,7 @@ export function GlobalRiskMap({ regionData = {}, isBackdrop = false }: GlobalRis
                                     <span className="text-sm font-black italic">{score}</span>
                                     <span className="text-[7px] font-bold uppercase tracking-widest opacity-60">SCORE</span>
                                 </div>
-                            </Link>
+                            </div>
                         );
                     })}
                 </div>

@@ -3,9 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/components/auth-provider";
-import { constructMetadata } from "@/lib/seo";
+import { SITE_URL } from "@/lib/seo";
 import { ClientLayout } from "@/components/layout/client-layout";
-import { Suspense } from "react";
 import { PreviewBanner } from "@/components/ui/PreviewBanner";
 import {
   fetchShellCategories,
@@ -29,11 +28,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = constructMetadata({
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Today Decode — Global Strategic Analysis & Geopolitical Risk",
   description: "Strategic analysis of Geopolitics, Economy, Security, and Global Shifts.",
-  path: "/",
-});
+};
 
 async function ShellDataWrapper({ children }: { children: React.ReactNode }) {
   const [categories, metrics, highestRiskAlert, headerNav, sideNav, settings] = await Promise.all([
@@ -77,21 +76,10 @@ export default async function RootLayout({
             forcedTheme="dark"
             disableTransitionOnChange
           >
-            <Suspense fallback={
-              <div className="min-h-screen bg-background flex flex-col items-center justify-center space-y-4">
-                <div className="h-1 w-32 bg-secondary overflow-hidden rounded-full">
-                  <div className="h-full bg-accent-red animate-progress-loading" />
-                </div>
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground animate-pulse">
-                  Initializing Research Platform...
-                </span>
-              </div>
-            }>
-              <ShellDataWrapper>
-                {children}
-              </ShellDataWrapper>
-              <PreviewBanner />
-            </Suspense>
+            <ShellDataWrapper>
+              {children}
+            </ShellDataWrapper>
+            <PreviewBanner />
           </ThemeProvider>
         </AuthProvider>
       </body>

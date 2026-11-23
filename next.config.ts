@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'www.todaydecode.com',
+      },
+      {
+        protocol: 'https',
         hostname: '*.public.blob.vercel-storage.com',
       },
       {

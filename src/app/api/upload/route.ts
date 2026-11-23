@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 import sharp from 'sharp';
+import { SITE_URL } from '@/lib/seo';
 
 export async function POST(request: Request): Promise<NextResponse> {
     try {
@@ -43,7 +44,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         const filePath = path.join(uploadsDir, finalFilename);
         await writeFile(filePath, compressed);
 
-        const baseUrl = process.env.NEXTAUTH_URL || 'https://todaydecode.com';
+        const baseUrl = process.env.NEXTAUTH_URL || SITE_URL;
         const url = `${baseUrl}/uploads/${finalFilename}`;
 
         return NextResponse.json({

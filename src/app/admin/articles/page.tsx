@@ -34,6 +34,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import { publicPath } from "@/lib/paths";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -248,7 +249,7 @@ export default function ArticlesPage() {
                                                 </div>
                                                 <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                                     {article.status === "PUBLISHED" && (
-                                                        <Link href={`/${article.category.slug}${article.slug}`} target="_blank">
+                                                        <Link href={publicPath(article.category.slug, article.slug)} target="_blank">
                                                             <Button variant="outline" className="h-8 w-8 p-0 rounded-lg border-border hover:bg-secondary" title="View Live">
                                                                 <Eye className="h-3 w-3" />
                                                             </Button>

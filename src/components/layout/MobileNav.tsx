@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronRight, Globe, ShieldAlert, TrendingUp, Zap, UserPlus } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { publicPath } from '@/lib/paths';
 
 interface Category {
     id: string;
@@ -63,7 +64,7 @@ export function MobileNav({ isOpen, onClose, categories }: MobileNavProps) {
                                     {categories.map((cat) => (
                                         <Link
                                             key={cat.id}
-                                            href={`/${cat.slug.replace(/^\/|\/$/g, '')}/`}
+                                            href={publicPath(cat.slug)}
                                             onClick={onClose}
                                             className="flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-all group"
                                         >

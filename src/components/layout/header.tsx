@@ -7,7 +7,7 @@ import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 
 const HEADER_LINKS = [
-    { label: "About Us", href: "/about/" },
+    { label: "About Us", href: "/about-us/" },
     { label: "Contact", href: "/contact/" },
     { label: "Become a Contributor", href: "/contributors/submit/" },
 ];

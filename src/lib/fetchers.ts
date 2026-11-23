@@ -3,10 +3,16 @@ import { prisma } from "./prisma";
 export async function fetchShellCategories() {
     try {
         return await prisma.category.findMany({
-            where: { isVisible: true },
+            where: {
+                isVisible: true,
+                articles: { some: { status: "PUBLISHED" } },
+            },
             include: {
                 children: {
-                    where: { isVisible: true },
+                    where: {
+                        isVisible: true,
+                        articles: { some: { status: "PUBLISHED" } },
+                    },
                     orderBy: { order: 'asc' }
                 }
             },

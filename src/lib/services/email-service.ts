@@ -3,7 +3,8 @@
  * Handles automated risk alerts and strategic research.
  */
 
-const SITE_URL = "https://todaydecode.com";
+import { SITE_URL } from "@/lib/seo";
+import { publicPath } from "@/lib/paths";
 
 interface EmailPayload {
     to: string;
@@ -30,8 +31,7 @@ export const emailService = {
      */
     async sendWatchlistAlert(userEmail: string, articleTitle: string, categoryPath: string, articleSlug: string) {
         // Enforce trailing slash to ensure link integrity
-        const cleanPath = categoryPath.replace(/^\/|\/$/g, '');
-        const articleUrl = `${SITE_URL}/${cleanPath}/${articleSlug}/`;
+        const articleUrl = `${SITE_URL}${publicPath(categoryPath, articleSlug)}`;
 
         console.log(`[EmailService] Pulse Alert for ${userEmail}: New strategic analysis available.`);
         console.log(`[EmailService] Artifact: ${articleTitle}`);

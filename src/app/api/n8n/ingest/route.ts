@@ -1,27 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { SITE_URL } from '@/lib/seo';
+import { slugify, slugifyArticle } from '@/lib/slugify';
 
 const N8N_SECRET = process.env.N8N_INGEST_SECRET;
 
 function authorize(req: NextRequest) {
     const secret = req.headers.get('x-n8n-secret');
     return secret === N8N_SECRET;
-}
-
-function generateSlug(title: string) {
-    let slug = title
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '') // remove special chars
-        .trim()
-        .replace(/\s+/g, '-'); // spaces to hyphens
-
-    // Max 8 words
-    const words = slug.split('-');
-    if (words.length > 8) {
-        slug = words.slice(0, 8).join('-');
-    }
-
-    return slug;
 }
 
 export async function GET(req: NextRequest) {
@@ -113,16 +99,23 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Strategic silo (categoryId) does not exist." }, { status: 400 });
         }
 
-        // 4. Slug Generation & Collision Protection
-        let slug = providedSlug || generateSlug(title);
-        const existing = await prisma.article.findFirst({
-            where: {
-                slug,
-                NOT: id ? { id } : undefined
+        // 4. Slug generation. Updates keep the stored slug so indexed URLs do not move.
+        let slug: string;
+        if (id) {
+            const existingArticle = await prisma.article.findUnique({
+                where: { id },
+                select: { slug: true },
+            });
+            if (!existingArticle) {
+                return NextResponse.json({ error: "Article not found." }, { status: 404 });
             }
-        });
-        if (existing) {
-            slug = `${slug}-${Date.now()}`;
+            slug = existingArticle.slug;
+        } else {
+            slug = providedSlug ? slugify(String(providedSlug)) : slugifyArticle(title);
+            const existing = await prisma.article.findFirst({ where: { slug } });
+            if (existing) {
+                slug = slug.replace(/\/$/, `-${Date.now()}/`);
+            }
         }
 
         // 5. Reading Time Calculation
@@ -192,7 +185,7 @@ export async function POST(req: NextRequest) {
             action: action,
             articleId: article.id,
             slug: article.slug,
-            adminUrl: `https://todaydecode.com/admin/articles/edit/${article.id}`,
+            adminUrl: `${SITE_URL}/admin/articles/${article.id}/`,
             message: `Content dispatch ${action} successfully as ${article.status}.`
         }, { status: 200 });
 

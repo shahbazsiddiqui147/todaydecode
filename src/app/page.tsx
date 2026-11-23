@@ -1,52 +1,79 @@
-import { getFeaturedArticles, getMapRegionData, getHomepageStats } from "@/lib/actions/public-actions";
+import { getMapRegionData, getHomepageStats } from "@/lib/actions/public-actions";
 import { getDashboardMetrics } from "@/lib/data-service";
 import { LandingHero } from "@/components/marketing/landing-hero";
 import { RiskGauge } from "@/components/metrics/risk-gauge";
-import { GlobalRiskMap } from "@/components/maps/global-risk-map";
-import { AnalysisCard } from "@/components/ui/analysis-card";
 import { SiloSection } from "@/components/home/SiloSection";
 import { ScenarioForecast } from "@/components/analysis/scenario-forecast";
-import { ChevronRight, Globe, ShieldAlert, ShieldCheck, TrendingUp, Cpu, Zap, Activity, Layers } from "lucide-react";
-import Link from "next/link";
-import { Suspense } from "react";
+import { ChevronRight, ShieldAlert, ShieldCheck, Zap } from "lucide-react";
 import { prisma } from "@/lib/prisma";
+import { constructMetadata } from "@/lib/seo";
+import { HomeJsonLd } from "@/components/seo/json-ld";
+import { publicPath } from "@/lib/paths";
+
+export const metadata = constructMetadata({
+  title: "Today Decode — Global Strategic Analysis & Geopolitical Risk",
+  description: "Strategic analysis of Geopolitics, Economy, Security, and Global Shifts.",
+  path: "/",
+});
 
 export default async function Page() {
-  // 1. Concurrent fetching for maximum throughput
-  const [
-    fetchedRegionData,
-    fetchedStats,
-    categoriesWithArticles,
-    riskAggregation,
-    featuredScenarioArticle
-  ] = await Promise.all([
-    getMapRegionData(),
-    getHomepageStats(),
-    prisma.category.findMany({
-      orderBy: { order: "asc" },
-      include: {
-        articles: {
-          where: { status: "PUBLISHED" as any },
-          orderBy: { publishedAt: "desc" },
-          take: 8,
+  // 1. Concurrent fetching for maximum throughput.
+  // A database miss must not fail the build; the shell already degrades the same way.
+  let fetchedRegionData: Record<string, number> = {};
+  let fetchedStats = { hotspots: 0, reportsCount: 0, integrity: "Offline" };
+  let categoriesWithArticles: Array<{
+    id: string;
+    name: string;
+    slug: string;
+    articles: Array<{
+      id: string;
+      title: string;
+      slug: string;
+      featuredImage: string | null;
+      riskLevel: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+      riskScore: number;
+    }>;
+  }> = [];
+  let riskAggregation: { _avg: { riskScore: number | null } } = { _avg: { riskScore: null } };
+  let featuredScenarioArticle: { scenarios?: unknown; category?: { slug?: string | null } | null; slug?: string | null } | null = null;
+
+  try {
+    const [regionData, stats, categories, risk, scenario] = await Promise.all([
+      getMapRegionData(),
+      getHomepageStats(),
+      prisma.category.findMany({
+        orderBy: { order: "asc" },
+        include: {
+          articles: {
+            where: { status: "PUBLISHED" as any },
+            orderBy: { publishedAt: "desc" },
+            take: 8,
+          }
         }
-      }
-    }),
-    prisma.article.aggregate({
-      _avg: { riskScore: true },
-      where: { status: "PUBLISHED" as any }
-    }),
-    prisma.article.findFirst({
-      where: {
-        status: "PUBLISHED" as any,
-        isFeaturedScenario: true
-      },
-      include: {
-        category: { select: { slug: true } }
-      },
-      orderBy: { publishedAt: "desc" }
-    })
-  ]);
+      }),
+      prisma.article.aggregate({
+        _avg: { riskScore: true },
+        where: { status: "PUBLISHED" as any }
+      }),
+      prisma.article.findFirst({
+        where: {
+          status: "PUBLISHED" as any,
+          isFeaturedScenario: true
+        },
+        include: {
+          category: { select: { slug: true } }
+        },
+        orderBy: { publishedAt: "desc" }
+      })
+    ]);
+    fetchedRegionData = regionData;
+    fetchedStats = stats;
+    categoriesWithArticles = categories;
+    riskAggregation = risk;
+    featuredScenarioArticle = scenario;
+  } catch (error) {
+    console.error("Homepage data unavailable:", error);
+  }
 
   const avgRisk = Math.round(riskAggregation._avg.riskScore || 50);
 
@@ -58,8 +85,9 @@ export default async function Page() {
   };
 
   const activeScenarios = (featuredScenarioArticle?.scenarios as any) || defaultScenarios;
-  const activeCategory = featuredScenarioArticle?.category?.slug || "geopolitics";
-  const activeSlug = featuredScenarioArticle?.slug || "preview";
+  const forecastHref = featuredScenarioArticle?.slug
+    ? publicPath(featuredScenarioArticle.category?.slug, featuredScenarioArticle.slug)
+    : null;
 
   const metrics = await getDashboardMetrics();
 
@@ -68,6 +96,7 @@ export default async function Page() {
 
   return (
     <div className="flex flex-col w-full min-h-full bg-[#F8FAFC] dark:bg-[#0A0F1E] text-foreground">
+      <HomeJsonLd />
       <LandingHero regionData={fetchedRegionData} />
 
       {/* Strategic Metrics Ribbon */}
@@ -92,17 +121,6 @@ export default async function Page() {
             </div>
           </div>
 
-          <div className="hidden lg:flex items-center space-x-6">
-            <Link href="/geopolitics/" className="p-2 rounded hover:bg-white/5 transition-colors group">
-              <Globe className="h-4 w-4 text-muted-foreground group-hover:text-accent-red" />
-            </Link>
-            <Link href="/security/" className="p-2 rounded hover:bg-white/5 transition-colors group">
-              <ShieldAlert className="h-4 w-4 text-muted-foreground group-hover:text-accent-red" />
-            </Link>
-            <Link href="/economy/" className="p-2 rounded hover:bg-white/5 transition-colors group">
-              <TrendingUp className="h-4 w-4 text-muted-foreground group-hover:text-accent-red" />
-            </Link>
-          </div>
         </div>
       </div>
 
@@ -179,8 +197,7 @@ export default async function Page() {
               <div className="grayscale group-hover:grayscale-0 transition-all duration-700">
                 <ScenarioForecast
                   scenarios={activeScenarios}
-                  category={activeCategory}
-                  slug={activeSlug}
+                  href={forecastHref}
                 />
               </div>
             </div>

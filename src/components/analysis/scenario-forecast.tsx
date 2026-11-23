@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { TrendingUp, AlertTriangle, ShieldCheck, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { useAnalytics } from '@/components/providers/analytics-provider';
+import { publicPath } from '@/lib/paths';
 
 interface Scenario {
     title: string;
@@ -21,11 +22,13 @@ interface Scenarios {
 
 interface ScenarioForecastProps {
     scenarios: Scenarios;
-    category: string;
-    slug: string;
+    category?: string;
+    slug?: string;
+    /** Pass null to hide the article link. Omit it to build the link from category and slug. */
+    href?: string | null;
 }
 
-export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecastProps) {
+export function ScenarioForecast({ scenarios, category = "", slug = "", href }: ScenarioForecastProps) {
     const [activeTab, setActiveTab] = useState<keyof Scenarios>('likely');
     const { trackEvent } = useAnalytics();
 
@@ -45,6 +48,9 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
     };
 
     const activeData = scenarios[activeTab];
+    const articleHref = href === undefined
+        ? (category && slug ? publicPath(category, slug) : null)
+        : href;
 
     return (
         <div className="bg-background/40 border border-[#E2E8F0] dark:border-[#1E293B] rounded-2xl overflow-hidden backdrop-blur-sm">
@@ -135,13 +141,15 @@ export function ScenarioForecast({ scenarios, category, slug }: ScenarioForecast
                                 <div className="h-2 w-2 rounded-full bg-accent-cyan animate-pulse" />
                                 <span>Analysis Complete</span>
                             </div>
-                            <Link
-                                href={`/${category.replace(/^\/+|\/+$/g, '').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-')}/${slug.replace(/^\/|\/$/g, '')}/`}
-                                className="flex items-center text-[10px] font-black text-[#22D3EE] uppercase tracking-[0.2em] hover:text-white transition-colors group"
-                            >
-                                <span>Read Full Analysis</span>
-                                <ChevronRight className="ml-2 h-3 w-3 group-hover:translate-x-1 transition-transform" />
-                            </Link>
+                            {articleHref ? (
+                                <Link
+                                    href={articleHref}
+                                    className="flex items-center text-[10px] font-black text-[#22D3EE] uppercase tracking-[0.2em] hover:text-white transition-colors group"
+                                >
+                                    <span>Read Full Analysis</span>
+                                    <ChevronRight className="ml-2 h-3 w-3 group-hover:translate-x-1 transition-transform" />
+                                </Link>
+                            ) : null}
                         </div>
                     </motion.div>
                 </AnimatePresence>

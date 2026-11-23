@@ -39,7 +39,7 @@ const plans = [
             "Direct PDF Export for Briefings",
         ],
         cta: "Join Waitlist",
-        href: "/about/",
+        href: "/about-us/",
         highlight: true,
     }
 ];
@@ -58,7 +58,7 @@ export default function PricingPage() {
         }
 
         trackEvent('waitlist_initiate', { plan: plan.name, source: 'pricing_page' });
-        router.push("/about/");
+        router.push("/about-us/");
     };
 
     return (

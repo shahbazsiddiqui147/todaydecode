@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { Quote, Copy, Check, Share2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { SITE_URL } from '@/lib/seo';
+import { absoluteUrl } from '@/lib/seo';
+import { publicPath } from '@/lib/paths';
 
 interface CitationToolProps {
     title: string;
@@ -17,15 +18,7 @@ export function CitationTool({ title, author, publishedDate, category, slug }: C
     const [activeTab, setActiveTab] = useState<'APA' | 'Chicago' | 'MLA' | 'AI'>('AI');
     const [copied, setCopied] = useState(false);
 
-    // Optimized for deep hierarchical paths
-    const cleanSlug = slug.startsWith('/') ? slug : `/${slug}`;
-    const finalSlug = cleanSlug.endsWith('/') ? cleanSlug : `${cleanSlug}/`;
-
-    // Resolve full path. If category looks like a path (has /), we use it. 
-    // Otherwise fallback to legacy structure.
-    const fullUrl = category.includes('/')
-        ? `${SITE_URL}${category.startsWith('/') ? '' : '/'}${category.endsWith('/') ? '' : '/'}${slug.replace(/^\//, '')}`
-        : `${SITE_URL}${finalSlug}`;
+    const fullUrl = absoluteUrl(publicPath(category, slug));
     const year = new Date(publishedDate).getFullYear();
 
     const citations = {

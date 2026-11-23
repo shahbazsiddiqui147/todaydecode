@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { RiskGauge } from "../metrics/risk-gauge";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { publicPath } from "@/lib/paths";
 
 export function Sidebar({
     initialCategories = [],
@@ -50,9 +51,11 @@ export function Sidebar({
                     <div className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] px-2 mb-3">
                         Articles
                     </div>
-                    {categories.filter(c => !c.parentId).map((silo) => {
-                        const siloSlug = silo.slug.replace(/^\/|\/$/g, '');
-                        const siloHref = `/${siloSlug}/`;
+                    {categories.filter((c) => {
+                        if (!c.parentId) return true;
+                        return !categories.some((parent) => parent.id === c.parentId);
+                    }).map((silo) => {
+                        const siloHref = publicPath(silo.slug);
                         const isSiloActive = pathname.startsWith(siloHref);
 
                         return (
@@ -79,8 +82,7 @@ export function Sidebar({
                                 {isSiloActive && silo.children && silo.children.length > 0 && (
                                     <div className="ml-8 space-y-1 border-l border-border-slate/50 pl-2 mt-1">
                                         {silo.children.map((desk: any) => {
-                                            const deskSlug = desk.slug.replace(/^\/|\/$/g, '');
-                                            const deskHref = `/${siloSlug}/${deskSlug}/`;
+                                            const deskHref = publicPath(silo.slug, desk.slug);
                                             const isDeskActive = pathname === deskHref;
 
                                             return (

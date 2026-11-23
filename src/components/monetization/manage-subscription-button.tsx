@@ -14,7 +14,7 @@ export function ManageSubscriptionButton() {
                 description: "The automated billing portal is currently offline for system upgrades."
             });
             setTimeout(() => {
-                window.location.href = "/about/";
+                window.location.href = "/about-us/";
             }, 1500);
         } finally {
             setLoading(false);
