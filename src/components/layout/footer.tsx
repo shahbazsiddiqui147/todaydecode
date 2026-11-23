@@ -26,7 +26,11 @@ export async function Footer() {
             getAdminPages(),
             fetchSiteSettings(),
             prisma.category.findMany({
-                where: { isVisible: true, parentId: null },
+                where: {
+                    isVisible: true,
+                    parentId: null,
+                    articles: { some: { status: "PUBLISHED" } },
+                },
                 select: { name: true, slug: true },
                 orderBy: { order: 'asc' },
                 take: 8

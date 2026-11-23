@@ -5,9 +5,41 @@ export const SITE_URL = "https://www.todaydecode.com";
 
 const BRAND = "Today Decode";
 const TITLE_LIMIT = 60;
+const DESCRIPTION_LIMIT = 155;
 const DEFAULT_TITLE = "Today Decode — Global Strategic Analysis & Geopolitical Risk";
 const DEFAULT_DESCRIPTION = "Strategic analysis of Geopolitics, Economy, Security, and Global Shifts.";
 const DEFAULT_OG_IMAGE = "/og-image.png";
+
+const FORMAT_LABELS: Record<string, string> = {
+    POLICY_BRIEF: "Institutional Policy Brief",
+    STRATEGIC_REPORT: "Executive Strategic Report",
+    RISK_ASSESSMENT: "Global Risk Assessment",
+    SCENARIO_ANALYSIS: "Strategic Scenario Forecast",
+    COMMENTARY: "Strategic Commentary",
+    DATA_INSIGHT: "Technical Data Insight",
+    ANNUAL_OUTLOOK: "Annual Strategic Outlook",
+    POLICY_TOOLKIT: "Institutional Policy Toolkit",
+};
+
+/** Cut on a word boundary so meta descriptions stay inside a typical snippet. */
+export function trimDescription(text: string, limit = 160): string {
+    const normalized = text.replace(/\s+/g, " ").trim();
+    if (normalized.length <= limit) return normalized;
+    const window = normalized.slice(0, limit + 1);
+    const lastSpace = window.lastIndexOf(" ");
+    const cut = lastSpace >= Math.floor(limit * 0.6)
+        ? window.slice(0, lastSpace)
+        : normalized.slice(0, limit);
+    return cut.replace(/[\s,;:.!?-]+$/g, "").trim();
+}
+
+function formatDescription(description: string, articleFormat?: string): string {
+    const body = trimDescription(description, 160);
+    if (!articleFormat) return body;
+    const label = FORMAT_LABELS[articleFormat] || "Strategic Analysis";
+    const prefixed = `[${label}] ${body}`;
+    return prefixed.length <= DESCRIPTION_LIMIT ? prefixed : body;
+}
 
 export function absoluteUrl(pathOrUrl: string): string {
     if (!pathOrUrl) return `${SITE_URL}/`;
@@ -60,7 +92,7 @@ export function articlePageMetadata(
 ): Metadata {
     return constructMetadata({
         title: article.metaTitle || article.title,
-        description: article.metaDescription || article.summary?.slice(0, 160) || DEFAULT_DESCRIPTION,
+        description: article.metaDescription || article.summary || DEFAULT_DESCRIPTION,
         image: article.featuredImage || DEFAULT_OG_IMAGE,
         path,
         type: "article",
@@ -99,22 +131,7 @@ export function constructMetadata({
     modifiedTime?: string;
 } = {}): Metadata {
     const documentTitle = formatDocumentTitle(title);
-
-    let dynamicDescription = description;
-    if (articleFormat && description) {
-        const formatLabels: Record<string, string> = {
-            POLICY_BRIEF: "Institutional Policy Brief",
-            STRATEGIC_REPORT: "Executive Strategic Report",
-            RISK_ASSESSMENT: "Global Risk Assessment",
-            SCENARIO_ANALYSIS: "Strategic Scenario Forecast",
-            COMMENTARY: "Strategic Commentary",
-            DATA_INSIGHT: "Technical Data Insight",
-            ANNUAL_OUTLOOK: "Annual Strategic Outlook",
-            POLICY_TOOLKIT: "Institutional Policy Toolkit",
-        };
-        const label = formatLabels[articleFormat] || "Strategic Analysis";
-        dynamicDescription = `[${label}] ${description}`;
-    }
+    const dynamicDescription = formatDescription(description, articleFormat);
 
     const canonical = path ? absoluteUrl(withTrailingSlash(path)) : undefined;
     const imageUrl = absoluteUrl(image);

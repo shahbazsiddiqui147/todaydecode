@@ -8,6 +8,7 @@ import { ChevronRight, ShieldAlert, ShieldCheck, Zap } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { constructMetadata } from "@/lib/seo";
 import { HomeJsonLd } from "@/components/seo/json-ld";
+import { publicPath } from "@/lib/paths";
 
 export const metadata = constructMetadata({
   title: "Today Decode — Global Strategic Analysis & Geopolitical Risk",
@@ -84,8 +85,9 @@ export default async function Page() {
   };
 
   const activeScenarios = (featuredScenarioArticle?.scenarios as any) || defaultScenarios;
-  const activeCategory = featuredScenarioArticle?.category?.slug || "geopolitics";
-  const activeSlug = featuredScenarioArticle?.slug || "preview";
+  const forecastHref = featuredScenarioArticle?.slug
+    ? publicPath(featuredScenarioArticle.category?.slug, featuredScenarioArticle.slug)
+    : null;
 
   const metrics = await getDashboardMetrics();
 
@@ -195,8 +197,7 @@ export default async function Page() {
               <div className="grayscale group-hover:grayscale-0 transition-all duration-700">
                 <ScenarioForecast
                   scenarios={activeScenarios}
-                  category={activeCategory}
-                  slug={activeSlug}
+                  href={forecastHref}
                 />
               </div>
             </div>

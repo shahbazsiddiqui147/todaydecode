@@ -51,7 +51,10 @@ export function Sidebar({
                     <div className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] px-2 mb-3">
                         Articles
                     </div>
-                    {categories.filter(c => !c.parentId).map((silo) => {
+                    {categories.filter((c) => {
+                        if (!c.parentId) return true;
+                        return !categories.some((parent) => parent.id === c.parentId);
+                    }).map((silo) => {
                         const siloHref = publicPath(silo.slug);
                         const isSiloActive = pathname.startsWith(siloHref);
 

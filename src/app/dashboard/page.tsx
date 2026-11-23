@@ -15,7 +15,6 @@ export async function generateMetadata() {
     return constructMetadata({
         title: "Dashboard",
         description: "Your personalized strategic command center.",
-        path: "/dashboard/",
         noIndex: true,
     });
 }
