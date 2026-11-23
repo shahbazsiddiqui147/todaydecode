@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { Region, ArticleStatus } from "@prisma/client";
 import { cache } from "react";
+import { publicPath } from "@/lib/paths";
 
 /**
  * High-fidelity article fetcher for public analysis pages.
@@ -392,16 +393,9 @@ export async function globalSearch(query: string) {
                 let fullPath = "/";
 
                 if (category.parent) {
-                    // It's a Desk (Child): /silo/desk/slug/
-                    const siloSlug = category.parent.slug.replace(/^\/|\/$/g, '');
-                    const deskSlug = category.slug.replace(/^\/|\/$/g, '');
-                    const articleSlug = a.slug.replace(/^\/|\/$/g, '');
-                    fullPath = `/${siloSlug}/${deskSlug}/${articleSlug}/`;
+                    fullPath = publicPath(category.parent.slug, category.slug, a.slug);
                 } else {
-                    // It's a top-level Silo (shouldn't happen for articles usually but for safety): /silo/article/ (fallback)
-                    const siloSlug = category.slug.replace(/^\/|\/$/g, '');
-                    const articleSlug = a.slug.replace(/^\/|\/$/g, '');
-                    fullPath = `/${siloSlug}/${articleSlug}/`;
+                    fullPath = publicPath(category.slug, a.slug);
                 }
 
                 return {
@@ -413,15 +407,9 @@ export async function globalSearch(query: string) {
                 };
             }),
             categories: categories.map((c: any) => {
-                let fullPath = "/";
-                const slug = c.slug.replace(/^\/|\/$/g, '');
-
-                if (c.parent) {
-                    const parentSlug = c.parent.slug.replace(/^\/|\/$/g, '');
-                    fullPath = `/${parentSlug}/${slug}/`;
-                } else {
-                    fullPath = `/${slug}/`;
-                }
+                const fullPath = c.parent
+                    ? publicPath(c.parent.slug, c.slug)
+                    : publicPath(c.slug);
 
                 return {
                     id: c.id,
@@ -434,7 +422,7 @@ export async function globalSearch(query: string) {
                 id: au.id,
                 name: au.name,
                 role: au.role,
-                fullPath: `/author/${au.slug.replace(/^\/|\/$/g, '')}/`
+                fullPath: publicPath("author", au.slug)
             }))
         };
     } catch (error) {

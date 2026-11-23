@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertTriangle, ChevronRight, X } from 'lucide-react';
 import Link from 'next/link';
+import { publicPath } from '@/lib/paths';
 
 interface AlertData {
     title: string;
@@ -19,8 +20,7 @@ export function BreakingAlert({ initialAlert }: { initialAlert?: AlertData | nul
 
     if (!initialAlert || !isVisible) return null;
 
-    const categorySlug = initialAlert.category.slug.replace(/^\/|\/$/g, '');
-    const articleHref = `/${categorySlug}/${initialAlert.slug}/`;
+    const articleHref = publicPath(initialAlert.category.slug, initialAlert.slug);
 
     return (
         <AnimatePresence>

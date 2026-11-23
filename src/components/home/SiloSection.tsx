@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ChevronRight, Layers } from "lucide-react";
 import { AnalysisCard } from "@/components/ui/analysis-card";
+import { publicPath } from "@/lib/paths";
 
 interface SiloSectionProps {
     title: string;
@@ -23,7 +24,7 @@ export function SiloSection({ title, slug, articles }: SiloSectionProps) {
                     </h2>
                 </div>
                 <Link
-                    href={`/${slug}/`}
+                    href={publicPath(slug)}
                     className="text-[9px] font-black text-muted-foreground hover:text-[#22D3EE] uppercase tracking-widest transition-colors flex items-center gap-2 group"
                 >
                     Explore Silo

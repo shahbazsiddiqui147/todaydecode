@@ -1,5 +1,6 @@
 import { getCategoryBySlug, getPageBySlug, getPublicArticleBySlug } from "@/lib/actions/public-actions";
-import { constructMetadata } from "@/lib/seo";
+import { articlePageMetadata, constructMetadata } from "@/lib/seo";
+import { publicPath } from "@/lib/paths";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
 import { FollowSiloButton } from "@/components/intel/FollowSiloButton";
@@ -9,60 +10,57 @@ import ArticleController from "@/components/analysis/ArticleController";
 
 export async function generateMetadata({ params }: { params: Promise<{ path: string[] }> }) {
     const { path } = await params;
+    const requestPath = publicPath(...path);
 
     // 1. Article Logic (path.length === 3) -> /silo/desk/article/
     if (path.length === 3) {
-        const articleSlug = `/${path[2]}/`;
-        const article = await getPublicArticleBySlug(articleSlug);
-        if (article) {
-            return constructMetadata({
-                title: `${article.title} | Today Decode`,
-                description: article.metaDescription || article.summary.substring(0, 160),
-                path: `/${path.join('/')}/`,
-                articleFormat: article.format,
-                riskScore: article.riskScore,
-                impactScore: article.impactScore,
-            });
-        }
+        const article = await getPublicArticleBySlug(path[2]);
+        if (article) return articlePageMetadata(article, requestPath);
     }
 
-    // 2. Desk Logic (path.length === 2) -> /silo/desk/
+    // 2. Article under a silo, or a child desk index (path.length === 2)
     if (path.length === 2) {
-        const deskSlug = `/${path[1]}/`;
-        const desk = await getCategoryBySlug(deskSlug);
+        const article = await getPublicArticleBySlug(path[1]);
+        if (article) return articlePageMetadata(article, requestPath);
+
+        const desk = await getCategoryBySlug(path[1]);
         if (desk) {
+            const hasPublishedArticles = (desk.articles?.length ?? 0) > 0;
             return constructMetadata({
                 title: `${desk.name} | Research Topic`,
                 description: desk.description || `Strategic reports and research analysis for ${desk.name}.`,
-                path: `/${path.join('/')}/`,
+                path: requestPath,
+                noIndex: !hasPublishedArticles,
+                follow: true,
             });
         }
     }
 
-    // 3. Silo Logic (path.length === 1) -> /silo/
+    // 3. Silo or institutional page (path.length === 1)
     if (path.length === 1) {
-        const slug = `/${path[0]}/`;
-        const silo = await getCategoryBySlug(slug);
+        const silo = await getCategoryBySlug(path[0]);
         if (silo) {
+            const hasPublishedArticles = (silo.articles?.length ?? 0) > 0;
             return constructMetadata({
                 title: `${silo.name} | Research & Analysis`,
                 description: silo.description || `In-depth research and analysis reports for ${silo.name}.`,
-                path: slug,
+                path: requestPath,
+                noIndex: !hasPublishedArticles,
+                follow: true,
             });
         }
 
-        // Institutional Page Fallback
-        const page = await getPageBySlug(slug);
+        const page = await getPageBySlug(path[0]);
         if (page) {
             return constructMetadata({
-                title: page.metaTitle || `${page.title} | Today Decode`,
+                title: page.metaTitle || page.title,
                 description: page.metaDescription || undefined,
-                path: slug,
+                path: requestPath,
             });
         }
     }
 
-    return constructMetadata({ title: "Document Not Found" });
+    notFound();
 }
 
 export default async function CatchAllRoute({ params, searchParams }: {
@@ -74,44 +72,39 @@ export default async function CatchAllRoute({ params, searchParams }: {
 
     // PATH 3: ARTICLE ASSESSMENT
     if (path.length === 3) {
-        const articleSlug = `/${path[2]}/`; 
-        const article = await getPublicArticleBySlug(articleSlug);
+        const article = await getPublicArticleBySlug(path[2]);
         if (!article) notFound();
 
         return <ArticleController
             article={article}
-            fullSiloPath={`/${path[0]}/${path[1]}/`}
+            fullSiloPath={publicPath(path[0], path[1])}
         />;
     }
 
     // PATH 2: ARTICLE UNDER SILO  (/category/article-slug/)  OR CHILD DESK INDEX
     if (path.length === 2) {
-        // First try as article: /silo/article-slug/
-        const articleSlug = `/${path[1]}/`;
-        const article = await getPublicArticleBySlug(articleSlug);
+        const article = await getPublicArticleBySlug(path[1]);
         if (article) {
             return <ArticleController
                 article={article}
-                fullSiloPath={`/${path[0]}/`}
+                fullSiloPath={publicPath(path[0])}
             />;
         }
 
-        // Fallback: treat as sub-category desk index
-        const deskSlug = `/${path[1]}/`;
-        const desk = await getCategoryBySlug(deskSlug);
+        const desk = await getCategoryBySlug(path[1]);
         if (!desk) notFound();
 
-        return <CategoryIndex category={desk} parentPath={`/${path[0]}/`} />;
+        return <CategoryIndex category={desk} parentPath={publicPath(path[0])} />;
     }
 
     // PATH 1: PARENT SILO OR INSTITUTIONAL PAGE
     if (path.length === 1) {
-        const slug = `/${path[0]}/`;
-        const silo = await getCategoryBySlug(slug);
+        const silo = await getCategoryBySlug(path[0]);
+        if (silo) {
             return <CategoryIndex category={silo} />;
+        }
 
-
-        const page = await getPageBySlug(slug);
+        const page = await getPageBySlug(path[0]);
         if (page) {
             return <StaticPage page={page} />;
         }
@@ -129,11 +122,10 @@ function CategoryIndex({ category, parentPath }: { category: any; parentPath?: s
     ];
 
     if (parentPath) {
-        // Find parent name if we have it (or we could fetch it, but keeping it simple for now)
         breadcrumbItems.push({ label: 'Topics', href: parentPath });
-        breadcrumbItems.push({ label: category.name, href: `${parentPath}${category.slug.replace(/^\/|\/$/g, '')}/` });
+        breadcrumbItems.push({ label: category.name, href: publicPath(parentPath, category.slug) });
     } else {
-        breadcrumbItems.push({ label: category.name, href: `/${category.slug.replace(/^\/|\/$/g, '')}/` });
+        breadcrumbItems.push({ label: category.name, href: publicPath(category.slug) });
     }
 
     return (
@@ -206,7 +198,7 @@ function StaticPage({ page }: { page: any }) {
             <div className="max-w-5xl mx-auto px-6 py-20 space-y-16">
                 <Breadcrumbs items={[
                     { label: 'Home', href: '/' },
-                    { label: page.title, href: '#' }
+                    { label: page.title, href: publicPath(page.slug) }
                 ]} />
                 <div className="space-y-4">
                     <div className="h-1 w-20 bg-accent-red" />

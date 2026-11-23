@@ -5,6 +5,13 @@ import { getToken } from "next-auth/jwt";
 export async function middleware(request: NextRequest) {
     const { pathname, searchParams } = request.nextUrl;
 
+    // The about page lives at /about-us/. Keep the old path as a real 301.
+    if (pathname === "/about" || pathname === "/about/") {
+        const url = request.nextUrl.clone();
+        url.pathname = "/about-us/";
+        return NextResponse.redirect(url, 301);
+    }
+
     // 1. ADMIN PROTECTION
     if (pathname.startsWith('/admin/')) {
         const token = await getToken({

@@ -1,4 +1,5 @@
-import { constructMetadata } from "@/lib/seo";
+import { articlePageMetadata } from "@/lib/seo";
+import { publicPath } from "@/lib/paths";
 import { notFound } from "next/navigation";
 import { getPublicArticleBySlug } from "@/lib/actions/public-actions";
 import ArticleController from "@/components/analysis/ArticleController";
@@ -7,15 +8,9 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     const { category, articleSlug } = await params;
     const article = await getPublicArticleBySlug(articleSlug);
 
-    if (!article) return constructMetadata({ title: "Analysis Not Found" });
+    if (!article) notFound();
 
-    return constructMetadata({
-        title: `${article.title} | Today Decode`,
-        description: article.metaDescription || article.summary.substring(0, 160),
-        path: `/${category}/${articleSlug}/`,
-        riskScore: article.riskScore,
-        impactScore: article.impactScore,
-    });
+    return articlePageMetadata(article, publicPath(category, articleSlug));
 }
 
 export default async function ArticlePage({
@@ -32,7 +27,7 @@ export default async function ArticlePage({
     return (
         <ArticleController
             article={article}
-            fullSiloPath={`/${category}/`}
+            fullSiloPath={publicPath(category)}
         />
     );
 }

@@ -33,7 +33,7 @@ import {
     Unlock,
     UploadCloud
 } from "lucide-react";
-import { slugify } from "@/lib/slugify";
+import { slugifyArticle } from "@/lib/slugify";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
@@ -53,7 +53,8 @@ interface ArticleEditorProps {
 export default function ArticleEditor({ article, initialCategories, initialAuthors }: ArticleEditorProps) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-    const [isSlugLocked, setIsSlugLocked] = useState(true);
+    const isPersistedArticle = Boolean(article?.id && article?.slug);
+    const [isSlugLocked, setIsSlugLocked] = useState(!isPersistedArticle);
     const [isFoundryOpen, setIsFoundryOpen] = useState(false);
     const [activeTab, setActiveTab] = useState<"content" | "aeo" | "meta">("content");
     const [isProtocolPortalOpen, setIsProtocolPortalOpen] = useState(!article);
@@ -135,10 +136,11 @@ export default function ArticleEditor({ article, initialCategories, initialAutho
     });
 
     useEffect(() => {
-        if (isSlugLocked && formData.title) {
-            setFormData(prev => ({ ...prev, slug: slugify(prev.title) }));
+        // Only auto-slug new articles. Existing slugs are indexed and must not be regenerated.
+        if (!isPersistedArticle && isSlugLocked && formData.title) {
+            setFormData(prev => ({ ...prev, slug: slugifyArticle(prev.title) }));
         }
-    }, [formData.title, isSlugLocked]);
+    }, [formData.title, isSlugLocked, isPersistedArticle]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;

@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ChevronRight, Home } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { SITE_URL } from '@/lib/seo';
+import { absoluteUrl } from '@/lib/seo';
 
 interface BreadcrumbItem {
     label: string;
@@ -18,12 +18,17 @@ export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
-        "itemListElement": items.map((item, index) => ({
-            "@type": "ListItem",
-            "position": index + 1,
-            "name": item.label,
-            "item": `${SITE_URL}${item.href}`
-        }))
+        "itemListElement": items.map((item, index) => {
+            const entry: Record<string, unknown> = {
+                "@type": "ListItem",
+                "position": index + 1,
+                "name": item.label,
+            };
+            if (item.href && item.href !== "#") {
+                entry.item = absoluteUrl(item.href);
+            }
+            return entry;
+        })
     };
 
     return (

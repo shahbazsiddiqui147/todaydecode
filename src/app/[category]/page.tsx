@@ -1,5 +1,6 @@
 import { getCategoryBySlug, getPageBySlug } from "@/lib/actions/public-actions";
 import { constructMetadata } from "@/lib/seo";
+import { publicPath } from "@/lib/paths";
 import { notFound } from "next/navigation";
 import { AnalysisCard } from "@/components/ui/analysis-card";
 import { RiskGauge } from "@/components/metrics/risk-gauge";
@@ -9,7 +10,7 @@ import { FollowSiloButton } from "@/components/intel/FollowSiloButton";
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }) {
     const { category } = await params;
-    const normalizedSlug = `/${category.replace(/\/$/, '')}/`;
+    const normalizedSlug = publicPath(category);
 
     // Strategy 1: Normalized slug search
     let silo = await getCategoryBySlug(normalizedSlug);
@@ -18,10 +19,13 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     if (!silo) silo = await getCategoryBySlug(category);
 
     if (silo) {
+        const hasPublishedArticles = (silo.articles?.length ?? 0) > 0;
         return constructMetadata({
             title: `${silo.name} | Topic Analysis`,
             description: silo.description || `In-depth analysis and research reports for ${silo.name}.`,
             path: normalizedSlug,
+            noIndex: !hasPublishedArticles,
+            follow: true,
         });
     }
 
@@ -30,18 +34,18 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
 
     if (page) {
         return constructMetadata({
-            title: page.metaTitle || `${page.title} | Today Decode`,
+            title: page.metaTitle || page.title,
             description: page.metaDescription || undefined,
             path: normalizedSlug,
         });
     }
 
-    return constructMetadata({ title: "Document Not Found" });
+    notFound();
 }
 
 export default async function CatchAllSlugPage({ params }: { params: Promise<{ category: string }> }) {
     const { category } = await params;
-    const normalizedSlug = `/${category.replace(/\/$/, '')}/`;
+    const normalizedSlug = publicPath(category);
 
     console.log(`[Strategic Handshake] Attempting to resolve Silo/Page: ${normalizedSlug}`);
 
@@ -75,7 +79,7 @@ function CategoryDesk({ silo }: { silo: any }) {
                 <div className="max-w-screen-2xl mx-auto px-6 py-20 space-y-12">
                     <Breadcrumbs items={[
                         { label: 'Home', href: '/' },
-                        { label: silo.name, href: `/${silo.slug.replace(/^\/|\/$/g, '')}/` }
+                        { label: silo.name, href: publicPath(silo.slug) }
                     ]} />
 
                     <div className="flex flex-col space-y-8 max-w-4xl">
@@ -118,7 +122,7 @@ function CategoryDesk({ silo }: { silo: any }) {
                             key={article.id}
                             id={article.id}
                             title={article.title}
-                            category={silo.slug}
+                            category={publicPath(silo.slug)}
                             slug={article.slug}
                             image={article.featuredImage || "/images/intel-1.jpg"}
                             riskLevel={article.riskLevel}
@@ -154,7 +158,7 @@ function InstitutionalPage({ page }: { page: any }) {
                 <div className="space-y-8">
                     <Breadcrumbs items={[
                         { label: 'Home', href: '/' },
-                        { label: page.title, href: '#' }
+                        { label: page.title, href: publicPath(page.slug) }
                     ]} />
                     <div className="space-y-4">
                         <div className="h-1 w-20 bg-accent-red" />

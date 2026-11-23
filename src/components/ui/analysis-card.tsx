@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { BookmarkButton } from "@/components/intel/BookmarkButton";
+import { publicPath } from "@/lib/paths";
 
 interface AnalysisCardProps {
     title: string;
@@ -31,14 +32,12 @@ export function AnalysisCard({
         CRITICAL: "bg-accent-red/10 text-accent-red border-accent-red/20",
     }[riskLevel];
 
-    // Normalize category and article slug for high-fidelity routing (prevents triple-slashes)
-    // Converts "Global Economy" → "global-economy" and already-hyphenated slugs stay clean
-    const normalizedCategory = category.replace(/^\/+|\/+$/g, '').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '-');
-    const normalizedArticle = slug.replace(/^\/|\/$/g, '');
+    const href = publicPath(category, slug);
+    const categoryLabel = publicPath(category).replace(/^\/|\/$/g, "").split("/").pop()?.replace(/-/g, " ") || category;
 
     return (
         <Link
-            href={`/${normalizedCategory}/${normalizedArticle}/`}
+            href={href}
             className="group flex flex-col space-y-0 rounded-2xl border border-border bg-card overflow-hidden transition-all hover:border-accent-red/30 hover:shadow-[0_0_30px_rgba(255,75,75,0.05)]"
         >
             <div className="relative aspect-video w-full overflow-hidden border-b border-border">
@@ -64,21 +63,13 @@ export function AnalysisCard({
             <div className="p-6 flex flex-col flex-1 space-y-4">
                 <div className="space-y-2">
                     <span className="text-[10px] font-black text-accent-red uppercase tracking-[0.3em]">
-                        {category}
+                        {categoryLabel}
                     </span>
                     <h3 className="text-xl font-black leading-tight text-foreground uppercase tracking-tighter italic line-clamp-2 transition-colors group-hover:text-white">
                         {title}
                     </h3>
                 </div>
 
-                <div className="mt-auto pt-6 border-t border-border flex items-center justify-between">
-                    <span className="text-[10px] text-muted-foreground font-black uppercase tracking-[0.15em]">
-                        RESEARCH ANALYSIS
-                    </span>
-                    <span className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-tighter">
-                        ID No. 2026-{id.substring(0, 4).toUpperCase()}
-                    </span>
-                </div>
             </div>
         </Link>
     );

@@ -13,9 +13,10 @@ import { Button } from "@/components/ui/button";
 
 export async function generateMetadata() {
     return constructMetadata({
-        title: "Institutional Dashboard | Today Decode Strategic Advisory",
+        title: "Dashboard",
         description: "Your personalized strategic command center.",
         path: "/dashboard/",
+        noIndex: true,
     });
 }
 
@@ -106,7 +107,7 @@ export default async function DashboardPage() {
                     </div>
 
                     {user.role === 'GUEST' ? (
-                        <Link href="/about/">
+                        <Link href="/about-us/">
                             <button className="px-4 py-2 bg-accent-red text-white text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-white hover:text-primary transition-all shadow-lg shadow-accent-red/20">
                                 Request Institutional Access
                             </button>

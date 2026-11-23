@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getAdminPages } from "@/lib/actions/admin-actions";
 import { fetchSiteSettings } from "@/lib/fetchers";
 import { prisma } from "@/lib/prisma";
+import { publicPath } from "@/lib/paths";
 import {
     Shield,
     Globe,
@@ -96,7 +97,7 @@ export async function Footer() {
                         {pages.map((page) => (
                             <Link
                                 key={page.id}
-                                href={`/${page.slug.replace(/^\/|\/$/g, '')}/`}
+                                href={publicPath(page.slug)}
                                 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors flex items-center gap-2 group"
                             >
                                 <ChevronRight className="h-3 w-3 text-accent-red opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
@@ -116,19 +117,14 @@ export async function Footer() {
                         {categories.length > 0 ? categories.map((cat) => (
                             <Link
                                 key={cat.slug}
-                                href={`/${cat.slug.replace(/^\/|\/$/g, '')}/`}
+                                href={publicPath(cat.slug)}
                                 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors flex items-center gap-2 group"
                             >
                                 <ChevronRight className="h-3 w-3 text-accent-red opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
                                 {cat.name}
                             </Link>
                         )) : (
-                            <>
-                                <Link href="/geopolitics/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-white transition-colors">Geopolitics</Link>
-                                <Link href="/global-economy/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-white transition-colors">Global Economy</Link>
-                                <Link href="/security-defense/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-white transition-colors">Security & Defense</Link>
-                                <Link href="/conflict-crisis/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-white transition-colors">Conflict & Crisis</Link>
-                            </>
+                            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-tighter italic">Coming soon</span>
                         )}
                     </nav>
                 </div>
@@ -141,7 +137,7 @@ export async function Footer() {
                             <ChevronRight className="h-3 w-3 text-accent-red opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
                             Become a Contributor
                         </Link>
-                        <Link href="/about/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors flex items-center gap-2 group">
+                        <Link href="/about-us/" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground dark:hover:text-white transition-colors flex items-center gap-2 group">
                             <ChevronRight className="h-3 w-3 text-accent-red opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
                             About Us
                         </Link>

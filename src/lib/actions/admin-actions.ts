@@ -3,7 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { slugify } from "@/lib/slugify";
+import { slugify, slugifyArticle } from "@/lib/slugify";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import bcrypt from "bcryptjs";
@@ -252,7 +252,27 @@ export async function upsertArticle(data: z.infer<typeof ArticleSchema>) {
             }
         }
 
-        let slug = slugify(validated.slug || validated.title);
+        const isUpdate = Boolean(validated.id && validated.id !== "new-article");
+        let slug: string;
+        if (isUpdate) {
+            const existingArticle = await prisma.article.findUnique({
+                where: { id: validated.id },
+                select: { slug: true },
+            });
+            const submitted = (validated.slug || "").trim();
+            if (existingArticle?.slug && (!submitted || submitted === existingArticle.slug)) {
+                // Indexed URLs stay put. A manual slug edit is the only way this changes.
+                slug = existingArticle.slug;
+            } else if (submitted) {
+                slug = slugify(submitted);
+            } else {
+                slug = existingArticle?.slug || slugifyArticle(validated.title);
+            }
+        } else {
+            // New articles: honor an explicit slug, otherwise build one that
+            // does not truncate mid-phrase.
+            slug = validated.slug?.trim() ? slugify(validated.slug) : slugifyArticle(validated.title);
+        }
 
         // Duplicate Protection (Collision Detection)
         let uniqueSlug = slug;
@@ -818,7 +838,7 @@ export async function reviewSubmission(submissionId: string, action: 'approve' |
         }
 
         // 3. Article Creation
-        let articleSlug = slugify(submission.title);
+        let articleSlug = slugifyArticle(submission.title);
         // Collision Detection
         let uniqueSlug = articleSlug;
         let counter = 1;

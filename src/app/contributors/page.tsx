@@ -13,6 +13,13 @@ import {
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ContributorCTA } from "@/components/contributors/contributor-cta";
+import { constructMetadata } from "@/lib/seo";
+
+export const metadata = constructMetadata({
+    title: "Contributors",
+    description: "Researchers, analysts, academics, and journalists publishing with Today Decode.",
+    path: "/contributors/",
+});
 
 const ROLES = [
     {

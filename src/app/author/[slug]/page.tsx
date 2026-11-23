@@ -6,12 +6,13 @@ import Link from "next/link";
 import { AnalysisCard } from "@/components/ui/analysis-card";
 import { ShieldCheck, Globe, Twitter, Linkedin, ExternalLink } from "lucide-react";
 import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
+import { publicPath } from "@/lib/paths";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
     const author = await getPublicAuthorBySlug(slug);
 
-    if (!author) return constructMetadata({ title: "Analyst Not Found" });
+    if (!author) notFound();
 
     return constructMetadata({
         title: `${author.name} | Strategic Analyst Profile`,
@@ -34,8 +35,7 @@ export default async function AuthorProfilePage({ params }: { params: Promise<{ 
                 <div className="max-w-screen-2xl mx-auto px-6 relative z-10">
                     <Breadcrumbs items={[
                         { label: 'Home', href: '/' },
-                        { label: 'Analysts', href: '#' },
-                        { label: author.name.toUpperCase(), href: '#' }
+                        { label: author.name.toUpperCase(), href: publicPath('author', slug) }
                     ]} />
 
                     <div className="mt-12 flex flex-col md:flex-row items-center gap-10">
